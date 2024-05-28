@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "202680975852",
+    "firebase_url": "https://merkado-cc703-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "merkado-cc703",
+    "storage_bucket": "merkado-cc703.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202680975852:android:c7890b5d17cbe8969940c9",
+        "android_client_info": {
+          "package_name": "com.capstone.merkado"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCox2WWJ01laHj_oELmk6Xwe4J0qN9RJ3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

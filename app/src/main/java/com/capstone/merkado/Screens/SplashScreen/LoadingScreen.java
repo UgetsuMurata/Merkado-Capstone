@@ -2,10 +2,12 @@ package com.capstone.merkado.Screens.SplashScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.R;
+import com.capstone.merkado.Screens.Account.SignIn;
 
 public class LoadingScreen extends AppCompatActivity {
 
@@ -20,5 +22,8 @@ public class LoadingScreen extends AppCompatActivity {
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
+        // go to next activity: SignIn
+        startActivity(new Intent(this, SignIn.class));
+        finish();
     }
 }

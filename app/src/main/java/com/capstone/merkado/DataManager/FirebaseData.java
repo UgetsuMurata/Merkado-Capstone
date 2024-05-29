@@ -23,6 +23,14 @@ public class FirebaseData {
         void onDataReceived(DataSnapshot dataSnapshot);
     }
 
+    public interface BooleanCallback {
+        /**
+         * Returns Boolean callback value.
+         * @param bool callback value.
+         */
+        void callback(Boolean bool);
+    }
+
     // REAL-TIME DATABASE
 
     public void retrieveData(Context context, String childPath, final FirebaseDataCallback callback) {
@@ -65,6 +73,30 @@ public class FirebaseData {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference nodeRef = databaseRef.child(childpath);
         nodeRef.removeValue();
+    }
+
+    /**
+     * Checks if key exists in the Firebase RTDB node.
+     * @param node the path where the key will be checked.
+     * @param key the key to be checked.
+     * @param booleanCallback the return callback.
+     */
+    public void isKeyExists(String node, String key, BooleanCallback booleanCallback) {
+        // combine the node and the key to navigate to that node.
+        DatabaseReference childRef = databaseRef.child(String.format("%s/%s", node, key));
+
+        // check the node for data
+        childRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // check if dataSnapshot exists (has data in it).
+                booleanCallback.callback(dataSnapshot.exists());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
 }

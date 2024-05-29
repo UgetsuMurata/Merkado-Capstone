@@ -110,7 +110,16 @@ public class SignIn extends AppCompatActivity {
         });
     }
 
+    /**
+     * Verify the credentials given for sign in.
+     * @param email user's email.
+     * @param password user's password.
+     */
     private void verifyCredentials(String email, String password) {
+        // hide warnings
+        emailWarning.setVisibility(View.GONE);
+        passwordWarning.setVisibility(View.GONE);
+        // verify
         FBDataCaller.verifyAccount(getApplicationContext(), email, password, new FBDataCaller.AccountReturn() {
             @Override
             public void accountReturn(Account account) {

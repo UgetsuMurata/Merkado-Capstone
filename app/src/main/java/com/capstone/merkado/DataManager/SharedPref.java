@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 
 public class SharedPref {
 
+    private final static String PREFS_NAME = "MERKADO";
+
     public static void write(Context context, String code, String object ) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
         editor.putString(code, object);

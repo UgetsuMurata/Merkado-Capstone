@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.FBDataCaller;
+import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -120,12 +120,14 @@ public class SignIn extends AppCompatActivity {
         emailWarning.setVisibility(View.GONE);
         passwordWarning.setVisibility(View.GONE);
         // verify
-        FBDataCaller.verifyAccount(getApplicationContext(), email, password, new FBDataCaller.AccountReturn() {
+        DataFunctions.verifyAccount(getApplicationContext(), email, password, new DataFunctions.AccountReturn() {
             @Override
             public void accountReturn(Account account) {
                 String username = account.getUsername();
                 if (!username.matches("^\\[ERROR:[a-zA-Z_]+\\]$")) {
                     // TODO: proceed.
+                    // save to SharedPref to keep signed in.
+                    DataFunctions.signInAccount(getApplicationContext(), account);
                 } else {
                     // check if email exists
                     if (username.equals("[ERROR:WRONG_EMAIL]")){

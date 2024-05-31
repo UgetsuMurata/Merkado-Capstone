@@ -26,4 +26,29 @@ public class StringHash {
         }
     }
 
+    /**
+     * Encode a string to Base64.
+     * @param input raw string.
+     * @return encoded string
+     */
+    public static String encodeString(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        byte[] encodedBytes = Base64.getEncoder().encode(input.getBytes());
+        return new String(encodedBytes);
+    }
+
+    /**
+     * Decode a Base64 encoded string.
+     * @param encoded raw string.
+     * @return decoded string.
+     */
+    public static String decodeString(String encoded) {
+        if (encoded == null || encoded.isEmpty()) {
+            return encoded;
+        }
+        byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+        return new String(decodedBytes);
+    }
 }

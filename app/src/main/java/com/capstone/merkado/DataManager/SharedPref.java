@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 public class SharedPref {
 
     private final static String PREFS_NAME = "MERKADO";
+    public final static String KEEP_SIGNED_IN = "ACCOUNT";
 
     public static void write(Context context, String code, String object ) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();

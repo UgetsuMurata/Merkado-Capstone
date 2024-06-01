@@ -28,6 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="10dp"
+                android:contentDescription="logo"
                 android:src="@mipmap/app_logo" />
 
             <LinearLayout
@@ -55,6 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/elements"
+                        android:imeOptions="actionDone"
                         android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -94,8 +96,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/elements"
                             android:inputType="number"
-                            android:textSize="12sp"
-                            android:maxLength="4"/>
+                            android:maxLength="4"
+                            android:textSize="12sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,12 +142,55 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/elements"
                         android:gravity="center"
+                        android:imeOptions="actionDone"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp"
                         android:text="Next"
                         android:textSize="12sp" />
                 </androidx.cardview.widget.CardView>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/text"
+                        android:text="Already have an account?" />
+
+                    <TextView
+                        android:id="@+id/sign_in_page_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/text"
+                        android:text="Sign In!"
+                        android:textColor="@android:color/holo_blue_light" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/text"
+                        android:text="Debug:" />
+
+                    <TextView
+                        android:id="@+id/debug"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/text"
+                        android:textColor="@android:color/holo_blue_light" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -160,16 +205,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginHorizontal="40dp">
+                    android:layout_marginHorizontal="40dp"
+                    android:orientation="horizontal">
+
                     <ImageView
                         android:id="@+id/go_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:src="@drawable/back_icon"/>
+                        android:src="@drawable/back_icon" />
                 </LinearLayout>
-                
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
@@ -180,17 +226,20 @@
                     app:boxCornerRadiusBottomEnd="20dp"
                     app:boxCornerRadiusBottomStart="20dp"
                     app:boxCornerRadiusTopEnd="20dp"
-                    app:boxCornerRadiusTopStart="20dp">
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/elements"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
                         android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-                
+
                 <TextView
                     android:id="@+id/password_warning"
                     android:layout_width="match_parent"
@@ -211,13 +260,16 @@
                     app:boxCornerRadiusBottomEnd="20dp"
                     app:boxCornerRadiusBottomStart="20dp"
                     app:boxCornerRadiusTopEnd="20dp"
-                    app:boxCornerRadiusTopStart="20dp">
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/confirm_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/elements"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
                         android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -264,7 +316,7 @@
                         android:text="Already have an account?" />
 
                     <TextView
-                        android:id="@+id/sign_in"
+                        android:id="@+id/sign_in_page_2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"

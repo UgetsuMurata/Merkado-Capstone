@@ -7,10 +7,10 @@ import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.VerificationCode;
 import com.google.common.reflect.TypeToken;
-import com.google.firebase.database.DataSnapshot;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class DataFunctions {
@@ -49,13 +49,8 @@ public class DataFunctions {
         String encodedEmail = FirebaseCharacters.encode(email);
 
         // call isKeyExists method to check if the email is a key in the "accounts" node.
-        firebaseData.isKeyExists("accounts", encodedEmail, new FirebaseData.BooleanCallback() {
-            @Override
-            public void callback(Boolean bool) {
-                // return the callback results.
-                booleanReturn.booleanReturn(bool);
-            }
-        });
+        // return the callback results.
+        firebaseData.isKeyExists("accounts", encodedEmail, booleanReturn::booleanReturn);
     }
 
     public static void verifyAccount(Context context, String email, String password, AccountReturn accountReturn) {
@@ -65,29 +60,26 @@ public class DataFunctions {
         // encode the email for Firebase
         String encodedEmail = FirebaseCharacters.encode(email);
 
-        firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), new FirebaseData.FirebaseDataCallback() {
-            @Override
-            public void onDataReceived(DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()) {
-                    accountReturn.accountReturn(new Account(email, "[ERROR:WRONG_EMAIL]"));
-                    return;
+        firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+            if (!dataSnapshot.exists()) {
+                accountReturn.accountReturn(new Account(email, "[ERROR:WRONG_EMAIL]"));
+                return;
+            }
+            Object passwordObj = dataSnapshot.child("password").getValue();
+            Object usernameObj = dataSnapshot.child("username").getValue();
+            if (passwordObj != null) {
+                String hashedPassword = passwordObj.toString();
+                String username = "User";
+                if (usernameObj != null) {
+                    username = usernameObj.toString();
                 }
-                Object passwordObj = dataSnapshot.child("password").getValue();
-                Object usernameObj = dataSnapshot.child("username").getValue();
-                if (passwordObj != null) {
-                    String hashedPassword = passwordObj.toString();
-                    String username = "User";
-                    if (usernameObj != null) {
-                        username = usernameObj.toString();
-                    }
-                    if (hashedPassword.equals(StringHash.hashPassword(password))) {
-                        accountReturn.accountReturn(new Account(email, username));
-                    } else {
-                        accountReturn.accountReturn(new Account(email, "[ERROR:WRONG_PASSWORD]"));
-                    }
+                if (hashedPassword.equals(StringHash.hashPassword(password))) {
+                    accountReturn.accountReturn(new Account(email, username));
                 } else {
-                    accountReturn.accountReturn(new Account(email, "[ERROR:CANNOT_RETRIEVE_INFORMATION]"));
+                    accountReturn.accountReturn(new Account(email, "[ERROR:WRONG_PASSWORD]"));
                 }
+            } else {
+                accountReturn.accountReturn(new Account(email, "[ERROR:CANNOT_RETRIEVE_INFORMATION]"));
             }
         });
     }
@@ -113,7 +105,7 @@ public class DataFunctions {
         // save the string to shared preferences
         SharedPref.write(context, SharedPref.KEEP_SIGNED_IN, encodedStringValue);
 
-        // update the Firebase RTDB
+        // update the Firebase Realtime Database
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.addValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(email)), System.currentTimeMillis());
     }
@@ -124,6 +116,9 @@ public class DataFunctions {
          */
         // get the string from shared preferences
         String encodedStringValue = SharedPref.readString(context, SharedPref.KEEP_SIGNED_IN, "");
+
+        // return null if there is no string.
+        if (encodedStringValue.isEmpty()) return null;
 
         // decode from Base64
         String sharedPrefValue = StringHash.decodeString(encodedStringValue);
@@ -170,9 +165,34 @@ public class DataFunctions {
 
     /**
      * Uses an Email Sending Service to send the code to the email. API: <a href="https://www.mailersend.com/">MailerSend</a>.
+     *
      * @param verificationCode VerificationCode instance.
      */
-    public static void sendCodeThroughEmail(VerificationCode verificationCode){
+    public static void sendCodeThroughEmail(VerificationCode verificationCode) {
         // TODO: Use the API to send the code through email.
+    }
+
+    /**
+     * Signs up the user account.
+     * @param email raw email.
+     * @param password raw password.
+     * @return Account instance.
+     */
+    public static Account signUpAccount(String email, String password) {
+        FirebaseData firebaseData = new FirebaseData();
+        Map<String, Object> values = new HashMap<>();
+
+        // generate temporary username
+        String username = String.format(Locale.getDefault(), "User %d", System.currentTimeMillis());
+
+        // store data
+        values.put("lastOnline", System.currentTimeMillis());
+        values.put("password", StringHash.hashPassword(password));
+        values.put("username", username);
+
+        // save the data to accounts/{encoded email}.
+        firebaseData.addValues(String.format("accounts/%s", FirebaseCharacters.encode(email)), values);
+
+        return new Account(email, username);
     }
 }

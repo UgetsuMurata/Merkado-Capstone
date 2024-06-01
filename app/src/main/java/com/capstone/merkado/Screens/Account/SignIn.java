@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -33,7 +34,7 @@ public class SignIn extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // if the result is okay, proceed to next screen
                     } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
-                        // if the result is cancelled, continue to Sign In
+                        Toast.makeText(getApplicationContext(), "Sign up cancelled.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -44,6 +45,7 @@ public class SignIn extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     // continue to Sign In
+                    Toast.makeText(getApplicationContext(), "Password reset cancelled", Toast.LENGTH_SHORT).show();
                 }
             });
 

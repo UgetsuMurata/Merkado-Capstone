@@ -78,13 +78,16 @@
                     app:boxCornerRadiusBottomEnd="20dp"
                     app:boxCornerRadiusBottomStart="20dp"
                     app:boxCornerRadiusTopEnd="20dp"
-                    app:boxCornerRadiusTopStart="20dp">
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/elements"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
                         android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>

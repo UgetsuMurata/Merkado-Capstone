@@ -31,12 +31,12 @@
                 android:src="@mipmap/app_logo" />
 
             <LinearLayout
+                android:id="@+id/sign_up_1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -93,11 +93,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/elements"
-                            android:textSize="12sp" />
+                            android:inputType="number"
+                            android:textSize="12sp"
+                            android:maxLength="4"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/verification_code_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -146,12 +149,27 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sign_up_2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="40dp">
+                    <ImageView
+                        android:id="@+id/go_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:src="@drawable/back_icon"/>
+                </LinearLayout>
+                
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
@@ -172,7 +190,7 @@
                         android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
+                
                 <TextView
                     android:id="@+id/password_warning"
                     android:layout_width="match_parent"
@@ -189,13 +207,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="40dp"
                     android:layout_marginTop="10dp"
-                    android:hint="Password"
+                    android:hint="Confirm Password"
                     app:boxCornerRadiusBottomEnd="20dp"
                     app:boxCornerRadiusBottomStart="20dp"
                     app:boxCornerRadiusTopEnd="20dp"
                     app:boxCornerRadiusTopStart="20dp">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/confirm_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/elements"
@@ -204,11 +223,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
+                    android:id="@+id/confirm_password_warning"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="40dp"
                     android:fontFamily="@font/text"
-                    android:text="Password warning."
+                    android:text="Confirm Password warning."
                     android:textColor="@android:color/holo_red_light"
                     android:textSize="10sp" />
 

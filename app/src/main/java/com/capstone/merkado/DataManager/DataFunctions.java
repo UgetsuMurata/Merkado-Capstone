@@ -5,6 +5,7 @@ import android.content.Context;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.VerificationCode;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.database.DataSnapshot;
 import com.google.gson.Gson;
@@ -165,5 +166,13 @@ public class DataFunctions {
 
         // if the user did not log in within the past 7 days, require log in.
         return null;
+    }
+
+    /**
+     * Uses an Email Sending Service to send the code to the email. API: <a href="https://www.mailersend.com/">MailerSend</a>.
+     * @param verificationCode VerificationCode instance.
+     */
+    public static void sendCodeThroughEmail(VerificationCode verificationCode){
+        // TODO: Use the API to send the code through email.
     }
 }

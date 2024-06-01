@@ -18,7 +18,7 @@ public class LoadingScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loading_screen);
+        setContentView(R.layout.spl_loading_screen);
 
         // initialize this activity's screen.
         merkado = Merkado.getInstance();

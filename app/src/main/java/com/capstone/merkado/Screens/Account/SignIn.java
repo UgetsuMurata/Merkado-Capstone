@@ -18,6 +18,7 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
+import com.capstone.merkado.Screens.MainMenu.MainMenu;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class SignIn extends AppCompatActivity {
@@ -33,6 +34,7 @@ public class SignIn extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // if the result is okay, proceed to next screen
+                        goToMainMenu();
                     } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
                         Toast.makeText(getApplicationContext(), "Sign up cancelled.", Toast.LENGTH_SHORT).show();
                     }
@@ -52,7 +54,7 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_in);
+        setContentView(R.layout.acc_sign_in);
 
         // initialize this activity's screen.
         merkado = Merkado.getInstance();
@@ -114,7 +116,8 @@ public class SignIn extends AppCompatActivity {
 
     /**
      * Verify the credentials given for sign in.
-     * @param email user's email.
+     *
+     * @param email    user's email.
      * @param password user's password.
      */
     private void verifyCredentials(String email, String password) {
@@ -127,20 +130,29 @@ public class SignIn extends AppCompatActivity {
             public void accountReturn(Account account) {
                 String username = account.getUsername();
                 if (!username.matches("^\\[ERROR:[a-zA-Z_]+\\]$")) {
-                    // TODO: proceed.
                     // save to SharedPref to keep signed in.
                     DataFunctions.signInAccount(getApplicationContext(), account);
+
+                    goToMainMenu();
                 } else {
                     // check if email exists
-                    if (username.equals("[ERROR:WRONG_EMAIL]")){
+                    if (username.equals("[ERROR:WRONG_EMAIL]")) {
                         emailWarning.setText("Email wasn't registered. Please sign up.");
                         emailWarning.setVisibility(View.VISIBLE);
-                    } else if (username.equals("[ERROR:WRONG_PASSWORD]")){
+                    } else if (username.equals("[ERROR:WRONG_PASSWORD]")) {
                         passwordWarning.setText("Incorrect password!");
                         passwordWarning.setVisibility(View.VISIBLE);
                     }
                 }
             }
         });
+    }
+
+    /**
+     * Go to main menu.
+     */
+    private void goToMainMenu() {
+        startActivity(new Intent(getApplicationContext(), MainMenu.class));
+        finish();
     }
 }

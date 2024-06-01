@@ -1,4 +1,4 @@
-package com.capstone.merkado.Screens.Account;
+package com.capstone.merkado.Screens.MainMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.capstone.merkado.R;
 
-public class ResetPassword extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acc_reset_password);
+        setContentView(R.layout.mai_main_menu);
     }
 }

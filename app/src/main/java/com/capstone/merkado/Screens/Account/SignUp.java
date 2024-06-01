@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.Helpers.NotificationHelper;
 import com.capstone.merkado.Helpers.StringVerifier;
 import com.capstone.merkado.Helpers.WarningTextHelper;
 import com.capstone.merkado.Objects.Account;
@@ -32,7 +33,7 @@ public class SignUp extends AppCompatActivity {
      */
     private LinearLayout page1, page2;
     private TextInputEditText email, verificationCode, password, confirmPassword;
-    private TextView emailWarning, verificationCodeWarning, passwordWarning, confirmPasswordWarning, DEBUG;
+    private TextView emailWarning, verificationCodeWarning, passwordWarning, confirmPasswordWarning;
 
     /**
      * ACTIVITY VARIABLES
@@ -49,7 +50,7 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.acc_sign_up);
 
         // initialize this activity's screen.
         merkado = Merkado.getInstance();
@@ -63,7 +64,6 @@ public class SignUp extends AppCompatActivity {
         verificationCodeWarning = findViewById(R.id.verification_code_warning);
         CardView verificationCodeButton = findViewById(R.id.verification_code_button);
         CardView next = findViewById(R.id.next);
-        DEBUG = findViewById(R.id.debug);
 
         // find views for page 2
         page2 = findViewById(R.id.sign_up_2);
@@ -95,7 +95,7 @@ public class SignUp extends AppCompatActivity {
             if (hasFocus) {
                 emailWarning.setVisibility(View.GONE);
             } else {
-                String emailText = email.getText()!=null?email.getText().toString():"";
+                String emailText = email.getText() != null ? email.getText().toString() : "";
                 if (StringVerifier.isValidGmail(emailText)) {
                     DataFunctions.emailExists(emailText, bool -> {
                         if (bool) {
@@ -278,7 +278,9 @@ public class SignUp extends AppCompatActivity {
 
         // Send the code through API.
         DataFunctions.sendCodeThroughEmail(savedCode);
-        DEBUG.setText(savedCode.getCode());
+        NotificationHelper.sendNotification(getApplicationContext(),
+                String.format("Verification code sent to %s", savedCode.getEmail()),
+                String.format("Your Verification Code: %s.", savedCode.getCode()));
         return true;
     }
 
@@ -296,6 +298,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onFinish() {
                 WarningTextHelper.showWarning(getApplicationContext(), verificationCodeWarning, "Code expired. Please generate another code.");
+                savedCode = null;
                 timeLeftInMillis = START_TIME_IN_MILLIS;
             }
         }.start();

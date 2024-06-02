@@ -174,7 +174,8 @@ public class DataFunctions {
 
     /**
      * Signs up the user account.
-     * @param email raw email.
+     *
+     * @param email    raw email.
      * @param password raw password.
      * @return Account instance.
      */
@@ -194,5 +195,20 @@ public class DataFunctions {
         firebaseData.addValues(String.format("accounts/%s", FirebaseCharacters.encode(email)), values);
 
         return new Account(email, username);
+    }
+
+    /**
+     * Signs out the account by updating the "lastOnline" value in Firebase and deleting the SharedPref item for KEEP_SIGNED_IN.
+     * @param context application context.
+     * @param account user account.
+     */
+    public static void signOut(Context context, Account account) {
+        FirebaseData firebaseData = new FirebaseData();
+
+        // update lastOnline in accounts/{email}.
+        firebaseData.addValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(account.getEmail())), System.currentTimeMillis());
+
+        // delete from sharedPref.
+        SharedPref.delete(context, SharedPref.KEEP_SIGNED_IN);
     }
 }

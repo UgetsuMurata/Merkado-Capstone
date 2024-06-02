@@ -3,4 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_transparent">#DDFFFFFF</color>
+    <color name="merkado_orange">#EF8121</color>
+    <color name="merkado_blue">#1C486F</color>
+    <color name="elements">#FFEB3B</color>
 </resources>

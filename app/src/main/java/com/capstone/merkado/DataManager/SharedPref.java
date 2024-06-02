@@ -43,4 +43,9 @@ public class SharedPref {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return prefs.getInt(code, default_value);
     }
+
+    public static void delete(Context context, String code) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+        editor.remove(code).apply();
+    }
 }

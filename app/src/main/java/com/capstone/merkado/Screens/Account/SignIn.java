@@ -132,7 +132,7 @@ public class SignIn extends AppCompatActivity {
                 if (!username.matches("^\\[ERROR:[a-zA-Z_]+\\]$")) {
                     // save to SharedPref to keep signed in.
                     DataFunctions.signInAccount(getApplicationContext(), account);
-
+                    merkado.setAccount(account);
                     goToMainMenu();
                 } else {
                     // check if email exists
@@ -152,7 +152,7 @@ public class SignIn extends AppCompatActivity {
      * Go to main menu.
      */
     private void goToMainMenu() {
-        startActivity(new Intent(getApplicationContext(), MainMenu.class));
+        setResult(Activity.RESULT_OK);
         finish();
     }
 }

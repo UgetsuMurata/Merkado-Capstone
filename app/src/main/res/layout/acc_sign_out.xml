@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mai_main_menu_bg"
+    tools:context=".Screens.Account.SignOut">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/prompt"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/text"
+                android:padding="10dp"
+                android:text="Are you sure you want to sign out?"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/sign_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/holo_orange_light"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/elements"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:text="Sign Out"
+                        android:textSize="14sp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cancel_sign_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="10dp"
+                    app:strokeColor="@android:color/holo_orange_light"
+                    app:strokeWidth="2dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/elements"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:text="Cancel"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/game_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:translationZ="90dp"
+        android:layout_marginBottom="-35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/prompt">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/logo"
+            android:text="Mer"
+            android:textColor="@color/merkado_orange"
+            android:textSize="70sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/logo"
+            android:text="kado"
+            android:textColor="@color/merkado_blue"
+            android:textSize="70sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

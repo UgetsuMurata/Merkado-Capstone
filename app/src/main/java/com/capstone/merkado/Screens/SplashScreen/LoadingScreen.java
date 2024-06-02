@@ -10,6 +10,7 @@ import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Account.SignIn;
+import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
 public class LoadingScreen extends AppCompatActivity {
 
@@ -27,9 +28,8 @@ public class LoadingScreen extends AppCompatActivity {
         // execute the processes
         process1();
 
-        // go to next activity: SignIn
-        if (merkado.getAccount() == null) startActivity(new Intent(this, SignIn.class));
-        // proceed to the game's main menu.
+        // go to next activity: Main Menu
+        startActivity(new Intent(this, MainMenu.class));
         finish();
     }
 

@@ -4,6 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mai_main_menu_bg"
     tools:context=".Screens.MainMenu.MainMenu">
 
+    <LinearLayout
+        android:id="@+id/game_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/logo"
+            android:text="Mer"
+            android:textColor="@color/merkado_orange"
+            android:textSize="100sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/logo"
+            android:text="kado"
+            android:textColor="@color/merkado_blue"
+            android:textSize="100sp" />
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/game_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/elements"
+        app:strokeWidth="3dp"
+        app:strokeColor="@color/white"
+        app:cardCornerRadius="100dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter!"
+            android:textSize="20sp"
+            android:paddingHorizontal="60dp"
+            android:paddingVertical="20dp"
+            android:fontFamily="@font/main"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <ImageView
+        android:id="@+id/account_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/sign_in_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"/>
+
+    <ImageView
+        android:id="@+id/settings_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/settings_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/account_button"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

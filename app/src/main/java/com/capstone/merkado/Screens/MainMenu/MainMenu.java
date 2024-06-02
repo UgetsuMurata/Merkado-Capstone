@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.capstone.merkado.Application.Merkado;
@@ -84,10 +83,10 @@ public class MainMenu extends AppCompatActivity {
         // change icon depending on account status (signed in or not), and set their click listeners.
         if (currentUser != null) {
             account.setOnClickListener(v -> doSignOut.launch(new Intent(getApplicationContext(), SignOut.class)));
-            account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.sign_out_icon));
+            account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_sign_out));
         } else {
             account.setOnClickListener(v -> doSignIn.launch(new Intent(getApplicationContext(), SignIn.class)));
-            account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.sign_in_icon));
+            account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_sign_in));
         }
     }
 }

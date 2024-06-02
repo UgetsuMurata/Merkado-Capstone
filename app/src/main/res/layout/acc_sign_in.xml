@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@drawable/acc_sign_in_bg"
+    android:background="@drawable/bg_acc_sign_in"
     tools:context=".Screens.Account.SignIn">
 
     <com.google.android.material.card.MaterialCardView

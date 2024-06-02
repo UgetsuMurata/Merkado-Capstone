@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mai_main_menu_bg"
+    android:background="@drawable/bg_mai_main_menu"
     tools:context=".Screens.MainMenu.MainMenu">
 
     <LinearLayout
@@ -60,7 +60,7 @@
         android:id="@+id/account_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/sign_in_icon"
+        android:src="@drawable/icon_sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="10dp"
@@ -70,7 +70,7 @@
         android:id="@+id/settings_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/settings_icon"
+        android:src="@drawable/icon_settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/account_button"
         android:layout_marginBottom="10dp"

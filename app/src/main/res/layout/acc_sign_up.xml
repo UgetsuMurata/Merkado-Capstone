@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@drawable/acc_sign_up_bg"
+    android:background="@drawable/bg_acc_sign_up"
     tools:context=".Screens.Account.SignIn">
 
     <com.google.android.material.card.MaterialCardView
@@ -195,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:src="@drawable/back_icon" />
+                        android:src="@drawable/icon_back" />
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

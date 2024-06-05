@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.Helpers.Generator;
 import com.capstone.merkado.Helpers.NotificationHelper;
 import com.capstone.merkado.Helpers.StringVerifier;
 import com.capstone.merkado.Helpers.WarningTextHelper;
@@ -270,11 +271,8 @@ public class SignUp extends AppCompatActivity {
         // Check email value if it exists.
         if (emailExists) return false;
 
-        // Generate Code and save it as VerificationCode object.
-        Random random = new Random();
-        Integer codeInt = random.nextInt(10000);
-        String code = String.format(Locale.getDefault(), "%04d", codeInt);
-        savedCode = new VerificationCode(email.getText().toString(), code);
+        // Generate Code.
+        savedCode = Generator.code(email.getText().toString());
 
         // Send the code through API.
         DataFunctions.sendCodeThroughEmail(savedCode);

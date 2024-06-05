@@ -32,10 +32,10 @@ public class SignIn extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getResultCode() == RESULT_OK) {
                         // if the result is okay, proceed to next screen
                         goToMainMenu();
-                    } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
+                    } else if (result.getResultCode() == RESULT_CANCELED) {
                         Toast.makeText(getApplicationContext(), "Sign up cancelled.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -46,8 +46,14 @@ public class SignIn extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    // continue to Sign In
-                    Toast.makeText(getApplicationContext(), "Password reset cancelled", Toast.LENGTH_SHORT).show();
+                    if (result.getResultCode() == RESULT_OK) {
+                        // if the result is okay, let user sign in with their new password.
+                        Toast.makeText(getApplicationContext(), "Password reset successful. Please sign in with your new password.", Toast.LENGTH_SHORT).show();
+                    } else if (result.getResultCode() == RESULT_CANCELED) {
+                        // continue to Sign In
+                        Toast.makeText(getApplicationContext(), "Password reset cancelled", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
 
@@ -74,43 +80,34 @@ public class SignIn extends AppCompatActivity {
         passwordWarning.setVisibility(View.GONE);
 
         // set up Sign In listener
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Object emailObj = email.getText();
-                Object passwordObj = password.getText();
-                if (emailObj != null && passwordObj != null) {
-                    verifyCredentials(emailObj.toString(), passwordObj.toString());
+        signIn.setOnClickListener(v -> {
+            Object emailObj = email.getText();
+            Object passwordObj = password.getText();
+            if (emailObj != null && passwordObj != null) {
+                verifyCredentials(emailObj.toString(), passwordObj.toString());
+            } else {
+                if (emailObj == null) {
+                    // if emailObj is null, then the user should input the email
+                    emailWarning.setText("Input email!");
+                    emailWarning.setVisibility(View.VISIBLE);
                 } else {
-                    if (emailObj == null) {
-                        // if emailObj is null, then the user should input the email
-                        emailWarning.setText("Input email!");
-                        emailWarning.setVisibility(View.VISIBLE);
-                    } else {
-                        // if the emailObj is not null, then the password was not input.
-                        passwordWarning.setText("Input password!");
-                        passwordWarning.setVisibility(View.VISIBLE);
-                    }
+                    // if the emailObj is not null, then the password was not input.
+                    passwordWarning.setText("Input password!");
+                    passwordWarning.setVisibility(View.VISIBLE);
                 }
             }
         });
 
         // set up Forgot Password listener
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // launch the activity result launcher, going to Reset Password screen.
-                doPasswordReset.launch(new Intent(getApplicationContext(), ResetPassword.class));
-            }
+        forgotPassword.setOnClickListener(v -> {
+            // launch the activity result launcher, going to Reset Password screen.
+            doPasswordReset.launch(new Intent(getApplicationContext(), ResetPassword.class));
         });
 
         // set up Sign Up listener
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // launch the activity result launcher, going to Sign Up screen.
-                doSignUp.launch(new Intent(getApplicationContext(), SignUp.class));
-            }
+        signUp.setOnClickListener(v -> {
+            // launch the activity result launcher, going to Sign Up screen.
+            doSignUp.launch(new Intent(getApplicationContext(), SignUp.class));
         });
     }
 

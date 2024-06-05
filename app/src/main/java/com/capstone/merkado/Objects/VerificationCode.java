@@ -1,5 +1,8 @@
 package com.capstone.merkado.Objects;
 
+/**
+ * Contains the verification code and the time it was generated.
+ */
 public class VerificationCode {
     String email, code;
     Long generationTime;

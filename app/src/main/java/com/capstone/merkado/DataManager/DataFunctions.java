@@ -211,4 +211,10 @@ public class DataFunctions {
         // delete from sharedPref.
         SharedPref.delete(context, SharedPref.KEEP_SIGNED_IN);
     }
+
+    public static void resetPassword(String email, String password) {
+        FirebaseData firebaseData = new FirebaseData();
+        // save the new password to accounts/{encoded email}/password.
+        firebaseData.addValue(String.format("accounts/%s/password", FirebaseCharacters.encode(email)), StringHash.hashPassword(password));
+    }
 }

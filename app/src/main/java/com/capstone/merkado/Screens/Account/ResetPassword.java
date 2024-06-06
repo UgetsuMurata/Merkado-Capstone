@@ -119,10 +119,10 @@ public class ResetPassword extends AppCompatActivity {
                 if (password.getText() == null || password.getText().toString().isEmpty())
                     return;
                 if (StringVerifier.isValidPassword(password.getText().toString())) {
-                    WarningTextHelper.showWarning(getApplicationContext(), passwordWarning, "Password must be at least 8 characters long and contain a mix of letters, numbers, and special characters.");
-                } else {
                     WarningTextHelper.hide(passwordWarning);
                     passwordString = password.getText().toString().trim();
+                } else {
+                    WarningTextHelper.showWarning(getApplicationContext(), passwordWarning, "Password must be at least 8 characters long and contain a mix of letters, numbers, and special characters.");
                 }
             }
         });

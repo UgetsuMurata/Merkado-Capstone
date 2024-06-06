@@ -1,4 +1,4 @@
-package com.capstone.merkado.broadcast;
+package com.capstone.merkado.Broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

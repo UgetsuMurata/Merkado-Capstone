@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.capstone.merkado.Application.Merkado;
@@ -18,6 +19,7 @@ import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Account.SignIn;
 import com.capstone.merkado.Screens.Account.SignOut;
+import com.capstone.merkado.Screens.Settings.SettingsMenu;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -63,6 +65,22 @@ public class MainMenu extends AppCompatActivity {
                 }
             });
 
+
+    private final ActivityResultLauncher<Intent> doSettings = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent i = new Intent(getApplicationContext(), MainMenu.class);
+                        overridePendingTransition(0, 0);
+                        startActivity(i);
+                        overridePendingTransition(0, 0);
+                        finish();
+                    }
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,5 +106,8 @@ public class MainMenu extends AppCompatActivity {
             account.setOnClickListener(v -> doSignIn.launch(new Intent(getApplicationContext(), SignIn.class)));
             account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_sign_in));
         }
+
+        // navigate to settings
+        settings.setOnClickListener(v -> doSettings.launch(new Intent(getApplicationContext(), SettingsMenu.class)));
     }
 }

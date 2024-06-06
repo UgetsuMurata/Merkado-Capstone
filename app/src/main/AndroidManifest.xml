@@ -16,6 +16,10 @@
         android:theme="@style/Theme.Merkado"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.Settings.SettingsMenu"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".Screens.Account.SignOut"
             android:exported="false"
             android:screenOrientation="landscape" />

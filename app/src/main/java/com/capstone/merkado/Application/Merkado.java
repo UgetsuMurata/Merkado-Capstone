@@ -4,13 +4,11 @@ import static android.content.pm.ActivityInfo.*;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 
 import com.capstone.merkado.Objects.Account;
-import com.capstone.merkado.broadcast.NetworkChangeReceiver;
+import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 
 public class Merkado extends Application {
 

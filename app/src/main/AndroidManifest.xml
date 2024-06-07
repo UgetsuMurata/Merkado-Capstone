@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Merkado"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.LoadingScreen.ServerLoadingScreen"
+            android:exported="false" />
+        <activity
             android:name=".Screens.Settings.SettingsMenu"
             android:exported="false"
             android:screenOrientation="landscape" />
@@ -40,7 +43,7 @@
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".Screens.SplashScreen.LoadingScreen"
+            android:name=".Screens.LoadingScreen.LoadingScreen"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>

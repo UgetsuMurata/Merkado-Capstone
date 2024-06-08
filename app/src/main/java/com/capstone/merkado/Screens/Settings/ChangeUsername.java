@@ -67,7 +67,7 @@ public class ChangeUsername extends AppCompatActivity {
         });
         save.setOnClickListener(v -> {
             if (username.getText() == null || username.getText().toString().isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Input your desired username.", Toast.LENGTH_SHORT).show();
+                WarningTextHelper.showWarning(getApplicationContext(), usernameWarning, "Input your desired username.");
             } else {
                 Toast.makeText(getApplicationContext(), "Saving username.", Toast.LENGTH_SHORT).show();
 
@@ -86,8 +86,9 @@ public class ChangeUsername extends AppCompatActivity {
 
     /**
      * Method caller for saving username.
+     *
      * @param username raw username.
-     * @param email raw email.
+     * @param email    raw email.
      */
     private void saveUsername(String username, String email) {
         DataFunctions.changeUsername(this, username, email);
@@ -96,13 +97,13 @@ public class ChangeUsername extends AppCompatActivity {
     private void warningUsername(UsernameCode code) {
         switch (code) {
             case INVALID_CHARACTERS:
-                Toast.makeText(this, "Username can only contain letters, numbers, underscores, and periods.", Toast.LENGTH_SHORT).show();
+                WarningTextHelper.showWarning(getApplicationContext(), usernameWarning, "Username can only contain letters, numbers, underscores, and periods.");
                 break;
             case HAS_PROFANITY:
-                Toast.makeText(this, "Username cannot contain offensive language.", Toast.LENGTH_SHORT).show();
+                WarningTextHelper.showWarning(getApplicationContext(), usernameWarning, "Username cannot contain offensive language.");
                 break;
             case INVALID_LENGTH:
-                Toast.makeText(this, "Username must be between 3 and 15 characters long.", Toast.LENGTH_SHORT).show();
+                WarningTextHelper.showWarning(getApplicationContext(), usernameWarning, "Username must be between 3 and 15 characters long.");
                 break;
             default:
                 break;

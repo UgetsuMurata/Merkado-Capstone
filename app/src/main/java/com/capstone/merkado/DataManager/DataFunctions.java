@@ -84,11 +84,14 @@ public class DataFunctions {
         });
     }
 
-    public static void signInAccount(Context context, Account account) {
-        // create the string to be saved.
-        String email = account.getEmail();
-        String username = account.getUsername();
-
+    /**
+     * Sign in account in Shared Preferences.
+     *
+     * @param context  application context
+     * @param email    raw email
+     * @param username raw username
+     */
+    private static void signInAccountInSharedPref(Context context, String email, String username) {
         // create a hashmap of account details.
         HashMap<String, String> sharedPrefMap = new HashMap<>();
         sharedPrefMap.put("EMAIL", email);
@@ -104,6 +107,14 @@ public class DataFunctions {
 
         // save the string to shared preferences
         SharedPref.write(context, SharedPref.KEEP_SIGNED_IN, encodedStringValue);
+    }
+
+    public static void signInAccount(Context context, Account account) {
+        // create the string to be saved.
+        String email = account.getEmail();
+        String username = account.getUsername();
+
+        signInAccountInSharedPref(context, email, username);
 
         // update the Firebase Realtime Database
         FirebaseData firebaseData = new FirebaseData();
@@ -111,9 +122,6 @@ public class DataFunctions {
     }
 
     public static Account getSignedIn(Context context) {
-        /*
-         * GET THE DATA FROM SHAREDPREF.
-         */
         // get the string from shared preferences
         String encodedStringValue = SharedPref.readString(context, SharedPref.KEEP_SIGNED_IN, "");
 
@@ -199,6 +207,7 @@ public class DataFunctions {
 
     /**
      * Signs out the account by updating the "lastOnline" value in Firebase and deleting the SharedPref item for KEEP_SIGNED_IN.
+     *
      * @param context application context.
      * @param account user account.
      */
@@ -212,9 +221,32 @@ public class DataFunctions {
         SharedPref.delete(context, SharedPref.KEEP_SIGNED_IN);
     }
 
+    /**
+     * Resets password of the account in Firebase.
+     * @param email raw email.
+     * @param password raw password.
+     */
     public static void resetPassword(String email, String password) {
         FirebaseData firebaseData = new FirebaseData();
         // save the new password to accounts/{encoded email}/password.
         firebaseData.addValue(String.format("accounts/%s/password", FirebaseCharacters.encode(email)), StringHash.hashPassword(password));
+    }
+
+    /**
+     * Change username in Firebase and Shared Preferences.
+     * @param context application context.
+     * @param username raw username.
+     * @param email raw email.
+     */
+    public static void changeUsername(Context context, String username, String email) {
+        FirebaseData firebaseData = new FirebaseData();
+
+        // save the new password to accounts/{encoded email}/username.
+        firebaseData.addValue(String.format("accounts/%s/username", FirebaseCharacters.encode(email)), username);
+
+        Account account = getSignedIn(context);
+        if (account != null) {
+            signInAccountInSharedPref(context, account.getEmail(), account.getUsername());
+        }
     }
 }

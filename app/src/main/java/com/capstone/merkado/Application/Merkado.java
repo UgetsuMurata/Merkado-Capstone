@@ -15,6 +15,7 @@ public class Merkado extends Application {
     private static Merkado instance;
     private NetworkChangeReceiver networkChangeReceiver;
     private Account account;
+    private StaticContents staticContents;
 
     @Override
     public void onCreate() {
@@ -25,6 +26,9 @@ public class Merkado extends Application {
         networkChangeReceiver = new NetworkChangeReceiver();
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeReceiver, filter);
+
+        // initialize variables
+        staticContents = new StaticContents();
     }
     /**
      * Get the working instance of the Application class.
@@ -59,8 +63,43 @@ public class Merkado extends Application {
         this.account = account;
     }
 
+    /**
+     * Getter of StaticContents Instance.
+     * @return staticContent from Application class.
+     */
+    public StaticContents getStaticContents() {
+        return staticContents;
+    }
+
     @Override
     public void onTerminate() {
         super.onTerminate();
+    }
+
+    /**
+     * Organized way of storing static contents, which includes:
+     * <ul>
+     *     <li>About</li>
+     *     <li>Terms and Conditions</li>
+     * </ul>
+     */
+    public static class StaticContents {
+        String about, termsAndConditions;
+
+        public String getAbout() {
+            return about;
+        }
+
+        public void setAbout(String about) {
+            this.about = about;
+        }
+
+        public String getTermsAndConditions() {
+            return termsAndConditions;
+        }
+
+        public void setTermsAndConditions(String termsAndConditions) {
+            this.termsAndConditions = termsAndConditions;
+        }
     }
 }

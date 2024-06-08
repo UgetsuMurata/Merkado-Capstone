@@ -16,6 +16,18 @@
         android:theme="@style/Theme.Merkado"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.Settings.TermsAndConditions"
+            android:exported="false" />
+        <activity
+            android:name=".Screens.Settings.About"
+            android:exported="false" />
+        <activity
+            android:name=".Screens.Settings.ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".Screens.Settings.ChangeUsername"
+            android:exported="false" />
+        <activity
             android:name=".Screens.Settings.SettingsMenu"
             android:exported="false"
             android:screenOrientation="landscape" />

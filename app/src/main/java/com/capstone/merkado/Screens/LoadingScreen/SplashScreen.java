@@ -2,8 +2,6 @@ package com.capstone.merkado.Screens.LoadingScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +20,9 @@ public class SplashScreen extends AppCompatActivity {
     private Merkado merkado;
     private ProgressBar progressBar;
     private Timer timer;
-    private int i=0;
+    private int i = 0;
     private boolean isProcess1Completed = false;
+    private boolean isProcess2Completed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class SplashScreen extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (i<100){
+                if (i < 100) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -49,7 +48,7 @@ public class SplashScreen extends AppCompatActivity {
                     i++;
 
                     // Call process1() in a background thread
-                    if (i == 50 && !isProcess1Completed) {
+                    if (i == 25 && !isProcess1Completed) {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -59,18 +58,29 @@ public class SplashScreen extends AppCompatActivity {
                         }).start();
                     }
 
+                    // Call process2() in a background thread
+                    if (i == 25 && !isProcess2Completed) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                process2();
+                                isProcess2Completed = true;
+                            }
+                        }).start();
+                    }
+
                 } else {
                     timer.cancel();
 
                     // Ensure process1() has completed before starting the next activity
-                    if (isProcess1Completed) {
+                    if (isProcess1Completed && merkado.getStaticContents().getAbout() != null) {
                         // go to next activity: Main Menu
                         startActivity(new Intent(SplashScreen.this, MainMenu.class));
                         finish();
                     }
                 }
             }
-        },0, 50);
+        }, 0, 50);
     }
 
     /**
@@ -86,5 +96,14 @@ public class SplashScreen extends AppCompatActivity {
 
         // update the account logged in from the SharedPref
         DataFunctions.signInAccount(getApplicationContext(), account);
+    }
+
+    /**
+     * 2nd process of the loading screen. This retrieves the static texts from Firebase.
+     */
+    private void process2() {
+        // get the data from Firebase.
+        DataFunctions.getAbout(getApplicationContext(), string -> merkado.getStaticContents().setAbout(string));
+        DataFunctions.getTermsAndConditions(getApplicationContext(), string -> merkado.getStaticContents().setTermsAndConditions(string));
     }
 }

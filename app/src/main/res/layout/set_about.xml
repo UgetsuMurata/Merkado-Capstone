@@ -64,7 +64,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/text"
-                        android:text="@string/very_long_text_placeholder"
                         android:textSize="20sp" />
                 </ScrollView>
             </LinearLayout>

@@ -7,6 +7,7 @@ import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.VerificationCode;
 import com.google.common.reflect.TypeToken;
+import com.google.firebase.database.DataSnapshot;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -23,6 +24,14 @@ public class DataFunctions {
          * @param bool return value.
          */
         void booleanReturn(Boolean bool);
+    }
+
+    public interface StringReturn {
+        /**
+         * Callback return for string datatype.
+         * @param string return value.
+         */
+        void stringReturn(String string);
     }
 
     public interface AccountReturn {
@@ -281,5 +290,27 @@ public class DataFunctions {
         if (account != null) {
             signInAccountInSharedPref(context, account.getEmail(), username);
         }
+    }
+
+    public static void getAbout(Context context, StringReturn stringReturn) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(context, "appData/About", dataSnapshot -> {
+            if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                stringReturn.stringReturn(dataSnapshot.getValue().toString());
+            } else {
+                stringReturn.stringReturn("");
+            }
+        });
+    }
+
+    public static void getTermsAndConditions(Context context, StringReturn stringReturn) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(context, "appData/TermsAndConditions", dataSnapshot -> {
+            if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                stringReturn.stringReturn(dataSnapshot.getValue().toString());
+            } else {
+                stringReturn.stringReturn("");
+            }
+        });
     }
 }

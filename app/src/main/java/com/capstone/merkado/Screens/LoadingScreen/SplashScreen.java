@@ -17,7 +17,7 @@ import com.capstone.merkado.Screens.MainMenu.MainMenu;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LoadingScreen extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity {
 
     private Merkado merkado;
     private ProgressBar progressBar;
@@ -75,7 +75,7 @@ public class LoadingScreen extends AppCompatActivity {
                     // Ensure process1() has completed before starting the next activity
                     if (isProcess1Completed) {
                         // go to next activity: Main Menu
-                        startActivity(new Intent(LoadingScreen.this, MainMenu.class));
+                        startActivity(new Intent(SplashScreen.this, MainMenu.class));
                         finish();
                     }
                 }

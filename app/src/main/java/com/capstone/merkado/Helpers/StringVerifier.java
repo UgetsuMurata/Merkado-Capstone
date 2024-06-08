@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public class StringVerifier {
     /**
      * Verifies if a gmail is valid. Valid (regex) format is: <em>^[a-zA-Z0-9._%+-]+@gmail\.com$</em>
+     *
      * @param email raw email.
      * @return Boolean value of email's validity.
      */
@@ -34,5 +35,38 @@ public class StringVerifier {
         boolean hasSpecialChar = password.matches(".*[!@#$%^&*(),.?\":{}|<>].*");
 
         return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
+    }
+
+    /**
+     * Verifies if the given username meets the specified criteria.
+     *
+     * @param username The username to verify.
+     * @return A string indicating the validity or the reason for invalidity.
+     */
+    public static UsernameCode validateUsername(String username) {
+        // Length check: 3 to 15 characters
+        if (username.length() < 3 || username.length() > 15) {
+            return UsernameCode.INVALID_LENGTH;
+        }
+
+        // Alphanumeric characters, underscores, and periods only
+        if (!username.matches("^[a-zA-Z0-9._]+$")) {
+            return UsernameCode.INVALID_CHARACTERS;
+        }
+
+        // No profanity (example, can be expanded as needed)
+        String[] prohibitedWords = {"badword1", "badword2"}; // Add more offensive words as needed
+        for (String word : prohibitedWords) {
+            if (username.toLowerCase().contains(word)) {
+                return UsernameCode.HAS_PROFANITY;
+            }
+        }
+
+        // If all checks pass
+        return UsernameCode.VALID;
+    }
+
+    public enum UsernameCode {
+        INVALID_LENGTH, INVALID_CHARACTERS, HAS_PROFANITY, VALID
     }
 }

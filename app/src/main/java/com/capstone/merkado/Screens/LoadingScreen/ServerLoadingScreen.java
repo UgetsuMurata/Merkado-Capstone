@@ -50,7 +50,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
 
         // Load GIF into the View
         ImageView logoView = findViewById(R.id.gif_screen); // Change View to ImageView
-        Glide.with(this).load(R.drawable.gif_loading_screen).into(logoView);
+        Glide.with(this).load(R.drawable.gif_loading_server_screen).into(logoView);
 
     }
 }

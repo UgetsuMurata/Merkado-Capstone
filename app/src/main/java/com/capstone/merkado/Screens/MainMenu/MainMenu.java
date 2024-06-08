@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.Objects.Account;
@@ -98,6 +99,9 @@ public class MainMenu extends AppCompatActivity {
 
         // get current account
         currentUser = merkado.getAccount();
+
+        // welcome the user
+        Toast.makeText(this, String.format("Welcome, %s", currentUser.getUsername()), Toast.LENGTH_SHORT).show();
 
         // change icon depending on account status (signed in or not), and set their click listeners.
         if (currentUser != null) {

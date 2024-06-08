@@ -79,7 +79,6 @@ public class ChangeUsername extends AppCompatActivity {
                 merkado.setAccount(account);
                 setResult(RESULT_OK);
                 finish();
-                Toast.makeText(getApplicationContext(), "Username saved.", Toast.LENGTH_SHORT).show();
             }
         });
     }

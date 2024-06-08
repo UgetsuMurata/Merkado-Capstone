@@ -85,6 +85,39 @@ public class DataFunctions {
     }
 
     /**
+     * Verifies if password is correct or not.
+     * @param context application context.
+     * @param email raw email.
+     * @param password password to compare.
+     * @param booleanReturn returns <b>True</b> or <b>False</b> values if the password is correct or not.
+     */
+    public static void comparePasswords(Context context, String email, String password, BooleanReturn booleanReturn) {
+        // create FirebaseData object
+        FirebaseData firebaseData = new FirebaseData();
+
+        // encode the email for Firebase
+        String encodedEmail = FirebaseCharacters.encode(email);
+
+        firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+            if (!dataSnapshot.exists()) {
+                booleanReturn.booleanReturn(false);
+                return;
+            }
+            Object passwordObj = dataSnapshot.child("password").getValue();
+            if (passwordObj != null) {
+                String hashedPassword = passwordObj.toString();
+                if (hashedPassword.equals(StringHash.hashPassword(password))) {
+                    booleanReturn.booleanReturn(true);
+                } else {
+                    booleanReturn.booleanReturn(false);
+                }
+            } else {
+                booleanReturn.booleanReturn(false);
+            }
+        });
+    }
+
+    /**
      * Sign in account in Shared Preferences.
      *
      * @param context  application context
@@ -246,7 +279,7 @@ public class DataFunctions {
 
         Account account = getSignedIn(context);
         if (account != null) {
-            signInAccountInSharedPref(context, account.getEmail(), account.getUsername());
+            signInAccountInSharedPref(context, account.getEmail(), username);
         }
     }
 }

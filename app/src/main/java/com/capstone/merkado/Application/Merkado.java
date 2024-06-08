@@ -1,14 +1,16 @@
 package com.capstone.merkado.Application;
 
-import static android.content.pm.ActivityInfo.*;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.view.View;
+import android.view.WindowManager;
 
-import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
+import com.capstone.merkado.Objects.Account;
 
 public class Merkado extends Application {
 
@@ -30,8 +32,10 @@ public class Merkado extends Application {
         // initialize variables
         staticContents = new StaticContents();
     }
+
     /**
      * Get the working instance of the Application class.
+     *
      * @return Merkado
      */
     public static Merkado getInstance() {
@@ -40,15 +44,26 @@ public class Merkado extends Application {
 
     /**
      * Prepares the screen for the activity.
+     *
      * @param activity Activity context.
      */
     public void initializeScreen(Activity activity) {
         // force the screen's orientation landscape.
         activity.setRequestedOrientation(SCREEN_ORIENTATION_LANDSCAPE);
+
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        activity.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     /**
      * Get current user's account details.
+     *
      * @return User's account
      */
     public Account getAccount() {
@@ -57,6 +72,7 @@ public class Merkado extends Application {
 
     /**
      * Set current user's account details
+     *
      * @param account User's account
      */
     public void setAccount(Account account) {
@@ -65,6 +81,7 @@ public class Merkado extends Application {
 
     /**
      * Getter of StaticContents Instance.
+     *
      * @return staticContent from Application class.
      */
     public StaticContents getStaticContents() {

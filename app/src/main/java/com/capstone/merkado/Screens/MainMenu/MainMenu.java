@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.Objects.Account;
@@ -91,16 +92,6 @@ public class MainMenu extends AppCompatActivity {
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
-        // Set the activity to full-screen mode
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
         // find views
         account = findViewById(R.id.account_button);
         settings = findViewById(R.id.settings_button);
@@ -108,6 +99,9 @@ public class MainMenu extends AppCompatActivity {
 
         // get current account
         currentUser = merkado.getAccount();
+
+        // welcome the user
+        Toast.makeText(this, String.format("Welcome, %s", currentUser.getUsername()), Toast.LENGTH_SHORT).show();
 
         // change icon depending on account status (signed in or not), and set their click listeners.
         if (currentUser != null) {

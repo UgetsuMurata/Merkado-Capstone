@@ -7,6 +7,7 @@ import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.VerificationCode;
 import com.google.common.reflect.TypeToken;
+import com.google.firebase.database.DataSnapshot;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -23,6 +24,14 @@ public class DataFunctions {
          * @param bool return value.
          */
         void booleanReturn(Boolean bool);
+    }
+
+    public interface StringReturn {
+        /**
+         * Callback return for string datatype.
+         * @param string return value.
+         */
+        void stringReturn(String string);
     }
 
     public interface AccountReturn {
@@ -80,6 +89,39 @@ public class DataFunctions {
                 }
             } else {
                 accountReturn.accountReturn(new Account(email, "[ERROR:CANNOT_RETRIEVE_INFORMATION]"));
+            }
+        });
+    }
+
+    /**
+     * Verifies if password is correct or not.
+     * @param context application context.
+     * @param email raw email.
+     * @param password password to compare.
+     * @param booleanReturn returns <b>True</b> or <b>False</b> values if the password is correct or not.
+     */
+    public static void comparePasswords(Context context, String email, String password, BooleanReturn booleanReturn) {
+        // create FirebaseData object
+        FirebaseData firebaseData = new FirebaseData();
+
+        // encode the email for Firebase
+        String encodedEmail = FirebaseCharacters.encode(email);
+
+        firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+            if (!dataSnapshot.exists()) {
+                booleanReturn.booleanReturn(false);
+                return;
+            }
+            Object passwordObj = dataSnapshot.child("password").getValue();
+            if (passwordObj != null) {
+                String hashedPassword = passwordObj.toString();
+                if (hashedPassword.equals(StringHash.hashPassword(password))) {
+                    booleanReturn.booleanReturn(true);
+                } else {
+                    booleanReturn.booleanReturn(false);
+                }
+            } else {
+                booleanReturn.booleanReturn(false);
             }
         });
     }
@@ -246,7 +288,29 @@ public class DataFunctions {
 
         Account account = getSignedIn(context);
         if (account != null) {
-            signInAccountInSharedPref(context, account.getEmail(), account.getUsername());
+            signInAccountInSharedPref(context, account.getEmail(), username);
         }
+    }
+
+    public static void getAbout(Context context, StringReturn stringReturn) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(context, "appData/About", dataSnapshot -> {
+            if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                stringReturn.stringReturn(dataSnapshot.getValue().toString());
+            } else {
+                stringReturn.stringReturn("");
+            }
+        });
+    }
+
+    public static void getTermsAndConditions(Context context, StringReturn stringReturn) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(context, "appData/TermsAndConditions", dataSnapshot -> {
+            if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                stringReturn.stringReturn(dataSnapshot.getValue().toString());
+            } else {
+                stringReturn.stringReturn("");
+            }
+        });
     }
 }

@@ -3,6 +3,7 @@ package com.capstone.merkado.Screens.Settings;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,12 +19,25 @@ public class SettingsMenu extends AppCompatActivity {
     private int activityResult = Activity.RESULT_CANCELED;
     private final ActivityResultLauncher<Intent> doChangeUsername = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            result -> activityResult = result.getResultCode());
+            result -> {
+                activityResult = activityResult != RESULT_OK ? result.getResultCode() : RESULT_OK;
+                if (result.getResultCode() == RESULT_OK) {
+                    Toast.makeText(getApplicationContext(), "Username saved succcessfully!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Username saved cancelled.", Toast.LENGTH_SHORT).show();
+                }
+            });
 
     private final ActivityResultLauncher<Intent> doChangePassword = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            result -> activityResult = result.getResultCode());
-
+            result -> {
+                activityResult = activityResult != RESULT_OK ? result.getResultCode() : RESULT_OK;
+                if (result.getResultCode() == RESULT_OK) {
+                    Toast.makeText(getApplicationContext(), "Password changed succcessfully!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Password change cancelled.", Toast.LENGTH_SHORT).show();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

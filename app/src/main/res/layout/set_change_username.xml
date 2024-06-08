@@ -41,7 +41,7 @@
                 android:fontFamily="@font/header"
                 android:gravity="center"
                 android:text="CHANGE USERNAME"
-                android:textSize="32sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                 android:fontFamily="@font/text"
                 android:gravity="center"
                 android:text="Kindly type in your desired new username"
-                android:textSize="24sp" />
+                android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -80,7 +80,8 @@
                 android:fontFamily="@font/text"
                 android:text="Username warning."
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

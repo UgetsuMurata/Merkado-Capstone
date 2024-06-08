@@ -35,7 +35,7 @@ public class ChangeUsername extends AppCompatActivity {
 
         // get account details
         account = merkado.getAccount();
-        if (account != null) {
+        if (account == null) {
             Toast.makeText(this, "Cannot retrieve your account right now. Please try again later.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -79,7 +79,6 @@ public class ChangeUsername extends AppCompatActivity {
                 merkado.setAccount(account);
                 setResult(RESULT_OK);
                 finish();
-                Toast.makeText(getApplicationContext(), "Username saved.", Toast.LENGTH_SHORT).show();
             }
         });
     }

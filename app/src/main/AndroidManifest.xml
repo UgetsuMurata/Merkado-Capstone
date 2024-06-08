@@ -33,7 +33,7 @@
             android:screenOrientation="landscape"/>
         <activity
             android:name=".Screens.LoadingScreen.ServerLoadingScreen"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="landscape"/>
         <activity
             android:name=".Screens.Settings.SettingsMenu"

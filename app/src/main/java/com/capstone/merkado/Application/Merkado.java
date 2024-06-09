@@ -11,6 +11,9 @@ import android.view.WindowManager;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.EconomyBasic;
+
+import java.util.List;
 
 public class Merkado extends Application {
 
@@ -18,6 +21,7 @@ public class Merkado extends Application {
     private NetworkChangeReceiver networkChangeReceiver;
     private Account account;
     private StaticContents staticContents;
+    private List<EconomyBasic> economyBasicList;
 
     @Override
     public void onCreate() {
@@ -86,6 +90,22 @@ public class Merkado extends Application {
      */
     public StaticContents getStaticContents() {
         return staticContents;
+    }
+
+    /**
+     * Get the list of economies to be shown in the lobby.
+     * @return List of EconomyBasic.
+     */
+    public List<EconomyBasic> getEconomyBasicList() {
+        return economyBasicList;
+    }
+
+    /**
+     * Set the list of economies to be shown in the lobby.
+     * @param economyBasicList List of EconomyBasic.
+     */
+    public void setEconomyBasicList(List<EconomyBasic> economyBasicList) {
+        this.economyBasicList = economyBasicList;
     }
 
     @Override

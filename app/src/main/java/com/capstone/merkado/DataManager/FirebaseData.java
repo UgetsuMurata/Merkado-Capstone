@@ -49,6 +49,22 @@ public class FirebaseData {
         });
     }
 
+    public void retrieveData(String childPath, final FirebaseDataCallback callback) {
+        DatabaseReference childRef = databaseRef.child(childPath);
+        childRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Pass the retrieved data to the callback method
+                callback.onDataReceived(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onDataReceived(null);
+            }
+        });
+    }
+
     public void addValue(String childPath, Object value) {
         DatabaseReference childRef = databaseRef.child(childPath);
         childRef.setValue(value);

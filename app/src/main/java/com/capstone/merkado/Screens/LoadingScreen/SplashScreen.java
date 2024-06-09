@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.EconomyBasic;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,6 +25,7 @@ public class SplashScreen extends AppCompatActivity {
     private int i = 0;
     private boolean isProcess1Completed = false;
     private boolean isProcess2Completed = false;
+    private boolean isProcess3Completed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class SplashScreen extends AppCompatActivity {
                     }
 
                     // Call process2() in a background thread
-                    if (i == 25 && !isProcess2Completed) {
+                    if (i == 50 && !isProcess2Completed) {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -69,11 +72,21 @@ public class SplashScreen extends AppCompatActivity {
                         }).start();
                     }
 
+                    // Call process3() in a background thread
+                    if (i == 75 && !isProcess3Completed) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                process3();
+                                isProcess3Completed = true;
+                            }
+                        }).start();
+                    }
                 } else {
                     timer.cancel();
 
                     // Ensure process1() has completed before starting the next activity
-                    if (isProcess1Completed && merkado.getStaticContents().getAbout() != null) {
+                    if (isProcess1Completed && merkado.getStaticContents().getAbout() != null && isProcess3Completed) {
                         // go to next activity: Main Menu
                         startActivity(new Intent(SplashScreen.this, MainMenu.class));
                         finish();
@@ -105,5 +118,14 @@ public class SplashScreen extends AppCompatActivity {
         // get the data from Firebase.
         DataFunctions.getAbout(getApplicationContext(), string -> merkado.getStaticContents().setAbout(string));
         DataFunctions.getTermsAndConditions(getApplicationContext(), string -> merkado.getStaticContents().setTermsAndConditions(string));
+    }
+
+    /**
+     * 3rd process of the loading screen. Taking the basic server information based on the account.
+     * If there is no account, then this will be skipped.
+     */
+    private void process3() {
+        if (merkado.getAccount() == null) return;
+        DataFunctions.getEconomyBasic(merkado.getAccount(), economyBasicList -> merkado.setEconomyBasicList(economyBasicList));
     }
 }

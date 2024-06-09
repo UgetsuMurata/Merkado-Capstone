@@ -75,7 +75,16 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/item_mai_lobby"
                 android:layout_marginTop="20dp"
-                android:requiresFadingEdge="vertical"/>
+                android:requiresFadingEdge="vertical"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/empty_economy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="The economy's empty here."
+                android:gravity="center"
+                android:fontFamily="@font/text"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

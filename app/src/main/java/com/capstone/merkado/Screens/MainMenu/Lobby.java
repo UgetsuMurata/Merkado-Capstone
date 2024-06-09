@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.capstone.merkado.Adapters.EconomiesAdapter;
@@ -29,6 +30,7 @@ public class Lobby extends AppCompatActivity {
     Merkado merkado;
     RecyclerView serverList;
     CardView addEconomy;
+    TextView noEconomy;
 
     EconomiesAdapter economiesAdapter;
     List<EconomyBasic> economyBasicList;
@@ -54,22 +56,25 @@ public class Lobby extends AppCompatActivity {
 
         serverList = findViewById(R.id.server_list);
         addEconomy = findViewById(R.id.add_economy);
+        noEconomy = findViewById(R.id.empty_economy);
 
         addEconomy.setOnClickListener(v -> doAddEconomy.launch(new Intent(getApplicationContext(), AddEconomy.class)));
 
         economyBasicList = merkado.getEconomyBasicList();
 
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        economiesAdapter = new EconomiesAdapter(this, economyBasicList);
-        serverList.setLayoutManager(llm);
-        serverList.setAdapter(economiesAdapter);
+        if (economyBasicList == null || economyBasicList.size() == 0) {
+            noEconomy.setVisibility(View.VISIBLE);
+            serverList.setVisibility(View.GONE);
+        } else {
+            serverList.setVisibility(View.VISIBLE);
+            noEconomy.setVisibility(View.GONE);
 
-        economiesAdapter.setOnClickListener(new EconomiesAdapter.OnClickListener() {
-            @Override
-            public void onClick(String title, Integer id) {
-                Toast.makeText(getApplicationContext(), String.format(Locale.getDefault(), "Entering %s . id:%d", title, id), Toast.LENGTH_SHORT).show();
-            }
-        });
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            economiesAdapter = new EconomiesAdapter(this, economyBasicList);
+            serverList.setLayoutManager(llm);
+            serverList.setAdapter(economiesAdapter);
+            economiesAdapter.setOnClickListener((title, id) -> Toast.makeText(getApplicationContext(), String.format(Locale.getDefault(), "Entering %s . id:%d", title, id), Toast.LENGTH_SHORT).show());
+        }
     }
 }

@@ -5,12 +5,18 @@ import android.content.Context;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.EconomyBasic;
 import com.capstone.merkado.Objects.VerificationCode;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.database.DataSnapshot;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -29,9 +35,18 @@ public class DataFunctions {
     public interface StringReturn {
         /**
          * Callback return for string datatype.
+         *
          * @param string return value.
          */
         void stringReturn(String string);
+    }
+
+    public interface EconomyBasicListReturn {
+        /**
+         * Callback return for EconomyBasic List datatype.
+         * @param economyBasicList return value.
+         */
+        void listReturn(List<EconomyBasic> economyBasicList);
     }
 
     public interface AccountReturn {
@@ -95,9 +110,10 @@ public class DataFunctions {
 
     /**
      * Verifies if password is correct or not.
-     * @param context application context.
-     * @param email raw email.
-     * @param password password to compare.
+     *
+     * @param context       application context.
+     * @param email         raw email.
+     * @param password      password to compare.
      * @param booleanReturn returns <b>True</b> or <b>False</b> values if the password is correct or not.
      */
     public static void comparePasswords(Context context, String email, String password, BooleanReturn booleanReturn) {
@@ -265,7 +281,8 @@ public class DataFunctions {
 
     /**
      * Resets password of the account in Firebase.
-     * @param email raw email.
+     *
+     * @param email    raw email.
      * @param password raw password.
      */
     public static void resetPassword(String email, String password) {
@@ -276,9 +293,10 @@ public class DataFunctions {
 
     /**
      * Change username in Firebase and Shared Preferences.
-     * @param context application context.
+     *
+     * @param context  application context.
      * @param username raw username.
-     * @param email raw email.
+     * @param email    raw email.
      */
     public static void changeUsername(Context context, String username, String email) {
         FirebaseData firebaseData = new FirebaseData();
@@ -311,6 +329,74 @@ public class DataFunctions {
             } else {
                 stringReturn.stringReturn("");
             }
+        });
+    }
+
+    /**
+     * Retrieves the EconomyBasic List.
+     * @param account currently signed in account.
+     * @param economyBasicListReturn callback.
+     */
+    public static void getEconomyBasic(Account account, EconomyBasicListReturn economyBasicListReturn) {
+        FirebaseData firebaseData = new FirebaseData();
+
+        // CHECK THE ACCOUNT FIRST FOR PLAYER INDEX DATA.
+        firebaseData.retrieveData("accounts/" + FirebaseCharacters.encode(account.getEmail()) + "/player", dataSnapshot -> {
+            // if the snapshot is null, just return null.
+            if (dataSnapshot == null) {
+                economyBasicListReturn.listReturn(null);
+                return;
+            }
+
+            // initialize EconomyBasic list (for the return value) and Task<Void> list (for checking if the process is done first).
+            List<EconomyBasic> economyBasicList = new ArrayList<>();
+            List<Task<Void>> tasks = new ArrayList<>();
+
+            // iterate all the player indices.
+            for (DataSnapshot playerIndices : dataSnapshot.getChildren()) {
+                // take note of the current index in iteration.
+                Integer playerIndex = playerIndices.getValue(Integer.class);
+
+                // add a TaskCompletionSource to tasks.
+                TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+                tasks.add(taskCompletionSource.getTask());
+
+                // SEARCH FOR SERVER INDEX FROM THE PLAYER DATA USING THE PLAYER INDEX.
+                firebaseData.retrieveData(String.format(Locale.getDefault(), "player/%d/server", playerIndex), dataSnapshot1 -> {
+                    // if dataSnapshot is null, mark the task as completed.
+                    if (dataSnapshot1 == null) {
+                        taskCompletionSource.setResult(null);
+                        return;
+                    }
+
+                    // get the server index
+                    Integer serverIndex = dataSnapshot1.getValue(Integer.class);
+
+                    // SEARCH FOR THE SERVER USING THE SERVER INDEX.
+                    firebaseData.retrieveData(String.format(Locale.getDefault(), "server/%d", serverIndex), dataSnapshot2 -> {
+                        // if dataSnapshot is null, mark the task as completed.
+                        if (dataSnapshot2 == null) {
+                            taskCompletionSource.setResult(null);
+                            return;
+                        }
+
+                        // create the EconomyBasic instance from this server.
+                        Object nameObj = dataSnapshot2.child("name").getValue();
+                        String name = nameObj != null ? nameObj.toString() : String.format(Locale.getDefault(), "Server %d", serverIndex);
+                        long onlinePlayersCount = dataSnapshot2.child("onlinePlayers").getChildrenCount();
+                        EconomyBasic economyBasic = new EconomyBasic(name, Math.toIntExact(onlinePlayersCount), null);
+                        economyBasicList.add(economyBasic);
+
+                        // mark the task as completed.
+                        taskCompletionSource.setResult(null);
+                    });
+                });
+            }
+
+            // Wait for all tasks to complete
+            Tasks.whenAll(tasks).addOnCompleteListener(task -> {
+                economyBasicListReturn.listReturn(economyBasicList);
+            });
         });
     }
 }

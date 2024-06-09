@@ -17,6 +17,6 @@
         android:padding="10dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="70dp"
-        android:progressDrawable="@drawable/progress_bar_states"/>
+        android:progressDrawable="@drawable/icon_progress_bar_states"/>
 
 </RelativeLayout>

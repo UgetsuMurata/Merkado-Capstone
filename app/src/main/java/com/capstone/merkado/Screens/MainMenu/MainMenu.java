@@ -1,5 +1,12 @@
 package com.capstone.merkado.Screens.MainMenu;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -7,14 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.Objects.Account;
@@ -114,5 +113,7 @@ public class MainMenu extends AppCompatActivity {
 
         // navigate to settings
         settings.setOnClickListener(v -> doSettings.launch(new Intent(getApplicationContext(), SettingsMenu.class)));
+
+        play.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Lobby.class)));
     }
 }

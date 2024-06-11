@@ -99,8 +99,10 @@ public class MainMenu extends AppCompatActivity {
         // get current account
         currentUser = merkado.getAccount();
 
-        // welcome the user
-        Toast.makeText(this, String.format("Welcome, %s", currentUser.getUsername()), Toast.LENGTH_SHORT).show();
+        // welcome the user if signed in
+        if (currentUser != null) {
+            Toast.makeText(this, String.format("Welcome, %s", currentUser.getUsername()), Toast.LENGTH_SHORT).show();
+        }
 
         // change icon depending on account status (signed in or not), and set their click listeners.
         if (currentUser != null) {

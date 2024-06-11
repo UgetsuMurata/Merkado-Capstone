@@ -1,7 +1,11 @@
 package com.capstone.merkado.Screens.MainMenu;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,21 +13,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.capstone.merkado.Adapters.EconomiesAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.Objects.EconomyBasic;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Economy.AddEconomy;
+import com.capstone.merkado.Screens.LoadingScreen.ServerLoadingScreen;
 
 import java.util.List;
-import java.util.Locale;
 
 public class Lobby extends AppCompatActivity {
 
@@ -65,6 +62,14 @@ public class Lobby extends AppCompatActivity {
         if (economyBasicList == null || economyBasicList.size() == 0) {
             noEconomy.setVisibility(View.VISIBLE);
             serverList.setVisibility(View.GONE);
+
+            if (merkado.getAccount() == null) {
+                noEconomy.setText("Sign in to join economy");
+                addEconomy.setVisibility(View.GONE);
+            } else {
+                noEconomy.setText("The economy's empty here");
+                addEconomy.setVisibility(View.VISIBLE);
+            }
         } else {
             serverList.setVisibility(View.VISIBLE);
             noEconomy.setVisibility(View.GONE);
@@ -74,7 +79,13 @@ public class Lobby extends AppCompatActivity {
             economiesAdapter = new EconomiesAdapter(this, economyBasicList);
             serverList.setLayoutManager(llm);
             serverList.setAdapter(economiesAdapter);
-            economiesAdapter.setOnClickListener((title, id) -> Toast.makeText(getApplicationContext(), String.format(Locale.getDefault(), "Entering %s . id:%d", title, id), Toast.LENGTH_SHORT).show());
+
+            economiesAdapter.setOnClickListener((title, id) -> {
+                Intent intent = new Intent(getApplicationContext(), ServerLoadingScreen.class);
+                intent.putExtra("TITLE", title);
+                intent.putExtra("ID", id);
+                startActivity(intent);
+            });
         }
     }
 }

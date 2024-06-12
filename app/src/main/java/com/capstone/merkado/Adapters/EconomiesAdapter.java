@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.capstone.merkado.Objects.EconomyBasic;
+import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
 import com.capstone.merkado.R;
 
 import java.util.List;
@@ -41,6 +41,7 @@ public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.Econ
         String serverNameString = economyBasicList.get(position).getTitle();
         Integer playersOnlineInteger = economyBasicList.get(position).getPlayersOnline();
         Drawable serverImageDrawable = economyBasicList.get(position).getImage();
+        Integer playerId = economyBasicList.get(position).getPlayerId();
 
         // set the data
         holder.serverName.setText(serverNameString);
@@ -50,7 +51,7 @@ public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.Econ
         }
 
         // set on click listener
-        holder.itemView.setOnClickListener(v -> onClick.onClick(serverNameString, position));
+        holder.itemView.setOnClickListener(v -> onClick.onClick(serverNameString, position, playerId));
     }
 
     @Override
@@ -77,6 +78,6 @@ public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.Econ
     }
 
     public interface OnClickListener {
-        void onClick(String title, Integer id);
+        void onClick(String title, Integer id, Integer playerId);
     }
 }

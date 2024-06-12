@@ -5,7 +5,11 @@ import android.content.Context;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
-import com.capstone.merkado.Objects.EconomyBasic;
+import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
+import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
+import com.capstone.merkado.Objects.StoryDataObjects.Story;
+import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
 import com.capstone.merkado.Objects.VerificationCode;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -19,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class DataFunctions {
 
@@ -384,7 +390,8 @@ public class DataFunctions {
                         Object nameObj = dataSnapshot2.child("name").getValue();
                         String name = nameObj != null ? nameObj.toString() : String.format(Locale.getDefault(), "Server %d", serverIndex);
                         long onlinePlayersCount = dataSnapshot2.child("onlinePlayers").getChildrenCount();
-                        EconomyBasic economyBasic = new EconomyBasic(name, Math.toIntExact(onlinePlayersCount), null);
+
+                        EconomyBasic economyBasic = new EconomyBasic(name, Math.toIntExact(onlinePlayersCount), null, playerIndex);
                         economyBasicList.add(economyBasic);
 
                         // mark the task as completed.
@@ -398,5 +405,99 @@ public class DataFunctions {
                 economyBasicListReturn.listReturn(economyBasicList);
             });
         });
+    }
+
+    /**
+     * Gets the player's data using the playerId.
+     * @param playerId player's id.
+     * @return Player instance.
+     */
+    public static PlayerFBExtractor getPlayerDataFromId(Integer playerId) {
+        final CompletableFuture<PlayerFBExtractor> future = new CompletableFuture<>();
+
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "player/%d", playerId), new FirebaseData.FirebaseDataCallback() {
+            @Override
+            public void onDataReceived(DataSnapshot dataSnapshot) {
+                PlayerFBExtractor playerFBExtractor = dataSnapshot.getValue(PlayerFBExtractor.class);
+                future.complete(playerFBExtractor);
+            }
+        });
+
+        try {
+            return future.get();  // This will block until the data is received
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Gets line groups data using its index or id. This is used for story-mode.
+     * @param lineGroupIndex index or id of line group.
+     * @return LineGroup instance.
+     */
+    public static LineGroup getLineGroupFromId(Integer lineGroupIndex){
+        final CompletableFuture<LineGroup> future = new CompletableFuture<>();
+
+        FirebaseData firebaseData = new FirebaseData();
+
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "lineGroup/%d", lineGroupIndex), dataSnapshot -> {
+            LineGroup lineGroup = dataSnapshot.getValue(LineGroup.class);
+            future.complete(lineGroup);
+        });
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Gets story data using its index or id. This is used for story-mode.
+     * @param storyId index or id of the story.
+     * @return Story instance.
+     */
+    public static Story getStoryFromId(Integer storyId) {
+        final CompletableFuture<Story> future = new CompletableFuture<>();
+
+        FirebaseData firebaseData = new FirebaseData();
+
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "story/%d", storyId), dataSnapshot -> {
+            Story story = dataSnapshot.getValue(Story.class);
+            future.complete(story);
+        });
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Gets task data using its index or id. This is used for story-mode.
+     * @param taskId index or id of the task.
+     * @return Task instance.
+     */
+    public static TaskData getTaskFromId(Integer taskId) {
+        final CompletableFuture<TaskData> future = new CompletableFuture<>();
+
+        FirebaseData firebaseData = new FirebaseData();
+
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "tasks/%d", taskId), dataSnapshot -> {
+            TaskData task = dataSnapshot.getValue(TaskData.class);
+            future.complete(task);
+        });
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

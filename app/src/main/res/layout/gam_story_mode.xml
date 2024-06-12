@@ -7,6 +7,45 @@
     android:background="@drawable/bg_mai_main_menu"
     tools:context=".Screens.Game.StoryMode">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingVertical="20dp">
+
+        <ImageView
+            android:id="@+id/character_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Character 1"
+            android:src="@drawable/char_mc_happy" />
+
+        <ImageView
+            android:id="@+id/character_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Charcter 2"
+            android:src="@drawable/char_nanay_happy"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/character_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Character 3"
+            android:src="@drawable/char_mc_happy"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/character_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Character 4"
+            android:src="@drawable/char_nanay_happy"
+            android:visibility="gone" />
+    </LinearLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/autoplay"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:backgroundTint="@color/white"
@@ -40,6 +80,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/skip"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:backgroundTint="@color/white"
@@ -56,6 +97,7 @@
 
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/exit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:backgroundTint="@color/white"
@@ -83,16 +125,18 @@
             app:strokeWidth="4dp">
 
             <TextView
+                android:id="@+id/character_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/text"
                 android:gravity="center"
-                android:textSize="16sp"
-                android:text="Character Name" />
+                android:text="Character Name"
+                android:textSize="16sp" />
         </com.google.android.material.card.MaterialCardView>
 
         <!--DIALOGUE BOX-->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/dialogue_box"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
@@ -104,6 +148,7 @@
             app:strokeWidth="4dp">
 
             <TextView
+                android:id="@+id/dialogue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="20dp"

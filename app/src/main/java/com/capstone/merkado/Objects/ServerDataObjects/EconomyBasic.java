@@ -1,4 +1,4 @@
-package com.capstone.merkado.Objects;
+package com.capstone.merkado.Objects.ServerDataObjects;
 
 import android.graphics.drawable.Drawable;
 
@@ -6,11 +6,13 @@ public class EconomyBasic {
     String title;
     Integer playersOnline;
     Drawable image;
+    Integer playerId;
 
-    public EconomyBasic(String title, Integer playersOnline, Drawable image) {
+    public EconomyBasic(String title, Integer playersOnline, Drawable image, Integer playerId) {
         this.title = title;
         this.playersOnline = playersOnline;
         this.image = image;
+        this.playerId = playerId;
     }
 
     public String getTitle() {
@@ -35,5 +37,13 @@ public class EconomyBasic {
 
     public void setImage(Drawable image) {
         this.image = image;
+    }
+
+    public Integer getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(Integer playerId) {
+        this.playerId = playerId;
     }
 }

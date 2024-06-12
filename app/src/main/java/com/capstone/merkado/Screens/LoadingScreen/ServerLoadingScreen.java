@@ -1,23 +1,36 @@
 package com.capstone.merkado.Screens.LoadingScreen;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.Objects.PlayerDataObjects.Player;
+import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
+import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
+import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import com.capstone.merkado.R;
-import com.capstone.merkado.Screens.MainMenu.MainMenu;
+import com.capstone.merkado.Screens.Game.StoryMode;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerLoadingScreen extends AppCompatActivity {
 
     private Merkado merkado;
-    Handler handler;
+    Integer maxProcesses = 3;
+    String serverTitle;
+    Integer serverId, playerId;
+    PlayerFBExtractor playerFBExtractor;
+    List<PlayerStory> playerStoryList;
+    List<PlayerTask> playerTaskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,30 +40,98 @@ public class ServerLoadingScreen extends AppCompatActivity {
         // initialize this activity's screen.
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
-        handler = new Handler();
 
-        // Set the activity to full-screen mode
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        // get intent data
+        serverTitle = getIntent().getStringExtra("TITLE");
+        serverId = getIntent().getIntExtra("ID", -1);
+        playerId = getIntent().getIntExtra("PLAYER_ID", -1);
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
-                startActivity(intent);
-                finish();
+        // check if playerId and serverId exists. If not, then finish this loading screen.
+        if (serverId == -1 || playerId == -1) {
+            Toast.makeText(getApplicationContext(), "Problem retrieving server data.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        new Thread(() -> {
+            long startingTime = System.currentTimeMillis();
+            AtomicInteger process_number = new AtomicInteger(0);
+            for (int i = 0; i < maxProcesses; i++) {
+                process_number.getAndIncrement();
+                switch (i) {
+                    case 1:
+                        process1();
+                        if (playerFBExtractor == null) {
+                            Toast.makeText(getApplicationContext(), "Cannot find player data. Try again later.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
+                        break;
+                    case 2:
+                        process2();
+                        break;
+                    case 3:
+                        process3();
+                        break;
+                    default:
+                        break;
+                }
             }
-        }, 10000);
+            runOnUiThread(() -> new Handler().postDelayed(() -> {
+                if (process_number.get() == maxProcesses && playerFBExtractor != null) {
+                    // if this is not triggered, then the processes will naturally go to StoryMode.class
+                    startActivity(new Intent(getApplicationContext(), StoryMode.class));
+                    finish();
+                }
+            }, 1000 - System.currentTimeMillis()-startingTime));
+        }).start();
 
         // Load GIF into the View
         ImageView logoView = findViewById(R.id.gif_screen); // Change View to ImageView
         Glide.with(this).load(R.drawable.icon_loading_server_screen).into(logoView);
-
     }
+
+    /**
+     * Process 1 processes all player details.
+     */
+    private void process1() {
+        playerFBExtractor = DataFunctions.getPlayerDataFromId(playerId);
+        if (playerFBExtractor != null) {
+            merkado.setPlayer(new Player(playerFBExtractor));
+        }
+    }
+
+    /**
+     * Process 2 processes all Story queue
+     */
+    private void process2() {
+        if (playerFBExtractor != null) {
+            playerStoryList = new ArrayList<>();
+            for (PlayerFBExtractor.StoryQueue storyQueue : playerFBExtractor.getStoryQueue()) {
+                PlayerStory playerStory = new PlayerStory();
+                playerStory.setStory(DataFunctions.getStoryFromId(storyQueue.getStory()));
+                playerStory.setNextStory(DataFunctions.getStoryFromId(storyQueue.getNextStory()));
+                playerStory.setCurrentLineGroup(DataFunctions.getLineGroupFromId(storyQueue.getCurrentLineGroup()));
+                playerStory.setNextLineGroup(DataFunctions.getLineGroupFromId(storyQueue.getNextLineGroup()));
+                playerStoryList.add(playerStory);
+            }
+            merkado.getPlayer().setPlayerStoryList(playerStoryList);
+        }
+    }
+
+    /**
+     * Process 3 processes Task queue
+     */
+    private void process3() {
+        if (playerFBExtractor != null) {
+            playerTaskList = new ArrayList<>();
+            for (PlayerFBExtractor.TaskQueue taskQueue : playerFBExtractor.getTaskQueue()) {
+                PlayerTask playerTask = new PlayerTask();
+                playerTask.setTask(DataFunctions.getTaskFromId(taskQueue.getTask()));
+                playerTask.setTaskStatusCode(taskQueue.getTaskStatusCode());
+                playerTaskList.add(playerTask);
+            }
+            merkado.getPlayer().setPlayerTaskList(playerTaskList);
+        }
+    }
+
 }

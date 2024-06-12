@@ -9,11 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.Account;
-import com.capstone.merkado.Objects.EconomyBasic;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 

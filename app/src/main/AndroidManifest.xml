@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Merkado"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.Economy.CreateEconomy"
+            android:exported="false" />
+        <activity
             android:name=".Screens.Game.StoryMode"
             android:exported="false" />
         <activity

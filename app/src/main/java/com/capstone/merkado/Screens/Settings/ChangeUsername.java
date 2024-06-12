@@ -1,6 +1,8 @@
 package com.capstone.merkado.Screens.Settings;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ public class ChangeUsername extends AppCompatActivity {
         // initialize Merkado and set screen.
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
+        ImageView backButton = findViewById(R.id.back_button);
 
         // get account details
         account = merkado.getAccount();
@@ -45,6 +48,13 @@ public class ChangeUsername extends AppCompatActivity {
         usernameWarning = findViewById(R.id.username_warning);
         cancel = findViewById(R.id.cancel);
         save = findViewById(R.id.save);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         username.setText(account.getUsername());
         username.setOnFocusChangeListener((v, hasFocus) -> {

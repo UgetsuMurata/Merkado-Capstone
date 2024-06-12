@@ -8,6 +8,7 @@
     tools:context=".Screens.MainMenu.Lobby">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="40dp"
@@ -87,4 +88,17 @@
                 android:fontFamily="@font/text"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- Close button -->
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/icon_back_button"
+        app:layout_constraintStart_toStartOf="@+id/materialview"
+        app:layout_constraintTop_toTopOf="@id/materialview" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,7 +31,7 @@ public class AddEconomy extends AppCompatActivity {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Close the activity
+                onBackPressed(); // Close the activity
             }
         });
 

@@ -1,111 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_mai_main_menu"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingHorizontal="200dp"
     tools:context=".Screens.Settings.SettingsMenu">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/change_username"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/elements"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/game_title"
-        app:strokeColor="@color/white"
-        app:strokeWidth="3dp">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="200dp">
 
-        <TextView
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/change_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/main"
-            android:gravity="center"
-            android:paddingHorizontal="60dp"
-            android:paddingVertical="20dp"
-            android:text="Change Username"
-            android:textSize="16sp" />
-    </com.google.android.material.card.MaterialCardView>
+            android:backgroundTint="@color/elements"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/game_title"
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/change_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/elements"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/game_title"
-        app:strokeColor="@color/white"
-        app:strokeWidth="3dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/main"
+                android:gravity="center"
+                android:paddingHorizontal="60dp"
+                android:paddingVertical="20dp"
+                android:text="Change Username"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/change_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/main"
-            android:gravity="center"
-            android:paddingHorizontal="60dp"
-            android:paddingVertical="20dp"
-            android:text="Change Password"
-            android:textSize="16sp" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/elements"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/game_title"
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/elements"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/game_title"
-        app:strokeColor="@color/white"
-        app:strokeWidth="3dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/main"
+                android:gravity="center"
+                android:paddingHorizontal="60dp"
+                android:paddingVertical="20dp"
+                android:text="Change Password"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/main"
-            android:gravity="center"
-            android:paddingHorizontal="60dp"
-            android:paddingVertical="20dp"
-            android:text="About"
-            android:textSize="16sp" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/elements"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/game_title"
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/terms_and_conditions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/elements"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/game_title"
-        app:strokeColor="@color/white"
-        app:strokeWidth="3dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/main"
+                android:gravity="center"
+                android:paddingHorizontal="60dp"
+                android:paddingVertical="20dp"
+                android:text="About"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/terms_and_conditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/main"
-            android:gravity="center"
-            android:paddingHorizontal="60dp"
-            android:paddingVertical="20dp"
-            android:text="Terms and Conditions"
-            android:textSize="16sp" />
-    </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/elements"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/game_title"
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/main"
+                android:gravity="center"
+                android:paddingHorizontal="60dp"
+                android:paddingVertical="20dp"
+                android:text="Terms and Conditions"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- Close button -->
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/icon_back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

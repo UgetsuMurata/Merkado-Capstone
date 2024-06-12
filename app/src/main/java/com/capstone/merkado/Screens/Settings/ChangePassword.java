@@ -1,6 +1,8 @@
 package com.capstone.merkado.Screens.Settings;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,11 +41,19 @@ public class ChangePassword extends AppCompatActivity {
         confirmPasswordWarning = findViewById(R.id.confirm_password_warning);
         cancel = findViewById(R.id.cancel);
         save = findViewById(R.id.save);
+        ImageView backButton = findViewById(R.id.back_button);
 
         // hide warnings
         WarningTextHelper.hide(oldPasswordWarning);
         WarningTextHelper.hide(newPasswordWarning);
         WarningTextHelper.hide(confirmPasswordWarning);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         oldPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {

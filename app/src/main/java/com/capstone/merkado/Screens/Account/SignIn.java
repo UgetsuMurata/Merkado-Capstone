@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,10 +76,18 @@ public class SignIn extends AppCompatActivity {
         CardView signIn = findViewById(R.id.sign_in);
         TextView forgotPassword = findViewById(R.id.forgot_password);
         TextView signUp = findViewById(R.id.sign_up);
+        ImageView backButton = findViewById(R.id.back_button);
 
         // hide warnings
         emailWarning.setVisibility(View.GONE);
         passwordWarning.setVisibility(View.GONE);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         // set up Sign In listener
         signIn.setOnClickListener(v -> {

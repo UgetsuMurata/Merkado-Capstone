@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -54,10 +55,17 @@ public class Lobby extends AppCompatActivity {
         serverList = findViewById(R.id.server_list);
         addEconomy = findViewById(R.id.add_economy);
         noEconomy = findViewById(R.id.empty_economy);
-
+        ImageView backButton = findViewById(R.id.back_button);
         addEconomy.setOnClickListener(v -> doAddEconomy.launch(new Intent(getApplicationContext(), AddEconomy.class)));
 
         economyBasicList = merkado.getEconomyBasicList();
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         if (economyBasicList == null || economyBasicList.size() == 0) {
             noEconomy.setVisibility(View.VISIBLE);

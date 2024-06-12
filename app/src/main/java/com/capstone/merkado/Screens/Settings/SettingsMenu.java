@@ -3,6 +3,8 @@ package com.capstone.merkado.Screens.Settings;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -47,6 +49,7 @@ public class SettingsMenu extends AppCompatActivity {
         // initialize screen using application instance.
         Merkado merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
+        ImageView backButton = findViewById(R.id.back_button);
 
         // find the cardviews
         CardView changeUsername = findViewById(R.id.change_username);
@@ -60,6 +63,12 @@ public class SettingsMenu extends AppCompatActivity {
         about.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), About.class)));
         termsAndConditions.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), TermsAndConditions.class)));
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {

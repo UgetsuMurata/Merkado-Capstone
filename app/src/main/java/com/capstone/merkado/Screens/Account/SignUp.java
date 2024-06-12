@@ -57,6 +57,7 @@ public class SignUp extends AppCompatActivity {
         // initialize this activity's screen.
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
+        ImageView backButton = findViewById(R.id.back_button);
 
         // find views for page 1
         page1 = findViewById(R.id.sign_up_1);
@@ -87,6 +88,13 @@ public class SignUp extends AppCompatActivity {
         WarningTextHelper.hide(verificationCodeWarning);
         WarningTextHelper.hide(passwordWarning);
         WarningTextHelper.hide(confirmPasswordWarning);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         /*
          * PAGE 1 FUNCTIONALITIES: EMAIL VERIFICATION

@@ -20,7 +20,8 @@
             android:exported="false" />
         <activity
             android:name=".Screens.Game.StoryMode"
-            android:exported="false" />
+            android:exported="true"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".Screens.Economy.AddEconomy"
             android:exported="false"

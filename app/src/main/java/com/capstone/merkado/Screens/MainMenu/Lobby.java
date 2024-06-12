@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Adapters.EconomiesAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.Objects.EconomyBasic;
+import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Economy.AddEconomy;
 import com.capstone.merkado.Screens.LoadingScreen.ServerLoadingScreen;
@@ -80,10 +80,11 @@ public class Lobby extends AppCompatActivity {
             serverList.setLayoutManager(llm);
             serverList.setAdapter(economiesAdapter);
 
-            economiesAdapter.setOnClickListener((title, id) -> {
+            economiesAdapter.setOnClickListener((title, id, playerId) -> {
                 Intent intent = new Intent(getApplicationContext(), ServerLoadingScreen.class);
                 intent.putExtra("TITLE", title);
                 intent.putExtra("ID", id);
+                intent.putExtra("PLAYER_ID", playerId);
                 startActivity(intent);
             });
         }

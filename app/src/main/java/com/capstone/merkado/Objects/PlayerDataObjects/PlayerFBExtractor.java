@@ -10,7 +10,7 @@ public class PlayerFBExtractor {
     private Integer server;
     private Float money;
     private Long exp;
-    private Inventory inventory;
+    private List<Inventory> inventory;
     private List<TaskQueue> taskQueue;
     private List<StoryQueue> storyQueue;
     private History history;
@@ -52,11 +52,11 @@ public class PlayerFBExtractor {
         this.exp = exp;
     }
 
-    public Inventory getInventory() {
+    public List<Inventory> getInventory() {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
+    public void setInventory(List<Inventory> inventory) {
         this.inventory = inventory;
     }
 

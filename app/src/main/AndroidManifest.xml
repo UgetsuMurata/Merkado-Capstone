@@ -16,12 +16,17 @@
         android:theme="@style/Theme.Merkado"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.Game.MainMap"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".Screens.Economy.CreateEconomy"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Screens.Game.StoryMode"
             android:exported="true"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Screens.Economy.AddEconomy"
             android:exported="false"

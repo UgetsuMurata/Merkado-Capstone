@@ -159,6 +159,11 @@ public class SignIn extends AppCompatActivity {
      * Go to main menu.
      */
     private void goToMainMenu() {
+        if (merkado.getAccount() == null) {
+            Toast.makeText(getApplicationContext(), "Problem encountered. Try signing in later.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        DataFunctions.getEconomyBasic(merkado.getAccount(), economyBasicList -> merkado.setEconomyBasicList(economyBasicList));
         setResult(Activity.RESULT_OK);
         finish();
     }

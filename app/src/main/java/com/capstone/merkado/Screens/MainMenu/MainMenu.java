@@ -66,7 +66,6 @@ public class MainMenu extends AppCompatActivity {
                 }
             });
 
-
     private final ActivityResultLauncher<Intent> doSettings = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {

@@ -446,7 +446,7 @@ public class DataFunctions {
 
         FirebaseData firebaseData = new FirebaseData();
 
-        firebaseData.retrieveData(String.format(Locale.getDefault(), "lineGroup/%d", lineGroupIndex), dataSnapshot -> {
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "story/lineGroup/%d", lineGroupIndex), dataSnapshot -> {
             LineGroup lineGroup = dataSnapshot.getValue(LineGroup.class);
             future.complete(lineGroup);
         });
@@ -469,7 +469,7 @@ public class DataFunctions {
 
         FirebaseData firebaseData = new FirebaseData();
 
-        firebaseData.retrieveData(String.format(Locale.getDefault(), "story/%d", storyId), dataSnapshot -> {
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "story/story/%d", storyId), dataSnapshot -> {
             Story story = dataSnapshot.getValue(Story.class);
             future.complete(story);
         });
@@ -593,4 +593,6 @@ public class DataFunctions {
         void onServerExists();
         void onServerDoesNotExist();
     }
+
+
 }

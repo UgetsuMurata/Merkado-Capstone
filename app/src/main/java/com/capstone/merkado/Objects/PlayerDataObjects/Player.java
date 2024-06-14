@@ -10,7 +10,7 @@ public class Player {
     private Integer server;
     private Float money;
     private Long exp;
-    private Inventory inventory;
+    private List<Inventory> inventory;
     private List<PlayerTask> playerTaskList;
     private List<PlayerStory> playerStoryList;
     private History history;
@@ -60,11 +60,11 @@ public class Player {
         this.exp = exp;
     }
 
-    public Inventory getInventory() {
+    public List<Inventory> getInventory() {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
+    public void setInventory(List<Inventory> inventory) {
         this.inventory = inventory;
     }
 

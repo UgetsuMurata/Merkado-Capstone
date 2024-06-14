@@ -1,6 +1,8 @@
 package com.capstone.merkado.DataManager;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
@@ -16,6 +18,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -499,5 +503,94 @@ public class DataFunctions {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    public static void checkServerExistence(Context context, String serverCode, ServerExistenceCallback callback) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(context, String.format("server/%s", serverCode), new FirebaseData.FirebaseDataCallback() {
+            @Override
+            public void onDataReceived(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    callback.onServerExists();
+                } else {
+                    callback.onServerDoesNotExist();
+                }
+            }
+        });
+    }
+
+    public static void getCurrentAccount(Context context, AccountReturn accountReturn) {
+        // Get the signed-in account using the getSignedIn method
+        Account signedInAccount = getSignedIn(context);
+
+        // Check if the signed-in account is not null
+        if (signedInAccount != null) {
+            String currentUserEmail = signedInAccount.getEmail();
+            String encodedEmail = FirebaseCharacters.encode(currentUserEmail);
+
+            FirebaseData firebaseData = new FirebaseData();
+
+            // Retrieve the account details from Firebase using the encoded email
+            firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+                if (dataSnapshot.exists()) {
+                    // Extract the username from the retrieved data
+                    String username = dataSnapshot.child("username").getValue(String.class);
+                    // Return the Account object with the current email and username
+                    accountReturn.accountReturn(new Account(currentUserEmail, username));
+                } else {
+                    // Return null if the account does not exist
+                    accountReturn.accountReturn(null);
+                }
+            });
+        } else {
+            // Return null if no user is signed in
+            accountReturn.accountReturn(null);
+        }
+    }
+
+    public static void addPlayerToServer(Context context, String serverCode, Account account) {
+        FirebaseData firebaseData = new FirebaseData();
+        String playerId = UUID.randomUUID().toString(); // Generate a unique player ID
+
+        // Create player data
+        Map<String, Object> playerData = new HashMap<>();
+        playerData.put("accountId", account.getEmail());
+        playerData.put("exp", 0); // Assuming initial exp is 0
+        playerData.put("money", 0); // Assuming initial money is 0
+        playerData.put("server", serverCode);
+        playerData.put("taskQueue", new HashMap<>()); // Assuming empty taskQueue
+        playerData.put("storyQueue", new HashMap<>()); // Assuming empty storyQueue
+        playerData.put("history", new HashMap<>()); // Assuming empty history
+        playerData.put("inventory", new HashMap<>()); // Assuming empty inventory
+
+        // Add player data to Firebase under player/{playerId}
+        firebaseData.addValues(String.format("player/%s", playerId), playerData);
+
+        // Add playerId to server/{serverCode}/players
+        firebaseData.retrieveData(context, String.format("server/%s/players", serverCode), dataSnapshot -> {
+            if (dataSnapshot.exists()) {
+                long playerCount = dataSnapshot.getChildrenCount();
+                firebaseData.addValue(String.format("server/%s/players/%d", serverCode, playerCount), playerId);
+            } else {
+                firebaseData.addValue(String.format("server/%s/players/0", serverCode), playerId);
+            }
+        });
+
+        // Add playerId to accounts/{encodedEmail}/player
+        String encodedEmail = FirebaseCharacters.encode(account.getEmail());
+        firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+            if (dataSnapshot.exists()) {
+                long playerCount = dataSnapshot.child("player").getChildrenCount();
+                firebaseData.addValue(String.format("accounts/%s/player/%d", encodedEmail, playerCount), playerId);
+            } else {
+                // Handle case where account data does not exist (should not happen ideally)
+            }
+        });
+    }
+
+    public interface ServerExistenceCallback {
+        void onServerExists();
+        void onServerDoesNotExist();
     }
 }

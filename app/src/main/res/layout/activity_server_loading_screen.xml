@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     tools:context=".Screens.LoadingScreen.ServerLoadingScreen">
 
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gif_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/screen_loading_server_screen"/>
 
 </RelativeLayout>

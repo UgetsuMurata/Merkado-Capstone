@@ -2,7 +2,9 @@ package com.capstone.merkado.Screens.LoadingScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,16 +16,14 @@ import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SplashScreen extends AppCompatActivity {
 
     private Merkado merkado;
     private ProgressBar progressBar;
     private Timer timer;
-    private int i = 0;
-    private boolean isProcess1Completed = false;
-    private boolean isProcess2Completed = false;
-    private boolean isProcess3Completed = false;
+    private final int maxProcesses = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,63 +35,35 @@ public class SplashScreen extends AppCompatActivity {
         merkado.initializeScreen(this);
 
         progressBar = findViewById(R.id.simpleProgressBar);
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (i < 100) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setProgress(i);
-                        }
-                    });
-                    i++;
+        progressBar.setMax(maxProcesses);
 
-                    // Call process1() in a background thread
-                    if (i == 25 && !isProcess1Completed) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                process1();
-                                isProcess1Completed = true;
-                            }
-                        }).start();
-                    }
-
-                    // Call process2() in a background thread
-                    if (i == 50 && !isProcess2Completed) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                process2();
-                                isProcess2Completed = true;
-                            }
-                        }).start();
-                    }
-
-                    // Call process3() in a background thread
-                    if (i == 75 && !isProcess3Completed) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                process3();
-                                isProcess3Completed = true;
-                            }
-                        }).start();
-                    }
-                } else {
-                    timer.cancel();
-
-                    // Ensure process1() has completed before starting the next activity
-                    if (isProcess1Completed && merkado.getStaticContents().getAbout() != null && isProcess3Completed) {
-                        // go to next activity: Main Menu
-                        startActivity(new Intent(SplashScreen.this, MainMenu.class));
-                        finish();
-                    }
+        new Thread(() -> {
+            long startingTime = System.currentTimeMillis();
+            AtomicInteger process_number = new AtomicInteger(0);
+            for (int i = 0; i < maxProcesses; i++) {
+                process_number.getAndIncrement();
+                switch (process_number.get()) {
+                    case 1:
+                        process1();
+                        break;
+                    case 2:
+                        process2();
+                        break;
+                    case 3:
+                        process3();
+                        break;
+                    default:
+                        break;
                 }
+                progressBar.setProgress(process_number.get());
             }
-        }, 0, 50);
+            runOnUiThread(() -> new Handler().postDelayed(() -> {
+                if (process_number.get() == maxProcesses) {
+                    startActivity(new Intent(SplashScreen.this, MainMenu.class));
+                    finish();
+                }
+            }, 1000 - System.currentTimeMillis()-startingTime));
+        }).start();
     }
 
     /**

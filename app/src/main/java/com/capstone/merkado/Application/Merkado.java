@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
-import com.capstone.merkado.DataManager.StaticData.CharacterData;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
@@ -24,7 +23,6 @@ public class Merkado extends Application {
     private Account account;
     private StaticContents staticContents;
     private List<EconomyBasic> economyBasicList;
-    private CharacterData characterData;
     private Player player;
 
     @Override
@@ -39,7 +37,6 @@ public class Merkado extends Application {
 
         // initialize variables
         staticContents = new StaticContents();
-        characterData = new CharacterData();
     }
 
     /**
@@ -111,14 +108,6 @@ public class Merkado extends Application {
      */
     public void setEconomyBasicList(List<EconomyBasic> economyBasicList) {
         this.economyBasicList = economyBasicList;
-    }
-
-    /**
-     * Getter of CharacterImgData with the data already loaded.
-     * @return CharacterImgData.
-     */
-    public CharacterData getCharacterImgData() {
-        return characterData;
     }
 
     public Player getPlayer() {

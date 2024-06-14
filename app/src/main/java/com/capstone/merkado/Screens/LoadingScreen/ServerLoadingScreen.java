@@ -14,8 +14,10 @@ import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
+import com.capstone.merkado.Objects.StoryDataObjects.Story;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import com.capstone.merkado.R;
+import com.capstone.merkado.Screens.Game.MainMap;
 import com.capstone.merkado.Screens.Game.StoryMode;
 
 import java.util.ArrayList;
@@ -25,12 +27,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ServerLoadingScreen extends AppCompatActivity {
 
     private Merkado merkado;
-    Integer maxProcesses = 3;
+    Integer maxProcesses = 5;
     String serverTitle;
     Integer serverId, playerId;
     PlayerFBExtractor playerFBExtractor;
     List<PlayerStory> playerStoryList;
     List<PlayerTask> playerTaskList;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class ServerLoadingScreen extends AppCompatActivity {
             finish();
         }
 
+        intent = new Intent(getApplicationContext(), MainMap.class);
+
         new Thread(() -> {
             long startingTime = System.currentTimeMillis();
             AtomicInteger process_number = new AtomicInteger(0);
@@ -72,6 +77,9 @@ public class ServerLoadingScreen extends AppCompatActivity {
                     case 3:
                         process3();
                         break;
+                    case 4:
+                        process4();
+                        break;
                     default:
                         break;
                 }
@@ -79,15 +87,11 @@ public class ServerLoadingScreen extends AppCompatActivity {
             runOnUiThread(() -> new Handler().postDelayed(() -> {
                 if (process_number.get() == maxProcesses && playerFBExtractor != null) {
                     // if this is not triggered, then the processes will naturally go to StoryMode.class
-                    startActivity(new Intent(getApplicationContext(), StoryMode.class));
+                    startActivity(intent);
                     finish();
                 }
             }, 1000 - System.currentTimeMillis()-startingTime));
         }).start();
-
-        // Load GIF into the View
-        ImageView logoView = findViewById(R.id.gif_screen); // Change View to ImageView
-        Glide.with(this).load(R.drawable.icon_loading_server_screen).into(logoView);
     }
 
     /**
@@ -108,7 +112,8 @@ public class ServerLoadingScreen extends AppCompatActivity {
             playerStoryList = new ArrayList<>();
             for (PlayerFBExtractor.StoryQueue storyQueue : playerFBExtractor.getStoryQueue()) {
                 PlayerStory playerStory = new PlayerStory();
-                playerStory.setStory(DataFunctions.getStoryFromId(storyQueue.getStory()));
+                Story story = DataFunctions.getStoryFromId(storyQueue.getStory());
+                playerStory.setStory(story);
                 playerStory.setNextStory(DataFunctions.getStoryFromId(storyQueue.getNextStory()));
                 playerStory.setCurrentLineGroup(DataFunctions.getLineGroupFromId(storyQueue.getCurrentLineGroup()));
                 playerStory.setNextLineGroup(DataFunctions.getLineGroupFromId(storyQueue.getNextLineGroup()));
@@ -131,6 +136,19 @@ public class ServerLoadingScreen extends AppCompatActivity {
                 playerTaskList.add(playerTask);
             }
             merkado.getPlayer().setPlayerTaskList(playerTaskList);
+        }
+    }
+
+    /**
+     * Check for prologue.
+     */
+    private void process4(){
+        for (PlayerStory playerStory : merkado.getPlayer().getPlayerStoryList()) {
+            if (playerStory.getStory().getChapter().equals("Prologue")) {
+                intent.putExtra("PROLOGUE", true);
+                intent.putExtra("CURRENT_LINE_GROUP", playerStory.getCurrentLineGroup());
+                intent.putExtra("NEXT_LINE_GROUP", playerStory.getNextLineGroup());
+            }
         }
     }
 

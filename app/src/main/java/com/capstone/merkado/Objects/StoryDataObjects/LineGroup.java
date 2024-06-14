@@ -1,10 +1,14 @@
 package com.capstone.merkado.Objects.StoryDataObjects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.List;
-/**
- * Custom object to pass the Firebase LineGroup data.
- */
-public class LineGroup {
+
+public class LineGroup implements Parcelable {
     private Integer defaultNextLine;
     private List<ImagePlacementData> initialImages;
     private String background;
@@ -47,42 +51,48 @@ public class LineGroup {
         this.dialogueLines = dialogueLines;
     }
 
-    public static class ImagePlacementData {
-        private Integer image;
-        private String placement;
-        private Boolean toShow;
-
-        // No-argument constructor required for Firebase
-        public ImagePlacementData() {
-        }
-
-        // Getters and setters
-        public Integer getImage() {
-            return image;
-        }
-
-        public void setImage(Integer image) {
-            this.image = image;
-        }
-
-        public String getPlacement() {
-            return placement;
-        }
-
-        public void setPlacement(String placement) {
-            this.placement = placement;
-        }
-
-        public Boolean getToShow() {
-            return toShow;
-        }
-
-        public void setToShow(Boolean toShow) {
-            this.toShow = toShow;
-        }
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public static class DialogueLine {
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        if (defaultNextLine == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defaultNextLine);
+        }
+        dest.writeTypedList(initialImages);
+        dest.writeString(background);
+        dest.writeTypedList(dialogueLines);
+    }
+
+    protected LineGroup(Parcel in) {
+        if (in.readByte() == 0) {
+            defaultNextLine = null;
+        } else {
+            defaultNextLine = in.readInt();
+        }
+        initialImages = in.createTypedArrayList(ImagePlacementData.CREATOR);
+        background = in.readString();
+        dialogueLines = in.createTypedArrayList(DialogueLine.CREATOR);
+    }
+
+    public static final Creator<LineGroup> CREATOR = new Creator<LineGroup>() {
+        @Override
+        public LineGroup createFromParcel(Parcel in) {
+            return new LineGroup(in);
+        }
+
+        @Override
+        public LineGroup[] newArray(int size) {
+            return new LineGroup[size];
+        }
+    };
+
+    public static class DialogueLine implements Parcelable {
         private String character;
         private String dialogue;
         private List<ImagePlacementData> imageChanges;
@@ -124,9 +134,41 @@ public class LineGroup {
         public void setDialogueChoices(List<DialogueChoice> dialogueChoices) {
             this.dialogueChoices = dialogueChoices;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(character);
+            dest.writeString(dialogue);
+            dest.writeTypedList(imageChanges);
+            dest.writeTypedList(dialogueChoices);
+        }
+
+        protected DialogueLine(Parcel in) {
+            character = in.readString();
+            dialogue = in.readString();
+            imageChanges = in.createTypedArrayList(ImagePlacementData.CREATOR);
+            dialogueChoices = in.createTypedArrayList(DialogueChoice.CREATOR);
+        }
+
+        public static final Creator<DialogueLine> CREATOR = new Creator<DialogueLine>() {
+            @Override
+            public DialogueLine createFromParcel(Parcel in) {
+                return new DialogueLine(in);
+            }
+
+            @Override
+            public DialogueLine[] newArray(int size) {
+                return new DialogueLine[size];
+            }
+        };
     }
 
-    public static class DialogueChoice {
+    public static class DialogueChoice implements Parcelable {
         private String choice;
         private Integer nextLineGroup;
 
@@ -150,5 +192,42 @@ public class LineGroup {
         public void setNextLineGroup(Integer nextLineGroup) {
             this.nextLineGroup = nextLineGroup;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(choice);
+            if (nextLineGroup == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeInt(nextLineGroup);
+            }
+        }
+
+        protected DialogueChoice(Parcel in) {
+            choice = in.readString();
+            if (in.readByte() == 0) {
+                nextLineGroup = null;
+            } else {
+                nextLineGroup = in.readInt();
+            }
+        }
+
+        public static final Creator<DialogueChoice> CREATOR = new Creator<DialogueChoice>() {
+            @Override
+            public DialogueChoice createFromParcel(Parcel in) {
+                return new DialogueChoice(in);
+            }
+
+            @Override
+            public DialogueChoice[] newArray(int size) {
+                return new DialogueChoice[size];
+            }
+        };
     }
 }

@@ -46,43 +46,49 @@ public class AddEconomy extends AppCompatActivity {
         });
 
         join_economy.setOnClickListener(v -> {
-            String serverCode = serverCodeEditText.getText().toString().trim();
-            if (serverCode.isEmpty()) {
+            String serverCodeStr = serverCodeEditText.getText().toString().trim();
+            if (serverCodeStr.isEmpty()) {
                 Toast.makeText(AddEconomy.this, "Please input the code", Toast.LENGTH_SHORT).show();
             } else {
-                join_economy.setEnabled(false); // Disable the CardView to prevent multiple clicks
+                try {
+                    int serverCode = Integer.parseInt(serverCodeStr);
+                    join_economy.setEnabled(false); // Disable the CardView to prevent multiple clicks
 
-                DataFunctions.checkServerExistence(AddEconomy.this, serverCode, new DataFunctions.ServerExistenceCallback() {
-                    @Override
-                    public void onServerExists() {
-                        DataFunctions.getCurrentAccount(AddEconomy.this, new DataFunctions.AccountReturn() {
-                            @Override
-                            public void accountReturn(Account account) {
-                                if (account != null) {
-                                    DataFunctions.addPlayerToServer(AddEconomy.this, serverCode, account);
-                                    runOnUiThread(() -> {
-                                        Toast.makeText(AddEconomy.this, "Server successfully added", Toast.LENGTH_SHORT).show();
-                                        join_economy.setEnabled(true); // Re-enable the CardView
-                                    });
-                                } else {
-                                    runOnUiThread(() -> {
-                                        Toast.makeText(AddEconomy.this, "Error retrieving account information", Toast.LENGTH_SHORT).show();
-                                        join_economy.setEnabled(true); // Re-enable the CardView
-                                    });
+                    DataFunctions.checkServerExistence(AddEconomy.this, serverCode, new DataFunctions.ServerExistenceCallback() {
+                        @Override
+                        public void onServerExists() {
+                            DataFunctions.getCurrentAccount(AddEconomy.this, new DataFunctions.AccountReturn() {
+                                @Override
+                                public void accountReturn(Account account) {
+                                    if (account != null) {
+                                        DataFunctions.addPlayerToServer(AddEconomy.this, serverCode, account);
+                                        runOnUiThread(() -> {
+                                            Toast.makeText(AddEconomy.this, "Server successfully added", Toast.LENGTH_SHORT).show();
+                                            join_economy.setEnabled(true); // Re-enable the CardView
+                                        });
+                                    } else {
+                                        runOnUiThread(() -> {
+                                            Toast.makeText(AddEconomy.this, "Error retrieving account information", Toast.LENGTH_SHORT).show();
+                                            join_economy.setEnabled(true); // Re-enable the CardView
+                                        });
+                                    }
                                 }
-                            }
-                        });
-                    }
+                            });
+                        }
 
-                    @Override
-                    public void onServerDoesNotExist() {
-                        runOnUiThread(() -> {
-                            Toast.makeText(AddEconomy.this, "Server does not exist", Toast.LENGTH_SHORT).show();
-                            join_economy.setEnabled(true); // Re-enable the CardView
-                        });
-                    }
-                });
+                        @Override
+                        public void onServerDoesNotExist() {
+                            runOnUiThread(() -> {
+                                Toast.makeText(AddEconomy.this, "Server does not exist", Toast.LENGTH_SHORT).show();
+                                join_economy.setEnabled(true); // Re-enable the CardView
+                            });
+                        }
+                    });
+                } catch (NumberFormatException e) {
+                    Toast.makeText(AddEconomy.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
     }
 }

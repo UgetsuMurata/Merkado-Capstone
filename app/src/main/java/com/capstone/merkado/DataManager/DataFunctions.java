@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -510,7 +511,7 @@ public class DataFunctions {
     }
 
 
-    public static void checkServerExistence(Context context, String serverCode, ServerExistenceCallback callback) {
+    public static void checkServerExistence(Context context, Integer serverCode, ServerExistenceCallback callback) {
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.retrieveData(context, String.format("server/%s", serverCode), new FirebaseData.FirebaseDataCallback() {
             @Override
@@ -553,9 +554,10 @@ public class DataFunctions {
         }
     }
 
-    public static void addPlayerToServer(Context context, String serverCode, Account account) {
+    public static void addPlayerToServer(Context context, Integer serverCode, Account account) {
         FirebaseData firebaseData = new FirebaseData();
-        String playerId = UUID.randomUUID().toString(); // Generate a unique player ID
+        //String playerId = UUID.randomUUID().toString(); // Generate a unique player ID
+        Integer playerId = 3;
 
         // Create player data
         Map<String, Object> playerData = new HashMap<>();
@@ -592,6 +594,8 @@ public class DataFunctions {
             }
         });
     }
+
+
 
     public static void changeCurrentLineGroup(Integer lineGroupId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();

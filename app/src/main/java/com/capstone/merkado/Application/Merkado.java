@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
@@ -30,6 +32,8 @@ public class Merkado extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         // Create the receiver object and register it.
         networkChangeReceiver = new NetworkChangeReceiver();

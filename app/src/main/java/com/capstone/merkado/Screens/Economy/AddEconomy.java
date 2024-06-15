@@ -23,7 +23,7 @@ public class AddEconomy extends AppCompatActivity {
 
     Merkado merkado;
     private EditText serverCodeEditText;
-    private CardView join_economy;
+    private CardView join_economy, cancel_economy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +36,11 @@ public class AddEconomy extends AppCompatActivity {
         ImageView closeButton = findViewById(R.id.close_button);
         TextView create_server = findViewById(R.id.cserver);
         join_economy = findViewById(R.id.join);
+        cancel_economy = findViewById(R.id.cancel);
         serverCodeEditText = findViewById(R.id.server_code);
 
         closeButton.setOnClickListener(v -> onBackPressed());
+        cancel_economy.setOnClickListener(v -> onBackPressed());
 
         create_server.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CreateEconomy.class));

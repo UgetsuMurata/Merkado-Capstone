@@ -557,7 +557,7 @@ public class DataFunctions {
     public static void addPlayerToServer(Context context, Integer serverCode, Account account) {
         FirebaseData firebaseData = new FirebaseData();
         //String playerId = UUID.randomUUID().toString(); // Generate a unique player ID
-        Integer playerId = 3;
+        Integer playerId = 6; //Just a sample
 
         // Create player data
         Map<String, Object> playerData = new HashMap<>();

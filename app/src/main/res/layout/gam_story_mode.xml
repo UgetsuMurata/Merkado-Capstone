@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scene_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scene_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_mai_main_menu"
@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="0dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -43,18 +44,185 @@
             layout="@layout/item_gam_story_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <include
-            android:id="@+id/character_slot_6"
-            layout="@layout/item_gam_story_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/choice_gui"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="5dp"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/choice_guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/choice_guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/choice_guideline_top_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.13" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/choice_guideline_top_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.26" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/choice_guideline_top_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.39" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/choice_guideline_top_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.52" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/gui_choice_blackbg" />
+
+        <ImageView
+            android:id="@+id/choice_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:elevation="4dp"
+            android:src="@drawable/gui_choice_1"
+            app:layout_constraintEnd_toEndOf="@id/choice_guideline_end"
+            app:layout_constraintStart_toStartOf="@id/choice_guideline_start"
+            app:layout_constraintTop_toTopOf="@id/choice_guideline_top_1" />
+
+        <TextView
+            android:id="@+id/choice_1_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="6dp"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/choice_1"
+            app:layout_constraintEnd_toEndOf="@id/choice_1"
+            app:layout_constraintStart_toStartOf="@id/choice_1"
+            app:layout_constraintTop_toTopOf="@id/choice_1" />
+
+        <ImageView
+            android:id="@+id/choice_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:elevation="4dp"
+            android:src="@drawable/gui_choice_2"
+            app:layout_constraintEnd_toEndOf="@id/choice_guideline_end"
+            app:layout_constraintStart_toStartOf="@id/choice_guideline_start"
+            app:layout_constraintTop_toTopOf="@id/choice_guideline_top_2" />
+
+        <TextView
+            android:id="@+id/choice_2_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="6dp"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/choice_2"
+            app:layout_constraintEnd_toEndOf="@id/choice_2"
+            app:layout_constraintStart_toStartOf="@id/choice_2"
+            app:layout_constraintTop_toTopOf="@id/choice_2" />
+
+        <ImageView
+            android:id="@+id/choice_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:elevation="4dp"
+            android:src="@drawable/gui_choice_3"
+            app:layout_constraintEnd_toEndOf="@id/choice_guideline_end"
+            app:layout_constraintStart_toStartOf="@id/choice_guideline_start"
+            app:layout_constraintTop_toTopOf="@id/choice_guideline_top_3" />
+
+        <TextView
+            android:id="@+id/choice_3_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="6dp"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/choice_3"
+            app:layout_constraintEnd_toEndOf="@id/choice_3"
+            app:layout_constraintStart_toStartOf="@id/choice_3"
+            app:layout_constraintTop_toTopOf="@id/choice_3" />
+
+        <ImageView
+            android:id="@+id/choice_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:elevation="4dp"
+            android:src="@drawable/gui_choice_4"
+            app:layout_constraintEnd_toEndOf="@id/choice_guideline_end"
+            app:layout_constraintStart_toStartOf="@id/choice_guideline_start"
+            app:layout_constraintTop_toTopOf="@id/choice_guideline_top_4" />
+
+        <TextView
+            android:id="@+id/choice_4_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="6dp"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/choice_4"
+            app:layout_constraintEnd_toEndOf="@id/choice_4"
+            app:layout_constraintStart_toStartOf="@id/choice_4"
+            app:layout_constraintTop_toTopOf="@id/choice_4" />
+
+        <ImageView
+            android:id="@+id/choice_stick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:elevation="2dp"
+            android:src="@drawable/gui_choice_stick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <!--SETTINGS-->
@@ -159,13 +327,13 @@
                 android:layout_height="0dp"
                 android:elevation="2dp"
                 android:fontFamily="@font/text"
+                android:gravity="top|start"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:gravity="top|start"
+                app:layout_constraintBottom_toBottomOf="@id/textbox_bottom_margin"
                 app:layout_constraintEnd_toEndOf="@id/textbox_end_margin"
                 app:layout_constraintStart_toStartOf="@id/textbox_start_margin"
-                app:layout_constraintTop_toTopOf="@id/textbox_top_margin"
-                app:layout_constraintBottom_toBottomOf="@id/textbox_bottom_margin"/>
+                app:layout_constraintTop_toTopOf="@id/textbox_top_margin" />
 
 
             <!--CHARACTER NAME-->
@@ -174,8 +342,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/gui_textbox_nanay"
+                android:src="@drawable/gui_textbox_empty"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/black_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="20dp"
+        android:src="@color/black"
+        android:contentDescription="black screen"
+        android:alpha="0"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

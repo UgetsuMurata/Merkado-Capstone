@@ -9,16 +9,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LineGroup implements Parcelable {
+    private Integer id;
     private Integer defaultNextLine;
     private List<ImagePlacementData> initialImages;
     private String background;
     private List<DialogueLine> dialogueLines;
+    private String transition;
 
     // No-argument constructor required for Firebase
     public LineGroup() {
     }
 
     // Getters and setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getDefaultNextLine() {
         return defaultNextLine;
     }
@@ -51,6 +61,14 @@ public class LineGroup implements Parcelable {
         this.dialogueLines = dialogueLines;
     }
 
+    public String getTransition() {
+        return transition;
+    }
+
+    public void setTransition(String transition) {
+        this.transition = transition;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -58,6 +76,11 @@ public class LineGroup implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeInt(-1);
+        } else {
+            dest.writeInt(id);
+        }
         if (defaultNextLine == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -67,9 +90,11 @@ public class LineGroup implements Parcelable {
         dest.writeTypedList(initialImages);
         dest.writeString(background);
         dest.writeTypedList(dialogueLines);
+        dest.writeString(transition);
     }
 
     protected LineGroup(Parcel in) {
+        id = in.readInt();
         if (in.readByte() == 0) {
             defaultNextLine = null;
         } else {
@@ -78,6 +103,7 @@ public class LineGroup implements Parcelable {
         initialImages = in.createTypedArrayList(ImagePlacementData.CREATOR);
         background = in.readString();
         dialogueLines = in.createTypedArrayList(DialogueLine.CREATOR);
+        transition = in.readString();
     }
 
     public static final Creator<LineGroup> CREATOR = new Creator<LineGroup>() {

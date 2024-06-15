@@ -1,5 +1,7 @@
 package com.capstone.merkado.Helpers;
 
+import com.capstone.merkado.Application.Merkado;
+
 import java.util.HashMap;
 
 public class StringProcessor {
@@ -36,8 +38,18 @@ public class StringProcessor {
             SLOT, LAYER
         }
         public enum Value {
-            SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, SLOT6, BODY, FACE, PROP
+            SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, BODY, FACE, PROP
         }
     }
 
+    /**
+     * This method processes the codes in raw dialogues into a displayable one.
+     * @param rawDialogue raw dialogue from the database.
+     * @return processed string.
+     */
+    public static String dialogueProcessor(String rawDialogue) {
+        String processed = "";
+        processed = rawDialogue.replaceAll("\\{\\$USER_NAME\\}", Merkado.getInstance().getAccount().getUsername());
+        return processed;
+    }
 }

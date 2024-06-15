@@ -1,15 +1,14 @@
 package com.capstone.merkado.DataManager;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.PlayerDataObjects.Player;
+import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
-import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
 import com.capstone.merkado.Objects.StoryDataObjects.Story;
 import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
 import com.capstone.merkado.Objects.VerificationCode;
@@ -18,7 +17,6 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -55,6 +53,7 @@ public class DataFunctions {
     public interface EconomyBasicListReturn {
         /**
          * Callback return for EconomyBasic List datatype.
+         *
          * @param economyBasicList return value.
          */
         void listReturn(List<EconomyBasic> economyBasicList);
@@ -345,7 +344,8 @@ public class DataFunctions {
 
     /**
      * Retrieves the EconomyBasic List.
-     * @param account currently signed in account.
+     *
+     * @param account                currently signed in account.
      * @param economyBasicListReturn callback.
      */
     public static void getEconomyBasic(Account account, EconomyBasicListReturn economyBasicListReturn) {
@@ -414,6 +414,7 @@ public class DataFunctions {
 
     /**
      * Gets the player's data using the playerId.
+     *
      * @param playerId player's id.
      * @return Player instance.
      */
@@ -439,10 +440,11 @@ public class DataFunctions {
 
     /**
      * Gets line groups data using its index or id. This is used for story-mode.
+     *
      * @param lineGroupIndex index or id of line group.
      * @return LineGroup instance.
      */
-    public static LineGroup getLineGroupFromId(Integer lineGroupIndex){
+    public static LineGroup getLineGroupFromId(Integer lineGroupIndex) {
         final CompletableFuture<LineGroup> future = new CompletableFuture<>();
 
         FirebaseData firebaseData = new FirebaseData();
@@ -462,6 +464,7 @@ public class DataFunctions {
 
     /**
      * Gets story data using its index or id. This is used for story-mode.
+     *
      * @param storyId index or id of the story.
      * @return Story instance.
      */
@@ -485,6 +488,7 @@ public class DataFunctions {
 
     /**
      * Gets task data using its index or id. This is used for story-mode.
+     *
      * @param taskId index or id of the task.
      * @return Task instance.
      */
@@ -593,8 +597,29 @@ public class DataFunctions {
 
 
 
+    public static void changeCurrentLineGroup(Integer lineGroupId, Integer playerId, Integer storyQueueId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/currentLineGroup", playerId, storyQueueId), lineGroupId);
+    }
+
+    public static void changeNextLineGroup(Integer lineGroupId, Integer playerId, Integer storyQueueId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextLineGroup", playerId, storyQueueId), lineGroupId);
+    }
+
+    public static void changeStory(Integer storyId, Integer playerId, Integer storyQueueId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/story", playerId, storyQueueId), storyId);
+    }
+
+    public static void changeNextStory(Integer storyId, Integer playerId, Integer storyQueueId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextStory", playerId, storyQueueId), storyId);
+    }
+
     public interface ServerExistenceCallback {
         void onServerExists();
+
         void onServerDoesNotExist();
     }
 

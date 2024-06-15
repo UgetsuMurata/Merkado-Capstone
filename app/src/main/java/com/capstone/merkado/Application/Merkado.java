@@ -24,6 +24,7 @@ public class Merkado extends Application {
     private StaticContents staticContents;
     private List<EconomyBasic> economyBasicList;
     private Player player;
+    private Integer playerId;
 
     @Override
     public void onCreate() {
@@ -96,6 +97,7 @@ public class Merkado extends Application {
 
     /**
      * Get the list of economies to be shown in the lobby.
+     *
      * @return List of EconomyBasic.
      */
     public List<EconomyBasic> getEconomyBasicList() {
@@ -104,6 +106,7 @@ public class Merkado extends Application {
 
     /**
      * Set the list of economies to be shown in the lobby.
+     *
      * @param economyBasicList List of EconomyBasic.
      */
     public void setEconomyBasicList(List<EconomyBasic> economyBasicList) {
@@ -114,8 +117,13 @@ public class Merkado extends Application {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public Integer getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayer(Player player, Integer playerId) {
         this.player = player;
+        this.playerId = playerId;
     }
 
     @Override

@@ -3,12 +3,10 @@ package com.capstone.merkado.Screens.LoadingScreen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
@@ -18,7 +16,6 @@ import com.capstone.merkado.Objects.StoryDataObjects.Story;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.MainMap;
-import com.capstone.merkado.Screens.Game.StoryMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +87,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-            }, 1000 - System.currentTimeMillis()-startingTime));
+            }, 1000 - System.currentTimeMillis() - startingTime));
         }).start();
     }
 
@@ -100,7 +97,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
     private void process1() {
         playerFBExtractor = DataFunctions.getPlayerDataFromId(playerId);
         if (playerFBExtractor != null) {
-            merkado.setPlayer(new Player(playerFBExtractor));
+            merkado.setPlayer(new Player(playerFBExtractor), playerId);
         }
     }
 
@@ -142,13 +139,16 @@ public class ServerLoadingScreen extends AppCompatActivity {
     /**
      * Check for prologue.
      */
-    private void process4(){
+    private void process4() {
+        Integer index = 0;
         for (PlayerStory playerStory : merkado.getPlayer().getPlayerStoryList()) {
             if (playerStory.getStory().getChapter().equals("Prologue")) {
                 intent.putExtra("PROLOGUE", true);
                 intent.putExtra("CURRENT_LINE_GROUP", playerStory.getCurrentLineGroup());
-                intent.putExtra("NEXT_LINE_GROUP", playerStory.getNextLineGroup());
+                intent.putExtra("CURRENT_QUEUE_INDEX", index);
+                intent.putExtra("NEXT_LINE_GROUP", playerStory.getNextLineGroup().getId());
             }
+            index++;
         }
     }
 

@@ -80,6 +80,11 @@ public class FirebaseData {
         childRef.updateChildren(value);
     }
 
+    public <T> void addValues(String childPath, T value){
+        DatabaseReference childRef = databaseRef.child(childPath);
+        childRef.setValue(value);
+    }
+
     public void updateValues(String childPath, Map<String, Object> value){
         DatabaseReference childRef = databaseRef.child(childPath);
         childRef.updateChildren(value);

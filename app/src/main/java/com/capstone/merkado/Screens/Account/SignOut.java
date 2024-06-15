@@ -34,8 +34,8 @@ public class SignOut extends AppCompatActivity {
             // Sign out the account.
             DataFunctions.signOut(getApplicationContext(), merkado.getAccount());
 
-            // set account to null.
-            merkado.setAccount(null);
+            // sign out account
+            merkado.signOutAccount();
 
             // show toast to confirm.
             Toast.makeText(getApplicationContext(), "Signed out successfully!", Toast.LENGTH_SHORT).show();

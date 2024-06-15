@@ -91,6 +91,15 @@ public class Merkado extends Application {
     }
 
     /**
+     * This method ensures that all saved data from the account is deleted.
+     */
+    public void signOutAccount() {
+        setAccount(null);
+        setPlayer(null, null);
+        setEconomyBasicList(null);
+    }
+
+    /**
      * Getter of StaticContents Instance.
      *
      * @return staticContent from Application class.

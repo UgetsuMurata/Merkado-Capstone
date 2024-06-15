@@ -146,7 +146,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
                 intent.putExtra("PROLOGUE", true);
                 intent.putExtra("CURRENT_LINE_GROUP", playerStory.getCurrentLineGroup());
                 intent.putExtra("CURRENT_QUEUE_INDEX", index);
-                intent.putExtra("NEXT_LINE_GROUP", playerStory.getNextLineGroup().getId());
+                intent.putExtra("NEXT_LINE_GROUP", playerStory.getNextLineGroup()!=null?playerStory.getNextLineGroup().getId():null);
             }
             index++;
         }

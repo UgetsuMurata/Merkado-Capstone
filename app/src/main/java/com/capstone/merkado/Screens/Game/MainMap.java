@@ -23,7 +23,7 @@ public class MainMap extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> goToStoryMode = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                Intent i = new Intent(getApplicationContext(), MainMenu.class);
+                Intent i = new Intent(getApplicationContext(), MainMap.class);
                 overridePendingTransition(0, 0);
                 startActivity(i);
                 overridePendingTransition(0, 0);

@@ -450,6 +450,8 @@ public class DataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         firebaseData.retrieveData(String.format(Locale.getDefault(), "story/lineGroup/%d", lineGroupIndex), dataSnapshot -> {
+            if (!dataSnapshot.exists())
+                future.complete(null);
             LineGroup lineGroup = dataSnapshot.getValue(LineGroup.class);
             future.complete(lineGroup);
         });

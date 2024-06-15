@@ -336,16 +336,15 @@ public class StoryMode extends AppCompatActivity {
 
     private void fadeToBlack() {
         Animation fadeIn = new AlphaAnimation(0, 1);
-        fadeIn.setDuration(500);
+        fadeIn.setDuration(5000);
 
         Animation fadeOut = new AlphaAnimation(1, 0);
-        fadeOut.setStartOffset(200);
-        fadeOut.setDuration(300);
+        fadeOut.setStartOffset(2000);
+        fadeOut.setDuration(3000);
 
         Animation.AnimationListener listener = new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                blackScreen.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -361,6 +360,7 @@ public class StoryMode extends AppCompatActivity {
         fadeIn.setAnimationListener(listener);
         fadeOut.setAnimationListener(listener);
 
+        blackScreen.setVisibility(View.VISIBLE);
         // Start the animations
         blackScreen.startAnimation(fadeIn);
         blackScreen.startAnimation(fadeOut);

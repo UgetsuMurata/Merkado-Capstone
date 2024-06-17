@@ -39,7 +39,7 @@ public class StoryMode extends AppCompatActivity {
     /**
      * Tools
      */
-    CardView autoplay, skip, exit;
+    CardView autoplayButton, skip, exit;
     ImageView dialogueBox;
     ConstraintLayout sceneBackground;
 
@@ -63,6 +63,11 @@ public class StoryMode extends AppCompatActivity {
     Integer currentLineGroupIndex = 0;
     Integer nextLineGroupId;
     Integer currentQueueIndex;
+    Boolean temporaryStopAutoPlay = false;
+    Boolean autoPlay = false;
+    Boolean skipDialogues = false;
+    Handler handler;
+    Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +80,7 @@ public class StoryMode extends AppCompatActivity {
         sceneBackground = findViewById(R.id.scene_background);
         dialogueTextView = findViewById(R.id.dialogue);
         dialogueBox = findViewById(R.id.dialogue_box);
-        autoplay = findViewById(R.id.autoplay);
+        autoplayButton = findViewById(R.id.autoplay);
         skip = findViewById(R.id.skip);
         exit = findViewById(R.id.exit);
         choiceGui = findViewById(R.id.choice_gui);
@@ -106,6 +111,80 @@ public class StoryMode extends AppCompatActivity {
         }
 
         initializeScreen(lineGroup);
+
+        handler = new Handler();
+
+        autoplayButton.setOnClickListener(v -> {
+            autoPlay = !autoPlay;
+            dialogueBox.performClick();
+        });
+        exit.setOnClickListener(v -> goToExit());
+        skip.setOnClickListener(v -> skipDialogues());
+    }
+
+    /**
+     * Schedules an autoplay. This is triggered by each dialogue change. Checks the value of the autoplay: <br/>
+     * If <b>True</b>, then it will successfully play after the seconds determined by how long the dialogue is and
+     * the calculation of 183 wpm or 3 words per second. <br/>
+     * If <b>False</b>, then it will not schedule an autoplay.
+     * Note: If temporary stop for an autoplay is on (which is during choice selection), the autoplay will not fire
+     * if the seconds indicated is done. But when a choice is clicked, the autoplay will still continue as clicking
+     * a choice will trigger a dialogue change.
+     *
+     * @param dialogue raw dialogue.
+     */
+    private void scheduleAutoPlay(String dialogue) {
+        if (autoPlay) {
+            if (runnable != null)
+                // clear any scheduled autoplay with this handler.
+                handler.removeCallbacks(runnable);
+            else
+                // define the runnable if it was null
+                runnable = () -> {
+                    if (autoPlay && !temporaryStopAutoPlay) {
+                        dialogueBox.performClick();
+                    }
+                };
+
+            int wordCount = dialogue.split("\\s").length;
+            int seconds = wordCount / 3 + (wordCount % 3 > 0 ? 1 : 0);
+
+            handler.postDelayed(runnable, seconds * 1000L);
+        }
+    }
+
+    private void pauseAutoplay() {
+        temporaryStopAutoPlay = true;
+    }
+
+    private void skipDialogues() {
+        autoPlay = false;
+        skipDialogues = true;
+        if (runnable != null)
+            // clear any scheduled autoplay with this handler.
+            handler.removeCallbacks(runnable);
+        else
+            // define the runnable if it was null
+            runnable = () -> {
+                if (skipDialogues) {
+                    dialogueBox.performClick();
+                    handler.postDelayed(runnable, 100L);
+                }
+            };
+        handler.postDelayed(runnable, 100L);
+    }
+    private void stopSkipping(){
+        skipDialogues = false;
+    }
+
+    /**
+     * Removes any autoplay callbacks and then finishes.
+     */
+    private void goToExit() {
+        if (runnable != null)
+            // clear any scheduled autoplay with this handler.
+            handler.removeCallbacks(runnable);
+        finish();
     }
 
     private void initializeScreen(LineGroup lineGroup) {
@@ -139,7 +218,7 @@ public class StoryMode extends AppCompatActivity {
 
             dialogueBox.setOnClickListener(v -> {
                 currentLineGroupIndex++;
-                if (currentLineGroupIndex.equals(lineGroup.getDialogueLines().size())) {
+                if (currentLineGroupIndex >= lineGroup.getDialogueLines().size()) {
                     // reached the end.
                     currentLineEnded();
                     return;
@@ -250,6 +329,7 @@ public class StoryMode extends AppCompatActivity {
     private void showLine(int dialogueBoxResource, String dialogue) {
         dialogueBox.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), dialogueBoxResource));
         dialogueTextView.setText(StringProcessor.dialogueProcessor(dialogue));
+        scheduleAutoPlay(dialogue);
     }
 
     private void currentLineEnded() {
@@ -270,6 +350,8 @@ public class StoryMode extends AppCompatActivity {
 
     private void setChoices(List<LineGroup.DialogueChoice> dialogueChoices) {
         Collections.shuffle(dialogueChoices);
+        pauseAutoplay();
+        stopSkipping();
         choice1Text.setText(dialogueChoices.get(0).getChoice());
         choice1.setOnClickListener(v -> {
             movingClick(choice1, 1);
@@ -332,6 +414,7 @@ public class StoryMode extends AppCompatActivity {
 
     private void continueDialogues() {
         dialogueBox.performClick();
+        temporaryStopAutoPlay = false;
     }
 
     private void fadeToBlack() {
@@ -364,5 +447,12 @@ public class StoryMode extends AppCompatActivity {
         // Start the animations
         blackScreen.startAnimation(fadeIn);
         blackScreen.startAnimation(fadeOut);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopSkipping();
+        pauseAutoplay();
     }
 }

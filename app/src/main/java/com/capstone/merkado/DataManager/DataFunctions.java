@@ -512,7 +512,7 @@ public class DataFunctions {
         }
     }
 
-
+    //For checking the existence of the server
     public static void checkServerExistence(Context context, Integer serverCode, ServerExistenceCallback callback) {
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.retrieveData(context, String.format("server/%s", serverCode), new FirebaseData.FirebaseDataCallback() {
@@ -527,6 +527,7 @@ public class DataFunctions {
         });
     }
 
+    //For getting the current account
     public static void getCurrentAccount(Context context, AccountReturn accountReturn) {
         // Get the signed-in account using the getSignedIn method
         Account signedInAccount = getSignedIn(context);
@@ -556,9 +557,11 @@ public class DataFunctions {
         }
     }
 
+    //For adding the player to the server
     public static void addPlayerToServer(Context context, Integer serverCode, Account account) {
         FirebaseData firebaseData = new FirebaseData();
         //String playerId = UUID.randomUUID().toString(); // Generate a unique player ID
+        //The unique id. This is only a manual input
         Integer playerId = 6; //Just a sample
 
         // Create player data

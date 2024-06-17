@@ -47,6 +47,8 @@ public class AddEconomy extends AppCompatActivity {
             finish();
         });
 
+        //When join button clicked, DataFunction will be called. 
+
         join_economy.setOnClickListener(v -> {
             String serverCodeStr = serverCodeEditText.getText().toString().trim();
             if (serverCodeStr.isEmpty()) {

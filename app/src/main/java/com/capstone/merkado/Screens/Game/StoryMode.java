@@ -65,6 +65,8 @@ public class StoryMode extends AppCompatActivity {
     Integer currentQueueIndex;
     Boolean temporaryStopAutoPlay = false;
     Boolean autoPlay = false;
+    Handler handler;
+    Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,19 +111,50 @@ public class StoryMode extends AppCompatActivity {
 
         initializeScreen(lineGroup);
 
-        autoplayButton.setOnClickListener(v -> autoPlay = !autoPlay);
+        handler = new Handler();
+
+        autoplayButton.setOnClickListener(v -> {
+            autoPlay = !autoPlay;
+            dialogueBox.performClick();
+        });
+        exit.setOnClickListener(v -> goToExit());
     }
 
+    /**
+     * Schedules an autoplay. This is triggered by each dialogue change. Checks the value of the autoplay: <br/>
+     * If <b>True</b>, then it will successfully play after the seconds determined by how long the dialogue is and
+     * the calculation of 183 wpm or 3 words per second. <br/>
+     * If <b>False</b>, then it will not schedule an autoplay.
+     * Note: If temporary stop for an autoplay is on (which is during choice selection), the autoplay will not fire
+     * if the seconds indicated is done. But when a choice is clicked, the autoplay will still continue as clicking
+     * a choice will trigger a dialogue change.
+     * @param dialogue raw dialogue.
+     */
     private void scheduleAutoPlay(String dialogue) {
         if (autoPlay) {
+            if (runnable != null)
+                // clear any scheduled autoplay with this handler.
+                handler.removeCallbacks(runnable);
+            else
+                // define the runnable if it was null
+                runnable = () -> {
+                    if (autoPlay && !temporaryStopAutoPlay) {
+                        dialogueBox.performClick();
+                    }
+                };
+
             int wordCount = dialogue.split("\\s").length;
             int seconds = wordCount / 3 + (wordCount % 3 > 0 ? 1 : 0);
-            new Handler().postDelayed(() -> {
-                if (autoPlay && !temporaryStopAutoPlay) {
-                    dialogueBox.performClick();
-                }
-            }, seconds * 1000L);
+
+            handler.postDelayed(runnable, seconds * 1000L);
         }
+    }
+
+    private void goToExit() {
+        if (runnable != null)
+            // clear any scheduled autoplay with this handler.
+            handler.removeCallbacks(runnable);
+        finish();
     }
 
     private void initializeScreen(LineGroup lineGroup) {

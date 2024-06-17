@@ -65,6 +65,7 @@ public class StoryMode extends AppCompatActivity {
     Integer currentQueueIndex;
     Boolean temporaryStopAutoPlay = false;
     Boolean autoPlay = false;
+    Boolean skipDialogues = false;
     Handler handler;
     Runnable runnable;
 
@@ -118,6 +119,7 @@ public class StoryMode extends AppCompatActivity {
             dialogueBox.performClick();
         });
         exit.setOnClickListener(v -> goToExit());
+        skip.setOnClickListener(v -> skipDialogues());
     }
 
     /**
@@ -128,6 +130,7 @@ public class StoryMode extends AppCompatActivity {
      * Note: If temporary stop for an autoplay is on (which is during choice selection), the autoplay will not fire
      * if the seconds indicated is done. But when a choice is clicked, the autoplay will still continue as clicking
      * a choice will trigger a dialogue change.
+     *
      * @param dialogue raw dialogue.
      */
     private void scheduleAutoPlay(String dialogue) {
@@ -150,6 +153,33 @@ public class StoryMode extends AppCompatActivity {
         }
     }
 
+    private void pauseAutoplay() {
+        temporaryStopAutoPlay = true;
+    }
+
+    private void skipDialogues() {
+        autoPlay = false;
+        skipDialogues = true;
+        if (runnable != null)
+            // clear any scheduled autoplay with this handler.
+            handler.removeCallbacks(runnable);
+        else
+            // define the runnable if it was null
+            runnable = () -> {
+                if (skipDialogues) {
+                    dialogueBox.performClick();
+                    handler.postDelayed(runnable, 100L);
+                }
+            };
+        handler.postDelayed(runnable, 100L);
+    }
+    private void stopSkipping(){
+        skipDialogues = false;
+    }
+
+    /**
+     * Removes any autoplay callbacks and then finishes.
+     */
     private void goToExit() {
         if (runnable != null)
             // clear any scheduled autoplay with this handler.
@@ -188,7 +218,7 @@ public class StoryMode extends AppCompatActivity {
 
             dialogueBox.setOnClickListener(v -> {
                 currentLineGroupIndex++;
-                if (currentLineGroupIndex.equals(lineGroup.getDialogueLines().size())) {
+                if (currentLineGroupIndex >= lineGroup.getDialogueLines().size()) {
                     // reached the end.
                     currentLineEnded();
                     return;
@@ -320,7 +350,8 @@ public class StoryMode extends AppCompatActivity {
 
     private void setChoices(List<LineGroup.DialogueChoice> dialogueChoices) {
         Collections.shuffle(dialogueChoices);
-        temporaryStopAutoPlay = true;
+        pauseAutoplay();
+        stopSkipping();
         choice1Text.setText(dialogueChoices.get(0).getChoice());
         choice1.setOnClickListener(v -> {
             movingClick(choice1, 1);
@@ -416,5 +447,12 @@ public class StoryMode extends AppCompatActivity {
         // Start the animations
         blackScreen.startAnimation(fadeIn);
         blackScreen.startAnimation(fadeOut);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopSkipping();
+        pauseAutoplay();
     }
 }

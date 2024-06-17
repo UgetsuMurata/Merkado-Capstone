@@ -107,6 +107,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
     private void process2() {
         if (playerFBExtractor != null) {
             playerStoryList = new ArrayList<>();
+            if (playerFBExtractor.getStoryQueue() == null) return;
             for (PlayerFBExtractor.StoryQueue storyQueue : playerFBExtractor.getStoryQueue()) {
                 PlayerStory playerStory = new PlayerStory();
                 Story story = DataFunctions.getStoryFromId(storyQueue.getStory());
@@ -126,6 +127,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
     private void process3() {
         if (playerFBExtractor != null) {
             playerTaskList = new ArrayList<>();
+            if (playerFBExtractor.getTaskQueue() == null) return;
             for (PlayerFBExtractor.TaskQueue taskQueue : playerFBExtractor.getTaskQueue()) {
                 PlayerTask playerTask = new PlayerTask();
                 playerTask.setTask(DataFunctions.getTaskFromId(taskQueue.getTask()));
@@ -141,12 +143,13 @@ public class ServerLoadingScreen extends AppCompatActivity {
      */
     private void process4() {
         Integer index = 0;
+        if (merkado.getPlayer().getPlayerStoryList() == null) return;
         for (PlayerStory playerStory : merkado.getPlayer().getPlayerStoryList()) {
             if (playerStory.getStory().getChapter().equals("Prologue")) {
                 intent.putExtra("PROLOGUE", true);
                 intent.putExtra("CURRENT_LINE_GROUP", playerStory.getCurrentLineGroup());
                 intent.putExtra("CURRENT_QUEUE_INDEX", index);
-                intent.putExtra("NEXT_LINE_GROUP", playerStory.getNextLineGroup()!=null?playerStory.getNextLineGroup().getId():null);
+                intent.putExtra("NEXT_LINE_GROUP", playerStory.getNextLineGroup() != null ? playerStory.getNextLineGroup().getId() : null);
             }
             index++;
         }

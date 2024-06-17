@@ -5,7 +5,7 @@ import android.content.Context;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
-import com.capstone.merkado.Objects.PlayerDataObjects.Player;
+import com.capstone.merkado.Objects.PlayerDataObjects.Inventory;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
@@ -24,8 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -380,11 +378,16 @@ public class DataFunctions {
                         return;
                     }
 
+                    if (dataSnapshot1.getValue() == null) {
+                        taskCompletionSource.setResult(null);
+                        return;
+                    }
+
                     // get the server index
-                    Integer serverIndex = dataSnapshot1.getValue(Integer.class);
+                    String serverIndex = dataSnapshot1.getValue().toString();
 
                     // SEARCH FOR THE SERVER USING THE SERVER INDEX.
-                    firebaseData.retrieveData(String.format(Locale.getDefault(), "server/%d", serverIndex), dataSnapshot2 -> {
+                    firebaseData.retrieveData(String.format("server/%s", serverIndex), dataSnapshot2 -> {
                         // if dataSnapshot is null, mark the task as completed.
                         if (dataSnapshot2 == null) {
                             taskCompletionSource.setResult(null);
@@ -393,10 +396,10 @@ public class DataFunctions {
 
                         // create the EconomyBasic instance from this server.
                         Object nameObj = dataSnapshot2.child("name").getValue();
-                        String name = nameObj != null ? nameObj.toString() : String.format(Locale.getDefault(), "Server %d", serverIndex);
+                        String name = nameObj != null ? nameObj.toString() : String.format("Server %s", serverIndex);
                         long onlinePlayersCount = dataSnapshot2.child("onlinePlayers").getChildrenCount();
 
-                        EconomyBasic economyBasic = new EconomyBasic(name, Math.toIntExact(onlinePlayersCount), null, playerIndex);
+                        EconomyBasic economyBasic = new EconomyBasic(serverIndex, name, Math.toIntExact(onlinePlayersCount), null, playerIndex);
                         economyBasicList.add(economyBasic);
 
                         // mark the task as completed.
@@ -513,18 +516,19 @@ public class DataFunctions {
     }
 
     //For checking the existence of the server
-    public static void checkServerExistence(Context context, Integer serverCode, ServerExistenceCallback callback) {
+    public static Boolean checkServerExistence(Context context, String serverCode) {
+        final CompletableFuture<Boolean> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData(context, String.format("server/%s", serverCode), new FirebaseData.FirebaseDataCallback() {
-            @Override
-            public void onDataReceived(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    callback.onServerExists();
-                } else {
-                    callback.onServerDoesNotExist();
-                }
-            }
+        firebaseData.retrieveData(context, String.format("server/%s", serverCode), dataSnapshot -> {
+            future.complete(dataSnapshot.exists());
         });
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     //For getting the current account
@@ -557,49 +561,112 @@ public class DataFunctions {
         }
     }
 
-    //For adding the player to the server
-    public static void addPlayerToServer(Context context, Integer serverCode, Account account) {
+    private static Long getNextPlayerIndex() {
+        CompletableFuture<Long> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
-        //String playerId = UUID.randomUUID().toString(); // Generate a unique player ID
-        //The unique id. This is only a manual input
-        Integer playerId = 6; //Just a sample
+        firebaseData.retrieveData("player", new FirebaseData.FirebaseDataCallback() {
+            @Override
+            public void onDataReceived(DataSnapshot dataSnapshot) {
+                future.complete(dataSnapshot.getChildrenCount());
+            }
+        });
+
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return -1L;
+        }
+    }
+
+    //For adding the player to the server
+    public static Boolean addPlayerToServer(Context context, String serverCode, Account account) {
+        FirebaseData firebaseData = new FirebaseData();
+        Long playerId = getNextPlayerIndex();
+
+        if (playerId == -1L) return false;
+
+        // populate storyQueueList
+        List<PlayerFBExtractor.StoryQueue> storyQueueList = new ArrayList<>();
+        PlayerFBExtractor.StoryQueue storyQueue = new PlayerFBExtractor.StoryQueue();
+        storyQueue.setStory(0);
+        storyQueue.setIsTaken(false);
+        storyQueue.setCurrentLineGroup(0);
+        storyQueue.setNextLineGroup(1);
+        storyQueueList.add(storyQueue);
+
+        // populate inventoryList
+        List<Inventory> inventoryList = new ArrayList<>();
+        Inventory inventory = new Inventory();
+        inventory.setResourceId(0);
+        inventory.setQuantity(1);
+        inventoryList.add(inventory);
 
         // Create player data
         Map<String, Object> playerData = new HashMap<>();
         playerData.put("accountId", account.getEmail());
-        playerData.put("exp", 0); // Assuming initial exp is 0
-        playerData.put("money", 0); // Assuming initial money is 0
+        playerData.put("exp", 0);
+        playerData.put("money", 2000);
         playerData.put("server", serverCode);
-        playerData.put("taskQueue", new HashMap<>()); // Assuming empty taskQueue
-        playerData.put("storyQueue", new HashMap<>()); // Assuming empty storyQueue
-        playerData.put("history", new HashMap<>()); // Assuming empty history
-        playerData.put("inventory", new HashMap<>()); // Assuming empty inventory
+        playerData.put("inventory", inventoryList);
+        playerData.put("storyQueue", storyQueueList);
 
         // Add player data to Firebase under player/{playerId}
-        firebaseData.addValues(String.format("player/%s", playerId), playerData);
+        Boolean success = firebaseData.addValues(String.format("player/%s", playerId), playerData);
 
-        // Add playerId to server/{serverCode}/players
-        firebaseData.retrieveData(context, String.format("server/%s/players", serverCode), dataSnapshot -> {
+        // return false if not successful.
+        if (success == null || !success) return false;
+
+        // ADD PLAYER ID TO SERVER PLAYERS LIST
+        addPlayerToServer(serverCode, playerId);
+
+        // ADD PLAYER ID TO ACCOUNT
+        addPlayerToAccount(account.getEmail(), playerId);
+        return true;
+    }
+
+    private static void addPlayerToServer(String serverCode, Long playerId) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        FirebaseData firebaseData = new FirebaseData();
+
+        firebaseData.retrieveData(String.format("server/%s/players", serverCode), dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 long playerCount = dataSnapshot.getChildrenCount();
-                firebaseData.addValue(String.format("server/%s/players/%d", serverCode, playerCount), playerId);
+                firebaseData.addValue(String.format("server/%s/players/%s", serverCode, playerCount), playerId);
             } else {
                 firebaseData.addValue(String.format("server/%s/players/0", serverCode), playerId);
             }
+
+            future.complete(null);
         });
 
-        // Add playerId to accounts/{encodedEmail}/player
-        String encodedEmail = FirebaseCharacters.encode(account.getEmail());
-        firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
-            if (dataSnapshot.exists()) {
-                long playerCount = dataSnapshot.child("player").getChildrenCount();
-                firebaseData.addValue(String.format("accounts/%s/player/%d", encodedEmail, playerCount), playerId);
-            } else {
-                // Handle case where account data does not exist (should not happen ideally)
-            }
-        });
+        try {
+            future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
+    private static void addPlayerToAccount(String email, Long playerId) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        FirebaseData firebaseData = new FirebaseData();
+        String encodedEmail = FirebaseCharacters.encode(email);
+
+        firebaseData.retrieveData(String.format("accounts/%s/player", encodedEmail), new FirebaseData.FirebaseDataCallback() {
+            @Override
+            public void onDataReceived(DataSnapshot dataSnapshot) {
+                long index = dataSnapshot.getChildrenCount();
+                firebaseData.addValue(String.format("accounts/%s/player/%s", encodedEmail, index), playerId);
+                future.complete(null);
+            }
+        });
+
+        try {
+            future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public static void changeCurrentLineGroup(Integer lineGroupId, Integer playerId, Integer storyQueueId) {
@@ -621,12 +688,4 @@ public class DataFunctions {
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextStory", playerId, storyQueueId), storyId);
     }
-
-    public interface ServerExistenceCallback {
-        void onServerExists();
-
-        void onServerDoesNotExist();
-    }
-
-
 }

@@ -69,4 +69,13 @@ public class StringVerifier {
     public enum UsernameCode {
         INVALID_LENGTH, INVALID_CHARACTERS, HAS_PROFANITY, VALID
     }
+
+    /**
+     * Verifies if server code input is valid.
+     * @param code raw string.
+     * @return boolean value of validity.
+     */
+    public static Boolean isValidServerCode(String code) {
+        return code.matches("^\\d{6}$");
+    }
 }

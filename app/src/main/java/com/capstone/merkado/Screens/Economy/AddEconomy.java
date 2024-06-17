@@ -1,29 +1,29 @@
 package com.capstone.merkado.Screens.Economy;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.Objects.Account;
-import com.capstone.merkado.R;
 import com.capstone.merkado.DataManager.DataFunctions;
-import com.capstone.merkado.Screens.Account.SignUp;
-import com.capstone.merkado.Screens.LoadingScreen.SplashScreen;
-import com.capstone.merkado.Screens.MainMenu.MainMenu;
+import com.capstone.merkado.Helpers.StringVerifier;
+import com.capstone.merkado.Helpers.WarningTextHelper;
+import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.R;
 
 public class AddEconomy extends AppCompatActivity {
 
     Merkado merkado;
     private EditText serverCodeEditText;
-    private CardView join_economy, cancel_economy;
+    private TextView serverCodeError;
+    private CardView joinEconomy, cancelEconomy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,65 +34,70 @@ public class AddEconomy extends AppCompatActivity {
         merkado.initializeScreen(this);
 
         ImageView closeButton = findViewById(R.id.close_button);
-        TextView create_server = findViewById(R.id.cserver);
-        join_economy = findViewById(R.id.join);
-        cancel_economy = findViewById(R.id.cancel);
+        TextView createServer = findViewById(R.id.cserver);
+        joinEconomy = findViewById(R.id.join);
+        cancelEconomy = findViewById(R.id.cancel);
         serverCodeEditText = findViewById(R.id.server_code);
+        serverCodeError = findViewById(R.id.server_code_error);
 
         closeButton.setOnClickListener(v -> onBackPressed());
-        cancel_economy.setOnClickListener(v -> onBackPressed());
+        cancelEconomy.setOnClickListener(v -> onBackPressed());
 
-        create_server.setOnClickListener(v -> {
+        createServer.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CreateEconomy.class));
             finish();
         });
 
-        //When join button clicked, DataFunction will be called. 
-
-        join_economy.setOnClickListener(v -> {
-            String serverCodeStr = serverCodeEditText.getText().toString().trim();
-            if (serverCodeStr.isEmpty()) {
-                Toast.makeText(AddEconomy.this, "Please input the code", Toast.LENGTH_SHORT).show();
+        serverCodeEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                WarningTextHelper.hide(serverCodeError);
             } else {
-                try {
-                    int serverCode = Integer.parseInt(serverCodeStr);
-                    join_economy.setEnabled(false); // Disable the CardView to prevent multiple clicks
-
-                    DataFunctions.checkServerExistence(AddEconomy.this, serverCode, new DataFunctions.ServerExistenceCallback() {
-                        @Override
-                        public void onServerExists() {
-                            DataFunctions.getCurrentAccount(AddEconomy.this, new DataFunctions.AccountReturn() {
-                                @Override
-                                public void accountReturn(Account account) {
-                                    if (account != null) {
-                                        DataFunctions.addPlayerToServer(AddEconomy.this, serverCode, account);
-                                        runOnUiThread(() -> {
-                                            Toast.makeText(AddEconomy.this, "Server successfully added", Toast.LENGTH_SHORT).show();
-                                            join_economy.setEnabled(true); // Re-enable the CardView
-                                        });
-                                    } else {
-                                        runOnUiThread(() -> {
-                                            Toast.makeText(AddEconomy.this, "Error retrieving account information", Toast.LENGTH_SHORT).show();
-                                            join_economy.setEnabled(true); // Re-enable the CardView
-                                        });
-                                    }
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onServerDoesNotExist() {
-                            runOnUiThread(() -> {
-                                Toast.makeText(AddEconomy.this, "Server does not exist", Toast.LENGTH_SHORT).show();
-                                join_economy.setEnabled(true); // Re-enable the CardView
-                            });
-                        }
-                    });
-                } catch (NumberFormatException e) {
-                    Toast.makeText(AddEconomy.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
-                }
+                if (serverCodeEditText.getText() == null || serverCodeEditText.getText().toString().isEmpty())
+                    return;
+                if (StringVerifier.isValidServerCode(serverCodeEditText.getText().toString()))
+                    WarningTextHelper.hide(serverCodeError);
+                else
+                    WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "Code must only contain a valid 6-digit number.");
             }
         });
 
+        joinEconomy.setOnClickListener(v -> new Thread(this::joinEconomyFunction).start());
+    }
+
+    private Boolean economySavedAlready(String id) {
+        for (EconomyBasic economyBasic : merkado.getEconomyBasicList()) {
+            if (id.equals(economyBasic.getId())) return true;
+        }
+        return false;
+    }
+
+    private void joinEconomyFunction() {
+        if (serverCodeEditText.getText() == null || serverCodeEditText.getText().toString().trim().isEmpty()) {
+            runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "Please input the code."));
+        } else if (!StringVerifier.isValidServerCode(serverCodeEditText.getText().toString().trim())) {
+            runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "Code must only contain a valid 6-digit number."));
+        } else if (economySavedAlready(serverCodeEditText.getText().toString().trim())) {
+            runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "You already joined this economy!"));
+        } else {
+            String serverCodeStr = serverCodeEditText.getText().toString().trim();
+            Boolean serverExists = DataFunctions.checkServerExistence(getApplicationContext(), serverCodeStr);
+            if (Boolean.TRUE.equals(serverExists)) {
+                Account account = merkado.getAccount();
+                if (account == null) {
+                    runOnUiThread(()->Toast.makeText(getApplicationContext(), "Error retrieving account information. Try again later.", Toast.LENGTH_SHORT).show());
+                    finish();
+                    return;
+                }
+                Boolean results = DataFunctions.addPlayerToServer(AddEconomy.this, serverCodeStr, account);
+                runOnUiThread(()-> {
+                    Toast.makeText(getApplicationContext(), results ? "Server added successfully!" : "Failed to join server. Try again later.", Toast.LENGTH_SHORT).show();
+                    setResult(results ? RESULT_OK : RESULT_CANCELED);
+                    finish();
+                });
+            } else {
+                runOnUiThread(()->Toast.makeText(getApplicationContext(), "Server does not exist.", Toast.LENGTH_SHORT).show());
+                finish();
+            }
+        }
     }
 }

@@ -3,6 +3,12 @@ package com.capstone.merkado.DataManager;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -10,6 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 public class FirebaseData {
@@ -75,9 +83,18 @@ public class FirebaseData {
         childRef.setValue(value);
     }
 
-    public void addValues(String childPath, Map<String, Object> value){
+    public Boolean addValues(String childPath, Map<String, Object> value){
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         DatabaseReference childRef = databaseRef.child(childPath);
-        childRef.updateChildren(value);
+        childRef.updateChildren(value)
+                .addOnSuccessListener(unused -> future.complete(true))
+                .addOnFailureListener(e -> future.complete(false));
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public <T> void addValues(String childPath, T value){

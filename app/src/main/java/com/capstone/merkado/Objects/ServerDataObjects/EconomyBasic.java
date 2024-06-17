@@ -3,16 +3,26 @@ package com.capstone.merkado.Objects.ServerDataObjects;
 import android.graphics.drawable.Drawable;
 
 public class EconomyBasic {
+    String id;
     String title;
     Integer playersOnline;
     Drawable image;
     Integer playerId;
 
-    public EconomyBasic(String title, Integer playersOnline, Drawable image, Integer playerId) {
+    public EconomyBasic(String id, String title, Integer playersOnline, Drawable image, Integer playerId) {
+        this.id = id;
         this.title = title;
         this.playersOnline = playersOnline;
         this.image = image;
         this.playerId = playerId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Adapters.EconomiesAdapter;
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Economy.AddEconomy;
@@ -36,11 +37,7 @@ public class Lobby extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent i = new Intent(getApplicationContext(), MainMenu.class);
-                    overridePendingTransition(0, 0);
-                    startActivity(i);
-                    overridePendingTransition(0, 0);
-                    finish();
+                    retrieveAllEconomyBasics();
                 }
             });
 
@@ -96,5 +93,29 @@ public class Lobby extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+    }
+
+    private void isAccountAlreadyAPlayer() {
+        for (EconomyBasic economyBasic : merkado.getEconomyBasicList()) {
+
+        }
+    }
+
+    /**
+     * Takes the basic server information based on the account.
+     * If there is no account, then this will be skipped.
+     */
+    private void retrieveAllEconomyBasics() {
+        if (merkado.getAccount() == null) return;
+        DataFunctions.getEconomyBasic(merkado.getAccount(), economyBasicList -> {
+            merkado.setEconomyBasicList(economyBasicList);
+
+            //restart this screen.
+            Intent i = new Intent(getApplicationContext(), Lobby.class);
+            overridePendingTransition(0, 0);
+            startActivity(i);
+            overridePendingTransition(0, 0);
+            finish();
+        });
     }
 }

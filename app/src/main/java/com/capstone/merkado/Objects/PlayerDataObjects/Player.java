@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Player {
     private String accountId;
-    private Integer server;
+    private String server;
     private Float money;
     private Long exp;
     private List<Inventory> inventory;
@@ -36,11 +36,11 @@ public class Player {
         this.accountId = accountId;
     }
 
-    public Integer getServer() {
+    public String getServer() {
         return server;
     }
 
-    public void setServer(Integer server) {
+    public void setServer(String server) {
         this.server = server;
     }
 

@@ -39,7 +39,7 @@ public class StoryMode extends AppCompatActivity {
     /**
      * Tools
      */
-    CardView autoplay, skip, exit;
+    CardView autoplayButton, skip, exit;
     ImageView dialogueBox;
     ConstraintLayout sceneBackground;
 
@@ -63,6 +63,8 @@ public class StoryMode extends AppCompatActivity {
     Integer currentLineGroupIndex = 0;
     Integer nextLineGroupId;
     Integer currentQueueIndex;
+    Boolean temporaryStopAutoPlay = false;
+    Boolean autoPlay = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class StoryMode extends AppCompatActivity {
         sceneBackground = findViewById(R.id.scene_background);
         dialogueTextView = findViewById(R.id.dialogue);
         dialogueBox = findViewById(R.id.dialogue_box);
-        autoplay = findViewById(R.id.autoplay);
+        autoplayButton = findViewById(R.id.autoplay);
         skip = findViewById(R.id.skip);
         exit = findViewById(R.id.exit);
         choiceGui = findViewById(R.id.choice_gui);
@@ -106,6 +108,20 @@ public class StoryMode extends AppCompatActivity {
         }
 
         initializeScreen(lineGroup);
+
+        autoplayButton.setOnClickListener(v -> autoPlay = !autoPlay);
+    }
+
+    private void scheduleAutoPlay(String dialogue) {
+        if (autoPlay) {
+            int wordCount = dialogue.split("\\s").length;
+            int seconds = wordCount / 3 + (wordCount % 3 > 0 ? 1 : 0);
+            new Handler().postDelayed(() -> {
+                if (autoPlay && !temporaryStopAutoPlay) {
+                    dialogueBox.performClick();
+                }
+            }, seconds * 1000L);
+        }
     }
 
     private void initializeScreen(LineGroup lineGroup) {
@@ -250,6 +266,7 @@ public class StoryMode extends AppCompatActivity {
     private void showLine(int dialogueBoxResource, String dialogue) {
         dialogueBox.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), dialogueBoxResource));
         dialogueTextView.setText(StringProcessor.dialogueProcessor(dialogue));
+        scheduleAutoPlay(dialogue);
     }
 
     private void currentLineEnded() {
@@ -270,6 +287,7 @@ public class StoryMode extends AppCompatActivity {
 
     private void setChoices(List<LineGroup.DialogueChoice> dialogueChoices) {
         Collections.shuffle(dialogueChoices);
+        temporaryStopAutoPlay = true;
         choice1Text.setText(dialogueChoices.get(0).getChoice());
         choice1.setOnClickListener(v -> {
             movingClick(choice1, 1);
@@ -332,6 +350,7 @@ public class StoryMode extends AppCompatActivity {
 
     private void continueDialogues() {
         dialogueBox.performClick();
+        temporaryStopAutoPlay = false;
     }
 
     private void fadeToBlack() {

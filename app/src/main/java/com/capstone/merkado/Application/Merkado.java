@@ -4,12 +4,15 @@ import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.view.View;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.Objects.Account;
@@ -27,6 +30,8 @@ public class Merkado extends Application {
     private List<EconomyBasic> economyBasicList;
     private Player player;
     private Integer playerId;
+    private MediaPlayer sfxPlayer;
+    private MediaPlayer bgmPlayer;
 
     @Override
     public void onCreate() {
@@ -137,6 +142,81 @@ public class Merkado extends Application {
     public void setPlayer(Player player, Integer playerId) {
         this.player = player;
         this.playerId = playerId;
+    }
+
+    public void setBGM(Context context, int file, boolean loop) {
+        if (bgmPlayer != null) releaseBGM();
+        bgmPlayer = MediaPlayer.create(context, file);
+        bgmPlayer.setLooping(loop);
+        bgmPlayer.start();
+    }
+
+    public void pauseBGM() {
+        if (bgmPlayer == null || !bgmPlayer.isPlaying()) return;
+        bgmPlayer.pause();
+    }
+
+    public void resumeBGM() {
+        if (bgmPlayer == null) return;
+        bgmPlayer.start();
+    }
+
+    public void releaseBGM() {
+        if (bgmPlayer == null) return;
+        bgmPlayer.release();
+        bgmPlayer = null;
+    }
+
+    public void setSFX(Context context, int file) {
+        if (sfxPlayer != null) releaseSFX();
+        sfxPlayer = MediaPlayer.create(context, file);
+        sfxPlayer.start();
+        sfxPlayer.setOnCompletionListener(mp -> releaseSFX());
+    }
+
+    public void pauseSFX() {
+        if (sfxPlayer == null || !sfxPlayer.isPlaying()) return;
+        sfxPlayer.pause();
+    }
+
+    public void resumeSFX() {
+        if (sfxPlayer == null) return;
+        sfxPlayer.start();
+    }
+
+    public void releaseSFX() {
+        if (sfxPlayer == null) return;
+        sfxPlayer.release();
+        sfxPlayer = null;
+    }
+
+    public void pauseAllPlayer() {
+        if (sfxPlayer != null && sfxPlayer.isPlaying()) {
+            sfxPlayer.pause();
+        }
+        if (bgmPlayer != null && bgmPlayer.isPlaying()) {
+            bgmPlayer.pause();
+        }
+    }
+
+    public void resumeAllPlayers() {
+        if (sfxPlayer != null) {
+            sfxPlayer.start();
+        }
+        if (bgmPlayer != null) {
+            bgmPlayer.start();
+        }
+    }
+
+    public void releaseAllPlayers() {
+        if (sfxPlayer != null) {
+            sfxPlayer.release();
+            sfxPlayer = null;
+        }
+        if (bgmPlayer != null) {
+            bgmPlayer.release();
+            bgmPlayer = null;
+        }
     }
 
     @Override

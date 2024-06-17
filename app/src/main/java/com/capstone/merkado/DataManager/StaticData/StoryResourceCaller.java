@@ -105,4 +105,14 @@ public class StoryResourceCaller {
         else if ("STUDENTS".equals(imgResource)) return R.drawable.gui_textbox_students;
         else return R.drawable.gui_textbox_empty;
     }
+
+    public static int getBGM(String bgmFile) {
+        if ("merkado_theme".equals(bgmFile)) return R.raw.bgm_merkado;
+        else return -1;
+    }
+
+    public static int getSFX(String sfxFile) {
+        if ("school_bell".equals(sfxFile)) return R.raw.sfx_bell_ring;
+        else return -1;
+    }
 }

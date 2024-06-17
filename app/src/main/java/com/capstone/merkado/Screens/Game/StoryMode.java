@@ -2,6 +2,7 @@ package com.capstone.merkado.Screens.Game;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
@@ -200,12 +202,14 @@ public class StoryMode extends AppCompatActivity {
 
         // display initial background
         changeBackground(StoryResourceCaller.retrieveBackgroundResource(lineGroup.getBackground()));
+        playBGM(lineGroup.getBgm());
 
         // after half-a-second, start the story.
         new Handler().postDelayed(() -> {
             // display first line
             LineGroup.DialogueLine dialogueLine = lineGroup.getDialogueLines().get(currentLineGroupIndex);
             showLine(StoryResourceCaller.retrieveDialogueBoxResource(dialogueLine.getCharacter()), dialogueLine.getDialogue());
+            playSFX(dialogueLine.getSfx());
             if (dialogueLine.getDialogueChoices() != null) {
                 choiceGui.setVisibility(View.VISIBLE);
                 setChoices(dialogueLine.getDialogueChoices());
@@ -226,6 +230,7 @@ public class StoryMode extends AppCompatActivity {
                 // display first line
                 LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentLineGroupIndex);
                 showLine(StoryResourceCaller.retrieveDialogueBoxResource(dialogueLine1.getCharacter()), dialogueLine1.getDialogue());
+                playSFX(dialogueLine1.getSfx());
                 if (dialogueLine1.getDialogueChoices() != null) {
                     choiceGui.setVisibility(View.VISIBLE);
                     setChoices(dialogueLine1.getDialogueChoices());
@@ -328,8 +333,23 @@ public class StoryMode extends AppCompatActivity {
 
     private void showLine(int dialogueBoxResource, String dialogue) {
         dialogueBox.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), dialogueBoxResource));
-        dialogueTextView.setText(StringProcessor.dialogueProcessor(dialogue));
+        dialogueTextView.setText(Html.fromHtml(StringProcessor.dialogueProcessor(dialogue), HtmlCompat.FROM_HTML_MODE_LEGACY));
         scheduleAutoPlay(dialogue);
+    }
+
+    private void playSFX(String sfxFile) {
+        if (sfxFile == null) return;
+        int sfxResource = StoryResourceCaller.getSFX(sfxFile);
+        if (sfxResource == -1) return;
+        merkado.setSFX(getApplicationContext(), sfxResource);
+    }
+
+    private void playBGM(String bgmString) {
+        if (bgmString == null) return;
+        String[] bgmData = bgmString.split(" ");
+        int bgmResource = StoryResourceCaller.getBGM(bgmData[0]);
+        if (bgmResource == -1) return;
+        merkado.setBGM(getApplicationContext(), bgmResource, "loop".equals(bgmData[1]));
     }
 
     private void currentLineEnded() {

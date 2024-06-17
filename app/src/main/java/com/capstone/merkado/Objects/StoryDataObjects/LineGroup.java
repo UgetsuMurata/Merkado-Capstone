@@ -15,6 +15,7 @@ public class LineGroup implements Parcelable {
     private String background;
     private List<DialogueLine> dialogueLines;
     private String transition;
+    private String bgm;
 
     // No-argument constructor required for Firebase
     public LineGroup() {
@@ -69,6 +70,14 @@ public class LineGroup implements Parcelable {
         this.transition = transition;
     }
 
+    public String getBgm() {
+        return bgm;
+    }
+
+    public void setBgm(String bgm) {
+        this.bgm = bgm;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -91,6 +100,7 @@ public class LineGroup implements Parcelable {
         dest.writeString(background);
         dest.writeTypedList(dialogueLines);
         dest.writeString(transition);
+        dest.writeString(bgm);
     }
 
     protected LineGroup(Parcel in) {
@@ -104,6 +114,7 @@ public class LineGroup implements Parcelable {
         background = in.readString();
         dialogueLines = in.createTypedArrayList(DialogueLine.CREATOR);
         transition = in.readString();
+        bgm = in.readString();
     }
 
     public static final Creator<LineGroup> CREATOR = new Creator<LineGroup>() {
@@ -123,6 +134,7 @@ public class LineGroup implements Parcelable {
         private String dialogue;
         private List<ImagePlacementData> imageChanges;
         private List<DialogueChoice> dialogueChoices;
+        private String sfx;
 
         // No-argument constructor required for Firebase
         public DialogueLine() {
@@ -161,6 +173,14 @@ public class LineGroup implements Parcelable {
             this.dialogueChoices = dialogueChoices;
         }
 
+        public String getSfx() {
+            return sfx;
+        }
+
+        public void setSfx(String sfx) {
+            this.sfx = sfx;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -172,6 +192,7 @@ public class LineGroup implements Parcelable {
             dest.writeString(dialogue);
             dest.writeTypedList(imageChanges);
             dest.writeTypedList(dialogueChoices);
+            dest.writeString(sfx);
         }
 
         protected DialogueLine(Parcel in) {
@@ -179,6 +200,7 @@ public class LineGroup implements Parcelable {
             dialogue = in.readString();
             imageChanges = in.createTypedArrayList(ImagePlacementData.CREATOR);
             dialogueChoices = in.createTypedArrayList(DialogueChoice.CREATOR);
+            sfx = in.readString();
         }
 
         public static final Creator<DialogueLine> CREATOR = new Creator<DialogueLine>() {

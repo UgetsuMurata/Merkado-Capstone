@@ -88,7 +88,7 @@ public class AddEconomy extends AppCompatActivity {
                     finish();
                     return;
                 }
-                Boolean results = DataFunctions.addPlayerToServer(AddEconomy.this, serverCodeStr, account);
+                Boolean results = DataFunctions.addPlayerToServer(serverCodeStr, account);
                 runOnUiThread(()-> {
                     Toast.makeText(getApplicationContext(), results ? "Server added successfully!" : "Failed to join server. Try again later.", Toast.LENGTH_SHORT).show();
                     setResult(results ? RESULT_OK : RESULT_CANCELED);

@@ -12,7 +12,7 @@ import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
-import com.capstone.merkado.Objects.StoryDataObjects.Story;
+import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.MainMap;
@@ -110,11 +110,14 @@ public class ServerLoadingScreen extends AppCompatActivity {
             if (playerFBExtractor.getStoryQueue() == null) return;
             for (PlayerFBExtractor.StoryQueue storyQueue : playerFBExtractor.getStoryQueue()) {
                 PlayerStory playerStory = new PlayerStory();
-                Story story = DataFunctions.getStoryFromId(storyQueue.getStory());
-                playerStory.setStory(story);
-                playerStory.setNextStory(DataFunctions.getStoryFromId(storyQueue.getNextStory()));
-                playerStory.setCurrentLineGroup(DataFunctions.getLineGroupFromId(storyQueue.getCurrentLineGroup()));
-                playerStory.setNextLineGroup(DataFunctions.getLineGroupFromId(storyQueue.getNextLineGroup()));
+                Chapter chapter = DataFunctions.getChapterFromId(storyQueue.getChapter());
+                if (chapter == null) continue;
+
+                playerStory.setChapter(chapter);
+                playerStory.setCurrentScene(chapter.getScenes().get(storyQueue.getCurrentScene()));
+                playerStory.setNextScene(chapter.getScenes().size() < storyQueue.getNextScene() ? chapter.getScenes().get(storyQueue.getNextScene()) : null);
+                playerStory.setCurrentLineGroup(DataFunctions.getLineGroupFromId(Long.valueOf(storyQueue.getChapter()), Long.valueOf(storyQueue.getCurrentScene()), storyQueue.getCurrentLineGroup()));
+                playerStory.setNextLineGroup(DataFunctions.getLineGroupFromId(Long.valueOf(storyQueue.getChapter()), Long.valueOf(storyQueue.getCurrentScene()), storyQueue.getNextLineGroup()));
                 playerStoryList.add(playerStory);
             }
             merkado.getPlayer().setPlayerStoryList(playerStoryList);
@@ -145,11 +148,10 @@ public class ServerLoadingScreen extends AppCompatActivity {
         Integer index = 0;
         if (merkado.getPlayer().getPlayerStoryList() == null) return;
         for (PlayerStory playerStory : merkado.getPlayer().getPlayerStoryList()) {
-            if (playerStory.getStory().getChapter().equals("Prologue")) {
+            if (playerStory.getChapter().getChapter().equals("Prologue")) {
                 intent.putExtra("PROLOGUE", true);
-                intent.putExtra("CURRENT_LINE_GROUP", playerStory.getCurrentLineGroup());
+                intent.putExtra("PLAYER_STORY", playerStory);
                 intent.putExtra("CURRENT_QUEUE_INDEX", index);
-                intent.putExtra("NEXT_LINE_GROUP", playerStory.getNextLineGroup() != null ? playerStory.getNextLineGroup().getId() : null);
             }
             index++;
         }

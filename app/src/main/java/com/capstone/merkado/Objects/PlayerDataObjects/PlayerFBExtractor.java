@@ -110,31 +110,25 @@ public class PlayerFBExtractor {
     }
 
     public static class StoryQueue {
-        private Integer story;
-        private Integer nextStory;
+        private Integer chapter;
         private Integer currentLineGroup;
-        private Integer nextLineGroup;
+        private Integer currentScene;
         private Boolean isTaken;
+        private Integer nextLineGroup;
+        private Integer nextScene;
 
         // No-argument constructor required for Firebase
         public StoryQueue() {
         }
 
         // Getters and setters
-        public Integer getStory() {
-            return story;
+
+        public Integer getChapter() {
+            return chapter;
         }
 
-        public void setStory(Integer story) {
-            this.story = story;
-        }
-
-        public Integer getNextStory() {
-            return nextStory;
-        }
-
-        public void setNextStory(Integer nextStory) {
-            this.nextStory = nextStory;
+        public void setChapter(Integer chapter) {
+            this.chapter = chapter;
         }
 
         public Integer getCurrentLineGroup() {
@@ -145,6 +139,22 @@ public class PlayerFBExtractor {
             this.currentLineGroup = currentLineGroup;
         }
 
+        public Integer getCurrentScene() {
+            return currentScene;
+        }
+
+        public void setCurrentScene(Integer currentScene) {
+            this.currentScene = currentScene;
+        }
+
+        public Boolean getTaken() {
+            return isTaken;
+        }
+
+        public void setTaken(Boolean taken) {
+            isTaken = taken;
+        }
+
         public Integer getNextLineGroup() {
             return nextLineGroup;
         }
@@ -153,12 +163,12 @@ public class PlayerFBExtractor {
             this.nextLineGroup = nextLineGroup;
         }
 
-        public Boolean getIsTaken() {
-            return isTaken;
+        public Integer getNextScene() {
+            return nextScene;
         }
 
-        public void setIsTaken(Boolean isTaken) {
-            this.isTaken = isTaken;
+        public void setNextScene(Integer nextScene) {
+            this.nextScene = nextScene;
         }
     }
 }

@@ -1,29 +1,62 @@
 package com.capstone.merkado.Objects.StoryDataObjects;
 
-public class PlayerStory {
-    private Story story;
-    private Story nextStory;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class PlayerStory implements Parcelable{
+    private Chapter chapter;
     private LineGroup currentLineGroup;
-    private LineGroup nextLineGroup;
+    private Chapter.Scene currentScene;
     private Boolean isTaken;
+    private LineGroup nextLineGroup;
+    private Chapter.Scene nextScene;
 
     public PlayerStory() {
     }
 
-    public Story getStory() {
-        return story;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setStory(Story story) {
-        this.story = story;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(chapter, flags);
+        dest.writeParcelable(currentLineGroup, flags);
+        dest.writeParcelable(currentScene, flags);
+        dest.writeByte((byte) (isTaken == null ? 0 : isTaken ? 1 : 2));
+        dest.writeParcelable(nextLineGroup, flags);
+        dest.writeParcelable(nextScene, flags);
     }
 
-    public Story getNextStory() {
-        return nextStory;
+    protected PlayerStory(Parcel in) {
+        chapter = in.readParcelable(Chapter.class.getClassLoader());
+        currentLineGroup = in.readParcelable(LineGroup.class.getClassLoader());
+        currentScene = in.readParcelable(Chapter.Scene.class.getClassLoader());
+        byte tmpIsTaken = in.readByte();
+        isTaken = tmpIsTaken == 0 ? null : tmpIsTaken == 1;
+        nextLineGroup = in.readParcelable(LineGroup.class.getClassLoader());
+        nextScene = in.readParcelable(Chapter.Scene.class.getClassLoader());
     }
 
-    public void setNextStory(Story nextStory) {
-        this.nextStory = nextStory;
+    public static final Parcelable.Creator<PlayerStory> CREATOR = new Creator<PlayerStory>() {
+        @Override
+        public PlayerStory createFromParcel(Parcel in) {
+            return new PlayerStory(in);
+        }
+
+        @Override
+        public PlayerStory[] newArray(int size) {
+            return new PlayerStory[size];
+        }
+    };
+
+    public Chapter getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
     }
 
     public LineGroup getCurrentLineGroup() {
@@ -32,6 +65,22 @@ public class PlayerStory {
 
     public void setCurrentLineGroup(LineGroup currentLineGroup) {
         this.currentLineGroup = currentLineGroup;
+    }
+
+    public Chapter.Scene getCurrentScene() {
+        return currentScene;
+    }
+
+    public void setCurrentScene(Chapter.Scene currentScene) {
+        this.currentScene = currentScene;
+    }
+
+    public Chapter.Scene getNextScene() {
+        return nextScene;
+    }
+
+    public void setNextScene(Chapter.Scene nextScene) {
+        this.nextScene = nextScene;
     }
 
     public LineGroup getNextLineGroup() {

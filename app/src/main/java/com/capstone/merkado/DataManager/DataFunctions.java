@@ -9,7 +9,7 @@ import com.capstone.merkado.Objects.PlayerDataObjects.Inventory;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
-import com.capstone.merkado.Objects.StoryDataObjects.Story;
+import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
 import com.capstone.merkado.Objects.VerificationCode;
 import com.google.android.gms.tasks.Task;
@@ -447,12 +447,12 @@ public class DataFunctions {
      * @param lineGroupIndex index or id of line group.
      * @return LineGroup instance.
      */
-    public static LineGroup getLineGroupFromId(Integer lineGroupIndex) {
+    public static LineGroup getLineGroupFromId(Long chapterId, Long sceneId, Integer lineGroupIndex) {
         final CompletableFuture<LineGroup> future = new CompletableFuture<>();
 
         FirebaseData firebaseData = new FirebaseData();
 
-        firebaseData.retrieveData(String.format(Locale.getDefault(), "story/lineGroup/%d", lineGroupIndex), dataSnapshot -> {
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "story/%d/scenes/%d/lineGroup/%d", chapterId, sceneId, lineGroupIndex), dataSnapshot -> {
             if (!dataSnapshot.exists())
                 future.complete(null);
             LineGroup lineGroup = dataSnapshot.getValue(LineGroup.class);
@@ -473,14 +473,14 @@ public class DataFunctions {
      * @param storyId index or id of the story.
      * @return Story instance.
      */
-    public static Story getStoryFromId(Integer storyId) {
-        final CompletableFuture<Story> future = new CompletableFuture<>();
+    public static Chapter getChapterFromId(Integer chapterId) {
+        final CompletableFuture<Chapter> future = new CompletableFuture<>();
 
         FirebaseData firebaseData = new FirebaseData();
 
-        firebaseData.retrieveData(String.format(Locale.getDefault(), "story/story/%d", storyId), dataSnapshot -> {
-            Story story = dataSnapshot.getValue(Story.class);
-            future.complete(story);
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "story/%d/", chapterId), dataSnapshot -> {
+            Chapter chapter = dataSnapshot.getValue(Chapter.class);
+            future.complete(chapter);
         });
 
         try {
@@ -515,7 +515,6 @@ public class DataFunctions {
         }
     }
 
-    //For checking the existence of the server
     public static Boolean checkServerExistence(Context context, String serverCode) {
         final CompletableFuture<Boolean> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
@@ -531,45 +530,10 @@ public class DataFunctions {
         }
     }
 
-    //For getting the current account
-    public static void getCurrentAccount(Context context, AccountReturn accountReturn) {
-        // Get the signed-in account using the getSignedIn method
-        Account signedInAccount = getSignedIn(context);
-
-        // Check if the signed-in account is not null
-        if (signedInAccount != null) {
-            String currentUserEmail = signedInAccount.getEmail();
-            String encodedEmail = FirebaseCharacters.encode(currentUserEmail);
-
-            FirebaseData firebaseData = new FirebaseData();
-
-            // Retrieve the account details from Firebase using the encoded email
-            firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
-                if (dataSnapshot.exists()) {
-                    // Extract the username from the retrieved data
-                    String username = dataSnapshot.child("username").getValue(String.class);
-                    // Return the Account object with the current email and username
-                    accountReturn.accountReturn(new Account(currentUserEmail, username));
-                } else {
-                    // Return null if the account does not exist
-                    accountReturn.accountReturn(null);
-                }
-            });
-        } else {
-            // Return null if no user is signed in
-            accountReturn.accountReturn(null);
-        }
-    }
-
     private static Long getNextPlayerIndex() {
         CompletableFuture<Long> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData("player", new FirebaseData.FirebaseDataCallback() {
-            @Override
-            public void onDataReceived(DataSnapshot dataSnapshot) {
-                future.complete(dataSnapshot.getChildrenCount());
-            }
-        });
+        firebaseData.retrieveData("player", dataSnapshot -> future.complete(dataSnapshot.getChildrenCount()));
 
         try {
             return future.get();
@@ -580,7 +544,7 @@ public class DataFunctions {
     }
 
     //For adding the player to the server
-    public static Boolean addPlayerToServer(Context context, String serverCode, Account account) {
+    public static Boolean addPlayerToServer(String serverCode, Account account) {
         FirebaseData firebaseData = new FirebaseData();
         Long playerId = getNextPlayerIndex();
 
@@ -589,10 +553,12 @@ public class DataFunctions {
         // populate storyQueueList
         List<PlayerFBExtractor.StoryQueue> storyQueueList = new ArrayList<>();
         PlayerFBExtractor.StoryQueue storyQueue = new PlayerFBExtractor.StoryQueue();
-        storyQueue.setStory(0);
-        storyQueue.setIsTaken(false);
+        storyQueue.setChapter(0);
         storyQueue.setCurrentLineGroup(0);
+        storyQueue.setCurrentScene(0);
+        storyQueue.setTaken(false);
         storyQueue.setNextLineGroup(1);
+        storyQueue.setNextScene(1);
         storyQueueList.add(storyQueue);
 
         // populate inventoryList

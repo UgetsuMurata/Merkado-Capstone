@@ -23,6 +23,7 @@ import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.StoryDataObjects.ImagePlacementData;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
+import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.R;
 
 import java.util.Arrays;
@@ -33,6 +34,7 @@ import java.util.List;
 public class StoryMode extends AppCompatActivity {
 
     Merkado merkado;
+    PlayerStory playerStory;
 
     /**
      * Dialogue
@@ -102,17 +104,17 @@ public class StoryMode extends AppCompatActivity {
         blackScreen = findViewById(R.id.black_screen);
 
         // get the lineGroup from the intent
-        LineGroup lineGroup = getIntent().getParcelableExtra("CURRENT_LINE_GROUP");
-        nextLineGroupId = getIntent().getIntExtra("NEXT_LINE_GROUP", -1);
+        playerStory = getIntent().getParcelableExtra("PLAYER_STORY");
         currentQueueIndex = getIntent().getIntExtra("CURRENT_QUEUE_INDEX", -1);
+        nextLineGroupId = playerStory.getNextLineGroup().getId();
 
-        if (lineGroup == null) {
+        if (playerStory == null) {
             finish();
-            Toast.makeText(getApplicationContext(), "Cannot retrieve scripts. Please try again later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Cannot retrieve story. Please try again later.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        initializeScreen(lineGroup);
+        initializeScreen(playerStory.getCurrentLineGroup());
 
         handler = new Handler();
 
@@ -356,7 +358,7 @@ public class StoryMode extends AppCompatActivity {
         DataFunctions.changeCurrentLineGroup(nextLineGroupId, merkado.getPlayerId(), currentQueueIndex);
 
         new Thread(() -> {
-            LineGroup lineGroup = DataFunctions.getLineGroupFromId(nextLineGroupId);
+            LineGroup lineGroup = DataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), playerStory.getCurrentScene().getId(), nextLineGroupId);
             if (lineGroup == null) {
                 finish();
                 return;

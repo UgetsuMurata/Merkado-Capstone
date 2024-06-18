@@ -115,10 +115,12 @@ public class ServerLoadingScreen extends AppCompatActivity {
 
                 playerStory.setChapter(chapter);
                 playerStory.setCurrentScene(chapter.getScenes().get(storyQueue.getCurrentScene()));
-                for (Chapter.Scene scene : playerStory.getChapter().getScenes()) {
-                    if (Math.toIntExact(scene.getId()) == playerStory.getCurrentScene().getNextScene()) {
-                        playerStory.setNextScene(scene);
-                        break;
+                if (playerStory.getCurrentScene().getNextScene() != null) {
+                    for (Chapter.Scene scene : playerStory.getChapter().getScenes()) {
+                        if (Math.toIntExact(scene.getId()) == playerStory.getCurrentScene().getNextScene()) {
+                            playerStory.setNextScene(scene);
+                            break;
+                        }
                     }
                 }
                 playerStory.setCurrentLineGroup(DataFunctions.getLineGroupFromId(Long.valueOf(storyQueue.getChapter()), Long.valueOf(storyQueue.getCurrentScene()), storyQueue.getCurrentLineGroup()));

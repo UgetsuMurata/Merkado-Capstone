@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +29,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class StoryMode extends AppCompatActivity {
 
@@ -204,8 +204,20 @@ public class StoryMode extends AppCompatActivity {
         currentLineGroupIndex = 0;
         clearCharacters();
 
-        if ("FTB".equals(lineGroup.getTransition())) fadeToBlack();
+        if ("FTB".equals(lineGroup.getTransition())) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    fadeToBlack();
+                    runOnUiThread(() -> setUpScreen(lineGroup));
+                }
+            }).start();
+        } else {
+            setUpScreen(lineGroup);
+        }
+    }
 
+    private void setUpScreen(LineGroup lineGroup) {
         // change chapter/scene details
         sceneName.setText(playerStory.getCurrentScene().getScene());
         chapterName.setText(playerStory.getChapter().getChapter());
@@ -489,35 +501,26 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void fadeToBlack() {
-        Animation fadeIn = new AlphaAnimation(0, 1);
-        fadeIn.setDuration(5000);
-
-        Animation fadeOut = new AlphaAnimation(1, 0);
-        fadeOut.setStartOffset(2000);
-        fadeOut.setDuration(3000);
-
-        Animation.AnimationListener listener = new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                blackScreen.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        };
-
-        fadeIn.setAnimationListener(listener);
-        fadeOut.setAnimationListener(listener);
-
-        blackScreen.setVisibility(View.VISIBLE);
-        // Start the animations
-        blackScreen.startAnimation(fadeIn);
-        blackScreen.startAnimation(fadeOut);
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        runOnUiThread(() -> {
+            blackScreen.setVisibility(View.VISIBLE);
+            blackScreen.setAlpha(0f);
+            blackScreen.animate()
+                    .alpha(1f)
+                    .setDuration(200)
+                    .withEndAction(() -> {
+                        future.complete(null);
+                        blackScreen.animate()
+                                .alpha(0f)
+                                .setDuration(500)
+                                .start();
+                    }).start();
+        });
+        try {
+            future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

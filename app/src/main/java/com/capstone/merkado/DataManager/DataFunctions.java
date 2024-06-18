@@ -470,7 +470,7 @@ public class DataFunctions {
     /**
      * Gets story data using its index or id. This is used for story-mode.
      *
-     * @param storyId index or id of the story.
+     * @param chapterId index or id of the story.
      * @return Story instance.
      */
     public static Chapter getChapterFromId(Integer chapterId) {
@@ -645,13 +645,13 @@ public class DataFunctions {
         firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextLineGroup", playerId, storyQueueId), lineGroupId);
     }
 
-    public static void changeStory(Integer storyId, Integer playerId, Integer storyQueueId) {
+    public static void changeCurrentScene(Integer sceneId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/story", playerId, storyQueueId), storyId);
+        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/currentScene", playerId, storyQueueId), sceneId);
     }
 
-    public static void changeNextStory(Integer storyId, Integer playerId, Integer storyQueueId) {
+    public static void changeNextScene(Integer sceneId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextStory", playerId, storyQueueId), storyId);
+        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextScene", playerId, storyQueueId), sceneId);
     }
 }

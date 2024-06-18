@@ -21,6 +21,7 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
+import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.ImagePlacementData;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
@@ -58,6 +59,11 @@ public class StoryMode extends AppCompatActivity {
     ConstraintLayout choiceGui;
     ImageView choice1, choice2, choice3, choice4;
     TextView choice1Text, choice2Text, choice3Text, choice4Text;
+
+    /**
+     * SCENE DETAILS
+     */
+    TextView sceneName, chapterName;
 
     /**
      * TRANSITION
@@ -102,11 +108,13 @@ public class StoryMode extends AppCompatActivity {
         characterSlot4 = findViewById(R.id.character_slot_4);
         characterSlot5 = findViewById(R.id.character_slot_5);
         blackScreen = findViewById(R.id.black_screen);
+        sceneName = findViewById(R.id.scene_name);
+        chapterName = findViewById(R.id.chapter_name);
 
         // get the lineGroup from the intent
         playerStory = getIntent().getParcelableExtra("PLAYER_STORY");
         currentQueueIndex = getIntent().getIntExtra("CURRENT_QUEUE_INDEX", -1);
-        nextLineGroupId = playerStory.getNextLineGroup().getId();
+        nextLineGroupId = playerStory.getNextLineGroup() != null ? playerStory.getNextLineGroup().getId() : null;
 
         if (playerStory == null) {
             finish();
@@ -177,7 +185,8 @@ public class StoryMode extends AppCompatActivity {
             };
         handler.postDelayed(runnable, 100L);
     }
-    private void stopSkipping(){
+
+    private void stopSkipping() {
         skipDialogues = false;
     }
 
@@ -196,6 +205,11 @@ public class StoryMode extends AppCompatActivity {
         clearCharacters();
 
         if ("FTB".equals(lineGroup.getTransition())) fadeToBlack();
+
+        // change chapter/scene details
+        sceneName.setText(playerStory.getCurrentScene().getScene());
+        chapterName.setText(playerStory.getChapter().getChapter());
+
 
         // display initial images
         for (ImagePlacementData imagePlacementData : lineGroup.getInitialImages()) {
@@ -355,15 +369,50 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentLineEnded() {
+        if (nextLineGroupId == null || nextLineGroupId == -1) {
+            currentSceneEnded();
+            return;
+        }
         DataFunctions.changeCurrentLineGroup(nextLineGroupId, merkado.getPlayerId(), currentQueueIndex);
 
         new Thread(() -> {
             LineGroup lineGroup = DataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), playerStory.getCurrentScene().getId(), nextLineGroupId);
             if (lineGroup == null) {
+                Toast.makeText(getApplicationContext(), "The story encountered a problem. Please try again later.", Toast.LENGTH_SHORT).show();
                 finish();
                 return;
             }
+            DataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
+            nextLineGroupId = lineGroup.getDefaultNextLine();
+            runOnUiThread(() -> initializeScreen(lineGroup));
+        }).start();
+    }
 
+    private void currentSceneEnded() {
+        Chapter.Scene currentScene = playerStory.getNextScene();
+        if (currentScene == null) {
+            finish();
+            return;
+        }
+        playerStory.setCurrentScene(currentScene);
+        if (currentScene.getNextScene() != null) {
+            for (Chapter.Scene scene : playerStory.getChapter().getScenes()) {
+                if (Math.toIntExact(scene.getId()) == currentScene.getNextScene()) {
+                    playerStory.setNextScene(scene);
+                    break;
+                }
+            }
+        } else playerStory.setNextScene(null);
+        DataFunctions.changeCurrentScene(Math.toIntExact(currentScene.getId()), merkado.getPlayerId(), currentQueueIndex);
+        DataFunctions.changeNextScene(currentScene.getNextScene() == null ? null : Math.toIntExact(currentScene.getNextScene()), merkado.getPlayerId(), currentQueueIndex);
+        new Thread(() -> {
+            DataFunctions.changeCurrentLineGroup(0, merkado.getPlayerId(), currentQueueIndex);
+            LineGroup lineGroup = DataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), currentScene.getId(), 0);
+            if (lineGroup == null) {
+                Toast.makeText(getApplicationContext(), "The story encountered a problem. Please try again later.", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
             DataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
             runOnUiThread(() -> initializeScreen(lineGroup));

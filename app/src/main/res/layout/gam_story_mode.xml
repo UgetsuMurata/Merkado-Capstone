@@ -8,6 +8,68 @@
     android:background="@drawable/bg_mai_main_menu"
     tools:context=".Screens.Game.StoryMode">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/scene_detail_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".58" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/chapter_detail_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".65" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/scene_detail_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".31" />
+
+        <TextView
+            android:id="@+id/scene_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:fontFamily="@font/text"
+            android:text="Walking Through the World of Economics II"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/scene_detail_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/scene_detail_start" />
+
+        <TextView
+            android:id="@+id/chapter_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:fontFamily="@font/elements"
+            android:text="Prologue"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/scene_detail_start"
+            app:layout_constraintTop_toTopOf="@id/chapter_detail_top" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/gui_story_details"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -351,9 +413,9 @@
         android:id="@+id/black_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="0"
+        android:contentDescription="black screen"
         android:elevation="20dp"
         android:src="@color/black"
-        android:contentDescription="black screen"
-        android:alpha="0"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

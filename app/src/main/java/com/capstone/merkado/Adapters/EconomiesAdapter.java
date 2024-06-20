@@ -37,21 +37,8 @@ public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.Econ
 
     @Override
     public void onBindViewHolder(@NonNull EconomiesAdapterViewer holder, int position) {
-        // retrieve the data from the list
-        String serverNameString = economyBasicList.get(position).getTitle();
-        Integer playersOnlineInteger = economyBasicList.get(position).getPlayersOnline();
-        Drawable serverImageDrawable = economyBasicList.get(position).getImage();
-        Integer playerId = economyBasicList.get(position).getPlayerId();
-
-        // set the data
-        holder.serverName.setText(serverNameString);
-        holder.playersOnline.setText(String.format(Locale.getDefault(), "%d player%s online", playersOnlineInteger, playersOnlineInteger <= 1 ? "" : "s"));
-        if (serverImageDrawable == null) {
-            holder.serverImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_earth));
-        }
-
-        // set on click listener
-        holder.itemView.setOnClickListener(v -> onClick.onClick(serverNameString, position, playerId));
+        EconomyBasic economyBasic = economyBasicList.get(position);
+        holder.bind(context, economyBasic, position, onClick);
     }
 
     @Override
@@ -71,9 +58,21 @@ public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.Econ
             serverImage = itemView.findViewById(R.id.server_image);
             this.itemView = itemView;
         }
+
+        public void bind(Context context, EconomyBasic economyBasic, int position, OnClickListener onClick) {
+            // set the data
+            serverName.setText(economyBasic.getTitle());
+            playersOnline.setText(String.format(Locale.getDefault(), "%d player%s online", economyBasic.getPlayersOnline(), economyBasic.getPlayersOnline() <= 1 ? "" : "s"));
+            if (economyBasic.getImage() == null) {
+                serverImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_earth));
+            }
+
+            // set on click listener
+            itemView.setOnClickListener(v -> onClick.onClick(economyBasic.getTitle(), position, economyBasic.getPlayerId()));
+        }
     }
 
-    public void setOnClickListener(OnClickListener onClick){
+    public void setOnClickListener(OnClickListener onClick) {
         this.onClick = onClick;
     }
 

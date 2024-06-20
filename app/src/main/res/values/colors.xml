@@ -6,4 +6,6 @@
     <color name="merkado_orange">#EF8121</color>
     <color name="merkado_blue">#1C486F</color>
     <color name="elements">#FFEB3B</color>
+    <color name="yellow">#FFE500</color>
+    <color name="gray_transparent">#33868686</color>
 </resources>

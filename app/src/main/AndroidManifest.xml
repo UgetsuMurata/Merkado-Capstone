@@ -16,8 +16,20 @@
         android:theme="@style/Theme.Merkado"
         tools:targetApi="31">
         <activity
-            android:name=".Screens.Game.MainMap"
+            android:name=".Screens.Game.Store.Stores"
             android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Screens.Game.QuestAndStories.QuestAndStories"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Screens.Game.Inventory.Inventory"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Screens.Game.MainMap"
+            android:exported="true"
             android:screenOrientation="landscape" />
         <activity
             android:name=".Screens.Economy.CreateEconomy"

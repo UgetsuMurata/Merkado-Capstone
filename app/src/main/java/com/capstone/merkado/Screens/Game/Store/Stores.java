@@ -37,10 +37,10 @@ public class Stores extends AppCompatActivity {
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
-        recyclerView = findViewById(R.id.qas_list);
+        recyclerView = findViewById(R.id.storelist);
         recyclerview1 = findViewById(R.id.store_name_list);
-        emptyView = findViewById(R.id.qas_list_empty);
-        storename = findViewById(R.id.qas_name);
+        emptyView = findViewById(R.id.store_list_empty);
+        storename = findViewById(R.id.store_name);
 
         // Set up the RecyclerView with a GridLayoutManager
         int numberOfColumns = 5; // Maintain 5 columns

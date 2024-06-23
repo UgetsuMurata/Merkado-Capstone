@@ -16,6 +16,10 @@
         android:theme="@style/Theme.Merkado"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.Game.StoreView.StoreViewConsumer"
+            android:exported="true"
+            android:screenOrientation="landscape"/>
+        <activity
             android:name=".Screens.Game.Store.Stores"
             android:exported="true"
             android:screenOrientation="landscape" />

@@ -51,7 +51,7 @@
             android:padding="16dp"> <!-- Adjust padding as needed -->
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/qas_list"
+                android:id="@+id/storelist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fadingEdgeLength="20dp"
@@ -61,7 +61,7 @@
                 tools:listitem="@layout/item_gam_sto_stores_list_item" />
 
             <TextView
-                android:id="@+id/qas_list_empty"
+                android:id="@+id/store_list_empty"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/elements"
@@ -82,7 +82,7 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/qas_name"
+                android:id="@+id/store_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/header"
@@ -90,7 +90,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/qas_description"
+                android:id="@+id/store_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/text"
@@ -105,10 +105,10 @@
                 android:fadingEdgeLength="20dp"
                 android:requiresFadingEdge="horizontal"
                 android:orientation="horizontal"
-                tools:listitem="@layout/store_name_game_sto_stores" />
+                tools:listitem="@layout/item_game_sto_stores" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/qas_start_story"
+                android:id="@+id/go_to_store"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/merkado_blue"

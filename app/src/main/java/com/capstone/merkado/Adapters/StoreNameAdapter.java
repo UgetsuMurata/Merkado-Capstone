@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
+
 import com.capstone.merkado.Objects.StoresDataObjects.StoreName;
 import com.capstone.merkado.R;
 
@@ -28,7 +28,7 @@ public class StoreNameAdapter extends RecyclerView.Adapter<StoreNameAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.store_name_game_sto_stores, parent, false);
+                .inflate(R.layout.item_game_sto_stores, parent, false);
         return new ViewHolder(view);
     }
 

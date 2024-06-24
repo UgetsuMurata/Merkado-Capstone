@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
@@ -137,11 +136,10 @@ public class StoryMode extends AppCompatActivity {
         });
         exit.setOnClickListener(v -> goToExit());
         skip.setOnClickListener(v -> {
-            skipDialogues();
             if (skipDialogues) {
-                skip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_fast_forward_active));
+                stopSkipping();
             } else {
-                skip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_fast_forward_idle));
+                skipDialogues();
             }
         });
     }
@@ -184,6 +182,7 @@ public class StoryMode extends AppCompatActivity {
     private void skipDialogues() {
         autoPlay = false;
         skipDialogues = true;
+        skip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_fast_forward_active));
         if (runnable != null)
             // clear any scheduled autoplay with this handler.
             handler.removeCallbacks(runnable);
@@ -199,6 +198,7 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void stopSkipping() {
+        skip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_fast_forward_idle));
         skipDialogues = false;
     }
 

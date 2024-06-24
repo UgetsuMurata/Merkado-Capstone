@@ -176,9 +176,9 @@ public class StoryResourceCaller {
             case "STUDENTS":
                 return R.drawable.gui_textbox_students;
             case "EIAN":
-                return R.drawable.gui_textbox_students;
+                return R.drawable.gui_textbox_eian;
             case "TINDERA":
-                return R.drawable.gui_textbox_students;
+                return R.drawable.gui_textbox_pork_vendor;
             default:
                 return R.drawable.gui_textbox_empty;
         }

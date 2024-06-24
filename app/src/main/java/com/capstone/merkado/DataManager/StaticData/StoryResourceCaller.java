@@ -71,7 +71,7 @@ public class StoryResourceCaller {
                 case "mc1_f_curious":
                     return R.drawable.sprite_mc1_f_normal;
             }
-        } else if (imgResource.startsWith("mc_sample2")) {
+        } else if (imgResource.startsWith("mc2")) {
             switch (imgResource) {
                 case "mc2_f_thinking":
                     return R.drawable.sprite_mc2_f_thinking;
@@ -152,9 +152,9 @@ public class StoryResourceCaller {
         if ("bedroom".equals(imgResource)) return R.drawable.scene_bedroom;
         else if ("black screen".equals(imgResource)) return R.drawable.scene_black_screen;
         else if ("home".equals(imgResource)) return R.drawable.scene_home;
-        else if ("market".equals(imgResource)) return R.drawable.scene_market1;
-        else if ("market I".equals(imgResource)) return R.drawable.scene_market2;
-        else if ("pork shop".equals(imgResource)) return R.drawable.scene_pork_shop;
+        else if ("market_inside".equals(imgResource)) return R.drawable.scene_market_inside;
+        else if ("market_outside".equals(imgResource)) return R.drawable.scene_market_outside;
+        else if ("pork_shop".equals(imgResource)) return R.drawable.scene_pork_shop;
         else if ("school".equals(imgResource)) return R.drawable.scene_school;
         else if ("school cafeteria".equals(imgResource)) return R.drawable.scene_school_cafeteria;
         else if ("streets".equals(imgResource)) return R.drawable.scene_streets;

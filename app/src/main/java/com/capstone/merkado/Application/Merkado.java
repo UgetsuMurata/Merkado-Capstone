@@ -146,12 +146,14 @@ public class Merkado extends Application {
 
     public void setBGM(Context context, int file, boolean loop) {
         if (bgmPlayer != null) {
-            if (file == -1) {
+            releaseBGM();
+        }
+        if (file == -1) {
+            if (bgmPlayer != null) {
                 pauseBGM();
                 releaseBGM();
-                return;
             }
-            releaseBGM();
+            return;
         }
         bgmPlayer = MediaPlayer.create(context, file);
         bgmPlayer.setLooping(loop);

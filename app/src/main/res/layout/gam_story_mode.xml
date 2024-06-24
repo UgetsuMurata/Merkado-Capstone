@@ -294,54 +294,27 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <com.google.android.material.card.MaterialCardView
+            <ImageView
                 android:id="@+id/autoplay"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="99dp"
-                app:strokeColor="@color/merkado_orange"
-                app:strokeWidth="3dp">
+                android:layout_marginStart="4dp"
+                android:src="@drawable/gui_storymode_autoplay_idle" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:src="@drawable/icon_autoplay" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
+            <ImageView
                 android:id="@+id/skip"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="99dp"
-                app:strokeColor="@color/merkado_orange"
-                app:strokeWidth="3dp">
+                android:layout_marginStart="4dp"
+                android:src="@drawable/gui_storymode_fast_forward_idle" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:src="@drawable/icon_skip" />
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
+            <ImageView
                 android:id="@+id/exit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="99dp"
-                app:strokeColor="@color/merkado_orange"
-                app:strokeWidth="3dp">
+                android:layout_marginStart="4dp"
+                android:src="@drawable/gui_storymode_exit_idle" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:src="@drawable/icon_exit" />
-            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

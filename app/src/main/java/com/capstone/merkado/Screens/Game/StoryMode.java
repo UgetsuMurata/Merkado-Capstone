@@ -44,7 +44,7 @@ public class StoryMode extends AppCompatActivity {
     /**
      * Tools
      */
-    CardView autoplayButton, skip, exit;
+    ImageView autoplayButton, skip, exit;
     ImageView dialogueBox;
     ConstraintLayout sceneBackground;
 
@@ -128,10 +128,22 @@ public class StoryMode extends AppCompatActivity {
 
         autoplayButton.setOnClickListener(v -> {
             autoPlay = !autoPlay;
+            if (autoPlay) {
+                autoplayButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_autoplay_active));
+            } else {
+                autoplayButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_autoplay_idle));
+            }
             dialogueBox.performClick();
         });
         exit.setOnClickListener(v -> goToExit());
-        skip.setOnClickListener(v -> skipDialogues());
+        skip.setOnClickListener(v -> {
+            skipDialogues();
+            if (skipDialogues) {
+                skip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_fast_forward_active));
+            } else {
+                skip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_fast_forward_idle));
+            }
+        });
     }
 
     /**
@@ -191,13 +203,23 @@ public class StoryMode extends AppCompatActivity {
     }
 
     /**
-     * Removes any autoplay callbacks and then finishes.
+     * Removes any autoplay callbacks and then finishes after half-a-second.
      */
     private void goToExit() {
-        if (runnable != null)
-            // clear any scheduled autoplay with this handler.
-            handler.removeCallbacks(runnable);
-        finish();
+        exit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_exit_active));
+
+        new Handler().postDelayed(() -> {
+            exit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_exit_idle));
+        }, 300);
+
+        new Handler().postDelayed(() -> {
+            if (runnable != null)
+                // clear any scheduled autoplay with this handler.
+                handler.removeCallbacks(runnable);
+            runOnUiThread(this::finish);
+        }, 500);
+
+
     }
 
     private void initializeScreen(LineGroup lineGroup) {
@@ -383,7 +405,6 @@ public class StoryMode extends AppCompatActivity {
         if (bgmString == null) return;
         String[] bgmData = bgmString.split(" ");
         int bgmResource = StoryResourceCaller.getBGM(bgmData[0]);
-        if (bgmResource == -1) return;
         merkado.setBGM(getApplicationContext(), bgmResource, "loop".equals(bgmData[1]));
     }
 

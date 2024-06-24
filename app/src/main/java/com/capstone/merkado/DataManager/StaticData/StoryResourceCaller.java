@@ -35,8 +35,14 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_nanay1_b_home;
             }
         } else if (imgResource.startsWith("teacher1")) {
-            if ("teacher1_b_uniform".equals(imgResource))
-                return R.drawable.sprite_teacher1_b_uniform;
+            switch (imgResource) {
+                case "teacher1_b_uniform":
+                    return R.drawable.sprite_teacher1_b_uniform1;
+                case "teacher1_b_uniform2":
+                    return R.drawable.sprite_teacher1_b_uniform2;
+                case "teacher1_b_uniform3":
+                    return R.drawable.sprite_teacher1_b_uniform3;
+            }
         } else if (imgResource.startsWith("jaxon1")) {
             if ("jaxon1_b_uniform".equals(imgResource))
                 return R.drawable.sprite_jaxon1_b_uniform;

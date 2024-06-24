@@ -5,6 +5,7 @@ import com.capstone.merkado.R;
 public class StoryResourceCaller {
 
     public static int retrieveCharacterBodyResource(String imgResource) {
+        if (imgResource == null) return R.drawable.sprite_body_empty;
         if (imgResource.startsWith("mc_sample1")) {
             if ("mc_sample1_pajamas".equals(imgResource))
                 return R.drawable.sprite_body_mc_sample1_pajamas;
@@ -30,6 +31,7 @@ public class StoryResourceCaller {
     }
 
     public static int retrieveCharacterFaceResource(String imgResource) {
+        if (imgResource == null) return R.drawable.sprite_body_empty;
         if (imgResource.startsWith("mc_sample1")) {
             if ("mc_sample1_compassion".equals(imgResource))
                 return R.drawable.sprite_face_mc_sample1_compassion;
@@ -89,6 +91,8 @@ public class StoryResourceCaller {
     public static int retrieveBackgroundResource(String imgResource) {
         if ("bedroom".equals(imgResource)) return R.drawable.scene_bedroom;
         else if ("school".equals(imgResource)) return R.drawable.scene_school;
+        else if ("school cafeteria".equals(imgResource)) return R.drawable.scene_school_cafeteria;
+        else if ("black screen".equals(imgResource)) return R.drawable.scene_black_screen;
         else return R.drawable.bg_splash_screen; // this is a default background resource
     }
 

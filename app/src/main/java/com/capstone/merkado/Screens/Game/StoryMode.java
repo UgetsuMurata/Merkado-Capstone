@@ -201,8 +201,8 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void initializeScreen(LineGroup lineGroup) {
-        currentLineGroupIndex = 0;
         clearCharacters();
+        clearDialogueBox();
 
         if ("FTB".equals(lineGroup.getTransition())) {
             new Thread(new Runnable() {
@@ -218,16 +218,18 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void setUpScreen(LineGroup lineGroup) {
+        currentLineGroupIndex = 0;
         // change chapter/scene details
         sceneName.setText(playerStory.getCurrentScene().getScene());
         chapterName.setText(playerStory.getChapter().getChapter());
 
 
         // display initial images
-        for (ImagePlacementData imagePlacementData : lineGroup.getInitialImages()) {
-            showCharacter(imagePlacementData);
+        if (lineGroup.getInitialImages() != null) {
+            for (ImagePlacementData imagePlacementData : lineGroup.getInitialImages()) {
+                showCharacter(imagePlacementData);
+            }
         }
-
         // display initial background
         changeBackground(StoryResourceCaller.retrieveBackgroundResource(lineGroup.getBackground()));
         playBGM(lineGroup.getBgm());
@@ -353,6 +355,11 @@ public class StoryMode extends AppCompatActivity {
             ImageView prop = layout.findViewById(R.id.props);
             prop.setImageDrawable(null);
         }
+    }
+
+    private void clearDialogueBox() {
+        dialogueTextView.setText("");
+        dialogueBox.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), StoryResourceCaller.retrieveDialogueBoxResource("")));
     }
 
     private void changeBackground(int scene) {

@@ -48,8 +48,10 @@ public class StringProcessor {
      * @return processed string.
      */
     public static String dialogueProcessor(String rawDialogue) {
-        String processed = "";
-        processed = rawDialogue.replaceAll("\\{\\$USER_NAME\\}", Merkado.getInstance().getAccount().getUsername());
+        String processed = rawDialogue;
+        if (rawDialogue.contains("{$USER_NAME}")) {
+            processed = rawDialogue.replaceAll("\\{\\$USER_NAME\\}", Merkado.getInstance().getAccount().getUsername());
+        }
         return processed;
     }
 }

@@ -70,7 +70,7 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_mc1_f_confused;
                 case "mc1_f_amazed":
                     return R.drawable.sprite_mc1_f_amazed;
-                case "mc1_f_embarassed":
+                case "mc1_f_embarrassed":
                     return R.drawable.sprite_mc1_f_embarrassed;
                 case "mc1_f_nervous":
                     return R.drawable.sprite_mc1_f_nervous;
@@ -191,8 +191,28 @@ public class StoryResourceCaller {
     }
 
     public static int getBGM(String bgmFile) {
-        if ("merkado_theme".equals(bgmFile)) return R.raw.bgm_merkado;
-        else return -1;
+        switch (bgmFile) {
+            case "merkado_theme":
+                return R.raw.bgm_merkado;
+            case "morning_wakeup":
+                return R.raw.morning_wakeup;
+            case "learning_is_fun":
+                return R.raw.learning;
+            case "cafeteria":
+                return R.raw.school_cafeteria;
+            case "curiosity_strikes":
+                return R.raw.curiosity_strikes;
+            case "home_sweet_home":
+                return R.raw.warmth;
+            case "market":
+                return R.raw.tales_of_the_market;
+            case "quiz1":
+                return R.raw.quiz1;
+            case "quiz2":
+                return R.raw.quiz2;
+            default:
+                return -1;
+        }
     }
 
     public static int getSFX(String sfxFile) {

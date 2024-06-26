@@ -13,14 +13,14 @@ public class StoryResourceCaller {
                 case "mc1_b_uniform":
                     return R.drawable.sprite_mc1_b_uniform;
                 case "mc1_b_casual":
-                    return R.drawable.sprite_mc1_b_pajamas;
+                    return R.drawable.sprite_mc1_b_casual;
             }
         } else if (imgResource.startsWith("mc2")) {
             switch (imgResource) {
                 case "mc2_b_uniform":
                     return R.drawable.sprite_mc2_b_uniform;
                 case "mc2_b_casual":
-                    return R.drawable.sprite_mc2_b_uniform;
+                    return R.drawable.sprite_mc2_b_casual;
             }
         } else if (imgResource.startsWith("nanay1")) {
             switch (imgResource) {
@@ -51,7 +51,7 @@ public class StoryResourceCaller {
                 return R.drawable.sprite_eian1_b_uniform;
         } else if (imgResource.startsWith("pork_vendor1")) {
             if ("pork_vendor1_b_casual".equals(imgResource))
-                return R.drawable.sprite_jaxon1_b_uniform;
+                return R.drawable.sprite_pork_vendor1_b_casual;
         }
         return R.drawable.sprite_empty_b_empty;
     }
@@ -69,13 +69,13 @@ public class StoryResourceCaller {
                 case "mc1_f_confused":
                     return R.drawable.sprite_mc1_f_confused;
                 case "mc1_f_amazed":
-                    return R.drawable.sprite_mc1_f_compassion;
+                    return R.drawable.sprite_mc1_f_amazed;
                 case "mc1_f_embarassed":
-                    return R.drawable.sprite_mc1_f_sleepy;
+                    return R.drawable.sprite_mc1_f_embarrassed;
                 case "mc1_f_nervous":
-                    return R.drawable.sprite_mc1_f_confused;
+                    return R.drawable.sprite_mc1_f_nervous;
                 case "mc1_f_curious":
-                    return R.drawable.sprite_mc1_f_normal;
+                    return R.drawable.sprite_mc1_f_curious;
             }
         } else if (imgResource.startsWith("mc2")) {
             switch (imgResource) {
@@ -142,13 +142,13 @@ public class StoryResourceCaller {
         } else if (imgResource.startsWith("pork_vendor1")) {
             switch (imgResource) {
                 case "pork_vendor1_f_normal":
-                    return R.drawable.sprite_jaxon1_f_normal;
+                    return R.drawable.sprite_pork_vendor1_f_normal;
                 case "pork_vendor1_f_talking":
-                    return R.drawable.sprite_jaxon1_f_talking;
+                    return R.drawable.sprite_pork_vendor1_f_talking;
                 case "pork_vendor1_f_confused":
-                    return R.drawable.sprite_jaxon1_f_confused;
+                    return R.drawable.sprite_pork_vendor1_f_confused;
                 case "pork_vendor1_f_compassion":
-                    return R.drawable.sprite_jaxon1_f_compassion;
+                    return R.drawable.sprite_pork_vendor1_f_compassion;
             }
         }
         return R.drawable.sprite_empty_b_empty;

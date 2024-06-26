@@ -196,13 +196,13 @@ public class StoryResourceCaller {
                 return R.raw.bgm_merkado;
             case "morning_wakeup":
                 return R.raw.morning_wakeup;
-            case "learning_is_fun":
+            case "learning":
                 return R.raw.learning;
             case "cafeteria":
                 return R.raw.school_cafeteria;
             case "curiosity_strikes":
                 return R.raw.curiosity_strikes;
-            case "home_sweet_home":
+            case "warmth":
                 return R.raw.warmth;
             case "market":
                 return R.raw.tales_of_the_market;

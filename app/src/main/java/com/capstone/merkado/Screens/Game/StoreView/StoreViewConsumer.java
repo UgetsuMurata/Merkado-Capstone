@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.capstone.merkado.Adapters.StoreViewConsumerAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.Objects.StoreViewObjects.StoreViewConsumerObject;
+import com.capstone.merkado.Objects.StoresDataObjects.StoreViewObjects.StoreViewConsumerObject;
 import com.capstone.merkado.R;
 
 import java.util.ArrayList;

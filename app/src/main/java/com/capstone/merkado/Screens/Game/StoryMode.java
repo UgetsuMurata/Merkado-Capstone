@@ -21,6 +21,7 @@ import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.ImagePlacementData;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
+import com.capstone.merkado.Objects.StoryDataObjects.LineGroup.QuizChoice;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.R;
 
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -77,6 +79,7 @@ public class StoryMode extends AppCompatActivity {
     Boolean skipDialogues = false;
     Handler handler;
     Runnable runnable;
+    Integer quizScore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,7 +228,7 @@ public class StoryMode extends AppCompatActivity {
     private void initializeScreen(LineGroup lineGroup) {
         clearCharacters();
         clearDialogueBox();
-
+        playerStory.setCurrentLineGroup(lineGroup);
         if ("FTB".equals(lineGroup.getTransition())) {
             new Thread(new Runnable() {
                 @Override
@@ -260,17 +263,7 @@ public class StoryMode extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             // display first line
             LineGroup.DialogueLine dialogueLine = lineGroup.getDialogueLines().get(currentLineGroupIndex);
-            showLine(StoryResourceCaller.retrieveDialogueBoxResource(dialogueLine.getCharacter()), dialogueLine.getDialogue());
-            playSFX(dialogueLine.getSfx());
-            if (dialogueLine.getDialogueChoices() != null) {
-                choiceGui.setVisibility(View.VISIBLE);
-                setChoices(dialogueLine.getDialogueChoices());
-            }
-            if (dialogueLine.getImageChanges() != null) {
-                for (ImagePlacementData imagePlacementData : dialogueLine.getImageChanges()) {
-                    showCharacter(imagePlacementData);
-                }
-            }
+            displayLine(dialogueLine);
 
             dialogueBox.setOnClickListener(v -> {
                 currentLineGroupIndex++;
@@ -279,23 +272,30 @@ public class StoryMode extends AppCompatActivity {
                     currentLineEnded();
                     return;
                 }
-                // display first line
+                // display line
                 LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentLineGroupIndex);
-                showLine(StoryResourceCaller.retrieveDialogueBoxResource(dialogueLine1.getCharacter()), dialogueLine1.getDialogue());
-                playSFX(dialogueLine1.getSfx());
-                if (dialogueLine1.getDialogueChoices() != null) {
-                    choiceGui.setVisibility(View.VISIBLE);
-                    setChoices(dialogueLine1.getDialogueChoices());
-
-                }
-                if (dialogueLine1.getImageChanges() != null) {
-                    for (ImagePlacementData imagePlacementData : dialogueLine1.getImageChanges()) {
-                        showCharacter(imagePlacementData);
-                    }
-                }
+                displayLine(dialogueLine1);
             });
-        }, 500);
+        }, skipDialogues ? 10 : 500);
         choiceGui.setVisibility(View.GONE);
+    }
+
+    private void displayLine(LineGroup.DialogueLine dialogueLine) {
+        showLine(StoryResourceCaller.retrieveDialogueBoxResource(dialogueLine.getCharacter()), dialogueLine.getDialogue());
+        playSFX(dialogueLine.getSfx());
+        if (dialogueLine.getDialogueChoices() != null) {
+            choiceGui.setVisibility(View.VISIBLE);
+            setChoices(dialogueLine.getDialogueChoices());
+        }
+        if (dialogueLine.getQuizChoices() != null) {
+            choiceGui.setVisibility(View.VISIBLE);
+            setQuizChoices(dialogueLine.getQuizChoices());
+        }
+        if (dialogueLine.getImageChanges() != null) {
+            for (ImagePlacementData imagePlacementData : dialogueLine.getImageChanges()) {
+                showCharacter(imagePlacementData);
+            }
+        }
     }
 
     /**
@@ -409,7 +409,13 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentLineEnded() {
-        if (nextLineGroupId == null || nextLineGroupId == -1) {
+        if (playerStory.getCurrentLineGroup().getIsQuiz() != null && playerStory.getCurrentLineGroup().getIsQuiz()) {
+            // change nextLineGroupId based on the quizScore.
+            nextLineGroupId = processQuizNextLineGroup(quizScore, playerStory.getCurrentLineGroup().getNextLineCode());
+
+            // reset the quizScore
+            quizScore = 0;
+        } else if (nextLineGroupId == null || nextLineGroupId == -1) {
             currentSceneEnded();
             return;
         }
@@ -466,6 +472,7 @@ public class StoryMode extends AppCompatActivity {
         choice1Text.setText(dialogueChoices.get(0).getChoice());
         choice1.setOnClickListener(v -> {
             movingClick(choice1, 1);
+            continueFromChoices();
             if (dialogueChoices.get(0).getNextLineGroup() != null) {
                 nextLineGroupId = dialogueChoices.get(0).getNextLineGroup();
             }
@@ -473,6 +480,7 @@ public class StoryMode extends AppCompatActivity {
         choice2Text.setText(dialogueChoices.get(1).getChoice());
         choice2.setOnClickListener(v -> {
             movingClick(choice2, 2);
+            continueFromChoices();
             if (dialogueChoices.get(1).getNextLineGroup() != null) {
                 nextLineGroupId = dialogueChoices.get(1).getNextLineGroup();
             }
@@ -480,6 +488,7 @@ public class StoryMode extends AppCompatActivity {
         choice3Text.setText(dialogueChoices.get(2).getChoice());
         choice3.setOnClickListener(v -> {
             movingClick(choice3, 3);
+            continueFromChoices();
             if (dialogueChoices.get(2).getNextLineGroup() != null) {
                 nextLineGroupId = dialogueChoices.get(2).getNextLineGroup();
             }
@@ -487,10 +496,120 @@ public class StoryMode extends AppCompatActivity {
         choice4Text.setText(dialogueChoices.get(3).getChoice());
         choice4.setOnClickListener(v -> {
             movingClick(choice4, 4);
+            continueFromChoices();
             if (dialogueChoices.get(3).getNextLineGroup() != null) {
                 nextLineGroupId = dialogueChoices.get(3).getNextLineGroup();
             }
         });
+    }
+
+    private void continueFromChoices() {
+        new Handler().postDelayed(() -> {
+            choiceGui.setVisibility(View.GONE);
+            continueDialogues();
+        }, 400);
+    }
+
+    private void setQuizChoices(List<QuizChoice> quizChoices) {
+        Collections.shuffle(quizChoices);
+        pauseAutoplay();
+        stopSkipping();
+        choice1Text.setText(quizChoices.get(0).getChoice());
+        choice1.setOnClickListener(v -> {
+            movingClick(choice1, 1);
+            quizScore += quizChoices.get(0).getPoints();
+            continueFromQuiz(quizChoices.get(0).getDialogueLine());
+        });
+        choice2Text.setText(quizChoices.get(1).getChoice());
+        choice2.setOnClickListener(v -> {
+            movingClick(choice2, 2);
+            quizScore += quizChoices.get(1).getPoints();
+            continueFromQuiz(quizChoices.get(1).getDialogueLine());
+        });
+        choice3Text.setText(quizChoices.get(2).getChoice());
+        choice3.setOnClickListener(v -> {
+            movingClick(choice3, 3);
+            quizScore += quizChoices.get(2).getPoints();
+            continueFromQuiz(quizChoices.get(2).getDialogueLine());
+        });
+        choice4Text.setText(quizChoices.get(3).getChoice());
+        choice4.setOnClickListener(v -> {
+            movingClick(choice4, 4);
+            quizScore += quizChoices.get(3).getPoints();
+            continueFromQuiz(quizChoices.get(3).getDialogueLine());
+        });
+    }
+
+    private void continueFromQuiz(LineGroup.DialogueLine dialogueLine) {
+        displayLine(dialogueLine);
+        choiceGui.setVisibility(View.GONE);
+        temporaryStopAutoPlay = false;
+    }
+
+    private Integer processQuizNextLineGroup(Integer currentScore, String nextLineCode) {
+        Integer nextLine = nextLineGroupId; // this will be the default if ever none matched the condition string.
+        for (String condition : nextLineCode.split(";")) {
+            // condition = "score==2:4";
+            if (condition.startsWith("score==")) {
+                Integer[] processedCondition = conditionProcessor(condition, "score==");
+                if (processedCondition[0] == -1) continue;
+                if (Objects.equals(currentScore, processedCondition[0])) {
+                    nextLine = processedCondition[1];
+                    break;
+                }
+            } else if (condition.startsWith("score>=")) {
+                Integer[] processedCondition = conditionProcessor(condition, "score>=");
+                if (processedCondition[0] >= -1) continue;
+                if (Objects.equals(currentScore, processedCondition[0])) {
+                    nextLine = processedCondition[1];
+                    break;
+                }
+            } else if (condition.startsWith("score>")) {
+                Integer[] processedCondition = conditionProcessor(condition, "score>");
+                if (processedCondition[0] > -1) continue;
+                if (Objects.equals(currentScore, processedCondition[0])) {
+                    nextLine = processedCondition[1];
+                    break;
+                }
+            } else if (condition.startsWith("score<=")) {
+                Integer[] processedCondition = conditionProcessor(condition, "score<=");
+                if (processedCondition[0] <= -1) continue;
+                if (Objects.equals(currentScore, processedCondition[0])) {
+                    nextLine = processedCondition[1];
+                    break;
+                }
+            } else if (condition.startsWith("score<")) {
+                Integer[] processedCondition = conditionProcessor(condition, "score<");
+                if (processedCondition[0] < -1) continue;
+                if (Objects.equals(currentScore, processedCondition[0])) {
+                    nextLine = processedCondition[1];
+                    break;
+                }
+            } else if (condition.startsWith("score!=")) {
+                Integer[] processedCondition = conditionProcessor(condition, "score!=");
+                if (processedCondition[0] != -1) continue;
+                if (Objects.equals(currentScore, processedCondition[0])) {
+                    nextLine = processedCondition[1];
+                    break;
+                }
+            }
+        }
+        return nextLine;
+    }
+
+    private Integer[] conditionProcessor(String condition, String startsWith) {
+        String[] numbers = condition.substring(condition.indexOf(startsWith) + startsWith.length()).split(":");
+        int conditionNumber;
+        int nextLineNumber;
+        try {
+            // make sure that the numbers from the condition is parsable.
+            conditionNumber = Integer.parseInt(numbers[0]);
+            nextLineNumber = Integer.parseInt(numbers[1]);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return new Integer[]{-1, -1};
+        }
+        return new Integer[]{conditionNumber, nextLineNumber};
     }
 
     private void movingClick(ImageView imageView, Integer id) {
@@ -516,11 +635,6 @@ public class StoryMode extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), finalIdle));
         }, 250);
-
-        new Handler().postDelayed(() -> {
-            choiceGui.setVisibility(View.GONE);
-            continueDialogues();
-        }, 400);
     }
 
     private void continueDialogues() {

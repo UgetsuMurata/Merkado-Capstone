@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.capstone.merkado.Objects.StoreViewObjects.StoreViewConsumerObject;
+import com.capstone.merkado.Objects.StoresDataObjects.StoreViewObjects.StoreViewConsumerObject;
 import com.capstone.merkado.R;
 
 import java.util.List;

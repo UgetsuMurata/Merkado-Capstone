@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LineGroup implements Parcelable {
@@ -16,6 +15,8 @@ public class LineGroup implements Parcelable {
     private List<DialogueLine> dialogueLines;
     private String transition;
     private String bgm;
+    private Boolean isQuiz;
+    private String nextLineCode;
 
     // No-argument constructor required for Firebase
     public LineGroup() {
@@ -78,6 +79,22 @@ public class LineGroup implements Parcelable {
         this.bgm = bgm;
     }
 
+    public Boolean getIsQuiz() {
+        return isQuiz;
+    }
+
+    public void setIsQuiz(Boolean isQuiz) {
+        this.isQuiz = isQuiz;
+    }
+
+    public String getNextLineCode() {
+        return nextLineCode;
+    }
+
+    public void setNextLineCode(String nextLineCode) {
+        this.nextLineCode = nextLineCode;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -101,6 +118,8 @@ public class LineGroup implements Parcelable {
         dest.writeTypedList(dialogueLines);
         dest.writeString(transition);
         dest.writeString(bgm);
+        dest.writeByte((byte) (isQuiz == null ? 0 : isQuiz ? 1 : 2));
+        dest.writeString(nextLineCode);
     }
 
     protected LineGroup(Parcel in) {
@@ -115,6 +134,9 @@ public class LineGroup implements Parcelable {
         dialogueLines = in.createTypedArrayList(DialogueLine.CREATOR);
         transition = in.readString();
         bgm = in.readString();
+        byte tmpIsQuiz = in.readByte();
+        isQuiz = tmpIsQuiz == 0 ? null : tmpIsQuiz == 1;
+        nextLineCode = in.readString();
     }
 
     public static final Creator<LineGroup> CREATOR = new Creator<LineGroup>() {
@@ -134,6 +156,7 @@ public class LineGroup implements Parcelable {
         private String dialogue;
         private List<ImagePlacementData> imageChanges;
         private List<DialogueChoice> dialogueChoices;
+        private List<QuizChoice> quizChoices;
         private String sfx;
 
         // No-argument constructor required for Firebase
@@ -192,6 +215,7 @@ public class LineGroup implements Parcelable {
             dest.writeString(dialogue);
             dest.writeTypedList(imageChanges);
             dest.writeTypedList(dialogueChoices);
+            dest.writeTypedList(quizChoices);
             dest.writeString(sfx);
         }
 
@@ -200,6 +224,7 @@ public class LineGroup implements Parcelable {
             dialogue = in.readString();
             imageChanges = in.createTypedArrayList(ImagePlacementData.CREATOR);
             dialogueChoices = in.createTypedArrayList(DialogueChoice.CREATOR);
+            quizChoices = in.createTypedArrayList(QuizChoice.CREATOR);
             sfx = in.readString();
         }
 
@@ -212,6 +237,82 @@ public class LineGroup implements Parcelable {
             @Override
             public DialogueLine[] newArray(int size) {
                 return new DialogueLine[size];
+            }
+        };
+
+        public List<QuizChoice> getQuizChoices() {
+            return quizChoices;
+        }
+
+        public void setQuizChoices(List<QuizChoice> quizChoices) {
+            this.quizChoices = quizChoices;
+        }
+    }
+
+    public static class QuizChoice implements Parcelable{
+        String choice;
+        DialogueLine dialogueLine;
+        Integer points;
+
+        public QuizChoice() {
+        }
+
+        public String getChoice() {
+            return choice;
+        }
+
+        public void setChoice(String choice) {
+            this.choice = choice;
+        }
+
+        public DialogueLine getDialogueLine() {
+            return dialogueLine;
+        }
+
+        public void setDialogueLine(DialogueLine dialogueLine) {
+            this.dialogueLine = dialogueLine;
+        }
+
+        public Integer getPoints() {
+            return points;
+        }
+
+        public void setPoints(Integer points) {
+            this.points = points;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        protected QuizChoice(Parcel in) {
+            choice = in.readString();
+            points = (in.readByte() == 0) ? null : in.readInt();
+            dialogueLine = in.readParcelable(DialogueLine.class.getClassLoader());
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
+            dest.writeString(choice);
+            if (points == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeInt(points);
+            }
+            dest.writeParcelable(dialogueLine, flags);
+        }
+
+        public static final Creator<QuizChoice> CREATOR = new Creator<QuizChoice>() {
+            @Override
+            public QuizChoice createFromParcel(Parcel in) {
+                return new QuizChoice(in);
+            }
+
+            @Override
+            public QuizChoice[] newArray(int size) {
+                return new QuizChoice[size];
             }
         };
     }

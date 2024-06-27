@@ -2,14 +2,19 @@ package com.capstone.merkado.DataManager;
 
 import android.content.Context;
 
+import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.PlayerDataObjects.Inventory;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
+import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor.StoryQueue;
+import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor.TaskQueue;
+import com.capstone.merkado.Objects.QASDataObjects.QASItems;
+import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
-import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
+import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
 import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
 import com.capstone.merkado.Objects.VerificationCode;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +30,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
 
 public class DataFunctions {
 
@@ -551,8 +558,8 @@ public class DataFunctions {
         if (playerId == -1L) return false;
 
         // populate storyQueueList
-        List<PlayerFBExtractor.StoryQueue> storyQueueList = new ArrayList<>();
-        PlayerFBExtractor.StoryQueue storyQueue = new PlayerFBExtractor.StoryQueue();
+        List<StoryQueue> storyQueueList = new ArrayList<>();
+        StoryQueue storyQueue = new StoryQueue();
         storyQueue.setChapter(0);
         storyQueue.setCurrentLineGroup(0);
         storyQueue.setCurrentScene(0);
@@ -653,5 +660,165 @@ public class DataFunctions {
     public static void changeNextScene(Integer sceneId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextScene", playerId, storyQueueId), sceneId);
+    }
+
+    public static CompletableFuture<List<QASItems>> getAllQuests(Integer playerId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> dataSnapshotFuture = new CompletableFuture<>();
+
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "player/%d/storyQueue", playerId), dataSnapshotFuture::complete);
+
+        return dataSnapshotFuture.thenCompose(dataSnapshot -> {
+            Map<Integer, TaskQueue> questsQueueMap = new HashMap<>();
+            Integer currentIndex = 0;
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                TaskQueue taskQueue = ds.getValue(TaskQueue.class);
+                questsQueueMap.put(currentIndex, taskQueue);
+            }
+            return processTasksQueue(questsQueueMap);
+        });
+    }
+
+    public static CompletableFuture<List<QASItems>> getAllStories(Integer playerId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> dataSnapshotFuture = new CompletableFuture<>();
+
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "player/%d/storyQueue", playerId), dataSnapshotFuture::complete);
+
+        return dataSnapshotFuture.thenCompose(dataSnapshot -> {
+            Map<Integer, StoryQueue> storyQueueMap = new HashMap<>();
+            Integer currentIndex = 0;
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                StoryQueue storyQueue = ds.getValue(StoryQueue.class);
+                storyQueueMap.put(currentIndex, storyQueue);
+                currentIndex++;
+            }
+            return processStoryQueue(storyQueueMap);
+        });
+    }
+
+    public static CompletableFuture<List<QASItems>> getAllQuestsAndStories(Integer playerId) {
+        CompletableFuture<List<QASItems>> allStoriesFuture = getAllStories(playerId);
+        CompletableFuture<List<QASItems>> allQuestsFuture = getAllQuests(playerId);
+
+        return allStoriesFuture.thenCombine(allQuestsFuture, (allStories, allQuests) -> {
+            List<QASItems> allItems = new ArrayList<>();
+            if (allStories != null) {
+                allItems.addAll(allStories);
+            }
+            if (allQuests != null) {
+                allItems.addAll(allQuests);
+            }
+            return allItems;
+        });
+    }
+
+    private static CompletableFuture<List<QASItems>> processStoryQueue(Map<Integer, StoryQueue> storyQueueMap) {
+        Map<String, QASDetail> qasDetailsMapping = new HashMap<>();
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+        for (Map.Entry<Integer, StoryQueue> entry : storyQueueMap.entrySet()) {
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                Chapter chapter = getChapterFromId(entry.getValue().getChapter());
+                if (chapter == null) return;
+                Chapter.Scene scene = chapter.getScenes().get(entry.getValue().getCurrentScene());
+
+                List<QASDetail.QASReward> qasRewards = new ArrayList<>();
+                for (Chapter.GameRewards gameRewards : scene.getRewards()) {
+                    QASDetail.QASReward qasReward = new QASDetail.QASReward();
+                    qasReward.setResourceId(gameRewards.getResourceId());
+                    qasReward.setResourceQuantity(gameRewards.getResourceQuantity());
+                    qasReward.setResourceImage(GameResourceCaller.getResourcesImage(gameRewards.getResourceId()));
+                    qasRewards.add(qasReward);
+                }
+
+                QASDetail qasDetail = new QASDetail();
+                qasDetail.setQasName(String.format("%s: %s", chapter.getChapter(), scene.getScene()));
+                qasDetail.setQueueId(entry.getKey());
+                qasDetail.setQasShortDescription(chapter.getShortDescription());
+                qasDetail.setQasDescription(scene.getDescription());
+                qasDetail.setQasRewards(qasRewards);
+
+                qasDetailsMapping.put(chapter.getCategory(), qasDetail);
+            });
+            futures.add(future);
+        }
+
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                .thenApply(v -> {
+                    Map<String, QASItems> qasItemsMapping = groupQASDetailsToQASItems("STORIES", qasDetailsMapping);
+                    return new ArrayList<>(qasItemsMapping.values());
+                });
+    }
+
+    private static CompletableFuture<List<QASItems>> processTasksQueue(Map<Integer, TaskQueue> storyQueueMap) {
+        Map<String, QASDetail> qasDetailsMapping = new HashMap<>();
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+        for (Map.Entry<Integer, TaskQueue> entry : storyQueueMap.entrySet()) {
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                // retrieve the TaskData.
+                TaskData taskData = getTaskFromId(entry.getValue().getTask());
+
+                // process the TaskData into QASDetail.
+                if (taskData == null) return; // do not include from final list if it cannot be retrieved.
+
+                // process the rewards
+                List<QASDetail.QASReward> qasRewards = new ArrayList<>();
+                for (Chapter.GameRewards gameRewards : taskData.getRewards()) {
+                    QASDetail.QASReward qasReward = new QASDetail.QASReward();
+                    qasReward.setResourceId(gameRewards.getResourceId());
+                    qasReward.setResourceQuantity(gameRewards.getResourceQuantity());
+                    qasReward.setResourceImage(GameResourceCaller.getResourcesImage(gameRewards.getResourceId()));
+                    qasRewards.add(qasReward);
+                }
+
+                // create the QASDetail
+                QASDetail qasDetail = new QASDetail();
+                qasDetail.setQasName(taskData.getTitle());
+                qasDetail.setQueueId(entry.getKey());
+                qasDetail.setQasShortDescription(taskData.getShortDescription());
+                qasDetail.setQasDescription(taskData.getDescription());
+                qasDetail.setQasRewards(qasRewards);
+
+                // add the detail inside the map.
+                qasDetailsMapping.put(taskData.getCategory(), qasDetail);
+            });
+            futures.add(future);
+        }
+
+        // group the QASDetails into its bigger list, QASItems. Keep in mind that we know this group is "QUESTS".
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                .thenApply(v -> {
+                    Map<String, QASItems> qasItemsMapping = groupQASDetailsToQASItems("STORIES", qasDetailsMapping);
+                    return new ArrayList<>(qasItemsMapping.values());
+                });
+    }
+
+    private static Map<String, QASItems> groupQASDetailsToQASItems(String group, Map<String, QASDetail> qasDetailMap) {
+        Map<String, QASItems> qasItemsMapping = new HashMap<>();
+        for (Map.Entry<String, QASDetail> qasDetailEntry : qasDetailMap.entrySet()) {
+            if (qasItemsMapping.containsKey(qasDetailEntry.getKey())) {
+                QASItems qasItems = qasItemsMapping.get(qasDetailEntry.getKey());
+                if (qasItems != null) {
+                    // add the QASDetails inside the QASItems.
+                    qasItems.getQasDetails().add(qasDetailEntry.getValue());
+
+                    // update the value of the map.
+                    qasItemsMapping.put(qasDetailEntry.getKey(), qasItems);
+                    continue;
+                }
+            }
+            // create the QASItems.
+            QASItems qasItems = new QASItems();
+            qasItems.setQasCategory(qasDetailEntry.getKey());
+            qasItems.setQasGroup(group);
+            qasItems.setQasDetails(new ArrayList<>());
+            qasItems.getQasDetails().add(qasDetailEntry.getValue());
+
+            // put it in the map.
+            qasItemsMapping.put(qasDetailEntry.getKey(), qasItems);
+        }
+        return qasItemsMapping;
     }
 }

@@ -106,7 +106,7 @@ public class ChangePassword extends AppCompatActivity {
             WarningTextHelper.showWarning(getApplicationContext(), oldPasswordWarning, "Input old password.");
             return;
         }
-        DataFunctions.comparePasswords(getApplicationContext(), merkado.getAccount().getEmail(), oldPassword.getText().toString(), new DataFunctions.BooleanReturn() {
+        DataFunctions.comparePasswords(merkado.getAccount().getEmail(), oldPassword.getText().toString(), new DataFunctions.BooleanReturn() {
             @Override
             public void booleanReturn(Boolean bool) {
                 if (bool) {

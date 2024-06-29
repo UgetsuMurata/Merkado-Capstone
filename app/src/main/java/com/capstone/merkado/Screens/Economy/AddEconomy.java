@@ -80,7 +80,7 @@ public class AddEconomy extends AppCompatActivity {
             runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "You already joined this economy!"));
         } else {
             String serverCodeStr = serverCodeEditText.getText().toString().trim();
-            Boolean serverExists = DataFunctions.checkServerExistence(getApplicationContext(), serverCodeStr);
+            Boolean serverExists = DataFunctions.checkServerExistence(serverCodeStr);
             if (Boolean.TRUE.equals(serverExists)) {
                 Account account = merkado.getAccount();
                 if (account == null) {

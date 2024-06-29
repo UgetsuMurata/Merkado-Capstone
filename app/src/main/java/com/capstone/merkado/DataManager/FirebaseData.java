@@ -1,14 +1,8 @@
 package com.capstone.merkado.DataManager;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,13 +16,14 @@ import java.util.concurrent.ExecutionException;
 
 public class FirebaseData {
     private final DatabaseReference databaseRef;
+    private ValueEventListener valueEventListener;
 
     public FirebaseData() {
         databaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
     public interface FirebaseDataCallback {
-        void onDataReceived(DataSnapshot dataSnapshot);
+        void onDataReceived(@Nullable DataSnapshot dataSnapshot);
     }
 
     public interface BooleanCallback {
@@ -36,54 +31,59 @@ public class FirebaseData {
          * Returns Boolean callback value.
          * @param bool callback value.
          */
-        void callback(Boolean bool);
+        void callback(@Nullable Boolean bool);
     }
 
     // REAL-TIME DATABASE
-
-    public void retrieveData(Context context, String childPath, final FirebaseDataCallback callback) {
-        DatabaseReference childRef = databaseRef.child(childPath);
-        childRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Pass the retrieved data to the callback method
-                callback.onDataReceived(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(context, "Error fetching data. Please try again later!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     public void retrieveData(String childPath, final FirebaseDataCallback callback) {
         DatabaseReference childRef = databaseRef.child(childPath);
         childRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Pass the retrieved data to the callback method
                 callback.onDataReceived(dataSnapshot);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                databaseError.toException().printStackTrace();
                 callback.onDataReceived(null);
             }
         });
     }
 
-    public void addValue(String childPath, Object value) {
+    public void retrieveDataRealTime(String childPath, final FirebaseDataCallback callback) {
+        DatabaseReference childRef = databaseRef.child(childPath);
+        valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Pass the retrieved data to the callback method
+                callback.onDataReceived(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                databaseError.toException().printStackTrace();
+                callback.onDataReceived(null);
+            }
+        };
+        childRef.addValueEventListener(valueEventListener);
+    }
+
+    public void stopRealTimeUpdates(String childPath) {
+        if (valueEventListener != null) {
+            DatabaseReference childRef = databaseRef.child(childPath);
+            childRef.removeEventListener(valueEventListener);
+            valueEventListener = null;
+        }
+    }
+
+    public void setValue(String childPath, Object value) {
         DatabaseReference childRef = databaseRef.child(childPath);
         childRef.setValue(value);
     }
 
-    public void updateValue(String childPath, Object value) {
-        DatabaseReference childRef = databaseRef.child(childPath);
-        childRef.setValue(value);
-    }
-
-    public Boolean addValues(String childPath, Map<String, Object> value){
+    public Boolean setValues(String childPath, Map<String, Object> value){
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         DatabaseReference childRef = databaseRef.child(childPath);
         childRef.updateChildren(value)
@@ -97,19 +97,9 @@ public class FirebaseData {
         }
     }
 
-    public <T> void addValues(String childPath, T value){
-        DatabaseReference childRef = databaseRef.child(childPath);
-        childRef.setValue(value);
-    }
-
-    public void updateValues(String childPath, Map<String, Object> value){
-        DatabaseReference childRef = databaseRef.child(childPath);
-        childRef.updateChildren(value);
-    }
-
-    public void removeData(String childpath){
+    public void removeData(String childPath){
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference nodeRef = databaseRef.child(childpath);
+        DatabaseReference nodeRef = databaseRef.child(childPath);
         nodeRef.removeValue();
     }
 
@@ -126,13 +116,15 @@ public class FirebaseData {
         // check the node for data
         childRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // check if dataSnapshot exists (has data in it).
                 booleanCallback.callback(dataSnapshot.exists());
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                databaseError.toException().printStackTrace();
+                booleanCallback.callback(null);
             }
         });
     }

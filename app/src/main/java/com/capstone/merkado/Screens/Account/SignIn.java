@@ -132,7 +132,7 @@ public class SignIn extends AppCompatActivity {
         emailWarning.setVisibility(View.GONE);
         passwordWarning.setVisibility(View.GONE);
         // verify
-        DataFunctions.verifyAccount(getApplicationContext(), email, password, new DataFunctions.AccountReturn() {
+        DataFunctions.verifyAccount(email, password, new DataFunctions.AccountReturn() {
             @Override
             public void accountReturn(Account account) {
                 String username = account.getUsername();

@@ -13,6 +13,9 @@ import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor.TaskQueu
 import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
+import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
+import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
 import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
@@ -30,9 +33,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 public class DataFunctions {
 
@@ -74,6 +76,15 @@ public class DataFunctions {
         void accountReturn(Account account);
     }
 
+    public interface PlayerMarketsListener {
+        /**
+         * Callback listener for PlayerMarkets datatype.
+         *
+         * @param playerMarkets return value.
+         */
+        void onMarketUpdate(PlayerMarkets playerMarkets);
+    }
+
     /**
      * Checks if email exists in the database.
      *
@@ -92,14 +103,14 @@ public class DataFunctions {
         firebaseData.isKeyExists("accounts", encodedEmail, booleanReturn::booleanReturn);
     }
 
-    public static void verifyAccount(Context context, String email, String password, AccountReturn accountReturn) {
+    public static void verifyAccount(String email, String password, AccountReturn accountReturn) {
         // create FirebaseData object
         FirebaseData firebaseData = new FirebaseData();
 
         // encode the email for Firebase
         String encodedEmail = FirebaseCharacters.encode(email);
 
-        firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+        firebaseData.retrieveData(String.format("accounts/%s", encodedEmail), dataSnapshot -> {
             if (!dataSnapshot.exists()) {
                 accountReturn.accountReturn(new Account(email, "[ERROR:WRONG_EMAIL]"));
                 return;
@@ -126,19 +137,18 @@ public class DataFunctions {
     /**
      * Verifies if password is correct or not.
      *
-     * @param context       application context.
      * @param email         raw email.
      * @param password      password to compare.
      * @param booleanReturn returns <b>True</b> or <b>False</b> values if the password is correct or not.
      */
-    public static void comparePasswords(Context context, String email, String password, BooleanReturn booleanReturn) {
+    public static void comparePasswords(String email, String password, BooleanReturn booleanReturn) {
         // create FirebaseData object
         FirebaseData firebaseData = new FirebaseData();
 
         // encode the email for Firebase
         String encodedEmail = FirebaseCharacters.encode(email);
 
-        firebaseData.retrieveData(context, String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+        firebaseData.retrieveData(String.format("accounts/%s", encodedEmail), dataSnapshot -> {
             if (!dataSnapshot.exists()) {
                 booleanReturn.booleanReturn(false);
                 return;
@@ -191,7 +201,7 @@ public class DataFunctions {
 
         // update the Firebase Realtime Database
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.addValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(email)), System.currentTimeMillis());
+        firebaseData.setValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(email)), System.currentTimeMillis());
     }
 
     public static Account getSignedIn(Context context) {
@@ -273,7 +283,7 @@ public class DataFunctions {
         values.put("username", username);
 
         // save the data to accounts/{encoded email}.
-        firebaseData.addValues(String.format("accounts/%s", FirebaseCharacters.encode(email)), values);
+        firebaseData.setValues(String.format("accounts/%s", FirebaseCharacters.encode(email)), values);
 
         return new Account(email, username);
     }
@@ -288,7 +298,7 @@ public class DataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         // update lastOnline in accounts/{email}.
-        firebaseData.addValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(account.getEmail())), System.currentTimeMillis());
+        firebaseData.setValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(account.getEmail())), System.currentTimeMillis());
 
         // delete from sharedPref.
         SharedPref.delete(context, SharedPref.KEEP_SIGNED_IN);
@@ -303,7 +313,7 @@ public class DataFunctions {
     public static void resetPassword(String email, String password) {
         FirebaseData firebaseData = new FirebaseData();
         // save the new password to accounts/{encoded email}/password.
-        firebaseData.addValue(String.format("accounts/%s/password", FirebaseCharacters.encode(email)), StringHash.hashPassword(password));
+        firebaseData.setValue(String.format("accounts/%s/password", FirebaseCharacters.encode(email)), StringHash.hashPassword(password));
     }
 
     /**
@@ -317,7 +327,7 @@ public class DataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         // save the new password to accounts/{encoded email}/username.
-        firebaseData.addValue(String.format("accounts/%s/username", FirebaseCharacters.encode(email)), username);
+        firebaseData.setValue(String.format("accounts/%s/username", FirebaseCharacters.encode(email)), username);
 
         Account account = getSignedIn(context);
         if (account != null) {
@@ -325,9 +335,9 @@ public class DataFunctions {
         }
     }
 
-    public static void getAbout(Context context, StringReturn stringReturn) {
+    public static void getAbout(StringReturn stringReturn) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData(context, "appData/About", dataSnapshot -> {
+        firebaseData.retrieveData("appData/About", dataSnapshot -> {
             if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
                 stringReturn.stringReturn(dataSnapshot.getValue().toString());
             } else {
@@ -336,9 +346,9 @@ public class DataFunctions {
         });
     }
 
-    public static void getTermsAndConditions(Context context, StringReturn stringReturn) {
+    public static void getTermsAndConditions(StringReturn stringReturn) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData(context, "appData/TermsAndConditions", dataSnapshot -> {
+        firebaseData.retrieveData("appData/TermsAndConditions", dataSnapshot -> {
             if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
                 stringReturn.stringReturn(dataSnapshot.getValue().toString());
             } else {
@@ -522,10 +532,10 @@ public class DataFunctions {
         }
     }
 
-    public static Boolean checkServerExistence(Context context, String serverCode) {
+    public static Boolean checkServerExistence(String serverCode) {
         final CompletableFuture<Boolean> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData(context, String.format("server/%s", serverCode), dataSnapshot -> {
+        firebaseData.retrieveData(String.format("server/%s", serverCode), dataSnapshot -> {
             future.complete(dataSnapshot.exists());
         });
 
@@ -585,7 +595,7 @@ public class DataFunctions {
         playerData.put("storyQueue", storyQueueList);
 
         // Add player data to Firebase under player/{playerId}
-        Boolean success = firebaseData.addValues(String.format("player/%s", playerId), playerData);
+        Boolean success = firebaseData.setValues(String.format("player/%s", playerId), playerData);
 
         // return false if not successful.
         if (success == null || !success) return false;
@@ -605,9 +615,9 @@ public class DataFunctions {
         firebaseData.retrieveData(String.format("server/%s/players", serverCode), dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 long playerCount = dataSnapshot.getChildrenCount();
-                firebaseData.addValue(String.format("server/%s/players/%s", serverCode, playerCount), playerId);
+                firebaseData.setValue(String.format("server/%s/players/%s", serverCode, playerCount), playerId);
             } else {
-                firebaseData.addValue(String.format("server/%s/players/0", serverCode), playerId);
+                firebaseData.setValue(String.format("server/%s/players/0", serverCode), playerId);
             }
 
             future.complete(null);
@@ -629,7 +639,7 @@ public class DataFunctions {
             @Override
             public void onDataReceived(DataSnapshot dataSnapshot) {
                 long index = dataSnapshot.getChildrenCount();
-                firebaseData.addValue(String.format("accounts/%s/player/%s", encodedEmail, index), playerId);
+                firebaseData.setValue(String.format("accounts/%s/player/%s", encodedEmail, index), playerId);
                 future.complete(null);
             }
         });
@@ -644,22 +654,22 @@ public class DataFunctions {
 
     public static void changeCurrentLineGroup(Integer lineGroupId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/currentLineGroup", playerId, storyQueueId), lineGroupId);
+        firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/currentLineGroup", playerId, storyQueueId), lineGroupId);
     }
 
     public static void changeNextLineGroup(Integer lineGroupId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextLineGroup", playerId, storyQueueId), lineGroupId);
+        firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextLineGroup", playerId, storyQueueId), lineGroupId);
     }
 
     public static void changeCurrentScene(Integer sceneId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/currentScene", playerId, storyQueueId), sceneId);
+        firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/currentScene", playerId, storyQueueId), sceneId);
     }
 
     public static void changeNextScene(Integer sceneId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.addValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextScene", playerId, storyQueueId), sceneId);
+        firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextScene", playerId, storyQueueId), sceneId);
     }
 
     public static CompletableFuture<List<QASItems>> getAllQuests(Integer playerId) {
@@ -761,7 +771,8 @@ public class DataFunctions {
                 TaskData taskData = getTaskFromId(entry.getValue().getTask());
 
                 // process the TaskData into QASDetail.
-                if (taskData == null) return; // do not include from final list if it cannot be retrieved.
+                if (taskData == null)
+                    return; // do not include from final list if it cannot be retrieved.
 
                 // process the rewards
                 List<QASDetail.QASReward> qasRewards = new ArrayList<>();
@@ -820,5 +831,207 @@ public class DataFunctions {
             qasItemsMapping.put(qasDetailEntry.getKey(), qasItems);
         }
         return qasItemsMapping;
+    }
+
+    public static CompletableFuture<List<PlayerMarkets>> getAllPlayerMarkets(Integer serverId) {
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        FirebaseData firebaseData = new FirebaseData();
+
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "server/%d/market/playerMarkets", serverId), future::complete);
+        return future.thenCompose(dataSnapshot -> {
+            List<PlayerMarkets> playerMarketsList = new ArrayList<>();
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                playerMarketsList.add(ds.getValue(PlayerMarkets.class));
+            }
+            return CompletableFuture.completedFuture(playerMarketsList);
+        });
+    }
+
+    public static CompletableFuture<MarketError> buyFromPlayerMarket(StoreBuyingData storeBuyingData) {
+        FirebaseData firebaseData = new FirebaseData();
+        String childPath = String.format(Locale.getDefault(),
+                "server/%d/market/playerMarkets/%d/onSale/%d",
+                storeBuyingData.getServerId(),
+                storeBuyingData.getPlayerMarketId(),
+                storeBuyingData.getOnSaleId());
+
+
+        CompletableFuture<DataSnapshot> onSaleFuture = new CompletableFuture<>();
+
+        firebaseData.retrieveData(childPath, onSaleFuture::complete);
+        return onSaleFuture.thenCompose(ignored -> {
+            DataSnapshot onSaleSnapshot = onSaleFuture.join();
+
+            if (onSaleSnapshot == null)
+                return CompletableFuture.completedFuture(MarketError.NOT_EXIST);
+
+            OnSale onSale = onSaleSnapshot.getValue(OnSale.class);
+            if (onSale == null)
+                return CompletableFuture.completedFuture(MarketError.NOT_EXIST);
+
+            if (!storeBuyingData.isSameResource(onSale))
+                return CompletableFuture.completedFuture(MarketError.GENERAL_ERROR);
+
+            int newQuantity = onSale.getQuantity() - storeBuyingData.getQuantity();
+            if (newQuantity > 0) {
+                // update the quantity.
+                firebaseData.setValue(String.format("%s/quantity", childPath), newQuantity);
+            } else if (newQuantity == 0) {
+                firebaseData.removeData(childPath);
+            } else {
+                return CompletableFuture.completedFuture(MarketError.NOT_ENOUGH);
+            }
+            // update seller's market's resource quantity.
+            firebaseData.setValue(String.format("%s/quantity", childPath), newQuantity);
+
+            float cost = onSale.getPrice() * onSale.getQuantity();
+
+            // update seller's money
+            updateMarketMoney(String.format(Locale.getDefault(), "player/%d/money", storeBuyingData.getSellerId()), cost);
+
+            // update buyer's money.
+            updateMarketMoney(String.format(Locale.getDefault(), "player/%d/money", storeBuyingData.getPlayerId()), -1 * cost);
+
+            return CompletableFuture.completedFuture(MarketError.SUCCESS);
+        });
+    }
+
+    private static void updateMarketMoney(String path, Float cost) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(path, dataSnapshot -> {
+            if (dataSnapshot == null) return;
+            Float money = dataSnapshot.getValue(Float.class);
+
+            if (money == null) return;
+            Float finalMoney = money + cost;
+
+            firebaseData.setValue(path, finalMoney);
+        });
+    }
+
+    public static CompletableFuture<List<OnSale>> getPlayerMarket(Integer serverId, Integer playerMarketId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(), "server/%d/market/playerMarkets/%d", serverId, playerMarketId),
+                future::complete);
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+            PlayerMarkets playerMarkets = dataSnapshot.getValue(PlayerMarkets.class);
+
+            if (playerMarkets == null) return CompletableFuture.completedFuture(null);
+            List<OnSale> onSaleList = new ArrayList<>(playerMarkets.getOnSale());
+
+            return CompletableFuture.completedFuture(onSaleList);
+        });
+    }
+
+    public static CompletableFuture<Inventory> getInventoryItem(Integer playerId, Integer resourceId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(), "player/%d/inventory/%d", playerId, resourceId),
+                future::complete);
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(dataSnapshot.getValue(Inventory.class));
+        });
+    }
+
+    /**
+     * This <i>sell</i> method inserts a resource for sale in the market. It also updates the inventory quantity of said resource.
+     * But this does not cross-check the following: <br/>
+     * <ul>
+     *     <li>Quantity in the inventory and the resource being sold.</li>
+     *     <li>Existence of the resource in the inventory.</li>
+     * </ul>
+     * @param onSale OnSale object that contains the data of the resource being sold.
+     * @param serverId current server id.
+     * @param playerMarketId current player's market id.
+     * @param playerId current player's id.
+     */
+    public static void sell(OnSale onSale, Integer serverId, Integer playerMarketId, Integer playerId) {
+        FirebaseData firebaseData = new FirebaseData();
+        getPlayerMarket(serverId, playerMarketId).thenAccept(onSales -> {
+            boolean existing = false;
+            int index = 0;
+            OnSale onSaleCopy = new OnSale();
+            for (OnSale onSaleItem : onSales) {
+                if (onSaleItem.equals(onSale)) {
+                    onSaleCopy = onSaleItem;
+                    existing = true;
+                    break;
+                }
+                index++;
+            }
+            if (existing) {
+                Integer qty = onSaleCopy.getQuantity() + onSale.getQuantity();
+                onSaleCopy.setQuantity(qty);
+                firebaseData.setValue(String.format(Locale.getDefault(),
+                        "server/%d/playerMarkets/%d/onSale/%d",
+                        serverId, playerMarketId, index), onSaleCopy);
+            } else {
+                onSales.add(onSale);
+                firebaseData.setValue(String.format(Locale.getDefault(),
+                        "server/%d/playerMarkets/%d/onSale",
+                        serverId, playerMarketId), onSales);
+            }
+        });
+
+        getInventoryItem(playerId, onSale.getInventoryResourceReference()).thenAccept(inventory -> {
+            Integer finalQuantity = inventory.getQuantity() - onSale.getQuantity();
+            inventory.setQuantity(finalQuantity);
+            firebaseData.setValue(
+                    String.format(Locale.getDefault(), "player/%d/inventory/%d", playerId, onSale.getInventoryResourceReference()),
+                    inventory
+            );
+        });
+    }
+
+    public enum MarketError {
+        NOT_EXIST, NOT_ENOUGH, SUCCESS, GENERAL_ERROR
+    }
+
+    /**
+     * A DataFunction class for real-time data retrieval of <u>Player Markets</u>.
+     */
+    public static class PlayerMarketUpdates {
+        FirebaseData firebaseData;
+        String childPath;
+
+        /**
+         * A DataFunction class for real-time data retrieval of <u>Player Markets</u>. This will initialize the object and prepare the variables for data retrieval.
+         *
+         * @param serverId       current server ID.
+         * @param playerMarketId player market to be observed.
+         */
+        public PlayerMarketUpdates(Integer serverId, Integer playerMarketId) {
+            firebaseData = new FirebaseData();
+            childPath = String.format(Locale.getDefault(), "server/%d/market/playerMarkets/%d", serverId, playerMarketId);
+        }
+
+        /**
+         * Starts the listener and returns real-time updates from the playerMarket.
+         *
+         * @param listener A PlayerMarketsListener that returns updated values.
+         */
+        public void startListener(PlayerMarketsListener listener) {
+            firebaseData.retrieveDataRealTime(childPath, dataSnapshot -> {
+                if (dataSnapshot == null || !dataSnapshot.exists())
+                    listener.onMarketUpdate(null);
+                else
+                    listener.onMarketUpdate(dataSnapshot.getValue(PlayerMarkets.class));
+            });
+        }
+
+        /**
+         * Stops the listener.
+         */
+        public void stopListener() {
+            firebaseData.stopRealTimeUpdates(childPath);
+        }
     }
 }

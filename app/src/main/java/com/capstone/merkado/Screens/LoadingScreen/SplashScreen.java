@@ -86,8 +86,8 @@ public class SplashScreen extends AppCompatActivity {
      */
     private void process2() {
         // get the data from Firebase.
-        DataFunctions.getAbout(getApplicationContext(), string -> merkado.getStaticContents().setAbout(string));
-        DataFunctions.getTermsAndConditions(getApplicationContext(), string -> merkado.getStaticContents().setTermsAndConditions(string));
+        DataFunctions.getAbout(string -> merkado.getStaticContents().setAbout(string));
+        DataFunctions.getTermsAndConditions(string -> merkado.getStaticContents().setTermsAndConditions(string));
     }
 
     /**

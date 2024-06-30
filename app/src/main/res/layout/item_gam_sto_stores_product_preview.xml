@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="50dp"
         android:layout_height="65dp"
-        app:cardCornerRadius="15dp">
+        app:cardCornerRadius="12dp">
 
         <ImageView
             android:id="@+id/resource_image"
@@ -19,11 +19,11 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/resource_quantity"
+        android:id="@+id/resource_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/text"
         android:gravity="center"
-        android:text="2000"
+        android:text="P2000.00"
         android:textSize="12sp" />
 </LinearLayout>

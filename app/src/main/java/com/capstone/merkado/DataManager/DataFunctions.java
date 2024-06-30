@@ -2,17 +2,21 @@ package com.capstone.merkado.DataManager;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.PlayerDataObjects.Inventory;
+import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor.StoryQueue;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor.TaskQueue;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.Objects.ServerDataObjects.ResourceData;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
@@ -833,11 +837,24 @@ public class DataFunctions {
         return qasItemsMapping;
     }
 
-    public static CompletableFuture<List<PlayerMarkets>> getAllPlayerMarkets(Integer serverId) {
+    public static CompletableFuture<ResourceData> getResourceDataById(Integer id) {
         CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
 
-        firebaseData.retrieveData(String.format(Locale.getDefault(), "server/%d/market/playerMarkets", serverId), future::complete);
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "resource/%d", id),
+                future::complete);
+
+        return future.thenCompose(dataSnapshot -> {
+           if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+           return CompletableFuture.completedFuture(dataSnapshot.getValue(ResourceData.class));
+        });
+    }
+
+    public static CompletableFuture<List<PlayerMarkets>> getAllPlayerMarkets(String serverId) {
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        FirebaseData firebaseData = new FirebaseData();
+
+        firebaseData.retrieveData(String.format("server/%s/market/playerMarkets", serverId), future::complete);
         return future.thenCompose(dataSnapshot -> {
             List<PlayerMarkets> playerMarketsList = new ArrayList<>();
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -850,7 +867,7 @@ public class DataFunctions {
     public static CompletableFuture<MarketError> buyFromPlayerMarket(StoreBuyingData storeBuyingData) {
         FirebaseData firebaseData = new FirebaseData();
         String childPath = String.format(Locale.getDefault(),
-                "server/%d/market/playerMarkets/%d/onSale/%d",
+                "server/%s/market/playerMarkets/%d/onSale/%d",
                 storeBuyingData.getServerId(),
                 storeBuyingData.getPlayerMarketId(),
                 storeBuyingData.getOnSaleId());
@@ -1008,9 +1025,9 @@ public class DataFunctions {
          * @param serverId       current server ID.
          * @param playerMarketId player market to be observed.
          */
-        public PlayerMarketUpdates(Integer serverId, Integer playerMarketId) {
+        public PlayerMarketUpdates(String serverId, Integer playerMarketId) {
             firebaseData = new FirebaseData();
-            childPath = String.format(Locale.getDefault(), "server/%d/market/playerMarkets/%d", serverId, playerMarketId);
+            childPath = String.format(Locale.getDefault(), "server/%s/market/playerMarkets/%d", serverId, playerMarketId);
         }
 
         /**
@@ -1022,8 +1039,9 @@ public class DataFunctions {
             firebaseData.retrieveDataRealTime(childPath, dataSnapshot -> {
                 if (dataSnapshot == null || !dataSnapshot.exists())
                     listener.onMarketUpdate(null);
-                else
+                else {
                     listener.onMarketUpdate(dataSnapshot.getValue(PlayerMarkets.class));
+                }
             });
         }
 

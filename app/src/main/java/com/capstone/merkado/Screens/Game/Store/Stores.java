@@ -1,18 +1,21 @@
 package com.capstone.merkado.Screens.Game.Store;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.capstone.merkado.Adapters.StoreNameAdapter;
-import com.capstone.merkado.Adapters.StoresItemsAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.capstone.merkado.Adapters.StoreProductAdapter;
+import com.capstone.merkado.Adapters.StoresGridAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.Objects.StoresDataObjects.StoreItems;
-import com.capstone.merkado.Objects.StoresDataObjects.StoreName;
+import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.Helpers.Bot;
+import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.R;
 
 import java.util.ArrayList;
@@ -21,13 +24,13 @@ import java.util.List;
 public class Stores extends AppCompatActivity {
 
     Merkado merkado;
-    private RecyclerView recyclerView, recyclerview1;
-    private TextView emptyView;
-    private StoresItemsAdapter adapter;
-    private StoreNameAdapter storeNameAdapter;
-    private List<StoreItems> itemList;
-    private List<StoreName> storeNameList;
-    private TextView storename;
+    private RecyclerView storesGrid, storeProductPreview;
+    private StoresGridAdapter storesGridAdapter;
+    private StoreProductAdapter storeProductAdapter;
+    private TextView storeName;
+    private CardView goToStore;
+
+    private List<PlayerMarkets> playerMarkets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,89 +40,46 @@ public class Stores extends AppCompatActivity {
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
-        recyclerView = findViewById(R.id.storelist);
-        recyclerview1 = findViewById(R.id.store_name_list);
-        emptyView = findViewById(R.id.store_list_empty);
-        storename = findViewById(R.id.store_name);
+        storesGrid = findViewById(R.id.stores_grid);
+        storeProductPreview = findViewById(R.id.store_product_preview);
+        storeName = findViewById(R.id.store_name);
+        goToStore = findViewById(R.id.go_to_store);
 
-        // Set up the RecyclerView with a GridLayoutManager
-        int numberOfColumns = 5; // Maintain 5 columns
-        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        recyclerview1.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        playerMarkets = new ArrayList<>();
 
-        //Mockup data only.
-        // Initialize your data
-        itemList = new ArrayList<>();
-        // Add items to the itemList.
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
-        itemList.add(new StoreItems(R.drawable.icon_store));
+        // Set up the market grid
+        storesGrid.setLayoutManager(new GridLayoutManager(this, 5));
+        storesGridAdapter = new StoresGridAdapter(getApplicationContext(), playerMarkets);
+        storesGrid.setAdapter(storesGridAdapter);
+        storesGridAdapter.setOnClickListener(this::setUpStoreDetails);
 
-        storeNameList = new ArrayList<>();
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-        storeNameList.add(new StoreName(R.drawable.icon_store, "P2000"));
-
-        // Add more items as needed
-
-        adapter = new StoresItemsAdapter(itemList);
-        storeNameAdapter = new StoreNameAdapter(storeNameList, this);
-        recyclerView.setAdapter(adapter);
-        recyclerview1.setAdapter(storeNameAdapter);
-
-        changeStoreName("New Store Name");
-
-        checkIfEmpty();
+        // get all markets
+        DataFunctions.getAllPlayerMarkets(merkado.getPlayer().getServer())
+                .thenAccept(playerMarketsList -> {
+                    playerMarkets.clear();
+                    playerMarkets.addAll(playerMarketsList);
+                    if (playerMarkets.size() > 0) setUpStoreDetails(playerMarkets.get(0), 0);
+                    else Bot.createBotStores();
+                    storesGridAdapter.notifyDataSetChanged();
+                });
     }
 
-    private void checkIfEmpty() {
-        if (adapter.getItemCount() == 0) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
-    }
+    private void setUpStoreDetails(PlayerMarkets playerMarket, Integer marketId) {
+        // store name
+        storeName.setText(playerMarket.getStoreName());
 
-    private void changeStoreName(String newName) {
-        storename.setText(newName);
+        // Set up product preview
+        storeProductPreview.setLayoutManager(new GridLayoutManager(this, 3));
+        storeProductAdapter = new StoreProductAdapter(getApplicationContext(), playerMarket.getOnSale());
+        storeProductPreview.setAdapter(storeProductAdapter);
+
+        // setup click
+        goToStore.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), StoreConsumerView.class);
+            intent.putExtra("PLAYER_MARKET", playerMarket);
+            intent.putExtra("MARKET_ID", marketId);
+            startActivity(intent);
+        });
     }
 
 }

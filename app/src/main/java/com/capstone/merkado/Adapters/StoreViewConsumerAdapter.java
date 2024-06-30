@@ -1,27 +1,36 @@
 package com.capstone.merkado.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.capstone.merkado.Objects.StoresDataObjects.StoreViewObjects.StoreViewConsumerObject;
+import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
+import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.R;
 
 import java.util.List;
+import java.util.Locale;
 
 public class StoreViewConsumerAdapter extends RecyclerView.Adapter<StoreViewConsumerAdapter.StoreViewHolder> {
 
-    private Context context;
-    private List<StoreViewConsumerObject> storeViewConsumerList;
+    Activity activity;
+    Context context;
+    List<OnSale> onSaleList;
+    OnClickListener onClickListener;
 
-    public StoreViewConsumerAdapter(Context context, List<StoreViewConsumerObject> storeViewConsumerList) {
-        this.context = context;
-        this.storeViewConsumerList = storeViewConsumerList;
+    public StoreViewConsumerAdapter(Activity activity, List<OnSale> onSaleList) {
+        this.activity = activity;
+        this.context = activity.getApplicationContext();
+        this.onSaleList = onSaleList;
     }
 
     @NonNull
@@ -33,32 +42,47 @@ public class StoreViewConsumerAdapter extends RecyclerView.Adapter<StoreViewCons
 
     @Override
     public void onBindViewHolder(@NonNull StoreViewHolder holder, int position) {
-        StoreViewConsumerObject currentItem = storeViewConsumerList.get(position);
-
-        holder.itemImage.setImageResource(currentItem.getImageResource());
-        holder.itemName.setText(currentItem.getItemName());
-        holder.itemDesc.setText(currentItem.getItemPrice());
-        holder.itemQty.setText(String.valueOf(currentItem.getQuantity()));
+        holder.bind(activity, onSaleList.get(position), position, onClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return storeViewConsumerList.size();
+        return onSaleList.size();
     }
 
     public static class StoreViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView itemImage;
         public TextView itemName;
-        public TextView itemDesc;
+        public TextView itemPrice;
         public TextView itemQty;
 
         public StoreViewHolder(@NonNull View itemView) {
             super(itemView);
             itemImage = itemView.findViewById(R.id.item_store_image);
             itemName = itemView.findViewById(R.id.item_name);
-            itemDesc = itemView.findViewById(R.id.item_price);
+            itemPrice = itemView.findViewById(R.id.item_price);
             itemQty = itemView.findViewById(R.id.item_qty);
         }
+
+        public void bind(Activity activity, OnSale onSale, Integer onSaleId, OnClickListener onClickListener) {
+            DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData -> {
+                activity.runOnUiThread(() -> itemName.setText(resourceData.getName()));
+            });
+
+            int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
+            itemImage.setImageDrawable(ContextCompat.getDrawable(activity.getApplicationContext(), itemImageResource));
+            itemPrice.setText(String.format(Locale.getDefault(), "P %.2f", onSale.getPrice()));
+            itemQty.setText(onSale.getQuantity());
+            itemView.setOnClickListener(v -> onClickListener.onClick(onSale, onSaleId));
+        }
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onClick(OnSale onSale, Integer onSaleId);
     }
 }

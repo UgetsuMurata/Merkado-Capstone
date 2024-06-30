@@ -13,6 +13,7 @@ public class PlayerMarkets implements Parcelable {
     Integer marketOwner;
     String storeName;
     Long opened;
+    String storeIcon;
     List<OnSale> onSale;
 
     public PlayerMarkets() {
@@ -50,12 +51,20 @@ public class PlayerMarkets implements Parcelable {
         this.onSale = onSale;
     }
 
+    public String getStoreIcon() {
+        return storeIcon;
+    }
+
+    public void setStoreIcon(String storeIcon) {
+        this.storeIcon = storeIcon;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    protected PlayerMarkets (Parcel in) {
+    protected PlayerMarkets(Parcel in) {
         if (in.readByte() == 0) {
             marketOwner = null;
         } else {
@@ -99,13 +108,23 @@ public class PlayerMarkets implements Parcelable {
         }
     };
 
-    public static class OnSale implements Parcelable{
+    public static class OnSale implements Parcelable {
+        String itemName;
         Integer resourceId;
+        String type;
         Float price;
         Integer quantity;
         Integer inventoryResourceReference;
 
         public OnSale() {
+        }
+
+        public String getItemName() {
+            return itemName;
+        }
+
+        public void setItemName(String itemName) {
+            this.itemName = itemName;
         }
 
         public Integer getResourceId() {
@@ -114,6 +133,14 @@ public class PlayerMarkets implements Parcelable {
 
         public void setResourceId(Integer resourceId) {
             this.resourceId = resourceId;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
 
         public Float getPrice() {
@@ -144,12 +171,15 @@ public class PlayerMarkets implements Parcelable {
         public int describeContents() {
             return 0;
         }
+
         protected OnSale(Parcel in) {
+            itemName = in.readString();
             if (in.readByte() == 0) {
                 resourceId = null;
             } else {
                 resourceId = in.readInt();
             }
+            type = in.readString();
             if (in.readByte() == 0) {
                 price = null;
             } else {
@@ -169,12 +199,14 @@ public class PlayerMarkets implements Parcelable {
 
         @Override
         public void writeToParcel(@NonNull Parcel dest, int flags) {
+            dest.writeString(itemName);
             if (resourceId == null) {
                 dest.writeByte((byte) 0);
             } else {
                 dest.writeByte((byte) 1);
                 dest.writeInt(resourceId);
             }
+            dest.writeString(type);
             if (price == null) {
                 dest.writeByte((byte) 0);
             } else {

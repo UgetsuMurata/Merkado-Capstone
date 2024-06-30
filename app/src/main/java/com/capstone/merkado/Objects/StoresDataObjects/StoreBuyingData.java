@@ -1,7 +1,7 @@
 package com.capstone.merkado.Objects.StoresDataObjects;
 
 public class StoreBuyingData {
-    Integer serverId;
+    String serverId;
     Integer playerMarketId; // market
     Integer sellerId; // seller
     Integer playerId; // buyer
@@ -9,16 +9,17 @@ public class StoreBuyingData {
     Integer quantity;
     PlayerMarkets.OnSale onSale;
 
-    public StoreBuyingData(Integer serverId, Integer playerMarketId, Integer sellerId, Integer onSaleId, Integer quantity, PlayerMarkets.OnSale onSale) {
+    public StoreBuyingData(String serverId, Integer playerMarketId, Integer sellerId, Integer playerId, Integer onSaleId, Integer quantity, PlayerMarkets.OnSale onSale) {
         this.serverId = serverId;
         this.playerMarketId = playerMarketId;
         this.sellerId = sellerId;
+        this.playerId = playerId;
         this.onSaleId = onSaleId;
         this.quantity = quantity;
         this.onSale = onSale;
     }
 
-    public Integer getServerId() {
+    public String getServerId() {
         return serverId;
     }
 

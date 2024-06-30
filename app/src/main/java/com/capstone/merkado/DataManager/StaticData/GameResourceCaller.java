@@ -11,4 +11,21 @@ public class GameResourceCaller {
         }
         return -1;
     }
+
+    public static int getStoreIcons(String storeIconCode) {
+        return R.drawable.icon_store;
+    }
+
+    public static int getResourceTypeIcons(String type) {
+        switch (type) {
+            case "COLLECTIBLES":
+                return R.drawable.icon_collectibles;
+            case "EDIBLES":
+                return R.drawable.icon_edibles;
+            case "RESOURCES":
+                return R.drawable.icon_resources;
+            default:
+                return -1;
+        }
+    }
 }

@@ -54,4 +54,20 @@ public class StringProcessor {
         }
         return processed;
     }
+
+    /**
+     * Converts the number into spaced string. This is for the numbers that uses the font "logo.ttf" which needs to be spaced out for numbers.
+     * @param number raw number (<i>Integer</i> datatype).
+     * @return Spaced out <i>String</i> of the number.
+     */
+    public static String numberToSpacedString(Integer number) {
+        StringBuilder finalString = new StringBuilder();
+
+        String rawString = String.valueOf(number);
+        for (int i = 0; i < rawString.length(); i++) {
+            finalString.append(rawString.charAt(i)).append(" ");
+        }
+
+        return finalString.toString();
+    }
 }

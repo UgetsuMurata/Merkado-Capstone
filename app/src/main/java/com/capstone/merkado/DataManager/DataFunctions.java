@@ -86,7 +86,7 @@ public class DataFunctions {
          *
          * @param playerMarkets return value.
          */
-        void onMarketUpdate(PlayerMarkets playerMarkets);
+        void onMarketUpdate(@Nullable PlayerMarkets playerMarkets);
     }
 
     /**
@@ -872,23 +872,21 @@ public class DataFunctions {
                 storeBuyingData.getPlayerMarketId(),
                 storeBuyingData.getOnSaleId());
 
-
         CompletableFuture<DataSnapshot> onSaleFuture = new CompletableFuture<>();
 
         firebaseData.retrieveData(childPath, onSaleFuture::complete);
-        return onSaleFuture.thenCompose(ignored -> {
-            DataSnapshot onSaleSnapshot = onSaleFuture.join();
-
-            if (onSaleSnapshot == null)
+        return onSaleFuture.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null)
                 return CompletableFuture.completedFuture(MarketError.NOT_EXIST);
 
-            OnSale onSale = onSaleSnapshot.getValue(OnSale.class);
+            OnSale onSale = dataSnapshot.getValue(OnSale.class);
             if (onSale == null)
                 return CompletableFuture.completedFuture(MarketError.NOT_EXIST);
 
             if (!storeBuyingData.isSameResource(onSale))
                 return CompletableFuture.completedFuture(MarketError.GENERAL_ERROR);
 
+            // update seller's market's resource quantity.
             int newQuantity = onSale.getQuantity() - storeBuyingData.getQuantity();
             if (newQuantity > 0) {
                 // update the quantity.
@@ -898,13 +896,13 @@ public class DataFunctions {
             } else {
                 return CompletableFuture.completedFuture(MarketError.NOT_ENOUGH);
             }
-            // update seller's market's resource quantity.
-            firebaseData.setValue(String.format("%s/quantity", childPath), newQuantity);
 
-            float cost = onSale.getPrice() * onSale.getQuantity();
+            // get total cost
+            float cost = onSale.getPrice() * storeBuyingData.getQuantity();
 
             // update seller's money
-            updateMarketMoney(String.format(Locale.getDefault(), "player/%d/money", storeBuyingData.getSellerId()), cost);
+            if (storeBuyingData.getSellerId() != -1) // -1 is a player id for bots.
+                updateMarketMoney(String.format(Locale.getDefault(), "player/%d/money", storeBuyingData.getSellerId()), cost);
 
             // update buyer's money.
             updateMarketMoney(String.format(Locale.getDefault(), "player/%d/money", storeBuyingData.getPlayerId()), -1 * cost);
@@ -1050,6 +1048,52 @@ public class DataFunctions {
          */
         public void stopListener() {
             firebaseData.stopRealTimeUpdates(childPath);
+        }
+    }
+
+    public static class PlayerDataUpdates {
+        FirebaseData firebaseData;
+        String childPath;
+
+        /**
+         * A DataFunction class for real-time data retrieval of <u>Player Markets</u>. This will initialize the object and prepare the variables for data retrieval.
+         *
+         * @param playerId       current player ID.
+         */
+        public PlayerDataUpdates(Integer playerId) {
+            firebaseData = new FirebaseData();
+            childPath = String.format(Locale.getDefault(), "player/%d", playerId);
+        }
+
+        /**
+         * Starts the listener and returns real-time updates from the playerMarket.
+         *
+         * @param listener A PlayerMarketsListener that returns updated values.
+         */
+        public void startListener(PlayerDataListener listener) {
+            firebaseData.retrieveDataRealTime(childPath, dataSnapshot -> {
+                if (dataSnapshot == null || !dataSnapshot.exists())
+                    listener.onPlayerDataReceived(null);
+                else {
+                    PlayerFBExtractor playerFBExtractor = dataSnapshot.getValue(PlayerFBExtractor.class);
+                    if (playerFBExtractor == null) {
+                        listener.onPlayerDataReceived(null);
+                        return;
+                    }
+                    listener.onPlayerDataReceived(new Player(playerFBExtractor));
+                }
+            });
+        }
+
+        /**
+         * Stops the listener.
+         */
+        public void stopListener() {
+            firebaseData.stopRealTimeUpdates(childPath);
+        }
+
+        public interface PlayerDataListener {
+            void onPlayerDataReceived(@Nullable Player playerData);
         }
     }
 }

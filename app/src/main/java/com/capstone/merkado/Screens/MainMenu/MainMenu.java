@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -116,5 +118,9 @@ public class MainMenu extends AppCompatActivity {
         settings.setOnClickListener(v -> doSettings.launch(new Intent(getApplicationContext(), SettingsMenu.class)));
 
         play.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Lobby.class)));
+
+        merkado.setPlayer(null, null);
     }
+
+
 }

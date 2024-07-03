@@ -3,6 +3,7 @@ package com.capstone.merkado.Screens.Game;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Inventory.Inventory;
 import com.capstone.merkado.Screens.Game.QuestAndStories.QuestAndStories;
 import com.capstone.merkado.Screens.Game.Store.Stores;
+import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
 public class MainMap extends AppCompatActivity {
 
@@ -55,6 +57,17 @@ public class MainMap extends AppCompatActivity {
         storesNav = findViewById(R.id.store_nav);
         playerBalanceView = findViewById(R.id.player_balance);
         playerLevelView = findViewById(R.id.player_level);
+
+        // onBackPressed
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         inventoryNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Inventory.class)));
         questAndStoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), QuestAndStories.class)));

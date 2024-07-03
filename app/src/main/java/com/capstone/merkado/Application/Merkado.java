@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
+import com.capstone.merkado.DataManager.DataFunctions.PlayerDataUpdates;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
@@ -32,6 +32,8 @@ public class Merkado extends Application {
     private Integer playerId;
     private MediaPlayer sfxPlayer;
     private MediaPlayer bgmPlayer;
+    private PlayerDataUpdates playerDataUpdates;
+    private PlayerDataListener playerDataListener;
 
     @Override
     public void onCreate() {
@@ -142,6 +144,23 @@ public class Merkado extends Application {
     public void setPlayer(Player player, Integer playerId) {
         this.player = player;
         this.playerId = playerId;
+        if (playerDataUpdates != null) {
+            playerDataUpdates.stopListener();
+            playerDataUpdates = null;
+        }
+        if (playerId == null) return;
+        playerDataUpdates = new PlayerDataUpdates(playerId);
+        playerDataUpdates.startListener(this::changePlayer);
+    }
+
+    private void changePlayer(Player player) {
+        this.player = player;
+        if (playerDataListener != null)
+            playerDataListener.onPlayerDataListenerReceived(this.player);
+    }
+
+    public void setPlayerDataListener(PlayerDataListener playerDataListener) {
+        this.playerDataListener = playerDataListener;
     }
 
     public void setBGM(Context context, int file, boolean loop) {
@@ -258,5 +277,9 @@ public class Merkado extends Application {
         public void setTermsAndConditions(String termsAndConditions) {
             this.termsAndConditions = termsAndConditions;
         }
+    }
+
+    public interface PlayerDataListener {
+        void onPlayerDataListenerReceived(Player player);
     }
 }

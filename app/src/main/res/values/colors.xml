@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_transparent">#DDFFFFFF</color>
     <color name="merkado_orange">#EF8121</color>
+    <color name="merkado_orange_disabled">#8E4C13</color>
     <color name="merkado_blue">#1C486F</color>
     <color name="elements">#FFEB3B</color>
     <color name="yellow">#FFE500</color>

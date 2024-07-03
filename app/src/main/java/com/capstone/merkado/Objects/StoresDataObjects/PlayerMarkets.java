@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerMarkets implements Parcelable {
     Integer marketOwner;
@@ -109,6 +110,7 @@ public class PlayerMarkets implements Parcelable {
     };
 
     public static class OnSale implements Parcelable {
+        Integer onSaleId;
         String itemName;
         Integer resourceId;
         String type;
@@ -117,6 +119,14 @@ public class PlayerMarkets implements Parcelable {
         Integer inventoryResourceReference;
 
         public OnSale() {
+        }
+
+        public Integer getOnSaleId() {
+            return onSaleId;
+        }
+
+        public void setOnSaleId(Integer onSaleId) {
+            this.onSaleId = onSaleId;
         }
 
         public String getItemName() {
@@ -173,6 +183,11 @@ public class PlayerMarkets implements Parcelable {
         }
 
         protected OnSale(Parcel in) {
+            if (in.readByte() == 0) {
+                onSaleId = null;
+            } else {
+                onSaleId = in.readInt();
+            }
             itemName = in.readString();
             if (in.readByte() == 0) {
                 resourceId = null;
@@ -199,6 +214,12 @@ public class PlayerMarkets implements Parcelable {
 
         @Override
         public void writeToParcel(@NonNull Parcel dest, int flags) {
+            if (onSaleId == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeInt(onSaleId);
+            }
             dest.writeString(itemName);
             if (resourceId == null) {
                 dest.writeByte((byte) 0);
@@ -245,7 +266,7 @@ public class PlayerMarkets implements Parcelable {
             OnSale onSale1 = (OnSale) obj;
             return getResourceId().equals(onSale1.getResourceId()) &&
                     getPrice().equals(onSale1.getPrice()) &&
-                    getInventoryResourceReference().equals(onSale1.getInventoryResourceReference());
+                    Objects.equals(getInventoryResourceReference(), onSale1.getInventoryResourceReference());
         }
     }
 }

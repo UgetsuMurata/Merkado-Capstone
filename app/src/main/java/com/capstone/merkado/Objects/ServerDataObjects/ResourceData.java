@@ -1,11 +1,20 @@
 package com.capstone.merkado.Objects.ServerDataObjects;
 
 public class ResourceData {
+    Integer resourceId;
     String name;
     String description;
     String type;
 
     public ResourceData() {
+    }
+
+    public Integer getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Integer resourceId) {
+        this.resourceId = resourceId;
     }
 
     public String getName() {

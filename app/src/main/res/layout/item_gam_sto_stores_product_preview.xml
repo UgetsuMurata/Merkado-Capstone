@@ -10,20 +10,33 @@
         android:layout_height="65dp"
         app:cardCornerRadius="12dp">
 
-        <ImageView
-            android:id="@+id/resource_image"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:src="@drawable/icon_store"/>
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginVertical="3dp"
+            app:cardCornerRadius="10.7dp">
+
+            <ImageView
+                android:id="@+id/resource_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:background="@drawable/resource_square_bg"
+                android:src="@drawable/icon_resources" />
+        </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/resource_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/text"
+        android:autoSizeMaxTextSize="10sp"
+        android:autoSizeMinTextSize="6sp"
+        android:autoSizeStepGranularity="1sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/elements"
         android:gravity="center"
-        android:text="P2000.00"
-        android:textSize="12sp" />
+        android:lines="1"
+        android:text="P2000.00" />
 </LinearLayout>

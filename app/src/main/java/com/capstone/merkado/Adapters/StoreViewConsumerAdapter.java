@@ -73,7 +73,7 @@ public class StoreViewConsumerAdapter extends RecyclerView.Adapter<StoreViewCons
             int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
             itemImage.setImageDrawable(ContextCompat.getDrawable(activity.getApplicationContext(), itemImageResource));
             itemPrice.setText(String.format(Locale.getDefault(), "P %.2f", onSale.getPrice()));
-            itemQty.setText(onSale.getQuantity());
+            itemQty.setText(String.valueOf(onSale.getQuantity()));
             itemView.setOnClickListener(v -> onClickListener.onClick(onSale, onSaleId));
         }
     }

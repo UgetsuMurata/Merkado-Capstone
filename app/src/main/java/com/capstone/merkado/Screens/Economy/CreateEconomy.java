@@ -14,7 +14,7 @@ public class CreateEconomy extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_economy);
+        setContentView(R.layout.eco_create_economy);
 
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);

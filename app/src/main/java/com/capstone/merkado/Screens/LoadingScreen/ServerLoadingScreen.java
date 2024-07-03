@@ -35,7 +35,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_server_loading_screen);
+        setContentView(R.layout.loa_server_loading_screen);
 
         // initialize this activity's screen.
         merkado = Merkado.getInstance();

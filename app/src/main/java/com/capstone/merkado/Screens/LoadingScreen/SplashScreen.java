@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +14,6 @@ import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SplashScreen extends AppCompatActivity {
@@ -28,7 +26,7 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.spl_loading_screen);
+        setContentView(R.layout.loa_splash_screen);
 
         // initialize this activity's screen.
         merkado = Merkado.getInstance();

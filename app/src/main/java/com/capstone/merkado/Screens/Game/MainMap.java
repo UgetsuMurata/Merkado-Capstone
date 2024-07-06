@@ -2,6 +2,7 @@ package com.capstone.merkado.Screens.Game;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -13,8 +14,9 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
 import com.capstone.merkado.R;
-import com.capstone.merkado.Screens.Game.Inventory.Inventory;
+import com.capstone.merkado.Screens.Game.Inventory.InventoryActivity;
 import com.capstone.merkado.Screens.Game.QuestAndStories.QuestAndStories;
+import com.capstone.merkado.Screens.Game.Store.StoreSellerView;
 import com.capstone.merkado.Screens.Game.Store.Stores;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
@@ -22,6 +24,7 @@ public class MainMap extends AppCompatActivity {
 
     Merkado merkado;
     CardView inventoryNav, questAndStoriesNav, storesNav;
+    ImageView myStore;
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
 
@@ -57,6 +60,7 @@ public class MainMap extends AppCompatActivity {
         storesNav = findViewById(R.id.store_nav);
         playerBalanceView = findViewById(R.id.player_balance);
         playerLevelView = findViewById(R.id.player_level);
+        myStore = findViewById(R.id.my_store);
 
         // onBackPressed
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -69,9 +73,10 @@ public class MainMap extends AppCompatActivity {
             }
         });
 
-        inventoryNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Inventory.class)));
+        inventoryNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), InventoryActivity.class)));
         questAndStoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), QuestAndStories.class)));
         storesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Stores.class)));
+        myStore.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
     }
 
 }

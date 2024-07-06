@@ -121,6 +121,16 @@ public class PlayerMarkets implements Parcelable {
         public OnSale() {
         }
 
+        public OnSale(OnSale onSale) {
+            onSaleId = onSale.getOnSaleId();
+            itemName = onSale.getItemName();
+            resourceId = onSale.getResourceId();
+            type = onSale.getType();
+            price = onSale.getPrice();
+            quantity = onSale.getQuantity();
+            inventoryResourceReference = onSale.getInventoryResourceReference();
+        }
+
         public Integer getOnSaleId() {
             return onSaleId;
         }

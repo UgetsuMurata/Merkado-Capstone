@@ -106,34 +106,31 @@ public class ChangePassword extends AppCompatActivity {
             WarningTextHelper.showWarning(getApplicationContext(), oldPasswordWarning, "Input old password.");
             return;
         }
-        DataFunctions.comparePasswords(merkado.getAccount().getEmail(), oldPassword.getText().toString(), new DataFunctions.BooleanReturn() {
-            @Override
-            public void booleanReturn(Boolean bool) {
-                if (bool) {
-                    if (newPassword.getText() == null || newPassword.getText().toString().isEmpty()) {
-                        // if the password doesn't have something in it.
-                        WarningTextHelper.showWarning(getApplicationContext(), newPasswordWarning, "Input new password.");
-                    } else if (confirmPassword.getText() == null || confirmPassword.getText().toString().trim().isEmpty()) {
-                        // if the user hasn't confirmed their password.
-                        WarningTextHelper.showWarning(getApplicationContext(), confirmPasswordWarning, "Confirm new password.");
-                    } else if (!newPassword.getText().toString().trim().equals(confirmPassword.getText().toString().trim())) {
-                        // if the password and confirmPassword isn't equal
-                        WarningTextHelper.showWarning(getApplicationContext(), confirmPasswordWarning, "Passwords do not match.");
-                    } else {
-                        // hide the warnings.
-                        WarningTextHelper.hide(confirmPasswordWarning);
-                        WarningTextHelper.hide(newPasswordWarning);
-
-                        // reset the password in database.
-                        DataFunctions.resetPassword(merkado.getAccount().getEmail(), newPassword.getText().toString());
-
-                        // return to Sign In with RESULT_OK.
-                        setResult(RESULT_OK);
-                        finish();
-                    }
+        DataFunctions.comparePasswords(merkado.getAccount().getEmail(), oldPassword.getText().toString(), bool -> {
+            if (bool) {
+                if (newPassword.getText() == null || newPassword.getText().toString().isEmpty()) {
+                    // if the password doesn't have something in it.
+                    WarningTextHelper.showWarning(getApplicationContext(), newPasswordWarning, "Input new password.");
+                } else if (confirmPassword.getText() == null || confirmPassword.getText().toString().trim().isEmpty()) {
+                    // if the user hasn't confirmed their password.
+                    WarningTextHelper.showWarning(getApplicationContext(), confirmPasswordWarning, "Confirm new password.");
+                } else if (!newPassword.getText().toString().trim().equals(confirmPassword.getText().toString().trim())) {
+                    // if the password and confirmPassword isn't equal
+                    WarningTextHelper.showWarning(getApplicationContext(), confirmPasswordWarning, "Passwords do not match.");
                 } else {
-                    WarningTextHelper.showWarning(getApplicationContext(), oldPasswordWarning, "Incorrect password.");
+                    // hide the warnings.
+                    WarningTextHelper.hide(confirmPasswordWarning);
+                    WarningTextHelper.hide(newPasswordWarning);
+
+                    // reset the password in database.
+                    DataFunctions.resetPassword(merkado.getAccount().getEmail(), newPassword.getText().toString());
+
+                    // return to Sign In with RESULT_OK.
+                    setResult(RESULT_OK);
+                    finish();
                 }
+            } else {
+                WarningTextHelper.showWarning(getApplicationContext(), oldPasswordWarning, "Incorrect password.");
             }
         });
     }

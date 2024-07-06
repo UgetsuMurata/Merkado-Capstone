@@ -20,14 +20,14 @@ import com.capstone.merkado.R;
 import java.util.List;
 import java.util.Locale;
 
-public class StoreViewConsumerAdapter extends RecyclerView.Adapter<StoreViewConsumerAdapter.StoreViewHolder> {
+public class StoreViewAdapter extends RecyclerView.Adapter<StoreViewAdapter.StoreViewHolder> {
 
     Activity activity;
     Context context;
     List<OnSale> onSaleList;
     OnClickListener onClickListener;
 
-    public StoreViewConsumerAdapter(Activity activity, List<OnSale> onSaleList) {
+    public StoreViewAdapter(Activity activity, List<OnSale> onSaleList) {
         this.activity = activity;
         this.context = activity.getApplicationContext();
         this.onSaleList = onSaleList;
@@ -42,7 +42,7 @@ public class StoreViewConsumerAdapter extends RecyclerView.Adapter<StoreViewCons
 
     @Override
     public void onBindViewHolder(@NonNull StoreViewHolder holder, int position) {
-        holder.bind(activity, onSaleList.get(position), position, onClickListener);
+        holder.bind(activity, onSaleList.get(position), onClickListener);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class StoreViewConsumerAdapter extends RecyclerView.Adapter<StoreViewCons
             itemQty = itemView.findViewById(R.id.item_qty);
         }
 
-        public void bind(Activity activity, OnSale onSale, Integer onSaleId, OnClickListener onClickListener) {
+        public void bind(Activity activity, OnSale onSale, OnClickListener onClickListener) {
             DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData -> {
                 activity.runOnUiThread(() -> itemName.setText(resourceData.getName()));
             });
@@ -74,7 +74,7 @@ public class StoreViewConsumerAdapter extends RecyclerView.Adapter<StoreViewCons
             itemImage.setImageDrawable(ContextCompat.getDrawable(activity.getApplicationContext(), itemImageResource));
             itemPrice.setText(String.format(Locale.getDefault(), "P %.2f", onSale.getPrice()));
             itemQty.setText(String.valueOf(onSale.getQuantity()));
-            itemView.setOnClickListener(v -> onClickListener.onClick(onSale, onSaleId));
+            itemView.setOnClickListener(v -> onClickListener.onClick(onSale));
         }
     }
 
@@ -83,6 +83,6 @@ public class StoreViewConsumerAdapter extends RecyclerView.Adapter<StoreViewCons
     }
 
     public interface OnClickListener {
-        void onClick(OnSale onSale, Integer onSaleId);
+        void onClick(OnSale onSale);
     }
 }

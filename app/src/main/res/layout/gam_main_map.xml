@@ -67,6 +67,60 @@
             app:layout_constraintEnd_toEndOf="@id/house_icon_end"
             app:layout_constraintStart_toStartOf="@id/house_icon_start"
             app:layout_constraintTop_toTopOf="@id/house_icon_top" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/factory_icon_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".75" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/factory_icon_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".60" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/factory_icon_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".25" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="999dp"
+                app:cardElevation="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/factory_icon_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/factory_icon_start"
+                app:layout_constraintTop_toTopOf="@id/factory_icon_top">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:elevation="2dp"
+                    android:src="@drawable/icon_lock"
+                    app:tint="@color/merkado_blue" />
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/icon_factory"
+                app:layout_constraintBottom_toBottomOf="@id/factory_icon_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/factory_icon_start"
+                app:layout_constraintTop_toTopOf="@id/factory_icon_top" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--STORE ICON-->
@@ -113,6 +167,7 @@
                 app:tint="@color/merkado_blue" />
         </androidx.cardview.widget.CardView>
         <ImageView
+            android:id="@+id/my_store"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/icon_store_v2"
@@ -123,58 +178,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--FACTORY ICON-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/factory_icon_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".75" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/factory_icon_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".60" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/factory_icon_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".25" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:cardElevation="5dp"
-            app:layout_constraintBottom_toBottomOf="@id/factory_icon_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/factory_icon_start"
-            app:layout_constraintTop_toTopOf="@id/factory_icon_top"
-            app:cardCornerRadius="999dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:elevation="2dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/icon_lock"
-                app:tint="@color/merkado_blue" />
-        </androidx.cardview.widget.CardView>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/icon_factory"
-            app:layout_constraintBottom_toBottomOf="@id/factory_icon_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/factory_icon_start"
-            app:layout_constraintTop_toTopOf="@id/factory_icon_top" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--BOTTOM NAVIGATION BUTTONS-->
     <androidx.constraintlayout.widget.ConstraintLayout

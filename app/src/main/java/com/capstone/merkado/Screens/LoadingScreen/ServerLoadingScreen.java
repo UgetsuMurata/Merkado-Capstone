@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
-import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor;
+import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
@@ -27,7 +27,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
     Integer maxProcesses = 5;
     String serverTitle;
     Integer serverId, playerId;
-    PlayerFBExtractor playerFBExtractor;
+    PlayerFBExtractor1 playerFBExtractor;
     List<PlayerStory> playerStoryList;
     List<PlayerTask> playerTaskList;
     Intent intent;
@@ -108,7 +108,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
         if (playerFBExtractor != null) {
             playerStoryList = new ArrayList<>();
             if (playerFBExtractor.getStoryQueue() == null) return;
-            for (PlayerFBExtractor.StoryQueue storyQueue : playerFBExtractor.getStoryQueue()) {
+            for (PlayerFBExtractor1.StoryQueue storyQueue : playerFBExtractor.getStoryQueue()) {
                 PlayerStory playerStory = new PlayerStory();
                 Chapter chapter = DataFunctions.getChapterFromId(storyQueue.getChapter());
                 if (chapter == null) continue;
@@ -138,7 +138,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
         if (playerFBExtractor != null) {
             playerTaskList = new ArrayList<>();
             if (playerFBExtractor.getTaskQueue() == null) return;
-            for (PlayerFBExtractor.TaskQueue taskQueue : playerFBExtractor.getTaskQueue()) {
+            for (PlayerFBExtractor1.TaskQueue taskQueue : playerFBExtractor.getTaskQueue()) {
                 PlayerTask playerTask = new PlayerTask();
                 playerTask.setTask(DataFunctions.getTaskFromId(taskQueue.getTask()));
                 playerTask.setTaskStatusCode(taskQueue.getTaskStatusCode());

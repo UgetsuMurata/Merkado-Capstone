@@ -54,7 +54,7 @@ public class Stores extends AppCompatActivity {
         storesGridAdapter.setOnClickListener(this::setUpStoreDetails);
 
         // get all markets
-        DataFunctions.getAllPlayerMarkets(merkado.getPlayer().getServer())
+        DataFunctions.getAllPlayerMarkets(merkado.getPlayer().getServer(), merkado.getPlayerId())
                 .thenAccept(playerMarketsList -> {
                     playerMarkets.clear();
                     playerMarkets.addAll(playerMarketsList);

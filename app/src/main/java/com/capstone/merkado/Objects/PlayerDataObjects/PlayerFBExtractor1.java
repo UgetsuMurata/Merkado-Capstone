@@ -1,11 +1,16 @@
 package com.capstone.merkado.Objects.PlayerDataObjects;
 
+import androidx.annotation.Nullable;
+
+import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Player data parser for Firebase.
  */
-public class PlayerFBExtractor {
+public class PlayerFBExtractor1 {
     private String accountId;
     private String server;
     private Float money;
@@ -13,10 +18,24 @@ public class PlayerFBExtractor {
     private List<Inventory> inventory;
     private List<TaskQueue> taskQueue;
     private List<StoryQueue> storyQueue;
+    private Integer marketId;
     private History history;
 
     // No-argument constructor required for Firebase
-    public PlayerFBExtractor() {
+    public PlayerFBExtractor1() {
+    }
+
+    public PlayerFBExtractor1(@Nullable PlayerFBExtractor2 playerFBExtractor2) {
+        if (playerFBExtractor2 == null) return;
+        this.accountId = playerFBExtractor2.getAccountId();
+        this.server = playerFBExtractor2.getServer();
+        this.money = playerFBExtractor2.getMoney();
+        this.exp = playerFBExtractor2.getExp();
+        this.inventory = new ArrayList<>(playerFBExtractor2.getInventory().values());
+        this.taskQueue = playerFBExtractor2.getTaskQueue();
+        this.storyQueue = playerFBExtractor2.getStoryQueue();
+        this.history = playerFBExtractor2.getHistory();
+        this.marketId = playerFBExtractor2.getMarketId();
     }
 
     // Getters and setters
@@ -74,6 +93,14 @@ public class PlayerFBExtractor {
 
     public void setStoryQueue(List<StoryQueue> storyQueue) {
         this.storyQueue = storyQueue;
+    }
+
+    public Integer getMarketId() {
+        return marketId;
+    }
+
+    public void setMarketId(Integer marketId) {
+        this.marketId = marketId;
     }
 
     public History getHistory() {

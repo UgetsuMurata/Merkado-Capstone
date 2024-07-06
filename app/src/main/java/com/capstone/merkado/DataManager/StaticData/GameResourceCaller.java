@@ -1,5 +1,6 @@
 package com.capstone.merkado.DataManager.StaticData;
 
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.R;
 
 public class GameResourceCaller {
@@ -32,6 +33,19 @@ public class GameResourceCaller {
                 return R.drawable.resource_edible_bg;
             case "RESOURCE":
                 return R.drawable.resource_resource_bg;
+            default:
+                return -1;
+        }
+    }
+
+    public static int getResourceTypeIcons(String type) {
+        switch (type.toUpperCase()) {
+            case "COLLECTIBLE":
+                return R.drawable.icon_collectibles;
+            case "EDIBLE":
+                return R.drawable.icon_edibles;
+            case "RESOURCE":
+                return R.drawable.icon_resources;
             default:
                 return -1;
         }

@@ -1,8 +1,12 @@
 package com.capstone.merkado.Objects.PlayerDataObjects;
 
+import androidx.annotation.Nullable;
+
+import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -13,19 +17,33 @@ public class Player {
     private List<Inventory> inventory;
     private List<PlayerTask> playerTaskList;
     private List<PlayerStory> playerStoryList;
+    private Integer marketId;
     private History history;
 
     /**
      * Converts the Firebase extractor for player data into a workable data object. Note that PlayerTask and PlayerStory should be put manually.
      * @param playerFBExtractor raw PlayerFBExtractor.
      */
-    public Player(PlayerFBExtractor playerFBExtractor) {
+    public Player(@Nullable PlayerFBExtractor1 playerFBExtractor) {
+        if (playerFBExtractor == null) return;
         this.accountId = playerFBExtractor.getAccountId();
         this.server = playerFBExtractor.getServer();
         this.money = playerFBExtractor.getMoney();
         this.exp = playerFBExtractor.getExp();
         this.inventory = playerFBExtractor.getInventory();
         this.history = playerFBExtractor.getHistory();
+        this.marketId = playerFBExtractor.getMarketId();
+    }
+
+    public Player(@Nullable PlayerFBExtractor2 playerFBExtractor) {
+        if (playerFBExtractor == null) return;
+        this.accountId = playerFBExtractor.getAccountId();
+        this.server = playerFBExtractor.getServer();
+        this.money = playerFBExtractor.getMoney();
+        this.history = playerFBExtractor.getHistory();
+        this.inventory = new ArrayList<>(playerFBExtractor.getInventory().values());
+        this.exp = playerFBExtractor.getExp();
+        this.marketId = playerFBExtractor.getMarketId();
     }
 
     public String getAccountId() {
@@ -82,6 +100,14 @@ public class Player {
 
     public void setPlayerStoryList(List<PlayerStory> playerStoryList) {
         this.playerStoryList = playerStoryList;
+    }
+
+    public Integer getMarketId() {
+        return marketId;
+    }
+
+    public void setMarketId(Integer marketId) {
+        this.marketId = marketId;
     }
 
     public History getHistory() {

@@ -52,7 +52,7 @@ public class QASRewardsAdapter extends RecyclerView.Adapter<QASRewardsAdapter.QA
         public QASItemsAdapterViewer(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
-            resourceQTY = itemView.findViewById(R.id.resource_price);
+            resourceQTY = itemView.findViewById(R.id.resource_quantity);
             resourceImage = itemView.findViewById(R.id.resource_image);
         }
 

@@ -132,24 +132,21 @@ public class SignIn extends AppCompatActivity {
         emailWarning.setVisibility(View.GONE);
         passwordWarning.setVisibility(View.GONE);
         // verify
-        DataFunctions.verifyAccount(email, password, new DataFunctions.AccountReturn() {
-            @Override
-            public void accountReturn(Account account) {
-                String username = account.getUsername();
-                if (!username.matches("^\\[ERROR:[a-zA-Z_]+\\]$")) {
-                    // save to SharedPref to keep signed in.
-                    DataFunctions.signInAccount(getApplicationContext(), account);
-                    merkado.setAccount(account);
-                    goToMainMenu();
-                } else {
-                    // check if email exists
-                    if (username.equals("[ERROR:WRONG_EMAIL]")) {
-                        emailWarning.setText("Email wasn't registered. Please sign up.");
-                        emailWarning.setVisibility(View.VISIBLE);
-                    } else if (username.equals("[ERROR:WRONG_PASSWORD]")) {
-                        passwordWarning.setText("Incorrect password!");
-                        passwordWarning.setVisibility(View.VISIBLE);
-                    }
+        DataFunctions.verifyAccount(email, password, account -> {
+            String username = account.getUsername();
+            if (!username.matches("^\\[ERROR:[a-zA-Z_]+\\]$")) {
+                // save to SharedPref to keep signed in.
+                DataFunctions.signInAccount(getApplicationContext(), account);
+                merkado.setAccount(account);
+                goToMainMenu();
+            } else {
+                // check if email exists
+                if (username.equals("[ERROR:WRONG_EMAIL]")) {
+                    emailWarning.setText("Email wasn't registered. Please sign up.");
+                    emailWarning.setVisibility(View.VISIBLE);
+                } else if (username.equals("[ERROR:WRONG_PASSWORD]")) {
+                    passwordWarning.setText("Incorrect password!");
+                    passwordWarning.setVisibility(View.VISIBLE);
                 }
             }
         });

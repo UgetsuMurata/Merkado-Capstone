@@ -1,0 +1,155 @@
+/**
+    THIS IS THE UPDATED FIREBASE SCHEMA.
+    NOTE:
+        "NEW": THIS MEANS THAT THE ATTRIBUTE IS NOT IMPLEMENTED YET. IT IS ONLY PLANNED FOR NOW.
+        "CHANGE": THIS MEANS THAT THE ATTRIBUTE IS TO BE CHANGED, BUT THE CHANGES ARE NOT YET IMPLEMENTED.
+*/
+{
+    "accounts": {
+        "email@gmail__DOT__com": { // Email is converted into a firebase-safe key.
+            "lastOnline": 123456, // Epoch millis.
+            "password": "hashedPassword",
+            "player": [0, 1, 2], // List of player Ids.
+            "username": "username"
+        }
+    },
+    "appData": {
+        "About": "Lorem Ipsum",
+        "TermsAndConditions": "Lorem Ipsum"
+    },
+    "player": [
+        {
+            "accountId": "email@gmail.com",
+            "exp": 0,
+            "inventory": {
+                "resourceId" : {
+                    "resourceId": 0,
+                    "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
+                    "quantity": 0
+                }
+            },
+            "money": 2000,
+            "server": "0",
+            "storyQueue": [
+                {
+                    "currentLineGroup": 0,
+                    "nextLineGroup": 1,
+                    "currentScene": 0,
+                    "nextScene": 1,
+                    "story": 0, // This is chapter
+                    "isTaken": true // CHANGE: This isn't actually used. Might remove it later.
+                }
+            ],
+            "taskQueue": [
+                {
+                    "task": 0 // This is task id. Schema on this might be updated later.
+                }
+            ],
+            "marketId": 0 // NEW: market Id connected to the server.
+        }
+    ],
+    "resource": [
+        {
+            "resourceId": 0,
+            "name": "Resource Name",
+            "description": "Lorem Ipsum",
+            "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS" // This only has four possible values.
+        }
+    ],
+    "server": {
+        "serverId": {
+            "name": "Server Name",
+            "players": [0, 1], // List of playerIds.
+            "settings": {
+                "playerLimit": 30, // NEW: key change from "player_limit" to "playerLimit".
+                "marketNameDisplayed": false // NEW: indicator of whether or not the player name is displayed in their market.
+            },
+            "market": { // NEW: This holds the market data.
+                "marketStandard": {
+                    "resourceId" : {
+                        "marketPrice": 100
+                    }
+                },
+                "playerMarkets": [ // putting this in the server will make them easily accessible to a bunch of players.
+                    {
+                        "marketOwner": 0, // playerId ["-1" if managed by bot.]
+                        "storeName": "Store Name",
+                        "opened": 123456, // epoch millis
+                        "onSale": [ // list of what's being sold
+                            {
+                                "resourceId": 0,
+                                "itemName": "Resource Name",
+                                "type":"COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
+                                "price": 105,
+                                "quantity": 10,
+                                "inventoryReference": 0
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "story": [
+        {
+            "id": 0, // Story Id
+            "category": "Main Story | Side Story | Extra Story", // This only has three possible values.
+            "chapter": "Chapter Name",
+            "shortDescription": "Lorem Ipsum",
+            "scenes": [
+                {
+                    "id": 0, // scene id
+                    "scene": "Scene Name",
+                    "description":"Lorem Ipsum",
+                    "nextScene": 1, // next scene id
+                    "lineGroup": [
+                        {
+                            "id": 0, // lineGroup id
+                            "background": "background_resource_code",
+                            "transition": "FTB", // for now, only FTB (fade to black) is available.
+                            "bgm": "bgm_resource_code [loop]", // loop is optional. if no "loop", bgm will not loop.
+                            "isQuiz": false, // this is optional. indicate true if this linegroup contains a quiz.
+                            "nextLineCode": "score=={score integer}:{next line group id};score==3:4", // this comes with the "isQuiz" if it was true. ";" is the separator between conditions. 
+                            "dialogueLines": [
+                                {
+                                    "character": "Character name",
+                                    "dialogue": "Lorem Ipsum",
+                                    "imageChanges": [ // this is optional for when there are changes with the character's resources.
+                                        {
+                                            "image": "sprite_resource_code",
+                                            "placement": "[1-5];[BODY|FACE]", // this is for placement in the screen, relative to other resources.
+                                            "toShow": true // this is for indicating if the resource will be hidden or not.
+                                        }
+                                    ],
+                                    "dialogueChoices": [
+                                        { // must contain exactly 4 instances of this object.
+                                            "choice": "Lorem Ipsum Short", // Short sample of the dialogue.
+                                            "nextLineGroup": 1 // indicates what LineGroup must go next after this.
+                                        }
+                                    ],
+                                    "quizChoices": [
+                                        { // must contain exactly 4 instances of this object.
+                                            "choice": "Lorem Ipsum Short",
+                                            "points": 1, // points that the player will get from this choice.
+                                            "dialogueLine": { // this will be displayed depending on player's choice.
+                                                "character":"Character name",
+                                                "dialogue": "Lorem Ipsum", // continuation of the choice to make the dialogue flow nicely.
+                                                "imageChanges": [
+                                                    {
+                                                        "image": "sprite_resource_code",
+                                                        "placement": "[1-5];[BODY|FACE]", // this is for placement in the screen, relative to other resources.
+                                                        "toShow": true // this is for indicating if the resource will be hidden or not.
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

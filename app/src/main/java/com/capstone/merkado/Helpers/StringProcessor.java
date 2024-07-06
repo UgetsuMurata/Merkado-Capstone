@@ -2,7 +2,9 @@ package com.capstone.merkado.Helpers;
 
 import com.capstone.merkado.Application.Merkado;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class StringProcessor {
 
@@ -69,5 +71,15 @@ public class StringProcessor {
         }
 
         return finalString.toString();
+    }
+
+    public static String titleCase(String rawString) {
+        if (rawString == null || rawString.isEmpty()) {
+            return rawString;
+        }
+
+        return Arrays.stream(rawString.split("\\s+"))
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
     }
 }

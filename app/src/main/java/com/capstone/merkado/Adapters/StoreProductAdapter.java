@@ -52,7 +52,7 @@ public class StoreProductAdapter extends RecyclerView.Adapter<StoreProductAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             resourceImage = itemView.findViewById(R.id.resource_image);
-            resourcePrice = itemView.findViewById(R.id.resource_price);
+            resourcePrice = itemView.findViewById(R.id.resource_quantity);
         }
 
         public void bind(Context context, OnSale onSale) {

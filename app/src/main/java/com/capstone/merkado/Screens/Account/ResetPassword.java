@@ -174,27 +174,24 @@ public class ResetPassword extends AppCompatActivity {
             WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Invalid email.");
         } else {
             // check if email exists in database
-            DataFunctions.emailExists(email.getText().toString(), new DataFunctions.BooleanReturn() {
-                @Override
-                public void booleanReturn(Boolean bool) {
-                    if (bool) {
-                        // if the email exists, save the email and go to page 2, send code.
-                        emailString = email.getText().toString();
-                        goToPage(2);
-                        sendCode();
+            DataFunctions.emailExists(email.getText().toString(), bool -> {
+                if (bool) {
+                    // if the email exists, save the email and go to page 2, send code.
+                    emailString = email.getText().toString();
+                    goToPage(2);
+                    sendCode();
 
-                        // set up the code instructions in page 2.
-                        String instructions = String.format("We sent a 4-digit code to %s. Please check your email for it.", emailString);
-                        SpannableString instructionSpannableString = new SpannableString(instructions); // create a SpannableString
-                        int start = instructions.indexOf(emailString); // find the start of emailString.
-                        int end = start + emailString.length(); // find the end of the emailString.
-                        StyleSpan boldSpan = new StyleSpan(Typeface.BOLD); // retrieve the StyleSpan Bold
-                        instructionSpannableString.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Bolden the emailString
-                        codeInstructions.setText(instructionSpannableString); // set the new code instructions.
-                    } else {
-                        // if the email does not exist, show warning.
-                        WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Email is not registered. Please recheck your input.");
-                    }
+                    // set up the code instructions in page 2.
+                    String instructions = String.format("We sent a 4-digit code to %s. Please check your email for it.", emailString);
+                    SpannableString instructionSpannableString = new SpannableString(instructions); // create a SpannableString
+                    int start = instructions.indexOf(emailString); // find the start of emailString.
+                    int end = start + emailString.length(); // find the end of the emailString.
+                    StyleSpan boldSpan = new StyleSpan(Typeface.BOLD); // retrieve the StyleSpan Bold
+                    instructionSpannableString.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Bolden the emailString
+                    codeInstructions.setText(instructionSpannableString); // set the new code instructions.
+                } else {
+                    // if the email does not exist, show warning.
+                    WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Email is not registered. Please recheck your input.");
                 }
             });
         }

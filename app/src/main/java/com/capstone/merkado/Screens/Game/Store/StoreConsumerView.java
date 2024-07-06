@@ -1,5 +1,7 @@
 package com.capstone.merkado.Screens.Game.Store;
 
+import static com.capstone.merkado.Helpers.OtherProcessors.StoreProcessors.filterSaleList;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,23 +17,21 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.capstone.merkado.Adapters.StoreViewConsumerAdapter;
+import com.capstone.merkado.Adapters.StoreViewAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.DataManager.DataFunctions.PlayerMarketUpdates;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
-import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class StoreConsumerView extends AppCompatActivity {
 
@@ -53,11 +53,11 @@ public class StoreConsumerView extends AppCompatActivity {
 
     // variables
     PlayerBalanceView playerBalanceView;
-    StoreViewConsumerAdapter storeViewConsumerAdapter;
+    StoreViewAdapter storeViewAdapter;
     PlayerMarkets playerMarkets;
     Integer marketId;
     PlayerMarketUpdates playerMarketUpdates;
-    DisplayMode currentDisplayMode = DisplayMode.COLLECTIBLES;
+    ResourceDisplayMode currentResourceDisplayMode = ResourceDisplayMode.COLLECTIBLES;
     Integer purchaseOverlayQuantity = 0;
     Integer purchaseOverlayQuantityButtonsMode = -1;
     Float purchaseOverlayFinalCost = 0f;
@@ -115,11 +115,11 @@ public class StoreConsumerView extends AppCompatActivity {
                 return;
             }
             playerMarkets = pm;
-            setUpView(pm.getOnSale(), currentDisplayMode);
+            setUpView(pm.getOnSale(), currentResourceDisplayMode);
         });
-        storeShowCollectibles.setOnClickListener(v -> setCurrentDisplayMode(DisplayMode.COLLECTIBLES));
-        storeShowEdibles.setOnClickListener(v -> setCurrentDisplayMode(DisplayMode.EDIBLES));
-        storeShowResources.setOnClickListener(v -> setCurrentDisplayMode(DisplayMode.RESOURCES));
+        storeShowCollectibles.setOnClickListener(v -> setCurrentDisplayMode(ResourceDisplayMode.COLLECTIBLES));
+        storeShowEdibles.setOnClickListener(v -> setCurrentDisplayMode(ResourceDisplayMode.EDIBLES));
+        storeShowResources.setOnClickListener(v -> setCurrentDisplayMode(ResourceDisplayMode.RESOURCES));
 
         purchaseOverlay.setVisibility(View.GONE);
         initializePlayerDataListener();
@@ -133,29 +133,25 @@ public class StoreConsumerView extends AppCompatActivity {
         });
     }
 
-    private void setCurrentDisplayMode(DisplayMode displayMode) {
-        currentDisplayMode = displayMode;
-        setUpView(playerMarkets.getOnSale(), currentDisplayMode);
+    private void setCurrentDisplayMode(ResourceDisplayMode resourceDisplayMode) {
+        currentResourceDisplayMode = resourceDisplayMode;
+        setUpView(playerMarkets.getOnSale(), currentResourceDisplayMode);
     }
 
-    private enum DisplayMode {
-        COLLECTIBLES, EDIBLES, RESOURCES
-    }
-
-    private void setUpView(List<OnSale> onSaleList, DisplayMode displayMode) {
-        List<OnSale> displayOnSale = filterSaleList(onSaleList, displayMode);
+    private void setUpView(List<OnSale> onSaleList, ResourceDisplayMode resourceDisplayMode) {
+        List<OnSale> displayOnSale = filterSaleList(onSaleList, resourceDisplayMode);
         itemList.setLayoutManager(new LinearLayoutManager(this));
-        storeViewConsumerAdapter = new StoreViewConsumerAdapter(this, displayOnSale);
-        itemList.setAdapter(storeViewConsumerAdapter);
-        storeViewConsumerAdapter.setOnClickListener(this::setUpDetails);
+        storeViewAdapter = new StoreViewAdapter(this, displayOnSale);
+        itemList.setAdapter(storeViewAdapter);
+        storeViewAdapter.setOnClickListener(this::setUpDetails);
         if (displayOnSale.size() > 0) {
             itemListEmpty.setVisibility(View.GONE);
             itemList.setVisibility(View.VISIBLE);
-            setUpDetails(displayOnSale.get(0), displayOnSale.get(0).getOnSaleId());
+            setUpDetails(displayOnSale.get(0));
         } else {
             itemListEmpty.setVisibility(View.VISIBLE);
             itemList.setVisibility(View.GONE);
-            switch (displayMode) {
+            switch (resourceDisplayMode) {
                 case COLLECTIBLES:
                     itemListEmpty.setText("No collectibles being sold today!");
                     break;
@@ -172,26 +168,7 @@ public class StoreConsumerView extends AppCompatActivity {
         }
     }
 
-    private List<OnSale> filterSaleList(List<OnSale> onSaleList, DisplayMode displayMode) {
-        switch (displayMode) {
-            case COLLECTIBLES:
-                return onSaleList.stream()
-                        .filter(onSale -> "COLLECTIBLE".equalsIgnoreCase(onSale.getType()))
-                        .collect(Collectors.toList());
-            case EDIBLES:
-                return onSaleList.stream()
-                        .filter(onSale -> "EDIBLE".equalsIgnoreCase(onSale.getType()))
-                        .collect(Collectors.toList());
-            case RESOURCES:
-                return onSaleList.stream()
-                        .filter(onSale -> "RESOURCE".equalsIgnoreCase(onSale.getType()))
-                        .collect(Collectors.toList());
-            default:
-                return new ArrayList<>();
-        }
-    }
-
-    private void setUpDetails(OnSale onSale, Integer onSaleId) {
+    private void setUpDetails(OnSale onSale) {
         itemDescriptionContainer.setVisibility(View.VISIBLE);
         itemDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
@@ -204,7 +181,7 @@ public class StoreConsumerView extends AppCompatActivity {
         itemPrice.setText(String.format(Locale.getDefault(), "P%.2f", onSale.getPrice()));
         itemImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), itemImageResource));
         itemBackground.setBackground(ContextCompat.getDrawable(getApplicationContext(), itemTypeResource));
-        itemPurchaseButton.setOnClickListener(v -> buyItem(onSale, onSaleId));
+        itemPurchaseButton.setOnClickListener(v -> buyItem(onSale, onSale.getOnSaleId()));
     }
 
     private void clearUpDetails() {
@@ -327,5 +304,12 @@ public class StoreConsumerView extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         playerMarketUpdates.stopListener();
+        merkado.setPlayerDataListener(null);
     }
+
+    /*
+     * TODO:
+     * [ ] Add the bought items to the buyer's inventory.
+     * [ ]
+     */
 }

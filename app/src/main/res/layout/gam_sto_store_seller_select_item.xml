@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/icon_inventory" />
+            android:src="@drawable/icon_store" />
 
         <TextView
             android:id="@+id/header_title"
@@ -28,7 +28,7 @@
             android:layout_marginStart="10dp"
             android:fontFamily="@font/text"
             android:gravity="center"
-            android:text="Inventory"
+            android:text="Player's Store: Add Item"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -135,7 +135,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:background="@drawable/bg_solid_color_with_shadow">
+            android:background="@drawable/bg_solid_color_with_shadow"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -203,7 +204,7 @@
                         android:fontFamily="@font/elements"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
-                        android:text="Use"
+                        android:text="Sell"
                         android:textColor="@color/white" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -218,8 +219,7 @@
             android:fontFamily="@font/text"
             android:gravity="center"
             android:text="No chosen item."
-            android:textColor="@color/light_gray"
-            android:visibility="gone" />
+            android:textColor="@color/light_gray" />
     </LinearLayout>
 
     <!--OVERLAY SCREEN-->

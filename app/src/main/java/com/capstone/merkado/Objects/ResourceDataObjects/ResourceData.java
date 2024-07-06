@@ -1,4 +1,4 @@
-package com.capstone.merkado.Objects.ServerDataObjects;
+package com.capstone.merkado.Objects.ResourceDataObjects;
 
 public class ResourceData {
     Integer resourceId;

@@ -93,9 +93,10 @@ public class StoreSellerView extends AppCompatActivity {
         playerMarketUpdates.startListener(playerMarkets -> {
             if (playerMarkets == null)
                 setPlayerMarkets(
-                        DataFunctions.setUpPlayerMarket(player.getServer(), merkado.getAccount().getUsername(), merkado.getPlayerId()));
+                        DataFunctions.setUpPlayerMarket(player.getServer(), merkado.getAccount().getUsername(), merkado.getPlayerId()),
+                        ResourceDisplayMode.COLLECTIBLES);
             else
-                setPlayerMarkets(playerMarkets);
+                setPlayerMarkets(playerMarkets, currentResourceDisplayMode);
         });
         initializeViews();
 
@@ -104,10 +105,10 @@ public class StoreSellerView extends AppCompatActivity {
         currentBalance.setBalance(player.getMoney());
     }
 
-    private void setPlayerMarkets(PlayerMarkets playerMarkets) {
+    private void setPlayerMarkets(PlayerMarkets playerMarkets, ResourceDisplayMode mode) {
         this.playerMarkets = playerMarkets;
         // trigger an update to relevant views.
-        setCurrentDisplayMode(ResourceDisplayMode.COLLECTIBLES);
+        setCurrentDisplayMode(mode);
     }
 
     private void initializeViews() {
@@ -245,6 +246,12 @@ public class StoreSellerView extends AppCompatActivity {
         dResourceImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), itemImageResource));
         dResourceImageBG.setBackground(ContextCompat.getDrawable(getApplicationContext(), itemTypeResource));
         dItemEdit.setOnClickListener(v -> editItem(onSale));
+        dItemRemove.setOnClickListener(v -> {
+            lspItemQuantityCount = 0;
+            LSPItemSetPrice = onSale.getPrice();
+            updateSale(onSale);
+            Toast.makeText(getApplicationContext(), "Product removed from store and added to your inventory!", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void clearUpDetails() {
@@ -321,7 +328,10 @@ public class StoreSellerView extends AppCompatActivity {
 
         // BUTTONS
         lspItemCancel.setOnClickListener(v -> layoutSellPopup.setVisibility(View.GONE));
-        lspItemUpdate.setOnClickListener(v -> updateSale(onSale));
+        lspItemUpdate.setOnClickListener(v -> {
+            updateSale(onSale);
+            Toast.makeText(getApplicationContext(), "Product updated successfully!", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void setLSPItemQuantity(Integer qty) {

@@ -9,7 +9,6 @@
         android:layout_width="50dp"
         android:layout_height="65dp"
         app:cardCornerRadius="12dp">
-
         <ImageView
             android:id="@+id/resource_image"
             android:layout_width="match_parent"

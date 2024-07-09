@@ -25,7 +25,8 @@
                 "resourceId" : {
                     "resourceId": 0,
                     "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
-                    "quantity": 0
+                    "quantity": 0,
+                    "sellable": false
                 }
             },
             "money": 2000,
@@ -53,7 +54,8 @@
             "resourceId": 0,
             "name": "Resource Name",
             "description": "Lorem Ipsum",
-            "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS" // This only has four possible values.
+            "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS", // This only has four possible values.
+            "sellable": false
         }
     ],
     "server": {
@@ -77,12 +79,13 @@
                         "opened": 123456, // epoch millis
                         "onSale": [ // list of what's being sold
                             {
+                                "onSaleId": 0,
                                 "resourceId": 0,
                                 "itemName": "Resource Name",
                                 "type":"COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
                                 "price": 105,
                                 "quantity": 10,
-                                "inventoryReference": 0
+                                "inventoryReference": 0 // CHANGE: remove this. replace with the "resourceId" for the code.
                             }
                         ]
                     }

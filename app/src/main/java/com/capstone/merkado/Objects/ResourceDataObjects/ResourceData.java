@@ -5,6 +5,7 @@ public class ResourceData {
     String name;
     String description;
     String type;
+    Boolean sellable;
 
     public ResourceData() {
     }
@@ -39,5 +40,13 @@ public class ResourceData {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Boolean getSellable() {
+        return sellable;
+    }
+
+    public void setSellable(Boolean sellable) {
+        this.sellable = sellable;
     }
 }

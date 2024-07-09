@@ -30,12 +30,14 @@ import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class StoreConsumerView extends AppCompatActivity {
 
     Merkado merkado;
+    TextView storeName;
     RecyclerView itemList;
     ImageView storeShowCollectibles, storeShowEdibles, storeShowResources;
     TextView itemName, itemDescription, itemPrice, itemListEmpty, itemDescriptionContainerEmpty;
@@ -80,6 +82,7 @@ public class StoreConsumerView extends AppCompatActivity {
             marketId = getIntent().getIntExtra("MARKET_ID", -1);
         }
 
+        storeName = findViewById(R.id.store_name);
         itemList = findViewById(R.id.item_list);
         storeShowCollectibles = findViewById(R.id.store_show_collectibles);
         storeShowEdibles = findViewById(R.id.store_show_edibles);
@@ -107,6 +110,7 @@ public class StoreConsumerView extends AppCompatActivity {
         purchaseOverlayCancel = findViewById(R.id.purchase_overlay_cancel);
         purchaseOverlayConfirm = findViewById(R.id.purchase_overlay_confirm);
 
+        storeName.setText(playerMarkets.getStoreName());
         itemList.setHasFixedSize(true);
         playerMarketUpdates = new PlayerMarketUpdates(merkado.getPlayer().getServer(), marketId);
         playerMarketUpdates.startListener(pm -> {
@@ -139,6 +143,9 @@ public class StoreConsumerView extends AppCompatActivity {
     }
 
     private void setUpView(List<OnSale> onSaleList, ResourceDisplayMode resourceDisplayMode) {
+        if (onSaleList == null || onSaleList.size() == 0) {
+            onSaleList = new ArrayList<>();
+        }
         List<OnSale> displayOnSale = filterSaleList(onSaleList, resourceDisplayMode);
         itemList.setLayoutManager(new LinearLayoutManager(this));
         storeViewAdapter = new StoreViewAdapter(this, displayOnSale);
@@ -153,16 +160,16 @@ public class StoreConsumerView extends AppCompatActivity {
             itemList.setVisibility(View.GONE);
             switch (resourceDisplayMode) {
                 case COLLECTIBLES:
-                    itemListEmpty.setText("No collectibles being sold today!");
+                    itemListEmpty.setText(String.format(getString(R.string.storeItemListEmptyConsumer), "collectibles"));
                     break;
                 case EDIBLES:
-                    itemListEmpty.setText("No edibles being sold today!");
+                    itemListEmpty.setText(String.format(getString(R.string.storeItemListEmptyConsumer), "edibles"));
                     break;
                 case RESOURCES:
-                    itemListEmpty.setText("No resources being sold today!");
+                    itemListEmpty.setText(String.format(getString(R.string.storeItemListEmptyConsumer), "resources"));
                     break;
                 default:
-                    itemListEmpty.setText("No items being sold today!");
+                    itemListEmpty.setText(String.format(getString(R.string.storeItemListEmptyConsumer), "items"));
             }
             clearUpDetails();
         }

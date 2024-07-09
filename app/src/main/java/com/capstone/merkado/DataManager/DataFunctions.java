@@ -869,6 +869,10 @@ public class DataFunctions {
                 firebaseData.setValue(String.format("%s/quantity", childPath), newQuantity);
             } else if (newQuantity == 0) {
                 firebaseData.removeData(childPath);
+                readjustOnSaleListKeys(String.format(Locale.getDefault(),
+                        "server/%s/market/playerMarkets/%d/onSale",
+                        storeBuyingData.getServerId(),
+                        storeBuyingData.getPlayerMarketId()));
             } else {
                 return CompletableFuture.completedFuture(MarketError.NOT_ENOUGH);
             }
@@ -882,8 +886,26 @@ public class DataFunctions {
 
             // update buyer's money.
             updateMarketMoney(String.format(Locale.getDefault(), "player/%d/money", storeBuyingData.getPlayerId()), -1 * cost);
+            updateMarketInventory(onSale, storeBuyingData.getQuantity(), storeBuyingData.getPlayerId());
 
             return CompletableFuture.completedFuture(MarketError.SUCCESS);
+        });
+    }
+
+    private static void readjustOnSaleListKeys(String path) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(path, dataSnapshot -> {
+            List<OnSale> onSaleList = new ArrayList<>();
+            if (dataSnapshot == null || !dataSnapshot.exists()) return;
+            int i = 0;
+            for (DataSnapshot onSaleDS : dataSnapshot.getChildren()) {
+                OnSale onSale = onSaleDS.getValue(OnSale.class);
+                if (onSale == null) continue;
+                onSale.setOnSaleId(i);
+                onSaleList.add(onSale);
+                i++;
+            }
+            firebaseData.setValue(path, onSaleList);
         });
     }
 
@@ -898,6 +920,15 @@ public class DataFunctions {
 
             firebaseData.setValue(path, finalMoney);
         });
+    }
+
+    private static void updateMarketInventory(OnSale onSale, Integer quantity, Integer playerId) {
+        Inventory inventory = new Inventory();
+        inventory.setResourceId(onSale.getResourceId());
+        inventory.setQuantity(quantity);
+        inventory.setType(onSale.getType());
+        inventory.setSellable(true);
+        setInventoryItem(inventory, playerId);
     }
 
     public static CompletableFuture<List<OnSale>> getPlayerMarket(String serverId, Integer playerMarketId) {
@@ -953,8 +984,21 @@ public class DataFunctions {
 
     public static void setInventoryItem(Inventory inventory, Integer playerId) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/inventory/%d",
-                playerId, inventory.getResourceId()), inventory);
+
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "player/%d/inventory/%d",
+                playerId, inventory.getResourceId()), dataSnapshot -> {
+            if (dataSnapshot == null) return;
+            if (dataSnapshot.exists()) {
+                Inventory existingInventory = dataSnapshot.getValue(Inventory.class);
+                if (existingInventory != null) {
+                    firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/inventory/%d/quantity",
+                            playerId, inventory.getResourceId()), existingInventory.getQuantity() + inventory.getQuantity());
+                    return;
+                }
+            }
+            firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/inventory/%d",
+                    playerId, inventory.getResourceId()), inventory);
+        });
     }
 
     public static void removeInventoryItem(Integer playerId, Integer resourceId) {

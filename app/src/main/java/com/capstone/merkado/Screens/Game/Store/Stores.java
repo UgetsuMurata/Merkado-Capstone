@@ -3,6 +3,7 @@ package com.capstone.merkado.Screens.Game.Store;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,13 +25,14 @@ import java.util.List;
 public class Stores extends AppCompatActivity {
 
     Merkado merkado;
-    private RecyclerView storesGrid, storeProductPreview;
-    private StoresGridAdapter storesGridAdapter;
-    private StoreProductAdapter storeProductAdapter;
-    private TextView storeName;
-    private CardView goToStore;
+    RecyclerView storesGrid, storeProductPreview;
+    StoresGridAdapter storesGridAdapter;
+    StoreProductAdapter storeProductAdapter;
+    TextView storeName, showNoProducts;
+    LinearLayout showProducts;
+    CardView goToStore;
 
-    private List<PlayerMarkets> playerMarkets;
+    List<PlayerMarkets> playerMarkets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class Stores extends AppCompatActivity {
         storeProductPreview = findViewById(R.id.store_product_preview);
         storeName = findViewById(R.id.store_name);
         goToStore = findViewById(R.id.go_to_store);
+        showProducts = findViewById(R.id.show_products);
+        showNoProducts = findViewById(R.id.show_products_none);
 
         playerMarkets = new ArrayList<>();
 
@@ -68,11 +72,17 @@ public class Stores extends AppCompatActivity {
         // store name
         storeName.setText(playerMarket.getStoreName());
 
-        // Set up product preview
-        storeProductPreview.setLayoutManager(new GridLayoutManager(this, 3));
-        storeProductAdapter = new StoreProductAdapter(getApplicationContext(), playerMarket.getOnSale());
-        storeProductPreview.setAdapter(storeProductAdapter);
-
+        if (playerMarket.getOnSale() == null || playerMarket.getOnSale().size() == 0) {
+            showNoProducts.setVisibility(View.VISIBLE);
+            showProducts.setVisibility(View.GONE);
+        } else {
+            showNoProducts.setVisibility(View.GONE);
+            showProducts.setVisibility(View.VISIBLE);
+            // Set up product preview
+            storeProductPreview.setLayoutManager(new GridLayoutManager(this, 3));
+            storeProductAdapter = new StoreProductAdapter(getApplicationContext(), playerMarket.getOnSale());
+            storeProductPreview.setAdapter(storeProductAdapter);
+        }
         // setup click
         goToStore.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), StoreConsumerView.class);

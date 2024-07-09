@@ -20,6 +20,8 @@ import com.capstone.merkado.Adapters.InventoryAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
+import com.capstone.merkado.Helpers.OtherProcessors;
+import com.capstone.merkado.Helpers.OtherProcessors.InventoryProcessors.Disable;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
@@ -266,8 +268,8 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
             cInventoryList.setLayoutManager(new GridLayoutManager(this, 5));
             inventoryAdapter = new InventoryAdapter(this, mappedInventory);
-            cInventoryList.setAdapter(inventoryAdapter);
             inventoryAdapter.setOnClickListener(this::verifyDetails);
+            cInventoryList.setAdapter(inventoryAdapter);
 
             Integer firstKey = new ArrayList<>(mappedInventory.keySet()).get(0);
             verifyDetails(mappedInventory.get(firstKey), firstKey);
@@ -318,7 +320,14 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         dResourceImageBG.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 GameResourceCaller.getResourceTypeBackgrounds(resourceData.getType())));
 
-        dSellButton.setOnClickListener(v -> showSellPopup(inventory));
+        boolean disabled = OtherProcessors.InventoryProcessors.isInventoryDisabled(inventory, Disable.UNSELLABLE);
+        dSellButton.setOnClickListener(v -> {
+            if (!disabled) showSellPopup(inventory);
+            else
+                Toast.makeText(getApplicationContext(), "This item cannot be sold!", Toast.LENGTH_SHORT).show();
+        });
+        if (disabled) dSellButton.setText("This item cannot be sold!");
+        else dSellButton.setText("Sell");
     }
 
     /**

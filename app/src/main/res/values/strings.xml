@@ -3,4 +3,5 @@
 
     <!--STORE STRING VALUES-->
     <string name="storeItemListEmptySeller">You\'re not selling any%s. Add some!</string>
+    <string name="storeItemListEmptyConsumer">No %s being sold today!</string>
 </resources>

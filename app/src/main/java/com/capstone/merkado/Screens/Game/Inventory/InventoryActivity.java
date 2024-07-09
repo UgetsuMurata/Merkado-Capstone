@@ -1,23 +1,25 @@
 package com.capstone.merkado.Screens.Game.Inventory;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.capstone.merkado.Adapters.InventoryAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
+import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
-import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.R;
 
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ public class InventoryActivity extends AppCompatActivity {
     ResourceDisplayMode currentMode;
     List<Inventory> inventoryList;
     LinkedHashMap<Integer, Inventory> inventoryMap;
+    InventoryAdapter inventoryAdapter;
+    DataFunctions.InventoryUpdates inventoryUpdates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +61,21 @@ public class InventoryActivity extends AppCompatActivity {
         merkado.initializeScreen(this);
 
         initializeViews();
+
+        inventoryUpdates = new DataFunctions.InventoryUpdates(merkado.getPlayerId());
+        inventoryUpdates.startListener(inventoryList -> {
+            if (inventoryList == null) return;
+            this.inventoryList = inventoryList;
+            this.inventoryMap = mapInventoryList(inventoryList);
+            filterInventoryAndShow(currentMode);
+        });
     }
 
     /**
      * Initializes all views.
      */
     private void initializeViews() {
-        // call initializers
+        // initialize main views
         initializeSidebar();
         initializeContents();
         initializeDescription();
@@ -92,6 +104,7 @@ public class InventoryActivity extends AppCompatActivity {
             filterInventoryAndShow(ResourceDisplayMode.RESOURCES);
         });
     }
+
     /**
      * Initializes the contents views, retrieves the player inventory from Firebase RTDB, and calls {@code filterInventoryAndShow()}.
      */
@@ -148,7 +161,7 @@ public class InventoryActivity extends AppCompatActivity {
             case COLLECTIBLES:
                 filteredMap = inventoryMap.entrySet()
                         .stream()
-                        .filter(entry -> "COLLECTIBLE".equals(entry.getValue().getResourceData().getType()))
+                        .filter(entry -> "COLLECTIBLE".equals(entry.getValue().getType()))
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey,
                                 Map.Entry::getValue,
@@ -159,7 +172,7 @@ public class InventoryActivity extends AppCompatActivity {
             case EDIBLES:
                 filteredMap = inventoryMap.entrySet()
                         .stream()
-                        .filter(entry -> "EDIBLE".equals(entry.getValue().getResourceData().getType()))
+                        .filter(entry -> "EDIBLE".equals(entry.getValue().getType()))
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey,
                                 Map.Entry::getValue,
@@ -170,7 +183,7 @@ public class InventoryActivity extends AppCompatActivity {
             case RESOURCES:
                 filteredMap = inventoryMap.entrySet()
                         .stream()
-                        .filter(entry -> "RESOURCE".equals(entry.getValue().getResourceData().getType()))
+                        .filter(entry -> "RESOURCE".equals(entry.getValue().getType()))
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey,
                                 Map.Entry::getValue,
@@ -191,15 +204,26 @@ public class InventoryActivity extends AppCompatActivity {
         cResourceGroup.setText(StringProcessor.titleCase(mode.toString()));
         cResourceGroupIcon.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 GameResourceCaller.getResourceTypeIcons(mode.toString())));
-        if (inventoryList.size() > 0) {
+
+        cInventoryList.setLayoutManager(new GridLayoutManager(this, 5));
+        inventoryAdapter = new InventoryAdapter(this, mappedInventory);
+        cInventoryList.setAdapter(inventoryAdapter);
+
+        if (mappedInventory.size() > 0) {
             cInventoryListEmpty.setVisibility(View.GONE);
             cInventoryList.setVisibility(View.VISIBLE);
-            // TODO: initialize recyclerviews
+
+            cInventoryList.setLayoutManager(new GridLayoutManager(this, 5));
+            inventoryAdapter = new InventoryAdapter(this, mappedInventory);
+            cInventoryList.setAdapter(inventoryAdapter);
+            inventoryAdapter.setOnClickListener(this::verifyDetails);
+
             Integer firstKey = new ArrayList<>(mappedInventory.keySet()).get(0);
             verifyDetails(mappedInventory.get(firstKey), firstKey);
         } else {
             cInventoryListEmpty.setVisibility(View.VISIBLE);
             cInventoryList.setVisibility(View.GONE);
+            verifyDetails(null, null);
         }
     }
 
@@ -240,10 +264,11 @@ public class InventoryActivity extends AppCompatActivity {
         dResourceDescription.setText(resourceData.getDescription());
         dResourceImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 GameResourceCaller.getResourcesImage(resourceData.getResourceId())));
-        dResourceImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+        dResourceImageBG.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 GameResourceCaller.getResourceTypeBackgrounds(resourceData.getType())));
-
-        dUseButton.setOnClickListener(v -> showSellPopup(inventory));
+        dUseButton.setOnClickListener(v -> {
+            // TODO: this. HAHAHA.
+        });
     }
 
     /**
@@ -252,13 +277,5 @@ public class InventoryActivity extends AppCompatActivity {
     private void noDetails() {
         dDescriptionContainerEmpty.setVisibility(View.VISIBLE);
         dDescriptionContainer.setVisibility(View.GONE);
-    }
-
-    /**
-     * Shows the use popup.
-     * @param inventory resource from inventory to use.
-     */
-    private void showSellPopup(Inventory inventory) {
-
     }
 }

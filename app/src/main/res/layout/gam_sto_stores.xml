@@ -55,8 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fadingEdgeLength="20dp"
-                android:requiresFadingEdge="horizontal"
                 android:orientation="horizontal"
+                android:requiresFadingEdge="horizontal"
                 tools:listitem="@layout/item_gam_sto_stores_stores_grid" />
         </LinearLayout>
 
@@ -77,23 +77,42 @@
                 android:text="Store Name"
                 android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/store_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/text"
-                android:text="Preview"
-                android:textSize="16sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/store_product_preview"
+            <LinearLayout
+                android:id="@+id/show_products"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:fadingEdgeLength="20dp"
-                android:orientation="horizontal"
-                android:requiresFadingEdge="horizontal"
-                tools:listitem="@layout/item_gam_sto_stores_product_preview" />
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/store_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/text"
+                    android:text="Preview"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/store_product_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fadingEdgeLength="20dp"
+                    android:orientation="horizontal"
+                    android:requiresFadingEdge="horizontal"
+                    tools:listitem="@layout/item_gam_sto_stores_product_preview" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/show_products_none"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:text="Store is closed."
+                android:fontFamily="@font/text"
+                android:textColor="@color/light_gray"
+                android:gravity="center"
+                />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/go_to_store"

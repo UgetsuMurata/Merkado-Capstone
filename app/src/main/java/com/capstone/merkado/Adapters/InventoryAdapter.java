@@ -38,7 +38,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
     @Override
     public void onBindViewHolder(@NonNull InventoryViewHolder holder, int position) {
-        Map.Entry<Integer, Inventory> entry = inventoryLinkedHashMap.entrySet().iterator().next();;
+        Map.Entry<Integer, Inventory> entry = inventoryLinkedHashMap.entrySet().iterator().next();
         holder.bind(context, entry.getValue(), entry.getKey(), onClickListener);
     }
 
@@ -62,8 +62,11 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         public void bind(Context context, Inventory inventory, Integer index, OnClickListener onClickListener) {
             resourceImage.setImageDrawable(ContextCompat.getDrawable(context, GameResourceCaller.getResourcesImage(inventory.getResourceId())));
             resourceQuantity.setText(String.valueOf(inventory.getQuantity()));
-            itemView.setOnClickListener(v -> onClickListener.onClick(inventory, index));
+            itemView.setOnClickListener(v -> {
+                onClickListener.onClick(inventory, index);
+            });
         }
+
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {

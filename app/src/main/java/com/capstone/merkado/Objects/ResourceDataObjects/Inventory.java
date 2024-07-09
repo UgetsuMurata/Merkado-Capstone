@@ -5,6 +5,7 @@ public class Inventory {
     ResourceData resourceData;
     Integer quantity;
     String type;
+    Boolean sellable;
 
     public Inventory() {
     }
@@ -14,6 +15,7 @@ public class Inventory {
         this.quantity = inventory.getQuantity();
         this.resourceData = inventory.getResourceData();
         this.type = inventory.getType();
+        this.sellable = inventory.getSellable();
     }
 
     public Integer getResourceId() {
@@ -46,5 +48,13 @@ public class Inventory {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Boolean getSellable() {
+        return sellable;
+    }
+
+    public void setSellable(Boolean sellable) {
+        this.sellable = sellable;
     }
 }

@@ -37,7 +37,7 @@ public class StoresGridAdapter extends RecyclerView.Adapter<StoresGridAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(context, playerMarkets.get(position), position, onClickListener);
+        holder.bind(context, playerMarkets.get(position), onClickListener);
     }
 
     @Override
@@ -53,10 +53,10 @@ public class StoresGridAdapter extends RecyclerView.Adapter<StoresGridAdapter.Vi
             storeIcon = itemView.findViewById(R.id.store_icon);
         }
 
-        public void bind(Context context, PlayerMarkets playerMarkets, Integer marketId, OnClickListener onClickListener) {
+        public void bind(Context context, PlayerMarkets playerMarkets, OnClickListener onClickListener) {
             int storeIconResource = GameResourceCaller.getStoreIcons(playerMarkets.getStoreIcon());
             storeIcon.setImageDrawable(ContextCompat.getDrawable(context, storeIconResource));
-            itemView.setOnClickListener(v -> onClickListener.onClick(playerMarkets, marketId));
+            itemView.setOnClickListener(v -> onClickListener.onClick(playerMarkets, playerMarkets.getMarketId()));
         }
     }
 

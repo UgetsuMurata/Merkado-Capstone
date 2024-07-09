@@ -1138,7 +1138,6 @@ public class DataFunctions {
 
     public static PlayerMarkets setUpPlayerMarket(String server, String username, Integer playerId) {
         FirebaseData firebaseData = new FirebaseData();
-
         PlayerMarkets playerMarkets = new PlayerMarkets();
         playerMarkets.setMarketOwner(playerId);
         playerMarkets.setStoreName(String.format("%s's Store", username));
@@ -1147,6 +1146,7 @@ public class DataFunctions {
         firebaseData.retrieveData(String.format("server/%s/market/playerMarkets", server), dataSnapshot -> {
             if (dataSnapshot == null) return;
             long currentIndex = dataSnapshot.getChildrenCount();
+            playerMarkets.setMarketId(Math.toIntExact(currentIndex));
             firebaseData.setValue(String.format(Locale.getDefault(), "server/%s/market/playerMarkets/%d", server, currentIndex), playerMarkets);
             firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/marketId", playerId), currentIndex);
         });

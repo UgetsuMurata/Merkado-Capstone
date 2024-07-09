@@ -62,7 +62,7 @@ public class Stores extends AppCompatActivity {
                 .thenAccept(playerMarketsList -> {
                     playerMarkets.clear();
                     playerMarkets.addAll(playerMarketsList);
-                    if (playerMarkets.size() > 0) setUpStoreDetails(playerMarkets.get(0), 0);
+                    if (playerMarkets.size() > 0) setUpStoreDetails(playerMarkets.get(0), playerMarkets.get(0).getMarketId());
                     else Bot.createBotStores();
                     storesGridAdapter.notifyDataSetChanged();
                 });

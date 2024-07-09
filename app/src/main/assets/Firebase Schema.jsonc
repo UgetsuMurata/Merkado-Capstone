@@ -75,6 +75,7 @@
                 "playerMarkets": [ // putting this in the server will make them easily accessible to a bunch of players.
                     {
                         "marketOwner": 0, // playerId ["-1" if managed by bot.]
+                        "marketId": 0,
                         "storeName": "Store Name",
                         "opened": 123456, // epoch millis
                         "onSale": [ // list of what's being sold

@@ -96,6 +96,7 @@ public class StoreSellerView extends AppCompatActivity {
                         DataFunctions.setUpPlayerMarket(player.getServer(), merkado.getAccount().getUsername(), merkado.getPlayerId()),
                         ResourceDisplayMode.COLLECTIBLES);
             else
+                if (currentResourceDisplayMode == null) currentResourceDisplayMode = ResourceDisplayMode.COLLECTIBLES;
                 setPlayerMarkets(playerMarkets, currentResourceDisplayMode);
         });
         initializeViews();

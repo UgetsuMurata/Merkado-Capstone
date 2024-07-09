@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public class PlayerMarkets implements Parcelable {
     Integer marketOwner;
+    Integer marketId;
     String storeName;
     Long opened;
     String storeIcon;
@@ -26,6 +27,14 @@ public class PlayerMarkets implements Parcelable {
 
     public void setMarketOwner(Integer marketOwner) {
         this.marketOwner = marketOwner;
+    }
+
+    public Integer getMarketId() {
+        return marketId;
+    }
+
+    public void setMarketId(Integer marketId) {
+        this.marketId = marketId;
     }
 
     public String getStoreName() {
@@ -71,6 +80,11 @@ public class PlayerMarkets implements Parcelable {
         } else {
             marketOwner = in.readInt();
         }
+        if (in.readByte() == 0) {
+            marketId = null;
+        } else {
+            marketId = in.readInt();
+        }
         storeName = in.readString();
         if (in.readByte() == 0) {
             opened = null;
@@ -87,6 +101,11 @@ public class PlayerMarkets implements Parcelable {
         else {
             dest.writeByte((byte) 1);
             dest.writeInt(marketOwner);
+        }
+        if (marketId == null) dest.writeByte((byte) 0);
+        else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(marketId);
         }
         dest.writeString(storeName);
         if (opened == null) dest.writeByte((byte) 0);

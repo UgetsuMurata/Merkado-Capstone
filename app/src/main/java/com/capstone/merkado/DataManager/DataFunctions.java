@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class DataFunctions {
 
@@ -996,6 +998,7 @@ public class DataFunctions {
                     return;
                 }
             }
+            inventory.setResourceData(null); // this must not be in the fb rtdb
             firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/inventory/%d",
                     playerId, inventory.getResourceId()), inventory);
         });
@@ -1128,6 +1131,17 @@ public class DataFunctions {
                         player.getServer(), player.getMarketId(), onSale.getOnSaleId()));
             }
             getInventoryItem(playerId, onSale.getResourceId()).thenAccept(inventory -> {
+                if (inventory == null) {
+                    if (onSale.getQuantity() < 0) {
+                        Inventory newInventory = new Inventory();
+                        newInventory.setResourceId(onSale.getResourceId());
+                        newInventory.setQuantity(onSale.getQuantity() * -1);
+                        newInventory.setType(onSale.getType());
+                        newInventory.setSellable(true);
+                        setInventoryItem(newInventory, playerId);
+                    }
+                    return;
+                }
                 Inventory newInventory = new Inventory(inventory); // copy
                 newInventory.setQuantity(inventory.getQuantity() - onSale.getQuantity());
                 if (newInventory.getQuantity() > 0) setInventoryItem(newInventory, playerId);
@@ -1269,17 +1283,16 @@ public class DataFunctions {
          */
         public void startListener(ValueReturn<List<Inventory>> listener) {
             firebaseData.retrieveDataRealTime(childPath, dataSnapshot -> {
-                if (dataSnapshot == null || !dataSnapshot.exists())
+                if (dataSnapshot == null || !dataSnapshot.exists()) {
                     listener.valueReturn(null);
-                else {
-                    List<Inventory> inventoryList = new ArrayList<>();
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Inventory inv = ds.getValue(Inventory.class);
-                        if (inv == null) continue;
-                        inventoryList.add(inv);
-                    }
-                    listener.valueReturn(inventoryList);
+                    return;
                 }
+                List<Inventory> inventoryList = StreamSupport.stream(dataSnapshot.getChildren().spliterator(), false)
+                        .map(ds -> ds.getValue(Inventory.class))
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+
+                listener.valueReturn(inventoryList.isEmpty() ? null : inventoryList);
             });
         }
 

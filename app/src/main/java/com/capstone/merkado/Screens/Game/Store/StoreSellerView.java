@@ -32,7 +32,6 @@ import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.R;
-import com.capstone.merkado.Screens.Game.MainMap;
 
 import java.util.List;
 import java.util.Locale;
@@ -95,9 +94,12 @@ public class StoreSellerView extends AppCompatActivity {
                 setPlayerMarkets(
                         DataFunctions.setUpPlayerMarket(player.getServer(), merkado.getAccount().getUsername(), merkado.getPlayerId()),
                         ResourceDisplayMode.COLLECTIBLES);
-            else
-                if (currentResourceDisplayMode == null) currentResourceDisplayMode = ResourceDisplayMode.COLLECTIBLES;
+            else if (currentResourceDisplayMode == null) {
+                currentResourceDisplayMode = ResourceDisplayMode.COLLECTIBLES;
                 setPlayerMarkets(playerMarkets, currentResourceDisplayMode);
+            } else {
+                setPlayerMarkets(playerMarkets, currentResourceDisplayMode);
+            }
         });
         initializeViews();
 
@@ -163,6 +165,7 @@ public class StoreSellerView extends AppCompatActivity {
         cAddItem.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), StoreSellerSelectItem.class);
             intent.putExtra("PLAYER_MARKET", playerMarkets);
+            intent.putExtra("RESOURCE_DISPLAY_MODE", currentResourceDisplayMode);
             refreshAfterIntent.launch(intent);
         });
     }
@@ -190,10 +193,6 @@ public class StoreSellerView extends AppCompatActivity {
             currentBalance.setBalance(player.getMoney());
             this.player = player;
         });
-    }
-
-    private void stopPlayerDataListener() {
-        merkado.setPlayerDataListener(null);
     }
 
     private void setCurrentDisplayMode(ResourceDisplayMode resourceDisplayMode) {
@@ -363,9 +362,14 @@ public class StoreSellerView extends AppCompatActivity {
         layoutSellPopup.setVisibility(View.GONE);
     }
 
+    private void stopListeners() {
+        merkado.setPlayerDataListener(null);
+        playerMarketUpdates.stopListener();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopPlayerDataListener();
+        stopListeners();
     }
 }

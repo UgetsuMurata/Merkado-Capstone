@@ -91,6 +91,10 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         }
         playerMarkets = getIntent().getParcelableExtra("PLAYER_MARKET");
 
+        if (getIntent().hasExtra("RESOURCE_DISPLAY_MODE")) {
+            currentMode = (ResourceDisplayMode) getIntent().getSerializableExtra("RESOURCE_DISPLAY_MODE");
+        }
+
         initializeViews();
 
         inventoryUpdates = new DataFunctions.InventoryUpdates(merkado.getPlayerId());
@@ -154,7 +158,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         DataFunctions.getPlayerInventory(merkado.getPlayerId()).thenAccept(inventoryList -> {
             this.inventoryList = inventoryList;
             this.inventoryMap = mapInventoryList(inventoryList);
-            filterInventoryAndShow(ResourceDisplayMode.COLLECTIBLES);
+            filterInventoryAndShow(currentMode == null ? ResourceDisplayMode.COLLECTIBLES : currentMode);
         });
     }
 
@@ -190,6 +194,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
     /**
      * Converts the <i>inventoryList</i> into a LinkedHashMap, keeping its original index in the original inventoryList.
+     *
      * @param inventoryList original inventoryList.
      * @return {@code LinkedHashMap<Integer, Inventory>}
      */
@@ -203,6 +208,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
     /**
      * Filters the inventory display to show only those that fits the resource type.
+     *
      * @param mode resource type.
      */
     private void filterInventoryAndShow(ResourceDisplayMode mode) {
@@ -250,8 +256,9 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
     /**
      * This shows the contents in a grid form.
+     *
      * @param mappedInventory Map of inventory.
-     * @param mode Resource type.
+     * @param mode            Resource type.
      */
     private void showContents(LinkedHashMap<Integer, Inventory> mappedInventory, ResourceDisplayMode mode) {
         cResourceGroup.setText(StringProcessor.titleCase(mode.toString()));
@@ -273,12 +280,12 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
             Integer firstKey = new ArrayList<>(mappedInventory.keySet()).get(0);
             verifyDetails(mappedInventory.get(firstKey), firstKey);
-    } else {
-        cInventoryListEmpty.setVisibility(View.VISIBLE);
-        cInventoryList.setVisibility(View.GONE);
-        verifyDetails(null, null);
+        } else {
+            cInventoryListEmpty.setVisibility(View.VISIBLE);
+            cInventoryList.setVisibility(View.GONE);
+            verifyDetails(null, null);
+        }
     }
-}
 
     /**
      * This is the method used to verify the inventory data before displaying it. It retrieves the ResourceData needed for <i>showDetails</i> method.
@@ -298,17 +305,18 @@ public class StoreSellerSelectItem extends AppCompatActivity {
                 // add the new inventory data in the same index
                 inv.setResourceData(resourceData);
                 inventoryList.add(index, inv);
-                showDetails(inv);
+                showDetails(inv, index);
             });
-        } else showDetails(inventory);
+        } else showDetails(inventory, index);
     }
 
     /**
      * This is where the displaying of data actually happens after verifying the inventory data.
      *
      * @param inventory inventory instance to be displayed.
+     * @param index
      */
-    private void showDetails(Inventory inventory) {
+    private void showDetails(Inventory inventory, Integer index) {
         dDescriptionContainerEmpty.setVisibility(View.GONE);
         dDescriptionContainer.setVisibility(View.VISIBLE);
 
@@ -322,7 +330,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
         boolean disabled = OtherProcessors.InventoryProcessors.isInventoryDisabled(inventory, Disable.UNSELLABLE);
         dSellButton.setOnClickListener(v -> {
-            if (!disabled) showSellPopup(inventory);
+            if (!disabled) showSellPopup(inventory, index);
             else
                 Toast.makeText(getApplicationContext(), "This item cannot be sold!", Toast.LENGTH_SHORT).show();
         });
@@ -340,9 +348,10 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
     /**
      * Shows the sell popup.
+     *
      * @param inventory resource from inventory to sell.
      */
-    private void showSellPopup(Inventory inventory) {
+    private void showSellPopup(Inventory inventory, Integer index) {
         layoutSellPopup.setVisibility(View.VISIBLE);
 
         // DETAILS
@@ -405,7 +414,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
         // BUTTONS
         lspItemCancel.setOnClickListener(v -> layoutSellPopup.setVisibility(View.GONE));
-        lspItemSell.setOnClickListener(v -> sellItem(inventory));
+        lspItemSell.setOnClickListener(v -> sellItem(inventory, index));
     }
 
     private void setLSPItemQuantity(Integer qty) {
@@ -428,7 +437,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         }
     }
 
-    private void sellItem(Inventory inventory) {
+    private void sellItem(Inventory inventory, Integer index) {
         OnSale onSale = new OnSale();
         onSale.setItemName(inventory.getResourceData().getName());
         onSale.setResourceId(inventory.getResourceId());
@@ -437,8 +446,25 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         onSale.setQuantity(lspItemQuantityCount);
         onSale.setInventoryResourceReference(inventory.getResourceId());
 
+        updateItems(index, lspItemQuantityCount);
+
         DataFunctions.sell(onSale, merkado.getPlayer(), merkado.getPlayerId());
         layoutSellPopup.setVisibility(View.GONE);
         Toast.makeText(getApplicationContext(), "Item on sale!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateItems(Integer key, Integer removeQty) {
+        if (inventoryList == null || inventoryList.size() <= key) return;
+        Inventory inventory = inventoryList.get(key);
+        int newQty = inventory.getQuantity() - removeQty;
+        if (newQty == 0) {
+            inventoryList.remove(inventory);
+        } else {
+            inventoryList.remove(inventory);
+            inventory.setQuantity(newQty);
+            inventoryList.add(key, inventory);
+        }
+        this.inventoryMap = mapInventoryList(inventoryList);
+        filterInventoryAndShow(currentMode);
     }
 }

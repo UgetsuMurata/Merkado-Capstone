@@ -11,6 +11,7 @@ public class Inventory {
     }
 
     public Inventory(Inventory inventory) {
+        if (inventory == null) return;
         this.resourceId = inventory.getResourceId();
         this.quantity = inventory.getQuantity();
         this.resourceData = inventory.getResourceData();

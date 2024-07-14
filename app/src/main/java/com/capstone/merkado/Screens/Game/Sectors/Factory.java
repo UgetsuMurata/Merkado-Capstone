@@ -3,6 +3,7 @@ package com.capstone.merkado.Screens.Game.Sectors;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,6 +31,9 @@ import java.util.Objects;
 
 public class Factory extends AppCompatActivity {
     Merkado merkado;
+
+    // HEADER
+    TextView factoryHeader;
 
     // SIDE MENU
     ImageView onProduction;
@@ -62,6 +66,7 @@ public class Factory extends AppCompatActivity {
     Long energyCountLimit = 0L;
     Integer addedResource = 0;
     Integer resourcePerTap = 1;
+    Integer idleClickerRes, activeClickerRes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +83,13 @@ public class Factory extends AppCompatActivity {
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
+        idleClickerRes = isFoodFactory ?
+                R.drawable.gui_farming_scythe_idle :
+                R.drawable.gui_manufacturing_lever_idle;
+        activeClickerRes = isFoodFactory ?
+                R.drawable.gui_farming_scythe_active :
+                R.drawable.gui_manufacturing_lever_active;
+
 
         onProduction = findViewById(R.id.on_production);
         productionChoices = findViewById(R.id.production_choices);
@@ -85,6 +97,14 @@ public class Factory extends AppCompatActivity {
         factoryBackground = findViewById(R.id.factory_background);
         energyLevel = findViewById(R.id.energy_level);
         proficiencyLevel = findViewById(R.id.proficiency_level);
+        factoryHeader = findViewById(R.id.factory_header);
+
+        factoryHeader.setText(isFoodFactory ? "Food Factory" : "Manufacturing Factory");
+        clicker.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), idleClickerRes));
+        factoryBackground.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                isFoodFactory ?
+                        R.drawable.bg_food_factory :
+                        R.drawable.bg_manufacturing_factory));
 
         resourceDataList = new ArrayList<>();
         productionChoices.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
@@ -94,7 +114,8 @@ public class Factory extends AppCompatActivity {
 
         clicker.setOnClickListener(v -> generateResource());
 
-        DataFunctions.getFactoryChoices(FactoryTypes.FOOD).thenAccept(this::updateResourceList);
+        DataFunctions.getFactoryChoices(isFoodFactory ? FactoryTypes.FOOD : FactoryTypes.INDUSTRIAL)
+                .thenAccept(this::updateResourceList);
         factoryDataUpdates = new FactoryDataUpdates(merkado.getPlayerId());
         factoryDataUpdates.startListener(this::updateFactoryDetails);
 
@@ -190,11 +211,11 @@ public class Factory extends AppCompatActivity {
             return;
         }
         lastClick = System.currentTimeMillis();
-        clicker.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_farming_scythe_active));
+        clicker.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), activeClickerRes));
         clickHandler.removeCallbacks(clickUIRunnable);
         clickHandler.removeCallbacks(clickSaveRunnable);
         clickUIRunnable = () -> runOnUiThread(() -> clicker.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_farming_scythe_idle)));
+                ContextCompat.getDrawable(getApplicationContext(), idleClickerRes)));
         clickSaveRunnable = this::saveAddedResource;
         clickHandler.postDelayed(clickUIRunnable, 100);
         clickHandler.postDelayed(clickSaveRunnable, 2000);
@@ -235,6 +256,7 @@ public class Factory extends AppCompatActivity {
     private void updateUserFactoryDetails() {
         factoryDetails.setLastUsedEnergy(energyLastRecharged);
         factoryDetails.setEnergy(energyCount);
+        factoryDetails.setOnProduction(currentProduction);
         DataFunctions.updateFactoryDetails(factoryDetails, merkado.getPlayerId());
     }
 

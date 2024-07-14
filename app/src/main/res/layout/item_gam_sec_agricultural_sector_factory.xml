@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_stroke"
+    android:layout_width="64dp"
+    android:layout_height="64dp"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="20dp"
+    app:strokeColor="@color/merkado_orange"
+    app:strokeWidth="3dp">
+
+    <ImageView
+        android:id="@+id/item_lock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="4dp"
+        android:padding="15dp"
+        android:src="@drawable/icon_lock" />
+
+    <ImageView
+        android:id="@+id/item_lock_filter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="2dp"
+        android:alpha=".5"
+        android:src="@color/light_gray"/>
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:padding="5dp"
+        android:src="@drawable/resource_2_turon_sample" />
+</com.google.android.material.card.MaterialCardView>

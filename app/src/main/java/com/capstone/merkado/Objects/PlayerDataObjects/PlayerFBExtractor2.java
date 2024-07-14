@@ -1,5 +1,6 @@
 package com.capstone.merkado.Objects.PlayerDataObjects;
 
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class PlayerFBExtractor2 {
     private List<PlayerFBExtractor1.StoryQueue> storyQueue;
     private History history;
     private Integer marketId;
+    private FactoryData factory;
 
     // No-argument constructor required for Firebase
     public PlayerFBExtractor2() {
@@ -94,5 +96,13 @@ public class PlayerFBExtractor2 {
 
     public void setMarketId(Integer marketId) {
         this.marketId = marketId;
+    }
+
+    public FactoryData getFactory() {
+        return factory;
+    }
+
+    public void setFactory(FactoryData factory) {
+        this.factory = factory;
     }
 }

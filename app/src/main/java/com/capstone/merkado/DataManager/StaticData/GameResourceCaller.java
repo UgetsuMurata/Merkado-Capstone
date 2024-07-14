@@ -16,6 +16,10 @@ public class GameResourceCaller {
                 return R.drawable.resource_3_metal_scraps_sample;
             case 4:
                 return R.drawable.resource_4_dog_collar_pendant_sample;
+            case 5:
+                return R.drawable.resource_5_kutsinta;
+            case 6:
+                return R.drawable.resource_6_toolbox;
             default:
                 return -1;
         }

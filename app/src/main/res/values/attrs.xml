@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IconLevels">
+        <attr name="iconSrc" format="reference"/>
+        <attr name="iconColor" format="reference"/>
+        <attr name="currentValue" format="integer"/>
+        <attr name="limitValue" format="integer"/>
+        <attr name="showLimitProgress" format="boolean"/>
+    </declare-styleable>
+</resources>

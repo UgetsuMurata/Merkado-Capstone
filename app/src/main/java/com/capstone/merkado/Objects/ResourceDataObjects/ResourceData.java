@@ -1,11 +1,14 @@
 package com.capstone.merkado.Objects.ResourceDataObjects;
 
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryDefaults;
+
 public class ResourceData {
     Integer resourceId;
     String name;
     String description;
     String type;
     Boolean sellable;
+    FactoryDefaults factoryDefaults;
 
     public ResourceData() {
     }
@@ -48,5 +51,13 @@ public class ResourceData {
 
     public void setSellable(Boolean sellable) {
         this.sellable = sellable;
+    }
+
+    public FactoryDefaults getFactoryDefaults() {
+        return factoryDefaults;
+    }
+
+    public void setFactoryDefaults(FactoryDefaults factoryDefaults) {
+        this.factoryDefaults = factoryDefaults;
     }
 }

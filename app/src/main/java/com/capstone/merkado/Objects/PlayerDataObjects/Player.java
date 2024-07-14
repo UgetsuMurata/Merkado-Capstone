@@ -2,6 +2,7 @@ package com.capstone.merkado.Objects.PlayerDataObjects;
 
 import androidx.annotation.Nullable;
 
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
@@ -19,6 +20,7 @@ public class Player {
     private List<PlayerStory> playerStoryList;
     private Integer marketId;
     private History history;
+    private FactoryData factory;
 
     /**
      * Converts the Firebase extractor for player data into a workable data object. Note that PlayerTask and PlayerStory should be put manually.
@@ -33,6 +35,7 @@ public class Player {
         this.inventory = playerFBExtractor.getInventory();
         this.history = playerFBExtractor.getHistory();
         this.marketId = playerFBExtractor.getMarketId();
+        this.factory = playerFBExtractor.getFactory();
     }
 
     public Player(@Nullable PlayerFBExtractor2 playerFBExtractor) {
@@ -44,6 +47,7 @@ public class Player {
         this.inventory = new ArrayList<>(playerFBExtractor.getInventory().values());
         this.exp = playerFBExtractor.getExp();
         this.marketId = playerFBExtractor.getMarketId();
+        this.factory = playerFBExtractor.getFactory();
     }
 
     public String getAccountId() {
@@ -116,5 +120,13 @@ public class Player {
 
     public void setHistory(History history) {
         this.history = history;
+    }
+
+    public FactoryData getFactory() {
+        return factory;
+    }
+
+    public void setFactory(FactoryData factory) {
+        this.factory = factory;
     }
 }

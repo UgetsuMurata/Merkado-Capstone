@@ -2,6 +2,7 @@ package com.capstone.merkado.Objects.PlayerDataObjects;
 
 import androidx.annotation.Nullable;
 
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class PlayerFBExtractor1 {
     private List<StoryQueue> storyQueue;
     private Integer marketId;
     private History history;
+    private FactoryData factory;
 
     // No-argument constructor required for Firebase
     public PlayerFBExtractor1() {
@@ -36,6 +38,7 @@ public class PlayerFBExtractor1 {
         this.storyQueue = playerFBExtractor2.getStoryQueue();
         this.history = playerFBExtractor2.getHistory();
         this.marketId = playerFBExtractor2.getMarketId();
+        this.factory = playerFBExtractor2.getFactory();
     }
 
     // Getters and setters
@@ -109,6 +112,14 @@ public class PlayerFBExtractor1 {
 
     public void setHistory(History history) {
         this.history = history;
+    }
+
+    public FactoryData getFactory() {
+        return factory;
+    }
+
+    public void setFactory(FactoryData factory) {
+        this.factory = factory;
     }
 
     // Nested classes for complex fields

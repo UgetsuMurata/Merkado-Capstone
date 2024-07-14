@@ -13,9 +13,12 @@ import androidx.cardview.widget.CardView;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
+import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Inventory.InventoryActivity;
 import com.capstone.merkado.Screens.Game.QuestAndStories.QuestAndStories;
+import com.capstone.merkado.Screens.Game.Sectors.Factory;
 import com.capstone.merkado.Screens.Game.Store.StoreSellerView;
 import com.capstone.merkado.Screens.Game.Store.Stores;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
@@ -24,7 +27,7 @@ public class MainMap extends AppCompatActivity {
 
     Merkado merkado;
     CardView inventoryNav, questAndStoriesNav, storesNav;
-    ImageView myStore;
+    ImageView myStore, myFactory;
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
 
@@ -61,6 +64,7 @@ public class MainMap extends AppCompatActivity {
         playerBalanceView = findViewById(R.id.player_balance);
         playerLevelView = findViewById(R.id.player_level);
         myStore = findViewById(R.id.my_store);
+        myFactory = findViewById(R.id.my_factory);
 
         // onBackPressed
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -76,7 +80,21 @@ public class MainMap extends AppCompatActivity {
         inventoryNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), InventoryActivity.class)));
         questAndStoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), QuestAndStories.class)));
         storesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Stores.class)));
+
         myStore.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
+        myFactory.setOnClickListener(v -> sendFactoryIntent());
+    }
+
+    private void sendFactoryIntent() {
+        DataFunctions.getFactoryData(merkado.getPlayerId()).thenAccept(factoryData -> {
+            FactoryTypes factoryTypes = "FOOD".equals(factoryData.getFactoryType()) ?
+                    FactoryTypes.FOOD : FactoryTypes.INDUSTRIAL;
+            Intent intent = new Intent(getApplicationContext(), Factory.class);
+            intent.putExtra("FACTORY_DETAILS", factoryData.getDetails());
+            intent.putExtra("FACTORY_ID", factoryData.getFactoryId());
+            intent.putExtra("FACTORY_TYPE", factoryTypes);
+            refreshAfterIntent.launch(intent);
+        });
     }
 
 }

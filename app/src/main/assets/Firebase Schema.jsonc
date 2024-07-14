@@ -46,7 +46,21 @@
                     "task": 0 // This is task id. Schema on this might be updated later.
                 }
             ],
-            "marketId": 0 // NEW: market Id connected to the server.
+            "marketId": 0, // market Id connected to the server.
+            "factory": { // factory details for chapter 4.
+                "factoryType": "FOOD | MANUFACTURING",
+                "factoryId": 1,
+                "factoryMarketId": 0,
+                "details": {
+                    "energy": 150, // this is the amount of taps the player can do.
+                    "energyMax": 150, // this is the maximum amount of taps the player can do.
+                    "lastUsedEnergy": 1123456, // this is the timestamp when the user last used their energy. Used to generate more energy.
+                    "onProduction": 1, // resource id
+                    "foodProficiency": 100, // proficiency is the player's experience in the factory type.
+                    "manufacturingProficiency": 0,
+                    "multiplier": 1 // NEW: multiplies the added resource
+                }
+            }
         }
     ],
     "resource": [
@@ -55,7 +69,11 @@
             "name": "Resource Name",
             "description": "Lorem Ipsum",
             "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS", // This only has four possible values.
-            "sellable": false
+            "sellable": false,
+            "factoryDefaults": {
+                "proficiencyRequirement": 100,
+                "proficiencyReward": 1 // This is the amount of added proficiency when generating this.
+            }
         }
     ],
     "server": {
@@ -77,6 +95,25 @@
                         "marketOwner": 0, // playerId ["-1" if managed by bot.]
                         "marketId": 0,
                         "storeName": "Store Name",
+                        "opened": 123456, // epoch millis
+                        "onSale": [ // list of what's being sold
+                            {
+                                "onSaleId": 0,
+                                "resourceId": 0,
+                                "itemName": "Resource Name",
+                                "type":"COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
+                                "price": 105,
+                                "quantity": 10,
+                                "inventoryReference": 0 // CHANGE: remove this. replace with the "resourceId" for the code.
+                            }
+                        ]
+                    }
+                ],
+                "playerFactory": [
+                    {
+                        "factoryOwner": 0, // playerId ["-1" if managed by bot.]
+                        "factoryId": 0,
+                        "factoryName": "Factory Name",
                         "opened": 123456, // epoch millis
                         "onSale": [ // list of what's being sold
                             {

@@ -8,6 +8,9 @@ import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData.FactoryDetails;
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1.StoryQueue;
@@ -41,6 +44,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -1317,6 +1321,110 @@ public class DataFunctions {
             if (dataSnapshot == null || dataSnapshot.getValue(Float.class) == null)
                 return CompletableFuture.completedFuture(null);
             return CompletableFuture.completedFuture(dataSnapshot.getValue(Float.class));
+        });
+    }
+
+    // FACTORY
+
+    public static CompletableFuture<FactoryData> getFactoryData(Integer playerId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+
+        firebaseData.retrieveData(String.format(Locale.getDefault(), "player/%d/factory", playerId),
+                future::complete);
+
+        return future.thenCompose(dataSnapshot ->
+                CompletableFuture.completedFuture(dataSnapshot.getValue(FactoryData.class)));
+    }
+
+    public static CompletableFuture<List<ResourceData>> getFactoryChoices(FactoryTypes type) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+
+        firebaseData.retrieveData("resource", future::complete);
+
+        return future.thenCompose(dataSnapshot -> {
+            List<ResourceData> resourceData = new ArrayList<>();
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                ResourceData rd = ds.getValue(ResourceData.class);
+                if (rd == null) continue;
+                resourceData.add(rd);
+            }
+            return CompletableFuture.completedFuture(filter(type, resourceData));
+        });
+    }
+
+    private static List<ResourceData> filter(FactoryTypes type, List<ResourceData> resourceData) {
+        return resourceData.stream()
+                .filter(rd -> {
+                    if (rd == null) return false;
+                    return type == FactoryTypes.FOOD && "EDIBLE".equalsIgnoreCase(rd.getType()) ||
+                            type == FactoryTypes.INDUSTRIAL && "RESOURCE".equalsIgnoreCase(rd.getType());
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static class FactoryDataUpdates {
+        FirebaseData firebaseData;
+        String childPath;
+
+        public FactoryDataUpdates(Integer playerId) {
+            firebaseData = new FirebaseData();
+            childPath = String.format(Locale.getDefault(), "player/%d/factory/details", playerId);
+        }
+
+        public void startListener(ValueReturn<FactoryDetails> factoryDataValueReturn) {
+            firebaseData.retrieveDataRealTime(childPath, dataSnapshot -> {
+                if (dataSnapshot == null) {
+                    factoryDataValueReturn.valueReturn(null);
+                    return;
+                }
+                factoryDataValueReturn.valueReturn(dataSnapshot.getValue(FactoryDetails.class));
+            });
+        }
+
+        public void stopListener() {
+            firebaseData.stopRealTimeUpdates(childPath);
+        }
+    }
+
+    public static void updateFactoryDetails(FactoryDetails factoryDetails, Integer playerId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/factory/details", playerId), factoryDetails);
+    }
+
+    public static void addFactoryProducts(String serverId, Integer factoryMarketId, Integer resourceId, Long quantity) {
+        FirebaseData firebaseData = new FirebaseData();
+        String childPath = String.format(Locale.getDefault(),
+                "server/%s/market/playerFactory/%d/onSale", serverId, factoryMarketId);
+        firebaseData.retrieveData(childPath, dataSnapshot -> {
+            if (dataSnapshot == null) return;
+            List<OnSale> onSaleList = new ArrayList<>();
+            int i = -1;
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                i++;
+                OnSale onSale = ds.getValue(OnSale.class);
+                if (onSale == null) return;
+                if (Objects.equals(onSale.getResourceId(), resourceId)) {
+                    Long finalQuantity = onSale.getQuantity() + quantity;
+                    firebaseData.setValue(
+                            String.format(Locale.getDefault(), "%s/%d/quantity", childPath, i),
+                            finalQuantity);
+                    return;
+                }
+                onSaleList.add(onSale);
+            }
+            getResourceData(resourceId).thenAccept(resourceData -> {
+                if (resourceData == null) return;
+                OnSale newOnSale = new OnSale();
+                newOnSale.setOnSaleId(onSaleList.size());
+                newOnSale.setItemName(resourceData.getName());
+                newOnSale.setResourceId(resourceId);
+                newOnSale.setType(resourceData.getType());
+                newOnSale.setQuantity(Math.toIntExact(quantity));
+                onSaleList.add(newOnSale);
+                firebaseData.setValue(childPath, onSaleList);
+            });
         });
     }
 }

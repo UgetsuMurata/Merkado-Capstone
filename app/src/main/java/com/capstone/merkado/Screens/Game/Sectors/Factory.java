@@ -1,8 +1,18 @@
 package com.capstone.merkado.Screens.Game.Sectors;
 
+import static com.capstone.merkado.Screens.Game.Sectors.Factory.FactoryActivityMode.BOOSTER;
+import static com.capstone.merkado.Screens.Game.Sectors.Factory.FactoryActivityMode.PRODUCT;
+
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +26,7 @@ import com.capstone.merkado.Adapters.FactoryChoiceAdapter;
 import com.capstone.merkado.Adapters.FactoryChoiceAdapter.ReturnChoiceStatus;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.IconLevels;
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctions;
 import com.capstone.merkado.DataManager.DataFunctions.FactoryDataUpdates;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
@@ -39,8 +50,12 @@ public class Factory extends AppCompatActivity {
     ImageView onProduction;
     RecyclerView productionChoices;
 
+    // PANELS
+    LinearLayout productPanel, boosterPanel;
+
     // CLICKER
     ImageView clicker, factoryBackground;
+    WoodenButton boosterButton;
 
     // PLAYER DETAILS
     IconLevels proficiencyLevel, energyLevel;
@@ -67,11 +82,12 @@ public class Factory extends AppCompatActivity {
     Integer addedResource = 0;
     Integer resourcePerTap = 1;
     Integer idleClickerRes, activeClickerRes;
+    FactoryActivityMode factoryActivityMode = PRODUCT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gam_sec_agricultural_sector_factory);
+        setContentView(R.layout.gam_sec_factory);
 
         if (!getIntent().hasExtra("FACTORY_DETAILS")) {
             Toast.makeText(getApplicationContext(), "An error occurred. Please try again.", Toast.LENGTH_SHORT).show();
@@ -90,7 +106,8 @@ public class Factory extends AppCompatActivity {
                 R.drawable.gui_farming_scythe_active :
                 R.drawable.gui_manufacturing_lever_active;
 
-
+        productPanel = findViewById(R.id.product_panel);
+        boosterPanel = findViewById(R.id.booster_panel);
         onProduction = findViewById(R.id.on_production);
         productionChoices = findViewById(R.id.production_choices);
         clicker = findViewById(R.id.clicker);
@@ -98,6 +115,7 @@ public class Factory extends AppCompatActivity {
         energyLevel = findViewById(R.id.energy_level);
         proficiencyLevel = findViewById(R.id.proficiency_level);
         factoryHeader = findViewById(R.id.factory_header);
+        boosterButton = findViewById(R.id.booster_button);
 
         factoryHeader.setText(isFoodFactory ? "Food Factory" : "Manufacturing Factory");
         clicker.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), idleClickerRes));
@@ -141,6 +159,9 @@ public class Factory extends AppCompatActivity {
 
         energyLevel.changeLimitValue(Math.toIntExact(energyCountLimit));
         updateEnergyLevel(energyCount);
+
+        boosterButton.setOnClickListener(v ->
+                changePanels(factoryActivityMode == BOOSTER ? PRODUCT : BOOSTER));
     }
 
     private Long calculateAddedEnergy() {
@@ -202,6 +223,7 @@ public class Factory extends AppCompatActivity {
     }
 
     private void generateResource() {
+        if (factoryActivityMode == BOOSTER) changePanels(PRODUCT);
         if (energyCount == 0 || energyCount < resourcePerTap) {
             Toast.makeText(getApplicationContext(), "Not enough energy!", Toast.LENGTH_SHORT).show();
             return;
@@ -258,6 +280,49 @@ public class Factory extends AppCompatActivity {
         factoryDetails.setEnergy(energyCount);
         factoryDetails.setOnProduction(currentProduction);
         DataFunctions.updateFactoryDetails(factoryDetails, merkado.getPlayerId());
+    }
+
+    private void changePanels(FactoryActivityMode mode) {
+        factoryActivityMode = mode;
+        int startMargin = 0;
+        int endMargin = 0;
+
+        switch (mode) {
+            case PRODUCT:
+                endMargin = 30;
+                break;
+            case BOOSTER:
+                startMargin = 30;
+                break;
+        }
+
+        ValueAnimator animator = ValueAnimator.ofInt(startMargin, endMargin);
+        animator.addUpdateListener(animation -> {
+            int margin = (int) animation.getAnimatedValue();
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                    0,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    margin
+            );
+            productPanel.setLayoutParams(param);
+        });
+        animator.setDuration(300);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.start();
+    }
+
+    /**
+     * This is used to indicate which panel is currently displayed.
+     */
+    public enum FactoryActivityMode {
+        /**
+         * Product panel is displayed.
+         */
+        PRODUCT,
+        /**
+         * Booster panel is displayed.
+         */
+        BOOSTER
     }
 
     @Override

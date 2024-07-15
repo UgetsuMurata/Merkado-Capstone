@@ -4,6 +4,7 @@ import static com.capstone.merkado.Helpers.OtherProcessors.StoreProcessors.filte
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -289,11 +290,60 @@ public class StoreSellerView extends AppCompatActivity {
             lspItemQuantitySlider.setMax(lspItemMaxQuantity);
             lspItemQuantitySlider.setMin(0);
             setLSPItemQuantity(onSale.getQuantity());
+
+            // edit button drawables depending on the max and current quantity.
+            int plusButtonRes = R.drawable.gui_general_plus_idle;
+            int subtractButtonRes = R.drawable.gui_general_subtract_idle;
+
+            if (lspItemMaxQuantity == 1) {
+                plusButtonRes = R.drawable.gui_general_plus_disabled;
+                subtractButtonRes = R.drawable.gui_general_subtract_disabled;
+                lspQuantityButtonsMode = -2;
+            } else if (lspItemQuantityCount == 1) {
+                subtractButtonRes = R.drawable.gui_general_subtract_disabled;
+                lspQuantityButtonsMode = -1;
+            } else if (lspItemQuantityCount.equals(lspItemMaxQuantity)) {
+                plusButtonRes = R.drawable.gui_general_plus_disabled;
+                lspQuantityButtonsMode = 1;
+            }
+
+            lspItemQuantityAdd.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), plusButtonRes));
+            lspItemQuantitySubtract.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), subtractButtonRes));
+
         });
 
+
+        lspItemQuantityCount = onSale.getQuantity();
+        lspItemQuantitySlider.setProgress(lspItemQuantityCount);
+
         // CONTROLLERS
-        lspItemQuantityAdd.setOnClickListener(v -> setLSPItemQuantity(lspItemQuantityCount + 1));
-        lspItemQuantitySubtract.setOnClickListener(v -> setLSPItemQuantity(lspItemQuantityCount - 1));
+        Handler addSubtractHandler = new Handler();
+        lspItemQuantityAdd.setOnClickListener(v -> {
+            setLSPItemQuantity(lspItemQuantityCount + 1);
+            if (lspQuantityButtonsMode < 1 && lspQuantityButtonsMode != -2) {
+                lspItemQuantityAdd.setImageDrawable(
+                        ContextCompat.getDrawable(getApplicationContext(),
+                                R.drawable.gui_general_plus_active));
+                addSubtractHandler.postDelayed(() -> {
+                    runOnUiThread(() -> lspItemQuantityAdd.setImageDrawable(
+                            ContextCompat.getDrawable(getApplicationContext(),
+                                    R.drawable.gui_general_plus_idle)));
+                }, 100);
+            }
+        });
+        lspItemQuantitySubtract.setOnClickListener(v -> {
+            setLSPItemQuantity(lspItemQuantityCount - 1);
+            if (lspQuantityButtonsMode > -1) {
+                lspItemQuantitySubtract.setImageDrawable(
+                        ContextCompat.getDrawable(getApplicationContext(),
+                                R.drawable.gui_general_subtract_active));
+                addSubtractHandler.postDelayed(() -> {
+                    runOnUiThread(() -> lspItemQuantitySubtract.setImageDrawable(
+                            ContextCompat.getDrawable(getApplicationContext(),
+                                    R.drawable.gui_general_subtract_idle)));
+                }, 100);
+            }
+        });
         lspItemQuantitySlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -343,14 +393,18 @@ public class StoreSellerView extends AppCompatActivity {
 
         if (qty == 1 && lspQuantityButtonsMode != -1) {
             lspQuantityButtonsMode = -1;
-            lspItemQuantitySubtract.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.gray));
+            lspItemQuantitySubtract.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_general_subtract_disabled));
         } else if (qty.equals(lspItemMaxQuantity) && lspQuantityButtonsMode != 1) {
             lspQuantityButtonsMode = 1;
-            lspItemQuantityAdd.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.gray));
+            lspItemQuantityAdd.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_general_plus_disabled));
         } else if (lspQuantityButtonsMode != 0) {
             lspQuantityButtonsMode = 0;
-            lspItemQuantitySubtract.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
-            lspItemQuantityAdd.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.white));
+            lspItemQuantitySubtract.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_general_subtract_idle));
+            lspItemQuantityAdd.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_general_plus_idle));
         }
     }
 

@@ -129,10 +129,10 @@
 
                         <ImageView
                             android:id="@+id/quantity_subtract"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_minus_filled"
-                            app:tint="@color/gray" />
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:padding="4dp"
+                            android:src="@drawable/gui_general_subtract_disabled"/>
 
                         <SeekBar
                             android:id="@+id/quantity_slider"
@@ -144,9 +144,10 @@
 
                         <ImageView
                             android:id="@+id/quantity_add"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_add_filled" />
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:padding="4dp"
+                            android:src="@drawable/gui_general_plus_idle" />
                     </LinearLayout>
 
                     <LinearLayout

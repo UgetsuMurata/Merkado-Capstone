@@ -21,10 +21,16 @@ public class StoreProductAdapter extends RecyclerView.Adapter<StoreProductAdapte
 
     List<OnSale> onSaleList;
     Context context;
+    Boolean showPrice;
 
     public StoreProductAdapter(Context context, List<OnSale> onSaleList) {
+        this(context, onSaleList, true);
+    }
+
+    public StoreProductAdapter(Context context, List<OnSale> onSaleList, Boolean showPrice) {
         this.onSaleList = onSaleList;
         this.context = context;
+        this.showPrice = showPrice;
     }
 
     @NonNull
@@ -37,7 +43,7 @@ public class StoreProductAdapter extends RecyclerView.Adapter<StoreProductAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(context, onSaleList.get(position));
+        holder.bind(context, onSaleList.get(position), showPrice);
     }
 
     @Override
@@ -55,9 +61,13 @@ public class StoreProductAdapter extends RecyclerView.Adapter<StoreProductAdapte
             resourcePrice = itemView.findViewById(R.id.resource_quantity);
         }
 
-        public void bind(Context context, OnSale onSale) {
+        public void bind(Context context, OnSale onSale, Boolean showPrice) {
             int productImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
             resourceImage.setImageDrawable(ContextCompat.getDrawable(context, productImageResource));
+            if (!showPrice) {
+                resourcePrice.setVisibility(View.GONE);
+                return;
+            }
             resourcePrice.setText(String.format(Locale.getDefault(),"P %.2f", onSale.getPrice()));
         }
     }

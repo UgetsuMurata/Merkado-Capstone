@@ -14,7 +14,16 @@
         android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Merkado"
+        tools:ignore="DiscouragedApi"
         tools:targetApi="31">
+        <activity
+            android:name=".Screens.Game.Sectors.FactoryConsumerView"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Screens.Game.Sectors.Factories"
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Screens.Game.Sectors.Factory"
             android:exported="false"

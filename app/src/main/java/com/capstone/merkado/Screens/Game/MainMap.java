@@ -18,6 +18,7 @@ import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Inventory.InventoryActivity;
 import com.capstone.merkado.Screens.Game.QuestAndStories.QuestAndStories;
+import com.capstone.merkado.Screens.Game.Sectors.Factories;
 import com.capstone.merkado.Screens.Game.Sectors.Factory;
 import com.capstone.merkado.Screens.Game.Store.StoreSellerView;
 import com.capstone.merkado.Screens.Game.Store.Stores;
@@ -26,7 +27,7 @@ import com.capstone.merkado.Screens.MainMenu.MainMenu;
 public class MainMap extends AppCompatActivity {
 
     Merkado merkado;
-    CardView inventoryNav, questAndStoriesNav, storesNav;
+    CardView inventoryNav, questAndStoriesNav, storesNav, factoriesNav;
     ImageView myStore, myFactory;
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
@@ -61,6 +62,7 @@ public class MainMap extends AppCompatActivity {
         inventoryNav = findViewById(R.id.inventory_nav);
         questAndStoriesNav = findViewById(R.id.quests_and_stories_nav);
         storesNav = findViewById(R.id.store_nav);
+        factoriesNav = findViewById(R.id.factories);
         playerBalanceView = findViewById(R.id.player_balance);
         playerLevelView = findViewById(R.id.player_level);
         myStore = findViewById(R.id.my_store);
@@ -80,6 +82,7 @@ public class MainMap extends AppCompatActivity {
         inventoryNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), InventoryActivity.class)));
         questAndStoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), QuestAndStories.class)));
         storesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Stores.class)));
+        factoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Factories.class)));
 
         myStore.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
         myFactory.setOnClickListener(v -> sendFactoryIntent());

@@ -87,6 +87,7 @@
             "market": { // NEW: This holds the market data.
                 "marketStandard": {
                     "resourceId" : {
+                        "resourceId": 0,
                         "marketPrice": 100
                     }
                 },
@@ -114,6 +115,7 @@
                         "factoryOwner": 0, // playerId ["-1" if managed by bot.]
                         "factoryId": 0,
                         "factoryName": "Factory Name",
+                        "factoryType": "Food Factory", // NEW: .
                         "opened": 123456, // epoch millis
                         "onSale": [ // list of what's being sold
                             {

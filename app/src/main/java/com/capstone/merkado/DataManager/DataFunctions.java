@@ -11,6 +11,7 @@ import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData.FactoryDetails;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
+import com.capstone.merkado.Objects.FactoryDataObjects.PlayerFactory;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1.StoryQueue;
@@ -21,6 +22,8 @@ import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandard;
+import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandardList;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
@@ -44,7 +47,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -92,6 +94,10 @@ public class DataFunctions {
         String encodedEmail = FirebaseCharacters.encode(email);
 
         firebaseData.retrieveData(String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+            if (dataSnapshot == null) {
+                accountReturn.valueReturn(new Account(email, "[ERROR:CANNOT_RETRIEVE_INFORMATION]"));
+                return;
+            }
             if (!dataSnapshot.exists()) {
                 accountReturn.valueReturn(new Account(email, "[ERROR:WRONG_EMAIL]"));
                 return;
@@ -1426,5 +1432,78 @@ public class DataFunctions {
                 firebaseData.setValue(childPath, onSaleList);
             });
         });
+    }
+
+    public static CompletableFuture<List<PlayerFactory>> getAllPlayerFactory(String serverId) {
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        FirebaseData firebaseData = new FirebaseData();
+
+        firebaseData.retrieveData(String.format("server/%s/market/playerFactory", serverId), future::complete);
+        return future.thenCompose(dataSnapshot -> {
+            List<PlayerFactory> playerFactoryList = new ArrayList<>();
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                PlayerFactory playerFactory = ds.getValue(PlayerFactory.class);
+                playerFactoryList.add(playerFactory);
+            }
+            return CompletableFuture.completedFuture(playerFactoryList);
+        });
+    }
+
+
+    public static class PlayerFactoryUpdates {
+        FirebaseData firebaseData;
+        String childPath;
+
+        /**
+         * A DataFunction class for real-time data retrieval of <u>Player Factory</u>. This will initialize the object and prepare the variables for data retrieval.
+         *
+         * @param serverId       current server ID.
+         * @param playerMarketId player market to be observed.
+         */
+        public PlayerFactoryUpdates(String serverId, Integer playerMarketId) {
+            firebaseData = new FirebaseData();
+            childPath = String.format(Locale.getDefault(), "server/%s/market/playerFactory/%d", serverId, playerMarketId);
+        }
+
+        /**
+         * Starts the listener and returns real-time updates from the playerMarket.
+         *
+         * @param listener A PlayerMarketsListener that returns updated values.
+         */
+        public void startListener(ValueReturn<PlayerFactory> listener) {
+            firebaseData.retrieveDataRealTime(childPath, dataSnapshot -> {
+                if (dataSnapshot == null || !dataSnapshot.exists())
+                    listener.valueReturn(null);
+                else {
+                    listener.valueReturn(dataSnapshot.getValue(PlayerFactory.class));
+                }
+            });
+        }
+
+        /**
+         * Stops the listener.
+         */
+        public void stopListener() {
+            firebaseData.stopRealTimeUpdates(childPath);
+        }
+    }
+
+    public static void getMarketStandardList(String serverId, ValueReturn<MarketStandardList> marketStandardListValueReturn) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(String.format("server/%s/market/marketStandard", serverId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null) {
+                        marketStandardListValueReturn.valueReturn(null);
+                        return;
+                    }
+
+                    MarketStandardList marketStandardList = new MarketStandardList();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        MarketStandard marketStandard = ds.getValue(MarketStandard.class);
+                        if (marketStandard != null) marketStandardList.add(marketStandard);
+                    }
+
+                    marketStandardListValueReturn.valueReturn(marketStandardList);
+                });
     }
 }

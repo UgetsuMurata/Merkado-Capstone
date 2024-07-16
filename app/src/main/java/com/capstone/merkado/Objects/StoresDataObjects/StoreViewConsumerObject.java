@@ -1,4 +1,4 @@
-package com.capstone.merkado.Objects.StoresDataObjects.StoreViewObjects;
+package com.capstone.merkado.Objects.StoresDataObjects;
 
 public class StoreViewConsumerObject {
     private int imageResource;

@@ -1,6 +1,4 @@
-package com.capstone.merkado.Screens.Game.Store;
-
-import static com.capstone.merkado.Helpers.OtherProcessors.StoreProcessors.filterSaleList;
+package com.capstone.merkado.Screens.Game.Sectors;
 
 import android.os.Bundle;
 import android.view.View;
@@ -21,25 +19,24 @@ import com.capstone.merkado.Adapters.StoreViewAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.DataManager.DataFunctions;
-import com.capstone.merkado.DataManager.DataFunctions.PlayerMarketUpdates;
+import com.capstone.merkado.DataManager.DataFunctions.PlayerFactoryUpdates;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
-import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
+import com.capstone.merkado.Objects.FactoryDataObjects.PlayerFactory;
+import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandardList;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
-import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class StoreConsumerView extends AppCompatActivity {
+public class FactoryConsumerView extends AppCompatActivity {
 
     Merkado merkado;
-    TextView storeName;
+    TextView factoryName;
     RecyclerView itemList;
-    ImageView storeShowCollectibles, storeShowEdibles, storeShowResources;
     TextView itemName, itemDescription, itemPrice, itemListEmpty, itemDescriptionContainerEmpty;
     ScrollView itemDescriptionContainer;
     ImageView itemImage;
@@ -56,10 +53,9 @@ public class StoreConsumerView extends AppCompatActivity {
     // variables
     PlayerBalanceView playerBalanceView;
     StoreViewAdapter storeViewAdapter;
-    PlayerMarkets playerMarkets;
-    Integer marketId;
-    PlayerMarketUpdates playerMarketUpdates;
-    ResourceDisplayMode currentResourceDisplayMode = ResourceDisplayMode.COLLECTIBLES;
+    PlayerFactory playerfactory;
+    Integer factoryId;
+    PlayerFactoryUpdates playerFactoryUpdates;
     Integer purchaseOverlayQuantity = 0;
     Integer purchaseOverlayQuantityButtonsMode = -1;
     Float purchaseOverlayFinalCost = 0f;
@@ -69,24 +65,21 @@ public class StoreConsumerView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gam_sto_store_consumer_view);
+        setContentView(R.layout.gam_sec_factory_consumer_view);
 
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
-        if (!getIntent().hasExtra("PLAYER_MARKET") || !getIntent().hasExtra("MARKET_ID")) {
+        if (!getIntent().hasExtra("PLAYER_FACTORY") || !getIntent().hasExtra("FACTORY_ID")) {
             Toast.makeText(getApplicationContext(), "Problem occurred. Please try again later.", Toast.LENGTH_LONG).show();
             return;
         } else {
-            playerMarkets = getIntent().getParcelableExtra("PLAYER_MARKET");
-            marketId = getIntent().getIntExtra("MARKET_ID", -1);
+            playerfactory = getIntent().getParcelableExtra("PLAYER_FACTORY");
+            factoryId = getIntent().getIntExtra("FACTORY_ID", -1);
         }
 
-        storeName = findViewById(R.id.store_name);
+        factoryName = findViewById(R.id.store_name);
         itemList = findViewById(R.id.item_list);
-        storeShowCollectibles = findViewById(R.id.store_show_collectibles);
-        storeShowEdibles = findViewById(R.id.store_show_edibles);
-        storeShowResources = findViewById(R.id.store_show_resources);
         itemName = findViewById(R.id.item_name);
         itemPrice = findViewById(R.id.item_price);
         itemDescription = findViewById(R.id.item_description);
@@ -110,20 +103,23 @@ public class StoreConsumerView extends AppCompatActivity {
         purchaseOverlayCancel = findViewById(R.id.purchase_overlay_cancel);
         purchaseOverlayConfirm = findViewById(R.id.purchase_overlay_confirm);
 
-        storeName.setText(playerMarkets.getStoreName());
+        factoryName.setText(playerfactory.getFactoryName());
         itemList.setHasFixedSize(true);
-        playerMarketUpdates = new PlayerMarketUpdates(merkado.getPlayer().getServer(), marketId);
-        playerMarketUpdates.startListener(pm -> {
+        playerFactoryUpdates = new PlayerFactoryUpdates(merkado.getPlayer().getServer(), factoryId);
+        playerFactoryUpdates.startListener(pm -> {
             if (pm == null) {
-                playerMarketUpdates.stopListener();
+                playerFactoryUpdates.stopListener();
                 return;
             }
-            playerMarkets = pm;
-            setUpView(pm.getOnSale(), currentResourceDisplayMode);
+            playerfactory = pm;
+
+            DataFunctions.getMarketStandardList(merkado.getPlayer().getServer(), msl -> {
+                if (msl == null) return;
+                processPlayerFactory(msl, playerfactory);
+                setUpView(playerfactory.getOnSale());
+            });
+
         });
-        storeShowCollectibles.setOnClickListener(v -> setCurrentDisplayMode(ResourceDisplayMode.COLLECTIBLES));
-        storeShowEdibles.setOnClickListener(v -> setCurrentDisplayMode(ResourceDisplayMode.EDIBLES));
-        storeShowResources.setOnClickListener(v -> setCurrentDisplayMode(ResourceDisplayMode.RESOURCES));
 
         purchaseOverlay.setVisibility(View.GONE);
         initializePlayerDataListener();
@@ -137,40 +133,21 @@ public class StoreConsumerView extends AppCompatActivity {
         });
     }
 
-    private void setCurrentDisplayMode(ResourceDisplayMode resourceDisplayMode) {
-        currentResourceDisplayMode = resourceDisplayMode;
-        setUpView(playerMarkets.getOnSale(), currentResourceDisplayMode);
-    }
-
-    private void setUpView(List<OnSale> onSaleList, ResourceDisplayMode resourceDisplayMode) {
-        if (onSaleList == null || onSaleList.size() == 0) {
+    private void setUpView(List<OnSale> onSaleList) {
+        if (onSaleList == null || onSaleList.isEmpty()) {
             onSaleList = new ArrayList<>();
         }
-        List<OnSale> displayOnSale = filterSaleList(onSaleList, resourceDisplayMode);
         itemList.setLayoutManager(new LinearLayoutManager(this));
-        storeViewAdapter = new StoreViewAdapter(this, displayOnSale);
+        storeViewAdapter = new StoreViewAdapter(this, onSaleList);
         itemList.setAdapter(storeViewAdapter);
         storeViewAdapter.setOnClickListener(this::setUpDetails);
-        if (displayOnSale.size() > 0) {
+        if (!onSaleList.isEmpty()) {
             itemListEmpty.setVisibility(View.GONE);
             itemList.setVisibility(View.VISIBLE);
-            setUpDetails(displayOnSale.get(0));
+            setUpDetails(onSaleList.get(0));
         } else {
             itemListEmpty.setVisibility(View.VISIBLE);
             itemList.setVisibility(View.GONE);
-            switch (resourceDisplayMode) {
-                case COLLECTIBLES:
-                    itemListEmpty.setText(String.format(getString(R.string.storeItemListEmptyConsumer), "collectibles"));
-                    break;
-                case EDIBLES:
-                    itemListEmpty.setText(String.format(getString(R.string.storeItemListEmptyConsumer), "edibles"));
-                    break;
-                case RESOURCES:
-                    itemListEmpty.setText(String.format(getString(R.string.storeItemListEmptyConsumer), "resources"));
-                    break;
-                default:
-                    itemListEmpty.setText(String.format(getString(R.string.storeItemListEmptyConsumer), "items"));
-            }
             clearUpDetails();
         }
     }
@@ -179,9 +156,8 @@ public class StoreConsumerView extends AppCompatActivity {
         itemDescriptionContainer.setVisibility(View.VISIBLE);
         itemDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
-        DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData -> {
-            runOnUiThread(() -> itemDescription.setText(resourceData.getDescription()));
-        });
+        DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData ->
+                runOnUiThread(() -> itemDescription.setText(resourceData.getDescription())));
         itemName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         int itemTypeResource = GameResourceCaller.getResourceTypeBackgrounds(onSale.getType());
@@ -194,6 +170,19 @@ public class StoreConsumerView extends AppCompatActivity {
     private void clearUpDetails() {
         itemDescriptionContainer.setVisibility(View.GONE);
         itemDescriptionContainerEmpty.setVisibility(View.VISIBLE);
+    }
+
+    private PlayerFactory processPlayerFactory(MarketStandardList marketStandardList, PlayerFactory playerFactory) {
+        List<OnSale> onSaleList = playerFactory.getOnSale();
+        List<OnSale> finalizedList = new ArrayList<>();
+        for (OnSale onSale : onSaleList) {
+            Float price = marketStandardList.getMarketPrice(onSale.getResourceId());
+            if (price == null) continue; // do not display products with no price.
+            onSale.setPrice(price);
+            finalizedList.add(onSale);
+        }
+        playerFactory.setOnSale(finalizedList);
+        return playerFactory;
     }
 
     private void buyItem(OnSale onSale, Integer onSaleId) {
@@ -240,8 +229,8 @@ public class StoreConsumerView extends AppCompatActivity {
             }
             StoreBuyingData storeBuyingData = new StoreBuyingData(
                     merkado.getPlayer().getServer(),
-                    marketId,
-                    playerMarkets.getMarketOwner(),
+                    factoryId,
+                    playerfactory.getFactoryOwner(),
                     merkado.getPlayerId(),
                     onSaleId,
                     purchaseOverlayQuantity,
@@ -310,13 +299,7 @@ public class StoreConsumerView extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        playerMarketUpdates.stopListener();
+        playerFactoryUpdates.stopListener();
         merkado.setPlayerDataListener(null);
     }
-
-    /*
-     * TODO:
-     * [ ] Add the bought items to the buyer's inventory.
-     * [ ]
-     */
 }

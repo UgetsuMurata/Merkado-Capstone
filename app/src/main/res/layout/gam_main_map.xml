@@ -213,7 +213,7 @@
             android:layout_marginEnd="12dp"
             app:cardCornerRadius="999dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/store_nav"
+            app:layout_constraintEnd_toStartOf="@id/factories"
             app:strokeColor="@color/merkado_orange"
             app:strokeWidth="4dp">
 
@@ -222,6 +222,24 @@
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:src="@drawable/icon_book" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/factories"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="12dp"
+            app:cardCornerRadius="999dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/store_nav"
+            app:strokeColor="@color/merkado_orange"
+            app:strokeWidth="4dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:src="@drawable/icon_factory" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView

@@ -13,6 +13,7 @@ public class PlayerFactory implements Parcelable {
     Integer factoryOwner;
     Integer factoryId;
     String factoryName;
+    String factoryType;
     Long opened;
     String factoryIcon;
     List<OnSale> onSale;
@@ -32,6 +33,7 @@ public class PlayerFactory implements Parcelable {
             factoryId = in.readInt();
         }
         factoryName = in.readString();
+        factoryType = in.readString();
         if (in.readByte() == 0) {
             opened = null;
         } else {
@@ -75,6 +77,14 @@ public class PlayerFactory implements Parcelable {
 
     public void setFactoryName(String factoryName) {
         this.factoryName = factoryName;
+    }
+
+    public String getFactoryType() {
+        return factoryType;
+    }
+
+    public void setFactoryType(String factoryType) {
+        this.factoryType = factoryType;
     }
 
     public Long getOpened() {
@@ -121,6 +131,7 @@ public class PlayerFactory implements Parcelable {
             dest.writeInt(factoryId);
         }
         dest.writeString(factoryName);
+        dest.writeString(factoryType);
         if (opened == null) {
             dest.writeByte((byte) 0);
         } else {

@@ -242,22 +242,15 @@
                 android:src="@drawable/icon_factory" />
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
             android:id="@+id/store_nav"
             android:layout_width="68dp"
             android:layout_height="68dp"
-            app:cardCornerRadius="999dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/gui_gamemap_stores_idle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:strokeColor="@color/merkado_orange"
-            app:strokeWidth="4dp">
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:src="@drawable/icon_store" />
-        </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

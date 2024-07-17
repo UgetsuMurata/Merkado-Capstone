@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,10 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctions;
-import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.R;
-import com.capstone.merkado.Screens.MainMenu.MainMenu;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class SignIn extends AppCompatActivity {

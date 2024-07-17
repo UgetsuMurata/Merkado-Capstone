@@ -1,10 +1,11 @@
-package com.capstone.merkado.DataManager;
+package com.capstone.merkado.DataManager.DataFunctionPackage;
 
 import android.content.Context;
 
-import androidx.annotation.Nullable;
-
+import com.capstone.merkado.DataManager.FirebaseData;
+import com.capstone.merkado.DataManager.SharedPref;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
@@ -51,22 +52,6 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class DataFunctions {
-
-    /**
-     * Generic interface for returning values in a callback.
-     * This interface allows an object to return a value of type {@code T} asynchronously or in response to some event.
-     *
-     * @param <T> The type of the value to be returned.
-     */
-    public interface ValueReturn<T> {
-        /**
-         * Callback for returning a value.
-         * This method is called to provide a value of type {@code T}, which can be {@code null}.
-         *
-         * @param t The value to return, which can be {@code null}.
-         */
-        void valueReturn(@Nullable T t);
-    }
 
     /**
      * Checks if email exists in the database.

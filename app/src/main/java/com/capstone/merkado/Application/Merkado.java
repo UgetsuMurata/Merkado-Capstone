@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
-import com.capstone.merkado.DataManager.DataFunctions.PlayerDataUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.PlayerDataUpdates;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;

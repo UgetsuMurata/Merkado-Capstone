@@ -15,7 +15,7 @@ import com.capstone.merkado.Adapters.FactoriesGridAdapter;
 import com.capstone.merkado.Adapters.StoreProductAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.WoodenButton;
-import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Objects.FactoryDataObjects.PlayerFactory;
 import com.capstone.merkado.R;

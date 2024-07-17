@@ -5,12 +5,10 @@ import androidx.cardview.widget.CardView;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.R;
 
 public class SignOut extends AppCompatActivity {

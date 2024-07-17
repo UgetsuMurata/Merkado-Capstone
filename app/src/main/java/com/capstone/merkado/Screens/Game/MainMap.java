@@ -1,7 +1,9 @@
 package com.capstone.merkado.Screens.Game;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -9,11 +11,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
-import com.capstone.merkado.DataManager.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Inventory.InventoryActivity;
@@ -27,8 +30,8 @@ import com.capstone.merkado.Screens.MainMenu.MainMenu;
 public class MainMap extends AppCompatActivity {
 
     Merkado merkado;
-    CardView inventoryNav, questAndStoriesNav, storesNav, factoriesNav;
-    ImageView myStore, myFactory;
+    CardView inventoryNav, questAndStoriesNav, factoriesNav;
+    ImageView storesNav, myStore, myFactory;
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
 
@@ -81,7 +84,13 @@ public class MainMap extends AppCompatActivity {
 
         inventoryNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), InventoryActivity.class)));
         questAndStoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), QuestAndStories.class)));
-        storesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Stores.class)));
+        storesNav.setOnClickListener(v -> {
+            storesNav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_gamemap_stores_active));
+            new Handler().postDelayed(() -> {
+                storesNav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_gamemap_stores_idle));
+                refreshAfterIntent.launch(new Intent(getApplicationContext(), Stores.class));
+            }, 100);
+        });
         factoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Factories.class)));
 
         myStore.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));

@@ -1,5 +1,6 @@
 package com.capstone.merkado.DataManager.ValueReturn;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
@@ -8,13 +9,13 @@ import androidx.annotation.Nullable;
  *
  * @param <T> The type of the value to be returned.
  */
-public interface ValueReturn<T> {
+public interface ValueReturnWithStatus<T> {
     /**
      * Callback for returning a value.
      * This method is called to provide a value of type {@code T}, which can be {@code null}.
      *
-     * @param t The value to return, which can be {@code null}.
+     * @param t            The value to return, which can be {@code null}.
+     * @param returnStatus Returned status.
      */
-    void valueReturn(@Nullable T t);
+    void valueReturn(@Nullable T t, @NonNull ReturnStatus returnStatus);
 }
-

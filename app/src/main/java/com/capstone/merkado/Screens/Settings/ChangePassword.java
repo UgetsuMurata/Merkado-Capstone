@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Helpers.StringVerifier;
 import com.capstone.merkado.Helpers.WarningTextHelper;
@@ -106,7 +107,7 @@ public class ChangePassword extends AppCompatActivity {
             WarningTextHelper.showWarning(getApplicationContext(), oldPasswordWarning, "Input old password.");
             return;
         }
-        DataFunctions.comparePasswords(merkado.getAccount().getEmail(), oldPassword.getText().toString(), bool -> {
+        AccountDataFunctions.comparePasswords(merkado.getAccount().getEmail(), oldPassword.getText().toString(), bool -> {
             if (bool) {
                 if (newPassword.getText() == null || newPassword.getText().toString().isEmpty()) {
                     // if the password doesn't have something in it.
@@ -123,7 +124,7 @@ public class ChangePassword extends AppCompatActivity {
                     WarningTextHelper.hide(newPasswordWarning);
 
                     // reset the password in database.
-                    DataFunctions.resetPassword(merkado.getAccount().getEmail(), newPassword.getText().toString());
+                    AccountDataFunctions.resetPassword(merkado.getAccount().getEmail(), newPassword.getText().toString());
 
                     // return to Sign In with RESULT_OK.
                     setResult(RESULT_OK);

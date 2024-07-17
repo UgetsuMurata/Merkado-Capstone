@@ -9,11 +9,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.Generator;
 import com.capstone.merkado.Helpers.NotificationHelper;
 import com.capstone.merkado.Helpers.StringVerifier;
@@ -174,24 +177,28 @@ public class ResetPassword extends AppCompatActivity {
             WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Invalid email.");
         } else {
             // check if email exists in database
-            DataFunctions.emailExists(email.getText().toString(), bool -> {
-                if (bool) {
-                    // if the email exists, save the email and go to page 2, send code.
-                    emailString = email.getText().toString();
-                    goToPage(2);
-                    sendCode();
+            AccountDataFunctions.emailExists(email.getText().toString(), new ValueReturn<Boolean>() {
+                @Override
+                public void valueReturn(@Nullable Boolean bool) {
+                    if (bool == null) return;
+                    if (bool) {
+                        // if the email exists, save the email and go to page 2, send code.
+                        emailString = email.getText().toString();
+                        goToPage(2);
+                        sendCode();
 
-                    // set up the code instructions in page 2.
-                    String instructions = String.format("We sent a 4-digit code to %s. Please check your email for it.", emailString);
-                    SpannableString instructionSpannableString = new SpannableString(instructions); // create a SpannableString
-                    int start = instructions.indexOf(emailString); // find the start of emailString.
-                    int end = start + emailString.length(); // find the end of the emailString.
-                    StyleSpan boldSpan = new StyleSpan(Typeface.BOLD); // retrieve the StyleSpan Bold
-                    instructionSpannableString.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Bolden the emailString
-                    codeInstructions.setText(instructionSpannableString); // set the new code instructions.
-                } else {
-                    // if the email does not exist, show warning.
-                    WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Email is not registered. Please recheck your input.");
+                        // set up the code instructions in page 2.
+                        String instructions = String.format("We sent a 4-digit code to %s. Please check your email for it.", emailString);
+                        SpannableString instructionSpannableString = new SpannableString(instructions); // create a SpannableString
+                        int start = instructions.indexOf(emailString); // find the start of emailString.
+                        int end = start + emailString.length(); // find the end of the emailString.
+                        StyleSpan boldSpan = new StyleSpan(Typeface.BOLD); // retrieve the StyleSpan Bold
+                        instructionSpannableString.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Bolden the emailString
+                        codeInstructions.setText(instructionSpannableString); // set the new code instructions.
+                    } else {
+                        // if the email does not exist, show warning.
+                        WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Email is not registered. Please recheck your input.");
+                    }
                 }
             });
         }
@@ -251,7 +258,7 @@ public class ResetPassword extends AppCompatActivity {
             WarningTextHelper.hide(passwordWarning);
 
             // reset the password in database.
-            DataFunctions.resetPassword(emailString, password.getText().toString());
+            AccountDataFunctions.resetPassword(emailString, password.getText().toString());
 
             // return to Sign In with RESULT_OK.
             setResult(RESULT_OK);
@@ -267,7 +274,7 @@ public class ResetPassword extends AppCompatActivity {
         savedCode = Generator.code(emailString);
 
         // Send the code through API.
-        DataFunctions.sendCodeThroughEmail(savedCode);
+        AccountDataFunctions.sendCodeThroughEmail(savedCode);
         NotificationHelper.sendNotification(getApplicationContext(),
                 String.format("Verification code sent to %s", savedCode.getEmail()),
                 String.format("Your Verification Code: %s.", savedCode.getCode()));

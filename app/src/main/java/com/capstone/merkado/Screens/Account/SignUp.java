@@ -9,11 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.Generator;
 import com.capstone.merkado.Helpers.NotificationHelper;
 import com.capstone.merkado.Helpers.StringVerifier;
@@ -105,7 +107,8 @@ public class SignUp extends AppCompatActivity {
             } else {
                 String emailText = email.getText() != null ? email.getText().toString() : "";
                 if (StringVerifier.isValidGmail(emailText)) {
-                    DataFunctions.emailExists(emailText, bool -> {
+                    AccountDataFunctions.emailExists(emailText, bool -> {
+                        if (bool == null) return;
                         if (bool) {
                             runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Email already exists."));
                             emailExists = true;
@@ -229,8 +232,8 @@ public class SignUp extends AppCompatActivity {
                 passwordInput = passwordText;
 
                 // Sign up the account and Sign it in.
-                Account account = DataFunctions.signUpAccount(emailInput, passwordInput);
-                DataFunctions.signInAccount(getApplicationContext(), account);
+                Account account = AccountDataFunctions.signUpAccount(emailInput, passwordInput);
+                // AccountDataFunctions.signInAccount(getApplicationContext(), account);
                 merkado.setAccount(account);
                 Toast.makeText(getApplicationContext(), "Sign up successful!", Toast.LENGTH_SHORT).show();
                 // go back to sign in and return RESULT_OK.
@@ -282,7 +285,7 @@ public class SignUp extends AppCompatActivity {
         savedCode = Generator.code(email.getText().toString());
 
         // Send the code through API.
-        DataFunctions.sendCodeThroughEmail(savedCode);
+        AccountDataFunctions.sendCodeThroughEmail(savedCode);
         NotificationHelper.sendNotification(getApplicationContext(),
                 String.format("Verification code sent to %s", savedCode.getEmail()),
                 String.format("Your Verification Code: %s.", savedCode.getCode()));

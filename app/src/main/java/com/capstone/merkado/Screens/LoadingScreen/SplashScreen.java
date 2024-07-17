@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
@@ -69,14 +70,14 @@ public class SplashScreen extends AppCompatActivity {
      */
     private void process1() {
         // get the signed in from sharedpref.
-        Account account = DataFunctions.getSignedIn(getApplicationContext());
+        Account account = AccountDataFunctions.getSignedIn(getApplicationContext());
         if (account == null) return; // stop the function here if sign in is required.
 
         // update the account in the application class.
         merkado.setAccount(account);
 
         // update the account logged in from the SharedPref
-        DataFunctions.signInAccount(getApplicationContext(), account);
+        AccountDataFunctions.signInAccount(getApplicationContext(), account);
     }
 
     /**

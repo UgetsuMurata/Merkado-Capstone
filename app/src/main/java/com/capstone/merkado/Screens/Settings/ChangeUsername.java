@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Helpers.StringVerifier;
 import com.capstone.merkado.Helpers.StringVerifier.UsernameCode;
@@ -100,7 +101,7 @@ public class ChangeUsername extends AppCompatActivity {
      * @param email    raw email.
      */
     private void saveUsername(String username, String email) {
-        DataFunctions.changeUsername(this, username, email);
+        AccountDataFunctions.changeUsername(this, username, email);
     }
 
     private void warningUsername(UsernameCode code) {

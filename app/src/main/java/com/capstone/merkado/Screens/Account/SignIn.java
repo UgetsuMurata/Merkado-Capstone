@@ -8,15 +8,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.ValueReturn.ReturnStatus;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturnWithStatus;
+import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -79,12 +86,7 @@ public class SignIn extends AppCompatActivity {
         emailWarning.setVisibility(View.GONE);
         passwordWarning.setVisibility(View.GONE);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
 
         // set up Sign In listener
         signIn.setOnClickListener(v -> {
@@ -129,22 +131,28 @@ public class SignIn extends AppCompatActivity {
         emailWarning.setVisibility(View.GONE);
         passwordWarning.setVisibility(View.GONE);
         // verify
-        DataFunctions.verifyAccount(email, password, account -> {
-            String username = account.getUsername();
-            if (!username.matches("^\\[ERROR:[a-zA-Z_]+\\]$")) {
-                // save to SharedPref to keep signed in.
-                DataFunctions.signInAccount(getApplicationContext(), account);
-                merkado.setAccount(account);
-                goToMainMenu();
-            } else {
-                // check if email exists
-                if (username.equals("[ERROR:WRONG_EMAIL]")) {
+        AccountDataFunctions.verifyAccount(email, password, (account, returnStatus) -> {
+            if (account == null) return;
+            switch (returnStatus) {
+                case CANNOT_RETRIEVE_INFORMATION:
+                    Toast.makeText(getApplicationContext(),
+                            "Cannot retrieve information at the moment. Please try again later!",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case WRONG_EMAIL:
                     emailWarning.setText("Email wasn't registered. Please sign up.");
                     emailWarning.setVisibility(View.VISIBLE);
-                } else if (username.equals("[ERROR:WRONG_PASSWORD]")) {
+                    break;
+                case WRONG_PASSWORD:
                     passwordWarning.setText("Incorrect password!");
                     passwordWarning.setVisibility(View.VISIBLE);
-                }
+                    break;
+                case SUCCESS:
+                    // save to SharedPref to keep signed in.
+                    AccountDataFunctions.signInAccount(getApplicationContext(), account);
+                    merkado.setAccount(account);
+                    goToMainMenu();
+                    break;
             }
         });
     }

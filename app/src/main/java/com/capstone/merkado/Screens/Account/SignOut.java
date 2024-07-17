@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.R;
 
@@ -30,7 +31,7 @@ public class SignOut extends AppCompatActivity {
 
         signOut.setOnClickListener(v -> {
             // Sign out the account.
-            DataFunctions.signOut(getApplicationContext(), merkado.getAccount());
+            AccountDataFunctions.signOut(getApplicationContext(), merkado.getAccount());
 
             // sign out account
             merkado.signOutAccount();

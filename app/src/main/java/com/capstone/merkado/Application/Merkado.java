@@ -11,10 +11,12 @@ import android.net.ConnectivityManager;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.PlayerDataUpdates;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
@@ -150,7 +152,12 @@ public class Merkado extends Application {
         }
         if (playerId == null) return;
         playerDataUpdates = new PlayerDataUpdates(playerId);
-        playerDataUpdates.startListener(this::changePlayer);
+        playerDataUpdates.startListener(new ValueReturn<Player>() {
+            @Override
+            public void valueReturn(@Nullable Player player) {
+                changePlayer(player);
+            }
+        });
     }
 
     private void changePlayer(Player player) {

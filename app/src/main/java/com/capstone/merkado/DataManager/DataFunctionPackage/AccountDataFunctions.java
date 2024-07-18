@@ -10,13 +10,13 @@ import com.capstone.merkado.DataManager.ValueReturn.ValueReturnWithStatus;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.AccountData;
 import com.capstone.merkado.Objects.VerificationCode;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class AccountDataFunctions {
 
@@ -211,20 +211,26 @@ public class AccountDataFunctions {
      */
     public static Account signUpAccount(String email, String password) {
         FirebaseData firebaseData = new FirebaseData();
-        Map<String, Object> values = new HashMap<>();
 
         // generate temporary username
         String username = String.format(Locale.getDefault(), "User %d", System.currentTimeMillis());
 
         // store data
-        values.put("lastOnline", System.currentTimeMillis());
-        values.put("password", StringHash.hashPassword(password));
-        values.put("username", username);
+        AccountData accountData = new AccountData();
+        accountData.setLastOnline(System.currentTimeMillis());
+        accountData.setPassword(StringHash.hashPassword(password));
+        accountData.setUsername(username);
 
-        // save the data to accounts/{encoded email}.
-        firebaseData.setValues(String.format("accounts/%s", FirebaseCharacters.encode(email)), values);
+        // save the data to accounts/{encoded email}
+        String path = String.format("accounts/%s", FirebaseCharacters.encode(email));
+        firebaseData.setValue(path, accountData);
 
-        return new Account(email, username);
+        // return account data
+        Account account = new Account();
+        account.setEmail(email);
+        account.setUsername(username);
+
+        return account;
     }
 
     /**

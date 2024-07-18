@@ -233,7 +233,7 @@ public class SignUp extends AppCompatActivity {
 
                 // Sign up the account and Sign it in.
                 Account account = AccountDataFunctions.signUpAccount(emailInput, passwordInput);
-                // AccountDataFunctions.signInAccount(getApplicationContext(), account);
+                AccountDataFunctions.signInAccount(getApplicationContext(), account);
                 merkado.setAccount(account);
                 Toast.makeText(getApplicationContext(), "Sign up successful!", Toast.LENGTH_SHORT).show();
                 // go back to sign in and return RESULT_OK.

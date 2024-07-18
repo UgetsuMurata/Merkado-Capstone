@@ -6,6 +6,9 @@ package com.capstone.merkado.Objects;
 public class Account {
     String email, username;
 
+    public Account() {
+    }
+
     public Account(String email, String username) {
         this.email = email;
         this.username = username;

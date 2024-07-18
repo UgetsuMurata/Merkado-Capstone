@@ -108,6 +108,7 @@ public class ChangePassword extends AppCompatActivity {
             return;
         }
         AccountDataFunctions.comparePasswords(merkado.getAccount().getEmail(), oldPassword.getText().toString(), bool -> {
+            if (bool == null) return;
             if (bool) {
                 if (newPassword.getText() == null || newPassword.getText().toString().isEmpty()) {
                     // if the password doesn't have something in it.
@@ -118,6 +119,9 @@ public class ChangePassword extends AppCompatActivity {
                 } else if (!newPassword.getText().toString().trim().equals(confirmPassword.getText().toString().trim())) {
                     // if the password and confirmPassword isn't equal
                     WarningTextHelper.showWarning(getApplicationContext(), confirmPasswordWarning, "Passwords do not match.");
+                } else if (newPassword.getText().toString().equals(oldPassword.getText().toString())) {
+                    // if the old password and new password is the same.
+                    WarningTextHelper.showWarning(getApplicationContext(), newPasswordWarning, "You cannot use your old password.");
                 } else {
                     // hide the warnings.
                     WarningTextHelper.hide(confirmPasswordWarning);

@@ -3,18 +3,23 @@ package com.capstone.merkado.Screens.Game;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.CustomViews.IconButton;
+import com.capstone.merkado.CustomViews.IconToggle;
+import com.capstone.merkado.CustomViews.IconToggle.ToggleStatus;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
@@ -25,61 +30,54 @@ import com.capstone.merkado.Objects.StoryDataObjects.LineGroup.QuizChoice;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.R;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class StoryMode extends AppCompatActivity {
 
     Merkado merkado;
-    PlayerStory playerStory;
 
-    /**
-     * Dialogue
-     */
+    // DIALOGUE
     TextView dialogueTextView;
-    /**
-     * Tools
-     */
-    ImageView autoplayButton, skip, exit;
+
+    // TOOLS
+    IconToggle autoplayToggle, skipToggle;
+    IconButton exitButton;
     ImageView dialogueBox;
     ConstraintLayout sceneBackground;
 
-    /**
-     * DISPLAYS
-     */
+    // DISPLAYS
     FrameLayout characterSlot1, characterSlot2, characterSlot3, characterSlot4, characterSlot5;
 
-    /**
-     * CHOICE
-     */
+    // CHOICE
     ConstraintLayout choiceGui;
     ImageView choice1, choice2, choice3, choice4;
     TextView choice1Text, choice2Text, choice3Text, choice4Text;
 
-    /**
-     * SCENE DETAILS
-     */
+    // SCENE DETAILS
     TextView sceneName, chapterName;
 
-    /**
-     * TRANSITION
-     */
+    // CLICK VIEW
+    View clickArea;
+
+    // TRANSITION
     ImageView blackScreen;
 
+    // VARIABLES
+    PlayerStory playerStory;
+    Integer currentQueueIndex;
     Integer currentLineGroupIndex = 0;
     Integer nextLineGroupId;
-    Integer currentQueueIndex;
     Boolean temporaryStopAutoPlay = false;
-    Boolean autoPlay = false;
-    Boolean skipDialogues = false;
     Handler handler;
     Runnable runnable;
     Integer quizScore = 0;
+    RunnableState runnableState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +90,9 @@ public class StoryMode extends AppCompatActivity {
         sceneBackground = findViewById(R.id.scene_background);
         dialogueTextView = findViewById(R.id.dialogue);
         dialogueBox = findViewById(R.id.dialogue_box);
-        autoplayButton = findViewById(R.id.autoplay);
-        skip = findViewById(R.id.skip);
-        exit = findViewById(R.id.exit);
+        autoplayToggle = findViewById(R.id.autoplay);
+        skipToggle = findViewById(R.id.skip);
+        exitButton = findViewById(R.id.exit);
         choiceGui = findViewById(R.id.choice_gui);
         choice1 = findViewById(R.id.choice_1);
         choice2 = findViewById(R.id.choice_2);
@@ -110,45 +108,36 @@ public class StoryMode extends AppCompatActivity {
         characterSlot4 = findViewById(R.id.character_slot_4);
         characterSlot5 = findViewById(R.id.character_slot_5);
         blackScreen = findViewById(R.id.black_screen);
+        clickArea = findViewById(R.id.click_area);
         sceneName = findViewById(R.id.scene_name);
         chapterName = findViewById(R.id.chapter_name);
+
+        handler = new Handler();
+        runnableState = RunnableState.NULL;
 
         // get the lineGroup from the intent
         playerStory = getIntent().getParcelableExtra("PLAYER_STORY");
         currentQueueIndex = getIntent().getIntExtra("CURRENT_QUEUE_INDEX", -1);
-        nextLineGroupId = playerStory.getNextLineGroup() != null ? playerStory.getNextLineGroup().getId() : null;
+        nextLineGroupId = playerStory.getNextLineGroup() != null ?
+                playerStory.getNextLineGroup().getId() : null;
 
         if (playerStory == null) {
-            finish();
             Toast.makeText(getApplicationContext(), "Cannot retrieve story. Please try again later.", Toast.LENGTH_SHORT).show();
+            finish();
             return;
         }
 
         initializeScreen(playerStory.getCurrentLineGroup());
 
-        handler = new Handler();
-
-        autoplayButton.setOnClickListener(v -> {
-            autoPlay = !autoPlay;
-            if (autoPlay) {
-                autoplayButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_autoplay_active));
-            } else {
-                autoplayButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_autoplay_idle));
-            }
-            dialogueBox.performClick();
-        });
-        exit.setOnClickListener(v -> goToExit());
-        skip.setOnClickListener(v -> {
-            if (skipDialogues) {
-                stopSkipping();
-            } else {
-                skipDialogues();
-            }
+        autoplayToggle.setOnClickListener(v -> clickArea.performClick());
+        exitButton.setOnClickListener(v -> goToExit());
+        skipToggle.setOnClickListener(v -> {
+            if (skipToggle.isActive()) skipDialogues();
         });
     }
 
     /**
-     * Schedules an autoplay. This is triggered by each dialogue change. Checks the value of the autoplay: <br/>
+     * <b>TOOL FUNCTION</b>. Schedules an autoplay. This is triggered by each dialogue change. Checks the value of the autoplay: <br/>
      * If <b>True</b>, then it will successfully play after the seconds determined by how long the dialogue is and
      * the calculation of 183 wpm or 3 words per second. <br/>
      * If <b>False</b>, then it will not schedule an autoplay.
@@ -159,95 +148,110 @@ public class StoryMode extends AppCompatActivity {
      * @param dialogue raw dialogue.
      */
     private void scheduleAutoPlay(String dialogue) {
-        if (autoPlay) {
-            if (runnable != null)
+        if (autoplayToggle.isActive()) {
+            // if autoplay is on
+            // define runnable
+            if (!runnableState.equals(RunnableState.NULL))
                 // clear any scheduled autoplay with this handler.
                 handler.removeCallbacks(runnable);
-            else
-                // define the runnable if it was null
+            if (!runnableState.equals(RunnableState.AUTOPLAY)) {
+                // define the runnable
                 runnable = () -> {
-                    if (autoPlay && !temporaryStopAutoPlay) {
-                        dialogueBox.performClick();
+                    if (autoplayToggle.isActive() && !temporaryStopAutoPlay) {
+                        // check if autoplay is still ON and if the temporary stop is OFF
+                        clickArea.performClick();
                     }
                 };
-
+                runnableState = RunnableState.AUTOPLAY;
+            }
+            // Calculate how many seconds before next click
             int wordCount = dialogue.split("\\s").length;
             int seconds = wordCount / 3 + (wordCount % 3 > 0 ? 1 : 0);
 
+            // Schedule the runnable
             handler.postDelayed(runnable, seconds * 1000L);
         }
     }
 
+    /**
+     * <b>TOOL FUNCTION</b>. Pauses autoplay temporarily.
+     */
     private void pauseAutoplay() {
         temporaryStopAutoPlay = true;
     }
 
+    /**
+     * <b>TOOL FUNCTION</b>. Skips dialogues every 100ms.
+     */
     private void skipDialogues() {
-        autoPlay = false;
-        skipDialogues = true;
-        skip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_fast_forward_active));
-        if (runnable != null)
+        // define runnable
+        if (!runnableState.equals(RunnableState.NULL))
             // clear any scheduled autoplay with this handler.
             handler.removeCallbacks(runnable);
-        else
+        if (!runnableState.equals(RunnableState.SKIP)) {
             // define the runnable if it was null
             runnable = () -> {
-                if (skipDialogues) {
-                    dialogueBox.performClick();
+                if (skipToggle.isActive()) {
+                    clickArea.performClick();
                     handler.postDelayed(runnable, 100L);
                 }
             };
+            runnableState = RunnableState.SKIP;
+        }
+        // schedule runnable
         handler.postDelayed(runnable, 100L);
     }
 
-    private void stopSkipping() {
-        skip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_fast_forward_idle));
-        skipDialogues = false;
+    /**
+     * <b>TOOL FUNCTION</b>. Removes any autoplay callbacks and then finishes after half-a-second.
+     */
+    private void goToExit() {
+        new Handler().postDelayed(() -> {
+            if (runnable != null) {
+                // clear any scheduled autoplay with this handler.
+                handler.removeCallbacks(runnable);
+                runnableState = RunnableState.NULL;
+            }
+            runOnUiThread(this::finish);
+        }, 500);
     }
 
     /**
-     * Removes any autoplay callbacks and then finishes after half-a-second.
+     * <b>VISUAL FUNCTION</b>. Initializes the screen for the next line group; Clears the characters,
+     * clears the dialogue box, updates the current line group in PlayerStory variable, runs the
+     * transition, calls the function for setting up the screen.
+     *
+     * @param lineGroup LineGroup instance.
      */
-    private void goToExit() {
-        exit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_exit_active));
-
-        new Handler().postDelayed(() -> {
-            exit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_storymode_exit_idle));
-        }, 300);
-
-        new Handler().postDelayed(() -> {
-            if (runnable != null)
-                // clear any scheduled autoplay with this handler.
-                handler.removeCallbacks(runnable);
-            runOnUiThread(this::finish);
-        }, 500);
-
-
-    }
-
     private void initializeScreen(LineGroup lineGroup) {
+        // Clear the screen
         clearCharacters();
         clearDialogueBox();
+
+        // update current line group
         playerStory.setCurrentLineGroup(lineGroup);
+
+        // check for transition
         if ("FTB".equals(lineGroup.getTransition())) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    fadeToBlack();
-                    runOnUiThread(() -> setUpScreen(lineGroup));
-                }
-            }).start();
-        } else {
-            setUpScreen(lineGroup);
+            new Thread(this::fadeToBlack).start();
         }
+
+        // call the function for setting up screen
+        setUpScreen(lineGroup);
     }
 
-    private void setUpScreen(LineGroup lineGroup) {
+    /**
+     * <b>VISUAL FUNCTION</b>. Sets up the screen for the dialogue group.
+     *
+     * @param lineGroup LineGroup instance.
+     */
+    private void setUpScreen(@NonNull LineGroup lineGroup) {
+        // reset index
         currentLineGroupIndex = 0;
+
         // change chapter/scene details
         sceneName.setText(playerStory.getCurrentScene().getScene());
         chapterName.setText(playerStory.getChapter().getChapter());
-
 
         // display initial images
         if (lineGroup.getInitialImages() != null) {
@@ -255,32 +259,52 @@ public class StoryMode extends AppCompatActivity {
                 showCharacter(imagePlacementData);
             }
         }
+
         // display initial background
         changeBackground(StoryResourceCaller.retrieveBackgroundResource(lineGroup.getBackground()));
         playBGM(lineGroup.getBgm());
 
         // after half-a-second, start the story.
         new Handler().postDelayed(() -> {
+
             // display first line
             LineGroup.DialogueLine dialogueLine = lineGroup.getDialogueLines().get(currentLineGroupIndex);
             displayLine(dialogueLine);
 
-            dialogueBox.setOnClickListener(v -> {
+            // set up onClickListener for the click area.
+            clickArea.setOnClickListener(v -> {
+
+                // increment the index
                 currentLineGroupIndex++;
+
+                // check if the index exceeds the size of the line group. return if so.
                 if (currentLineGroupIndex >= lineGroup.getDialogueLines().size()) {
                     // reached the end.
                     currentLineEnded();
                     return;
                 }
+
                 // display line
-                LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentLineGroupIndex);
-                displayLine(dialogueLine1);
+                try {
+                    LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentLineGroupIndex);
+                    displayLine(dialogueLine1);
+                } catch (ArrayIndexOutOfBoundsException ignore) {
+                    currentLineEnded(); // reached the end.
+                }
             });
-        }, skipDialogues ? 10 : 500);
+        }, skipToggle.isActive() ? 10 : 500);
+
+        // hide the choice GUI
         choiceGui.setVisibility(View.GONE);
     }
 
-    private void displayLine(LineGroup.DialogueLine dialogueLine) {
+    /**
+     * <b>VISUAL FUNCTION</b>. Checks the DialogueLine instance for cases (i.e. pure dialogue, playing
+     * sfx, choices, quiz, or image changes.)
+     *
+     * @param dialogueLine DialogueLine instance.
+     */
+    private void displayLine(@NonNull LineGroup.DialogueLine dialogueLine) {
         showLine(StoryResourceCaller.retrieveDialogueBoxResource(dialogueLine.getCharacter()), dialogueLine.getDialogue());
         playSFX(dialogueLine.getSfx());
         if (dialogueLine.getDialogueChoices() != null) {
@@ -299,11 +323,11 @@ public class StoryMode extends AppCompatActivity {
     }
 
     /**
-     * Shows (or hides) an image resource indicated in the ImagePlacementData.
+     * <b>VISUAL FUNCTION</b>. Shows (or hides) an image resource indicated in the ImagePlacementData.
      *
      * @param imagePlacementData ImagePlacementData instance from the Player instance.
      */
-    private void showCharacter(ImagePlacementData imagePlacementData) {
+    private void showCharacter(@NonNull ImagePlacementData imagePlacementData) {
         String placement = imagePlacementData.getPlacement();
         HashMap<StringProcessor.Placement.Label, StringProcessor.Placement.Value> labelValueHashMap = StringProcessor.extractPlacement(placement);
 
@@ -368,6 +392,9 @@ public class StoryMode extends AppCompatActivity {
         layer.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), resource));
     }
 
+    /**
+     * <b>VISUAL FUNCTION</b>. Removes all characters on screen.
+     */
     private void clearCharacters() {
         for (FrameLayout layout : Arrays.asList(characterSlot1, characterSlot2, characterSlot3, characterSlot4, characterSlot5)) {
             ImageView body = layout.findViewById(R.id.body);
@@ -379,11 +406,19 @@ public class StoryMode extends AppCompatActivity {
         }
     }
 
+    /**
+     * <b>VISUAL FUNCTION</b>. Removes text from the dialogue box and changes the image into empty.
+     */
     private void clearDialogueBox() {
         dialogueTextView.setText("");
         dialogueBox.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), StoryResourceCaller.retrieveDialogueBoxResource("")));
     }
 
+    /**
+     * <b>VISUAL FUNCTION</b>. Change the background.
+     *
+     * @param scene {@code resId}.
+     */
     private void changeBackground(int scene) {
         sceneBackground.setBackground(ContextCompat.getDrawable(getApplicationContext(), scene));
     }
@@ -438,6 +473,7 @@ public class StoryMode extends AppCompatActivity {
         Chapter.Scene currentScene = playerStory.getNextScene();
         if (currentScene == null) {
             finish();
+            DataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
             return;
         }
         playerStory.setCurrentScene(currentScene);
@@ -468,7 +504,7 @@ public class StoryMode extends AppCompatActivity {
     private void setChoices(List<LineGroup.DialogueChoice> dialogueChoices) {
         Collections.shuffle(dialogueChoices);
         pauseAutoplay();
-        stopSkipping();
+        disableClickArea();
         choice1Text.setText(dialogueChoices.get(0).getChoice());
         choice1.setOnClickListener(v -> {
             movingClick(choice1, 1);
@@ -505,6 +541,7 @@ public class StoryMode extends AppCompatActivity {
 
     private void continueFromChoices() {
         new Handler().postDelayed(() -> {
+            enableClickArea();
             choiceGui.setVisibility(View.GONE);
             continueDialogues();
         }, 400);
@@ -513,7 +550,7 @@ public class StoryMode extends AppCompatActivity {
     private void setQuizChoices(List<QuizChoice> quizChoices) {
         Collections.shuffle(quizChoices);
         pauseAutoplay();
-        stopSkipping();
+        disableClickArea();
         choice1Text.setText(quizChoices.get(0).getChoice());
         choice1.setOnClickListener(v -> {
             movingClick(choice1, 1);
@@ -541,12 +578,30 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void continueFromQuiz(LineGroup.DialogueLine dialogueLine) {
+        enableClickArea();
         displayLine(dialogueLine);
         choiceGui.setVisibility(View.GONE);
         temporaryStopAutoPlay = false;
     }
 
-    private Integer processQuizNextLineGroup(Integer currentScore, String nextLineCode) {
+    private void disableClickArea() {
+        clickArea.setVisibility(View.GONE);
+        skipToggle.disable();
+        exitButton.disable();
+        autoplayToggle.disable();
+    }
+
+    private void enableClickArea() {
+        clickArea.setVisibility(View.VISIBLE);
+        skipToggle.enable();
+        exitButton.enable();
+        autoplayToggle.enable();
+
+        // check for skipping dialogues
+        if (skipToggle.isActive()) skipDialogues();
+    }
+
+    private Integer processQuizNextLineGroup(Integer currentScore, @NonNull String nextLineCode) {
         Integer nextLine = nextLineGroupId; // this will be the default if ever none matched the condition string.
         for (String condition : nextLineCode.split(";")) {
             // condition = "score==2:4";
@@ -597,7 +652,9 @@ public class StoryMode extends AppCompatActivity {
         return nextLine;
     }
 
-    private Integer[] conditionProcessor(String condition, String startsWith) {
+    @NonNull
+    @Contract("_, _ -> new")
+    private Integer[] conditionProcessor(@NonNull String condition, String startsWith) {
         String[] numbers = condition.substring(condition.indexOf(startsWith) + startsWith.length()).split(":");
         int conditionNumber;
         int nextLineNumber;
@@ -606,7 +663,7 @@ public class StoryMode extends AppCompatActivity {
             conditionNumber = Integer.parseInt(numbers[0]);
             nextLineNumber = Integer.parseInt(numbers[1]);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            Log.e("conditionProcessor", "Error parsing numbers from condition: " + condition, e);
             return new Integer[]{-1, -1};
         }
         return new Integer[]{conditionNumber, nextLineNumber};
@@ -632,43 +689,39 @@ public class StoryMode extends AppCompatActivity {
         imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), hover));
 
         int finalIdle = idle;
-        new Handler().postDelayed(() -> {
-            imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), finalIdle));
-        }, 250);
+        new Handler().postDelayed(() ->
+                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), finalIdle))
+                , 250);
     }
 
     private void continueDialogues() {
-        dialogueBox.performClick();
+        clickArea.performClick();
         temporaryStopAutoPlay = false;
     }
 
     private void fadeToBlack() {
-        CompletableFuture<Void> future = new CompletableFuture<>();
         runOnUiThread(() -> {
             blackScreen.setVisibility(View.VISIBLE);
             blackScreen.setAlpha(0f);
             blackScreen.animate()
                     .alpha(1f)
                     .setDuration(200)
-                    .withEndAction(() -> {
-                        future.complete(null);
-                        blackScreen.animate()
-                                .alpha(0f)
-                                .setDuration(500)
-                                .start();
-                    }).start();
+                    .withEndAction(() ->
+                            blackScreen.animate()
+                                    .alpha(0f)
+                                    .setDuration(500)
+                                    .start()).start();
         });
-        try {
-            future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+    }
+
+    public enum RunnableState {
+        SKIP, AUTOPLAY, NULL
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        stopSkipping();
+        skipToggle.setStatus(ToggleStatus.IDLE);
         pauseAutoplay();
     }
 }

@@ -7,110 +7,135 @@
     android:layout_height="match_parent"
     tools:context=".Screens.Game.StoryMode">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- BLACK SCREEN FOR TRANSITION:FTB; ELEVATION:5 -->
+    <ImageView
+        android:id="@+id/black_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:contentDescription="black screen"
+        android:elevation="10dp"
+        android:src="@color/black" />
+
+    <!--SETTINGS; ELEVATION:4-->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/container_dialogue_box"
+        app:layout_constraintTop_toTopOf="@id/container_dialogue_box">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/scene_detail_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".58" />
+        <com.capstone.merkado.CustomViews.IconToggle
+            android:id="@+id/autoplay"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            app:drawableActive="@drawable/gui_storymode_autoplay_active"
+            app:drawableDisabled="@drawable/gui_storymode_autoplay_disabled"
+            app:drawableIdle="@drawable/gui_storymode_autoplay_idle"
+            app:status="idle" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/chapter_detail_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".65" />
+        <com.capstone.merkado.CustomViews.IconToggle
+            android:id="@+id/skip"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            app:drawableActive="@drawable/gui_storymode_fast_forward_active"
+            app:drawableDisabled="@drawable/gui_storymode_fast_forward_disabled"
+            app:drawableIdle="@drawable/gui_storymode_fast_forward_idle"
+            app:status="idle" />
 
+        <com.capstone.merkado.CustomViews.IconButton
+            android:id="@+id/exit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:buttonActive="@drawable/gui_storymode_exit_active"
+            app:buttonDisabled="@drawable/gui_storymode_exit_disabled"
+            app:buttonEnable="true"
+            app:buttonIdle="@drawable/gui_storymode_exit_idle" />
+
+    </LinearLayout>
+
+    <!--CLICK AREA; ELEVATION:3-->
+    <View
+        android:id="@+id/click_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="6dp" />
+
+    <!-- DIALOGUE BOX; ELEVATION:2 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_dialogue_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- DIALOGUE -->
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/scene_detail_start"
+            android:id="@+id/textbox_start_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".31" />
+            app:layout_constraintGuide_percent="0.135" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/textbox_end_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.87" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/textbox_top_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.343" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/textbox_bottom_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.89" />
 
         <TextView
-            android:id="@+id/scene_name"
+            android:id="@+id/dialogue"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:elevation="2dp"
             android:fontFamily="@font/text"
-            android:textSize="16sp"
+            android:gravity="top|start"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/scene_detail_top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/scene_detail_start" />
+            app:layout_constraintBottom_toBottomOf="@id/textbox_bottom_margin"
+            app:layout_constraintEnd_toEndOf="@id/textbox_end_margin"
+            app:layout_constraintStart_toStartOf="@id/textbox_start_margin"
+            app:layout_constraintTop_toTopOf="@id/textbox_top_margin" />
 
-        <TextView
-            android:id="@+id/chapter_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:elevation="2dp"
-            android:fontFamily="@font/elements"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/scene_detail_start"
-            app:layout_constraintTop_toTopOf="@id/chapter_detail_top" />
 
+        <!-- CHARACTER DIALOGUE BOX -->
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/dialogue_box"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/gui_story_details"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/gui_textbox_empty"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="0dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <include
-            android:id="@+id/character_slot_1"
-            layout="@layout/item_gam_story_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <include
-            android:id="@+id/character_slot_2"
-            layout="@layout/item_gam_story_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <include
-            android:id="@+id/character_slot_3"
-            layout="@layout/item_gam_story_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <include
-            android:id="@+id/character_slot_4"
-            layout="@layout/item_gam_story_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <include
-            android:id="@+id/character_slot_5"
-            layout="@layout/item_gam_story_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
+    <!-- CHOICE GUI; ELEVATION:1 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/choice_gui"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="5dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:elevation="2dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/choice_guideline_start"
@@ -277,115 +302,121 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- SCENE INDICATOR; ELEVATION:0-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:elevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!--SETTINGS-->
-        <LinearLayout
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/scene_indicator_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:elevation="2dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.14" />
 
-            <ImageView
-                android:id="@+id/autoplay"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/gui_storymode_autoplay_idle" />
 
-            <ImageView
-                android:id="@+id/skip"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/gui_storymode_fast_forward_idle" />
-
-            <ImageView
-                android:id="@+id/exit"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/gui_storymode_exit_idle" />
-
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/scene_indicator_2_start"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.72" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/scene_indicator_2_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/scene_indicator_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.29" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/scene_indicator_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.90" />
+
+        <TextView
+            android:id="@+id/scene_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="2dp"
+            android:fontFamily="@font/text"
+            android:text="This is the Scene Name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/scene_indicator_bottom"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/scene_indicator_start"
+            app:layout_constraintTop_toTopOf="@id/scene_indicator_top" />
+
+        <TextView
+            android:id="@+id/chapter_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:text="chapter 1"
+            android:textSize="8sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/scene_indicator_top"
+            app:layout_constraintEnd_toEndOf="@id/scene_indicator_2_end"
+            app:layout_constraintStart_toStartOf="@id/scene_indicator_2_start" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/gui_story_details"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/textbox_start_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.12" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/textbox_end_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.87" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/textbox_top_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.37" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/textbox_bottom_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.8" />
-
-            <TextView
-                android:id="@+id/dialogue"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:elevation="2dp"
-                android:fontFamily="@font/text"
-                android:gravity="top|start"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/textbox_bottom_margin"
-                app:layout_constraintEnd_toEndOf="@id/textbox_end_margin"
-                app:layout_constraintStart_toStartOf="@id/textbox_start_margin"
-                app:layout_constraintTop_toTopOf="@id/textbox_top_margin" />
-
-
-            <!--CHARACTER NAME-->
-            <ImageView
-                android:id="@+id/dialogue_box"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/gui_textbox_empty"
-                app:layout_constraintBottom_toBottomOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/black_screen"
+    <!-- CHARACTER SLOTS; ELEVATION:0 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0"
-        android:contentDescription="black screen"
-        android:elevation="20dp"
-        android:src="@color/black"
-        android:visibility="gone" />
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/character_slot_1"
+            layout="@layout/item_gam_story_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/character_slot_2"
+            layout="@layout/item_gam_story_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/character_slot_3"
+            layout="@layout/item_gam_story_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/character_slot_4"
+            layout="@layout/item_gam_story_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/character_slot_5"
+            layout="@layout/item_gam_story_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

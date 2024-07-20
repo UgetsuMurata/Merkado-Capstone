@@ -1,13 +1,9 @@
 package com.capstone.merkado.DataManager.DataFunctionPackage;
 
-import android.content.Context;
-
 import com.capstone.merkado.DataManager.FirebaseData;
-import com.capstone.merkado.DataManager.SharedPref;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
-import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData.FactoryDetails;
@@ -31,14 +27,11 @@ import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
 import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
-import com.capstone.merkado.Objects.VerificationCode;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
-import com.google.common.reflect.TypeToken;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -389,6 +382,25 @@ public class DataFunctions {
     public static void changeNextScene(Integer sceneId, Integer playerId, Integer storyQueueId) {
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/storyQueue/%d/nextScene", playerId, storyQueueId), sceneId);
+    }
+
+    public static void removeStoryQueueId(Integer playerId, Integer storyQueueId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.removeData(String.format(Locale.getDefault(), "player/%d/storyQueue/%d", playerId, storyQueueId));
+        readjustStoryQueueListKeys(String.format(Locale.getDefault(), "player/%d/storyQueue", playerId));
+    }
+
+    private static void readjustStoryQueueListKeys(String path) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(path, dataSnapshot -> {
+            List<StoryQueue> storyQueueList = new ArrayList<>();
+            if (dataSnapshot == null || !dataSnapshot.exists()) return;
+            for (DataSnapshot storyQueueDS : dataSnapshot.getChildren()) {
+                StoryQueue storyQueue = storyQueueDS.getValue(StoryQueue.class);
+                if (storyQueue != null) storyQueueList.add(storyQueue);
+            }
+            firebaseData.setValue(path, storyQueueList);
+        });
     }
 
     public static CompletableFuture<List<QASItems>> getAllQuests(Integer playerId) {

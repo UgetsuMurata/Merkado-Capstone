@@ -25,4 +25,20 @@
             <enum name="fast" value="2"/>
         </attr>
     </declare-styleable>
+    <declare-styleable name="IconToggle">
+        <attr name="drawableIdle" format="reference"/>
+        <attr name="drawableActive" format="reference"/>
+        <attr name="drawableDisabled" format="reference"/>
+        <attr name="status" format="enum">
+            <enum name="disabled" value="-1"/>
+            <enum name="idle" value="0"/>
+            <enum name="active" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="IconButton">
+        <attr name="buttonIdle" format="reference"/>
+        <attr name="buttonActive" format="reference"/>
+        <attr name="buttonDisabled" format="reference"/>
+        <attr name="buttonEnable" format="boolean"/>
+    </declare-styleable>
 </resources>

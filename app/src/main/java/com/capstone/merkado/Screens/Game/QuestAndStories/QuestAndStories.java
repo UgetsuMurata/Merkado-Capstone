@@ -1,12 +1,15 @@
 package com.capstone.merkado.Screens.Game.QuestAndStories;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,9 +29,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+@SuppressLint("NotifyDataSetChanged")
 public class QuestAndStories extends AppCompatActivity {
 
     Merkado merkado;
+
+    // VIEWS
     ImageView showAll, showQuests, showStories;
     TextView qasListEmpty, qasName, qasDescription;
     RecyclerView qasList, qasRewards;
@@ -63,38 +69,15 @@ public class QuestAndStories extends AppCompatActivity {
 
     }
 
-    private void noSelectedQAS() {
-        qasName.setText("");
-        qasDescription.setText("");
-        qasRewardsSection.setVisibility(View.GONE);
-        qasStartStory.setVisibility(View.GONE);
-    }
-
     private void retrieveDataToShow(ShowMode showMode) {
         noSelectedQAS();
-        getItemsByShowMode(showMode).thenAccept(qasItemsList -> {
-            if (qasItemsList.size() == 0) {
-                runOnUiThread(() -> {
-                    qasListEmpty.setVisibility(View.VISIBLE);
-                    qasList.setVisibility(View.GONE);
-                });
-                return;
-            }
-            runOnUiThread(() -> {
-                qasListEmpty.setVisibility(View.GONE);
-                qasList.setVisibility(View.VISIBLE);
-            });
-            QASAdapter qasAdapter = new QASAdapter(getApplicationContext(), qasItemsList);
-            runOnUiThread(() -> {
-                qasList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                qasList.setAdapter(qasAdapter);
-            });
-            qasAdapter.setOnClickListener((qasDetail, qasGroup) -> {
-                runOnUiThread(() -> setUpDetails(qasDetail, qasGroup));
-            });
-            qasAdapter.notifyDataSetChanged();
-        }).exceptionally(throwable -> {
-            throwable.printStackTrace();
+        getItemsByShowMode(showMode).thenAccept(qasItemsList ->
+                runOnUiThread(()->{
+                    if (qasItemsList.isEmpty()) nothingToShow(showMode);
+                    else setUpQASList(qasItemsList);
+                })
+        ).exceptionally(throwable -> {
+            Log.e("retrieveDataToShow", String.format("Problem in retrieving data for %s: %s", showMode, throwable));
             return null;
         });
     }
@@ -112,25 +95,52 @@ public class QuestAndStories extends AppCompatActivity {
         }
     }
 
-    private void setUpDetails(QASDetail qasDetail, String group) {
+    private void noSelectedQAS() {
+        qasName.setText("");
+        qasDescription.setText("");
+        qasRewardsSection.setVisibility(View.GONE);
+        qasStartStory.setVisibility(View.GONE);
+    }
+
+    private void nothingToShow(ShowMode showMode) {
+        qasListEmpty.setVisibility(View.VISIBLE);
+        qasList.setVisibility(View.GONE);
+
+        switch (showMode) {
+            case ALL:
+                qasListEmpty.setText(String.format(getString(R.string.qasListEmpty), "quests and stories"));
+                break;
+            case QUEST:
+                qasListEmpty.setText(String.format(getString(R.string.qasListEmpty), "quests"));
+                break;
+            case STORY:
+                qasListEmpty.setText(String.format(getString(R.string.qasListEmpty), "stories"));
+                break;
+        }
+    }
+
+    private void setUpQASList(List<QASItems> qasItemsList) {
+        qasListEmpty.setVisibility(View.GONE);
+        qasList.setVisibility(View.VISIBLE);
+        QASAdapter qasAdapter = new QASAdapter(getApplicationContext(), qasItemsList);
+        qasList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        qasList.setAdapter(qasAdapter);
+        qasAdapter.setOnClickListener((qasDetail, qasGroup) ->
+                runOnUiThread(() -> setUpDetails(qasDetail, qasGroup)));
+        qasAdapter.notifyDataSetChanged();
+    }
+
+    private void setUpDetails(@NonNull QASDetail qasDetail, String group) {
         qasName.setText(qasDetail.getQasName());
         qasDescription.setText(qasDetail.getQasDescription());
         if ("STORIES".equals(group)) {
             qasStartStory.setVisibility(View.VISIBLE);
-            qasStartStory.setOnClickListener(v -> {
-                Intent intent = new Intent(getApplicationContext(), StoryMode.class);
-                intent.putExtra("PLAYER_STORY", merkado.getPlayer().getPlayerStoryList().get(qasDetail.getQueueId()));
-                intent.putExtra("CURRENT_QUEUE_INDEX", qasDetail.getQueueId());
-                startActivity(intent);
-            });
-        } else {
-            qasStartStory.setVisibility(View.GONE);
-        }
-        if (qasDetail.getQasRewards().size() > 0) {
+            qasStartStory.setOnClickListener(v -> goToStory(qasDetail));
+        } else qasStartStory.setVisibility(View.GONE);
+        if (qasDetail.getQasRewards().isEmpty()) qasRewardsSection.setVisibility(View.GONE);
+        else {
             qasRewardsSection.setVisibility(View.VISIBLE);
             showRewards(qasDetail.getQasRewards());
-        } else {
-            qasRewardsSection.setVisibility(View.GONE);
         }
     }
 
@@ -142,6 +152,13 @@ public class QuestAndStories extends AppCompatActivity {
         this.qasRewards.setLayoutManager(layoutManager);
 
         this.qasRewards.setAdapter(qasRewardsAdapter);
+    }
+
+    private void goToStory(QASDetail qasDetail) {
+        Intent intent = new Intent(getApplicationContext(), StoryMode.class);
+        intent.putExtra("PLAYER_STORY", merkado.getPlayer().getPlayerStoryList().get(qasDetail.getQueueId()));
+        intent.putExtra("CURRENT_QUEUE_INDEX", qasDetail.getQueueId());
+        startActivity(intent);
     }
 
     private enum ShowMode {

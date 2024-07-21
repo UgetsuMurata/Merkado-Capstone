@@ -94,6 +94,7 @@
                 app:layout_constraintGuide_percent=".25" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/factory_lock"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:cardCornerRadius="999dp"
@@ -151,6 +152,7 @@
             app:layout_constraintGuide_percent=".4" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/store_lock"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:cardElevation="5dp"

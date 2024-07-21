@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.R;
 
 import java.util.Locale;
@@ -41,13 +41,13 @@ public class PlayerLevelView extends ConstraintLayout {
         playerExperience = findViewById(R.id.custom_m_player_exp);
     }
 
-    public void setExperience(int previousMaxExperience, int currentExperience, int maxExperience) {
-        playerLevelDisplay.setMax(maxExperience - previousMaxExperience);
-        playerLevelDisplay.setProgress(currentExperience - previousMaxExperience);
+    public void setExperience(Long previousMaxExperience, Long currentExperience, Long maxExperience) {
+        playerLevelDisplay.setMax(Math.toIntExact(maxExperience - previousMaxExperience));
+        playerLevelDisplay.setProgress(Math.toIntExact(currentExperience - previousMaxExperience));
         playerExperience.setText(String.format(Locale.getDefault(), "%d/%d", currentExperience, maxExperience));
     }
 
     public void setPlayerLevel(int level) {
-        playerLevel.setText(level);
+        playerLevel.setText(StringProcessor.numberToSpacedString(level));
     }
 }

@@ -1,9 +1,9 @@
 package com.capstone.merkado.Screens.Game;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -17,6 +17,7 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Inventory.InventoryActivity;
@@ -27,13 +28,21 @@ import com.capstone.merkado.Screens.Game.Store.StoreSellerView;
 import com.capstone.merkado.Screens.Game.Store.Stores;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
+import java.util.Objects;
+
 public class MainMap extends AppCompatActivity {
 
     Merkado merkado;
-    CardView inventoryNav, questAndStoriesNav, factoriesNav;
+    CardView inventoryNav, questAndStoriesNav, factoriesNav, storeLock, factoryLock;
     ImageView storesNav, myStore, myFactory;
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
+
+    // VARIABLES
+    Long playerExp;
+    Float playerMoney;
+    Integer playerLevel = 0;
+    Integer previousPlayerLevel = -1;
 
     private final ActivityResultLauncher<Intent> refreshAfterIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -70,6 +79,8 @@ public class MainMap extends AppCompatActivity {
         playerLevelView = findViewById(R.id.player_level);
         myStore = findViewById(R.id.my_store);
         myFactory = findViewById(R.id.my_factory);
+        storeLock = findViewById(R.id.store_lock);
+        factoryLock = findViewById(R.id.factory_lock);
 
         // onBackPressed
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -84,17 +95,10 @@ public class MainMap extends AppCompatActivity {
 
         inventoryNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), InventoryActivity.class)));
         questAndStoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), QuestAndStories.class)));
-        storesNav.setOnClickListener(v -> {
-            storesNav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_gamemap_stores_active));
-            new Handler().postDelayed(() -> {
-                storesNav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_gamemap_stores_idle));
-                refreshAfterIntent.launch(new Intent(getApplicationContext(), Stores.class));
-            }, 100);
-        });
-        factoriesNav.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), Factories.class)));
 
-        myStore.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
-        myFactory.setOnClickListener(v -> sendFactoryIntent());
+        // setup ui data
+        setupPlayerLevelView();
+        setupPlayerBalanceView();
     }
 
     private void sendFactoryIntent() {
@@ -109,4 +113,64 @@ public class MainMap extends AppCompatActivity {
         });
     }
 
+    private void setupPlayerLevelView() {
+        this.playerExp = merkado.getPlayerData().getPlayerExp();
+        updatePlayerLevelView(playerExp);
+        merkado.getPlayerData().setPlayerExpListener(this::updatePlayerLevelView);
+    }
+
+    private void setupPlayerBalanceView() {
+        this.playerMoney = merkado.getPlayerData().getPlayerMoney();
+        updatePlayerBalanceView(this.playerMoney);
+        merkado.getPlayerData().setPlayerMoneyListener(this::updatePlayerBalanceView);
+    }
+
+    private void updatePlayerLevelView(Long exp) {
+        Long maxLevel = LevelMaxSetter.getMaxPlayerExperience(exp);
+        Long previousMaxLevel = LevelMaxSetter.getPreviousMaxPlayerExperience(maxLevel);
+        playerLevel = LevelMaxSetter.getPlayerLevel(maxLevel);
+        playerLevelView.setExperience(previousMaxLevel, exp, maxLevel);
+        if (!Objects.equals(previousPlayerLevel, playerLevel)) {
+            previousPlayerLevel = playerLevel;
+            accessibleFunctionalityUpdate();
+            playerLevelView.setPlayerLevel(playerLevel);
+        }
+    }
+
+    private void updatePlayerBalanceView(Float money) {
+        playerBalanceView.setBalance(money);
+    }
+
+    private void accessibleFunctionalityUpdate() {
+        disableAll();
+        if (playerLevel >= 2) {
+            storesNav.setOnClickListener(v -> {
+                storesNav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_gamemap_stores_active));
+                new Handler().postDelayed(() -> {
+                    storesNav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_gamemap_stores_idle));
+                    refreshAfterIntent.launch(new Intent(getApplicationContext(), Stores.class));
+                }, 100);
+            });
+        }
+        if (playerLevel >= 3) {
+            myStore.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
+            factoriesNav.setOnClickListener(v ->
+                    refreshAfterIntent.launch(new Intent(getApplicationContext(), Factories.class))
+            );
+            storeLock.setVisibility(View.GONE);
+        }
+        if (playerLevel >= 4) {
+            myFactory.setOnClickListener(v -> sendFactoryIntent());
+            factoryLock.setVisibility(View.GONE);
+        }
+    }
+
+    private void disableAll() {
+        storesNav.setOnClickListener(null);
+        factoriesNav.setOnClickListener(null);
+        myStore.setOnClickListener(null);
+        myFactory.setOnClickListener(null);
+        storeLock.setVisibility(View.VISIBLE);
+        factoryLock.setVisibility(View.VISIBLE);
+    }
 }

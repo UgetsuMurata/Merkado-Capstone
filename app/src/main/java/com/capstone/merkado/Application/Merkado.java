@@ -11,22 +11,23 @@ import android.net.ConnectivityManager;
 import android.view.View;
 import android.view.WindowManager;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.PlayerDataUpdates;
-import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Objects.Account;
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
+import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
+import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
 import java.util.List;
 
 public class Merkado extends Application {
 
     private static Merkado instance;
-    private NetworkChangeReceiver networkChangeReceiver;
     private Account account;
     private StaticContents staticContents;
     private List<EconomyBasic> economyBasicList;
@@ -36,6 +37,7 @@ public class Merkado extends Application {
     private MediaPlayer bgmPlayer;
     private PlayerDataUpdates playerDataUpdates;
     private PlayerDataListener playerDataListener;
+    private PlayerDataFunctions playerDataFunctions;
 
     @Override
     public void onCreate() {
@@ -45,12 +47,13 @@ public class Merkado extends Application {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         // Create the receiver object and register it.
-        networkChangeReceiver = new NetworkChangeReceiver();
+        NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeReceiver, filter);
 
         // initialize variables
         staticContents = new StaticContents();
+        playerDataFunctions = new PlayerDataFunctions();
     }
 
     /**
@@ -152,22 +155,103 @@ public class Merkado extends Application {
         }
         if (playerId == null) return;
         playerDataUpdates = new PlayerDataUpdates(playerId);
-        playerDataUpdates.startListener(new ValueReturn<Player>() {
-            @Override
-            public void valueReturn(@Nullable Player player) {
-                changePlayer(player);
-            }
-        });
+        playerDataUpdates.startListener(this::changePlayer);
     }
 
     private void changePlayer(Player player) {
         this.player = player;
+        this.playerDataFunctions.updatePlayer(player);
         if (playerDataListener != null)
             playerDataListener.onPlayerDataListenerReceived(this.player);
     }
 
     public void setPlayerDataListener(PlayerDataListener playerDataListener) {
         this.playerDataListener = playerDataListener;
+    }
+
+    public PlayerDataFunctions getPlayerData() {
+        return playerDataFunctions;
+    }
+
+    public static class PlayerDataFunctions {
+        private PlayerDataListener<Long> playerExpListener;
+        private PlayerDataListener<Float> playerMoneyListener;
+        private PlayerDataListener<List<Inventory>> playerInventoryListener;
+        private PlayerDataListener<List<PlayerTask>> playerTaskListener;
+        private PlayerDataListener<List<PlayerStory>> playerStoryListener;
+        private PlayerDataListener<FactoryData> playerFactoryListener;
+        private Player player;
+
+        public PlayerDataFunctions() {
+        }
+
+        public void updatePlayer(Player player) {
+            this.player = player;
+            if (this.playerMoneyListener != null)
+                playerMoneyListener.update(player.getMoney());
+            if (this.playerExpListener != null)
+                playerExpListener.update(player.getExp());
+            if (this.playerInventoryListener != null)
+                playerInventoryListener.update(player.getInventory());
+            if (this.playerTaskListener != null)
+                playerTaskListener.update(player.getPlayerTaskList());
+            if (this.playerStoryListener != null)
+                playerStoryListener.update(player.getPlayerStoryList());
+            if (this.playerFactoryListener != null)
+                playerFactoryListener.update(player.getFactory());
+        }
+
+        public void setPlayerMoneyListener(PlayerDataListener<Float> playerMoneyListener) {
+            this.playerMoneyListener = playerMoneyListener;
+        }
+
+        public void setPlayerExpListener(PlayerDataListener<Long> playerExpListener) {
+            this.playerExpListener = playerExpListener;
+        }
+
+        public void setPlayerInventoryListener(PlayerDataListener<List<Inventory>> playerInventoryListener) {
+            this.playerInventoryListener = playerInventoryListener;
+        }
+
+        public void setPlayerTaskListener(PlayerDataListener<List<PlayerTask>> playerTaskListener) {
+            this.playerTaskListener = playerTaskListener;
+        }
+
+        public void setPlayerStoryListener(PlayerDataListener<List<PlayerStory>> playerStoryListener) {
+            this.playerStoryListener = playerStoryListener;
+        }
+
+        public void setPlayerFactoryListener(PlayerDataListener<FactoryData> playerFactoryListener) {
+            this.playerFactoryListener = playerFactoryListener;
+        }
+
+        public Long getPlayerExp() {
+            return player.getExp();
+        }
+
+        public Float getPlayerMoney() {
+            return player.getMoney();
+        }
+
+        public List<Inventory> getPlayerInventory() {
+            return player.getInventory();
+        }
+
+        public List<PlayerTask> getPlayerTask() {
+            return player.getPlayerTaskList();
+        }
+
+        public List<PlayerStory> getPlayerStory() {
+            return player.getPlayerStoryList();
+        }
+
+        public FactoryData getPlayerFactory() {
+            return player.getFactory();
+        }
+
+        public interface PlayerDataListener<T> {
+            void update(T t);
+        }
     }
 
     public void setBGM(Context context, int file, boolean loop) {

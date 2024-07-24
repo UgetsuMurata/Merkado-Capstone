@@ -11,10 +11,12 @@ import android.net.ConnectivityManager;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.PlayerDataUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
@@ -39,6 +41,7 @@ public class Merkado extends Application {
     private PlayerDataUpdates playerDataUpdates;
     private PlayerDataListener playerDataListener;
     private PlayerDataFunctions playerDataFunctions;
+    private String currentServer;
 
     @Override
     public void onCreate() {
@@ -109,6 +112,7 @@ public class Merkado extends Application {
     public void signOutAccount() {
         setAccount(null);
         setPlayer(null, null);
+        setServer(null);
         setBasicServerList(null);
     }
 
@@ -148,6 +152,8 @@ public class Merkado extends Application {
     }
 
     public void setPlayer(Player player, Integer playerId) {
+        if (player == null) logOutToServer();
+        else logInToServer();
         this.player = player;
         this.playerId = playerId;
         if (playerDataUpdates != null) {
@@ -168,6 +174,28 @@ public class Merkado extends Application {
 
     public void setPlayerDataListener(PlayerDataListener playerDataListener) {
         this.playerDataListener = playerDataListener;
+    }
+
+    public void setServer(@Nullable String server) {
+        if (server == null) {
+            logOutToServer();
+            this.currentServer = null;
+        }
+        else {
+            this.currentServer = server;
+            logInToServer();
+        }
+    }
+
+    private void logInToServer() {
+        if (this.playerId != null && this.currentServer != null)
+            ServerDataFunctions.logInToServer(this.playerId, this.currentServer);
+    }
+
+    private void logOutToServer() {
+        ServerDataFunctions.logOutFromServer(this.playerId, this.currentServer);
+        this.playerId = null;
+        this.currentServer = null;
     }
 
     public PlayerDataFunctions getPlayerData() {
@@ -340,8 +368,11 @@ public class Merkado extends Application {
         }
     }
 
+
+
     @Override
     public void onTerminate() {
+        logOutToServer();
         super.onTerminate();
     }
 

@@ -15,10 +15,12 @@ import com.google.firebase.database.DatabaseException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -190,5 +192,61 @@ public class ServerDataFunctions {
         public interface DataListener {
             void update(List<BasicServerData> basicServerDataList);
         }
+    }
+
+    public static void logInToServer(Integer playerId, String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        String dataPath = String.format("server/%s/onlinePlayers", serverId);
+
+        firebaseData.retrieveData(dataPath, future::complete);
+
+        future.thenAccept(dataSnapshot -> {
+            if (dataSnapshot == null) return;
+            List<Integer> playerIds = new ArrayList<>();
+            dataSnapshot.getChildren().forEach(ds -> {
+                try {
+                    playerIds.add(ds.getValue(Integer.class));
+                } catch (DatabaseException | NumberFormatException e) {
+                    Log.e("logInToServer", String.format("Error occurred: %s", e));
+                }
+            });
+            playerIds.add(playerId);
+
+            // remove duplicates
+            Set<Integer> set = new HashSet<>(playerIds);
+            playerIds.clear();
+            playerIds.addAll(set);
+
+            firebaseData.setValue(dataPath, playerIds);
+        });
+    }
+
+    public static void logOutFromServer(Integer playerId, String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        String dataPath = String.format("server/%s/onlinePlayers", serverId);
+
+        firebaseData.retrieveData(dataPath, future::complete);
+
+        future.thenAccept(dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists()) return;
+            List<Integer> playerIds = new ArrayList<>();
+            dataSnapshot.getChildren().forEach(ds -> {
+                try {
+                    Integer playerIdData = ds.getValue(Integer.class);
+                    if (!Objects.equals(playerIdData, playerId)) playerIds.add(playerIdData);
+                } catch (DatabaseException | NumberFormatException e) {
+                    Log.e("logInToServer", String.format("Error occurred: %s", e));
+                }
+            });
+
+            // remove duplicates
+            Set<Integer> set = new HashSet<>(playerIds);
+            playerIds.clear();
+            playerIds.addAll(set);
+
+            firebaseData.setValue(dataPath, playerIds);
+        });
     }
 }

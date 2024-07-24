@@ -179,4 +179,11 @@ public class MainMap extends AppCompatActivity {
         storeLock.setVisibility(View.VISIBLE);
         factoryLock.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    protected void onDestroy() {
+        merkado.setServer(null);
+        merkado.setPlayer(null, null);
+        super.onDestroy();
+    }
 }

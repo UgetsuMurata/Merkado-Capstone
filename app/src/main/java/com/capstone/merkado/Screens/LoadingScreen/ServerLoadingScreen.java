@@ -86,6 +86,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
             runOnUiThread(() -> new Handler().postDelayed(() -> {
                 if (process_number.get() == maxProcesses && playerFBExtractor != null) {
                     // if this is not triggered, then the processes will naturally go to StoryMode.class
+                    merkado.setServer(basicServerData.getId());
                     startActivity(intent);
                     finish();
                 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class PlayerMarkets implements Parcelable {
     Integer marketOwner;
     Integer marketId;
@@ -92,7 +93,7 @@ public class PlayerMarkets implements Parcelable {
             opened = in.readLong();
         }
         onSale = new ArrayList<>();
-        in.readList(onSale, OnSale.class.getClassLoader());
+        if (in.readByte() == 1) in.readList(onSale, OnSale.class.getClassLoader());
     }
 
     @Override
@@ -113,7 +114,11 @@ public class PlayerMarkets implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeLong(opened);
         }
-        dest.writeList(onSale);
+        if (onSale == null) dest.writeByte((byte) 0);
+        else {
+            dest.writeByte((byte) 1);
+            dest.writeList(onSale);
+        }
     }
 
     public static final Creator<PlayerMarkets> CREATOR = new Creator<PlayerMarkets>() {

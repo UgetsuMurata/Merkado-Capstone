@@ -78,6 +78,7 @@
     ],
     "server": {
         "serverId": {
+            "image": "src",
             "name": "Server Name",
             "players": [0, 1], // List of playerIds.
             "settings": {
@@ -130,7 +131,8 @@
                         ]
                     }
                 ]
-            }
+            },
+            "onlinePlayers": [0, 1]
         }
     },
     "story": [

@@ -3,6 +3,7 @@ package com.capstone.merkado.Screens.Game;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -114,7 +115,12 @@ public class MainMap extends AppCompatActivity {
     }
 
     private void setupPlayerLevelView() {
-        this.playerExp = merkado.getPlayerData().getPlayerExp();
+        try {
+            this.playerExp = merkado.getPlayerData().getPlayerExp();
+        } catch (NullPointerException error) {
+            this.playerExp = 0L;
+            Log.e("setupPlayerLevelView", String.format("An error occurred: %s", error));
+        }
         updatePlayerLevelView(playerExp);
         merkado.getPlayerData().setPlayerExpListener(this::updatePlayerLevelView);
     }

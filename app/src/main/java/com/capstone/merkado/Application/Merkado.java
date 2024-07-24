@@ -19,18 +19,19 @@ import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
-import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Merkado extends Application {
 
     private static Merkado instance;
     private Account account;
     private StaticContents staticContents;
-    private List<EconomyBasic> economyBasicList;
+    private List<BasicServerData> basicServerData;
     private Player player;
     private Integer playerId;
     private MediaPlayer sfxPlayer;
@@ -108,7 +109,7 @@ public class Merkado extends Application {
     public void signOutAccount() {
         setAccount(null);
         setPlayer(null, null);
-        setEconomyBasicList(null);
+        setBasicServerList(null);
     }
 
     /**
@@ -125,17 +126,17 @@ public class Merkado extends Application {
      *
      * @return List of EconomyBasic.
      */
-    public List<EconomyBasic> getEconomyBasicList() {
-        return economyBasicList;
+    public List<BasicServerData> getEconomyBasicList() {
+        return basicServerData;
     }
 
     /**
      * Set the list of economies to be shown in the lobby.
      *
-     * @param economyBasicList List of EconomyBasic.
+     * @param basicServerData List of EconomyBasic.
      */
-    public void setEconomyBasicList(List<EconomyBasic> economyBasicList) {
-        this.economyBasicList = economyBasicList;
+    public void setBasicServerList(List<BasicServerData> basicServerData) {
+        this.basicServerData = basicServerData;
     }
 
     public Player getPlayer() {
@@ -173,6 +174,7 @@ public class Merkado extends Application {
         return playerDataFunctions;
     }
 
+    @SuppressWarnings("unused")
     public static class PlayerDataFunctions {
         private PlayerDataListener<Long> playerExpListener;
         private PlayerDataListener<Float> playerMoneyListener;

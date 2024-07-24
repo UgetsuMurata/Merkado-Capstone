@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -15,7 +16,7 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Helpers.StringVerifier;
 import com.capstone.merkado.Helpers.WarningTextHelper;
 import com.capstone.merkado.Objects.Account;
-import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.R;
 
 public class AddEconomy extends AppCompatActivity {
@@ -23,7 +24,6 @@ public class AddEconomy extends AppCompatActivity {
     Merkado merkado;
     private EditText serverCodeEditText;
     private TextView serverCodeError;
-    private CardView joinEconomy, cancelEconomy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +35,13 @@ public class AddEconomy extends AppCompatActivity {
 
         ImageView closeButton = findViewById(R.id.close_button);
         TextView createServer = findViewById(R.id.cserver);
-        joinEconomy = findViewById(R.id.join);
-        cancelEconomy = findViewById(R.id.cancel);
+        CardView joinEconomy = findViewById(R.id.join);
+        CardView cancelEconomy = findViewById(R.id.cancel);
         serverCodeEditText = findViewById(R.id.server_code);
         serverCodeError = findViewById(R.id.server_code_error);
 
-        closeButton.setOnClickListener(v -> onBackPressed());
-        cancelEconomy.setOnClickListener(v -> onBackPressed());
+        closeButton.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
+        cancelEconomy.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
 
         createServer.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CreateEconomy.class));
@@ -65,8 +65,8 @@ public class AddEconomy extends AppCompatActivity {
     }
 
     private Boolean economySavedAlready(String id) {
-        for (EconomyBasic economyBasic : merkado.getEconomyBasicList()) {
-            if (id.equals(economyBasic.getId())) return true;
+        for (BasicServerData basicServerData : merkado.getEconomyBasicList()) {
+            if (id.equals(basicServerData.getId())) return true;
         }
         return false;
     }

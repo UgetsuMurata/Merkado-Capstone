@@ -10,6 +10,7 @@ import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail.QASReward;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Chapter implements Parcelable {
     private Long id;
     private String chapter;
@@ -30,13 +31,13 @@ public class Chapter implements Parcelable {
         chapter = in.readString();
         triggers = in.readString();
         scenes = new ArrayList<>();
-        in.readList(scenes, Scene.class.getClassLoader());
+        if (in.readByte() == 1) in.readList(scenes, Scene.class.getClassLoader());
         category = in.readString();
         shortDescription = in.readString();
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         if (id == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -45,7 +46,11 @@ public class Chapter implements Parcelable {
         }
         dest.writeString(chapter);
         dest.writeString(triggers);
-        dest.writeList(scenes);
+        if (scenes == null || scenes.isEmpty()) dest.writeByte((byte) 0);
+        else {
+            dest.writeByte((byte) 1);
+            dest.writeList(scenes);
+        }
         dest.writeString(category);
         dest.writeString(shortDescription);
     }
@@ -133,7 +138,7 @@ public class Chapter implements Parcelable {
                 id = in.readLong();
             }
             lineGroup = new ArrayList<>();
-            in.readList(lineGroup, LineGroup.class.getClassLoader());
+            if (in.readByte() == 1) in.readList(lineGroup, LineGroup.class.getClassLoader());
             scene = in.readString();
             if (in.readByte() == 0) {
                 nextScene = null;
@@ -141,7 +146,7 @@ public class Chapter implements Parcelable {
                 nextScene = in.readInt();
             }
             rewards = new ArrayList<>();
-            in.readList(rewards, QASReward.class.getClassLoader());
+            if (in.readByte() == 1) in.readList(rewards, QASReward.class.getClassLoader());
             description = in.readString();
         }
 
@@ -153,7 +158,11 @@ public class Chapter implements Parcelable {
                 dest.writeByte((byte) 1);
                 dest.writeLong(id);
             }
-            dest.writeList(lineGroup);
+            if (lineGroup == null || lineGroup.isEmpty()) dest.writeByte((byte) 0);
+            else {
+                dest.writeByte((byte) 1);
+                dest.writeList(lineGroup);
+            }
             dest.writeString(scene);
             if (nextScene == null) {
                 dest.writeByte((byte) 0);
@@ -161,7 +170,11 @@ public class Chapter implements Parcelable {
                 dest.writeByte((byte) 1);
                 dest.writeInt(nextScene);
             }
-            dest.writeList(rewards);
+            if (rewards == null || rewards.isEmpty()) dest.writeByte((byte) 0);
+            else {
+                dest.writeByte((byte) 1);
+                dest.writeList(rewards);
+            }
             dest.writeString(description);
         }
 

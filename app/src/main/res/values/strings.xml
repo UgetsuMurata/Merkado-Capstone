@@ -1,10 +1,21 @@
 <resources>
     <string name="app_name">Merkado</string>
 
+    <!--INPUT WARNINGS-->
+    <string name="warning_input_email">Input email!</string>
+    <string name="warning_input_password">Input password!</string>
+    <string name="warning_email_not_registered">Email wasn\'t registered. Please sign up.</string>
+    <string name="warning_incorrect_password">Incorrect password!</string>
+
+    <!-- LOBBY STRING VALUES -->
+    <string name="lobby_sign_in_requirement">Sign in to join economy</string>
+    <string name="lobby_empty">The economy\'s empty here</string>
+
     <!--STORY STRING VALUES-->
     <string name="qasListEmpty">You have no %s today!</string>
 
     <!--STORE STRING VALUES-->
     <string name="storeItemListEmptySeller">You\'re not selling any%s. Add some!</string>
     <string name="storeItemListEmptyConsumer">No %s being sold today!</string>
+
 </resources>

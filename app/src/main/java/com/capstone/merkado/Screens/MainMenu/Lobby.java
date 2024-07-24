@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Adapters.EconomiesAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
-import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions.PlayerListListener;
+import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Economy.AddEconomy;
 import com.capstone.merkado.Screens.LoadingScreen.ServerLoadingScreen;
@@ -32,7 +33,8 @@ public class Lobby extends AppCompatActivity {
     TextView noEconomy;
 
     EconomiesAdapter economiesAdapter;
-    List<EconomyBasic> economyBasicList;
+    List<BasicServerData> basicServerDataList;
+    PlayerListListener serverBasicDataListener;
     private final ActivityResultLauncher<Intent> doAddEconomy = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -55,49 +57,45 @@ public class Lobby extends AppCompatActivity {
         ImageView backButton = findViewById(R.id.back_button);
         addEconomy.setOnClickListener(v -> doAddEconomy.launch(new Intent(getApplicationContext(), AddEconomy.class)));
 
-        economyBasicList = merkado.getEconomyBasicList();
+        basicServerDataList = merkado.getEconomyBasicList();
+        backButton.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        economiesAdapter = new EconomiesAdapter(this, basicServerDataList);
+        serverList.setLayoutManager(llm);
+        serverList.setAdapter(economiesAdapter);
+        economiesAdapter.setOnClickListener(basicServerData -> {
+            Intent intent = new Intent(getApplicationContext(), ServerLoadingScreen.class);
+            intent.putExtra("BASIC_SERVER_DATA", basicServerData);
+            startActivity(intent);
         });
+        setUpListener();
+    }
 
-        if (economyBasicList == null || economyBasicList.size() == 0) {
+    private void setUpListener() {
+        if (serverBasicDataListener != null) serverBasicDataListener.stop();
+        serverBasicDataListener = new PlayerListListener(merkado.getAccount().getEmail());
+        serverBasicDataListener.start(this::updateLobby);
+    }
+
+    private void updateLobby(List<BasicServerData> basicServerDataList) {
+        this.basicServerDataList = basicServerDataList;
+        if (basicServerDataList == null || basicServerDataList.isEmpty()) {
             noEconomy.setVisibility(View.VISIBLE);
             serverList.setVisibility(View.GONE);
 
             if (merkado.getAccount() == null) {
-                noEconomy.setText("Sign in to join economy");
+                noEconomy.setText(R.string.lobby_sign_in_requirement);
                 addEconomy.setVisibility(View.GONE);
             } else {
-                noEconomy.setText("The economy's empty here");
+                noEconomy.setText(R.string.lobby_empty);
                 addEconomy.setVisibility(View.VISIBLE);
             }
         } else {
             serverList.setVisibility(View.VISIBLE);
             noEconomy.setVisibility(View.GONE);
-
-            LinearLayoutManager llm = new LinearLayoutManager(this);
-            llm.setOrientation(LinearLayoutManager.VERTICAL);
-            economiesAdapter = new EconomiesAdapter(this, economyBasicList);
-            serverList.setLayoutManager(llm);
-            serverList.setAdapter(economiesAdapter);
-
-            economiesAdapter.setOnClickListener((title, id, playerId) -> {
-                Intent intent = new Intent(getApplicationContext(), ServerLoadingScreen.class);
-                intent.putExtra("TITLE", title);
-                intent.putExtra("ID", id);
-                intent.putExtra("PLAYER_ID", playerId);
-                startActivity(intent);
-            });
-        }
-    }
-
-    private void isAccountAlreadyAPlayer() {
-        for (EconomyBasic economyBasic : merkado.getEconomyBasicList()) {
-
+            economiesAdapter.updateList(basicServerDataList);
         }
     }
 
@@ -107,15 +105,12 @@ public class Lobby extends AppCompatActivity {
      */
     private void retrieveAllEconomyBasics() {
         if (merkado.getAccount() == null) return;
-        DataFunctions.getEconomyBasic(merkado.getAccount(), economyBasicList -> {
-            merkado.setEconomyBasicList(economyBasicList);
+        setUpListener();
+    }
 
-            //restart this screen.
-            Intent i = new Intent(getApplicationContext(), Lobby.class);
-            overridePendingTransition(0, 0);
-            startActivity(i);
-            overridePendingTransition(0, 0);
-            finish();
-        });
+    @Override
+    protected void onDestroy() {
+        if (serverBasicDataListener != null) serverBasicDataListener.stop();
+        super.onDestroy();
     }
 }

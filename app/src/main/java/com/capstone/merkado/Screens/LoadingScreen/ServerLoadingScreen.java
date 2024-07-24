@@ -9,28 +9,35 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
-import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
+import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
+import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.MainMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerLoadingScreen extends AppCompatActivity {
 
     private Merkado merkado;
     Integer maxProcesses = 5;
-    String serverTitle;
-    Integer serverId, playerId;
+    BasicServerData basicServerData;
     PlayerFBExtractor1 playerFBExtractor;
     List<PlayerStory> playerStoryList;
     List<PlayerTask> playerTaskList;
     Intent intent;
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +49,12 @@ public class ServerLoadingScreen extends AppCompatActivity {
         merkado.initializeScreen(this);
 
         // get intent data
-        serverTitle = getIntent().getStringExtra("TITLE");
-        serverId = getIntent().getIntExtra("ID", -1);
-        playerId = getIntent().getIntExtra("PLAYER_ID", -1);
+        basicServerData = getIntent().getParcelableExtra("BASIC_SERVER_DATA");
 
         // check if playerId and serverId exists. If not, then finish this loading screen.
-        if (serverId == -1 || playerId == -1) {
+        if (basicServerData == null ||
+                basicServerData.getId() == null ||
+                basicServerData.getPlayerId() == -1) {
             Toast.makeText(getApplicationContext(), "Problem retrieving server data.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -62,11 +69,6 @@ public class ServerLoadingScreen extends AppCompatActivity {
                 switch (i) {
                     case 1:
                         process1();
-                        if (playerFBExtractor == null) {
-                            Toast.makeText(getApplicationContext(), "Cannot find player data. Try again later.", Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        }
                         break;
                     case 2:
                         process2();
@@ -95,10 +97,30 @@ public class ServerLoadingScreen extends AppCompatActivity {
      * Process 1 processes all player details.
      */
     private void process1() {
-        playerFBExtractor = DataFunctions.getPlayerDataFromId(playerId);
-        if (playerFBExtractor != null) {
-            merkado.setPlayer(new Player(playerFBExtractor), playerId);
-        }
+        CompletableFuture<Void> future = ServerDataFunctions.getPlayerDataFromId(basicServerData.getPlayerId()).thenAccept(playerFBExtractor1 -> {
+            this.playerFBExtractor = playerFBExtractor1;
+            if (playerFBExtractor != null) {
+                merkado.setPlayer(new Player(playerFBExtractor), basicServerData.getPlayerId());
+                if (playerFBExtractor == null) {
+                    runOnUiThread(() ->
+                            Toast.makeText(getApplicationContext(),
+                                    "Cannot find player data. Try again later.",
+                                    Toast.LENGTH_SHORT).show());
+                    finish();
+                }
+            }
+        });
+
+        // Set a timeout for the CompletableFuture
+        scheduler.schedule(() -> {
+            if (!future.isDone()) {
+                // If the CompletableFuture is not done, trigger the timeout function
+                onTimeout();
+            }
+        }, 5, TimeUnit.SECONDS); // Set your desired timeout here
+
+        // Wait for the CompletableFuture to complete
+        future.join();
     }
 
     /**
@@ -164,4 +186,12 @@ public class ServerLoadingScreen extends AppCompatActivity {
         }
     }
 
+    private void onTimeout() {
+        // This function is triggered if the CompletableFuture does not complete in time
+        runOnUiThread(() ->
+                Toast.makeText(getApplicationContext(),
+                        "Connection timeout. Please check your internet connection and try again.",
+                        Toast.LENGTH_SHORT).show());
+        finish();
+    }
 }

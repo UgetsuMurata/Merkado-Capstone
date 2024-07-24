@@ -1,5 +1,6 @@
 package com.capstone.merkado.Screens.LoadingScreen;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,15 +15,14 @@ import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 
-import java.util.Timer;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashScreen extends AppCompatActivity {
 
     private Merkado merkado;
     private ProgressBar progressBar;
-    private Timer timer;
-    private final int maxProcesses = 3;
+    private final int maxProcesses = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +47,6 @@ public class SplashScreen extends AppCompatActivity {
                         break;
                     case 2:
                         process2();
-                        break;
-                    case 3:
-                        process3();
                         break;
                     default:
                         break;
@@ -87,14 +84,5 @@ public class SplashScreen extends AppCompatActivity {
         // get the data from Firebase.
         DataFunctions.getAbout(string -> merkado.getStaticContents().setAbout(string));
         DataFunctions.getTermsAndConditions(string -> merkado.getStaticContents().setTermsAndConditions(string));
-    }
-
-    /**
-     * 3rd process of the loading screen. Taking the basic server information based on the account.
-     * If there is no account, then this will be skipped.
-     */
-    private void process3() {
-        if (merkado.getAccount() == null) return;
-        DataFunctions.getEconomyBasic(merkado.getAccount(), economyBasicList -> merkado.setEconomyBasicList(economyBasicList));
     }
 }

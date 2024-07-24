@@ -1,5 +1,10 @@
 package com.capstone.merkado.DataManager.DataFunctionPackage;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
@@ -18,18 +23,15 @@ import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
-import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
 import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandard;
 import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandardList;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
+import com.capstone.merkado.Objects.StoryDataObjects.Chapter.GameRewards;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
 import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 
@@ -44,6 +46,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@SuppressWarnings("unused")
 public class DataFunctions {
 
     public static void getAbout(ValueReturn<String> stringReturn) {
@@ -71,110 +74,6 @@ public class DataFunctions {
     }
 
     /**
-     * Retrieves the EconomyBasic List.
-     *
-     * @param account                currently signed in account.
-     * @param economyBasicListReturn callback.
-     */
-    public static void getEconomyBasic(Account account, ValueReturn<List<EconomyBasic>> economyBasicListReturn) {
-        FirebaseData firebaseData = new FirebaseData();
-
-        // CHECK THE ACCOUNT FIRST FOR PLAYER INDEX DATA.
-        firebaseData.retrieveData("accounts/" + FirebaseCharacters.encode(account.getEmail()) + "/player", dataSnapshot -> {
-            // if the snapshot is null, just return null.
-            if (dataSnapshot == null) {
-                economyBasicListReturn.valueReturn(null);
-                return;
-            }
-
-            // initialize EconomyBasic list (for the return value) and Task<Void> list (for checking if the process is done first).
-            List<EconomyBasic> economyBasicList = new ArrayList<>();
-            List<Task<Void>> tasks = new ArrayList<>();
-
-            // iterate all the player indices.
-            for (DataSnapshot playerIndices : dataSnapshot.getChildren()) {
-                // take note of the current index in iteration.
-                Integer playerIndex = playerIndices.getValue(Integer.class);
-
-                // add a TaskCompletionSource to tasks.
-                TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
-                tasks.add(taskCompletionSource.getTask());
-
-                // SEARCH FOR SERVER INDEX FROM THE PLAYER DATA USING THE PLAYER INDEX.
-                firebaseData.retrieveData(String.format(Locale.getDefault(), "player/%d/server", playerIndex), dataSnapshot1 -> {
-                    // if dataSnapshot is null, mark the task as completed.
-                    if (dataSnapshot1 == null) {
-                        taskCompletionSource.setResult(null);
-                        return;
-                    }
-
-                    if (dataSnapshot1.getValue() == null) {
-                        taskCompletionSource.setResult(null);
-                        return;
-                    }
-
-                    // get the server index
-                    String serverIndex = dataSnapshot1.getValue().toString();
-
-                    // SEARCH FOR THE SERVER USING THE SERVER INDEX.
-                    firebaseData.retrieveData(String.format("server/%s", serverIndex), dataSnapshot2 -> {
-                        // if dataSnapshot is null, mark the task as completed.
-                        if (dataSnapshot2 == null) {
-                            taskCompletionSource.setResult(null);
-                            return;
-                        }
-
-                        // create the EconomyBasic instance from this server.
-                        Object nameObj = dataSnapshot2.child("name").getValue();
-                        String name = nameObj != null ? nameObj.toString() : String.format("Server %s", serverIndex);
-                        long onlinePlayersCount = dataSnapshot2.child("onlinePlayers").getChildrenCount();
-
-                        EconomyBasic economyBasic = new EconomyBasic(serverIndex, name, Math.toIntExact(onlinePlayersCount), null, playerIndex);
-                        economyBasicList.add(economyBasic);
-
-                        // mark the task as completed.
-                        taskCompletionSource.setResult(null);
-                    });
-                });
-            }
-
-            // Wait for all tasks to complete
-            Tasks.whenAll(tasks).addOnCompleteListener(task -> {
-                economyBasicListReturn.valueReturn(economyBasicList);
-            });
-        });
-    }
-
-    /**
-     * Gets the player's data using the playerId.
-     *
-     * @param playerId player's id.
-     * @return Player instance.
-     */
-    public static PlayerFBExtractor1 getPlayerDataFromId(Integer playerId) {
-        final CompletableFuture<PlayerFBExtractor1> future = new CompletableFuture<>();
-
-        FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData(String.format(Locale.getDefault(), "player/%d", playerId), dataSnapshot -> {
-            if (dataSnapshot == null) return;
-            try {
-                PlayerFBExtractor1 playerFBExtractor1 = dataSnapshot.getValue(PlayerFBExtractor1.class);
-                future.complete(playerFBExtractor1);
-            } catch (DatabaseException ignore) {
-                PlayerFBExtractor2 playerFBExtractor2 = dataSnapshot.getValue(PlayerFBExtractor2.class);
-                future.complete(new PlayerFBExtractor1(playerFBExtractor2));
-            }
-        });
-
-        try {
-            return future.get();  // This will block until the data is received
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
      * Gets line groups data using its index or id. This is used for story-mode.
      *
      * @param lineGroupIndex index or id of line group.
@@ -186,8 +85,10 @@ public class DataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         firebaseData.retrieveData(String.format(Locale.getDefault(), "story/%d/scenes/%d/lineGroup/%d", chapterId, sceneId, lineGroupIndex), dataSnapshot -> {
-            if (!dataSnapshot.exists())
+            if (dataSnapshot == null || !dataSnapshot.exists()) {
                 future.complete(null);
+                return;
+            }
             LineGroup lineGroup = dataSnapshot.getValue(LineGroup.class);
             future.complete(lineGroup);
         });
@@ -195,7 +96,7 @@ public class DataFunctions {
         try {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            Log.e("getLineGroupFromId", String.format("Error occurred for getting future: %s", e));
             return null;
         }
     }
@@ -206,12 +107,17 @@ public class DataFunctions {
      * @param chapterId index or id of the story.
      * @return Story instance.
      */
+    @Nullable
     public static Chapter getChapterFromId(Integer chapterId) {
         final CompletableFuture<Chapter> future = new CompletableFuture<>();
 
         FirebaseData firebaseData = new FirebaseData();
 
         firebaseData.retrieveData(String.format(Locale.getDefault(), "story/%d/", chapterId), dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists()) {
+                future.complete(null);
+                return;
+            }
             Chapter chapter = dataSnapshot.getValue(Chapter.class);
             future.complete(chapter);
         });
@@ -219,7 +125,7 @@ public class DataFunctions {
         try {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            Log.e("getChapterFromId", String.format("Error occurred when getting future: %s", e));
             return null;
         }
     }
@@ -230,12 +136,17 @@ public class DataFunctions {
      * @param taskId index or id of the task.
      * @return Task instance.
      */
+    @Nullable
     public static TaskData getTaskFromId(Integer taskId) {
         final CompletableFuture<TaskData> future = new CompletableFuture<>();
 
         FirebaseData firebaseData = new FirebaseData();
 
         firebaseData.retrieveData(String.format(Locale.getDefault(), "tasks/%d", taskId), dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists()) {
+                future.complete(null);
+                return;
+            }
             TaskData task = dataSnapshot.getValue(TaskData.class);
             future.complete(task);
         });
@@ -243,7 +154,7 @@ public class DataFunctions {
         try {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            Log.e("getTaskFromId", String.format("Error occurred when getting future: %s", e));
             return null;
         }
     }
@@ -252,13 +163,17 @@ public class DataFunctions {
         final CompletableFuture<Boolean> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.retrieveData(String.format("server/%s", serverCode), dataSnapshot -> {
+            if (dataSnapshot == null) {
+                future.complete(false);
+                return;
+            }
             future.complete(dataSnapshot.exists());
         });
 
         try {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            Log.e("checkServerExistence", String.format("Error occurred when getting future: %s", e));
             return null;
         }
     }
@@ -266,12 +181,18 @@ public class DataFunctions {
     private static Long getNextPlayerIndex() {
         CompletableFuture<Long> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData("player", dataSnapshot -> future.complete(dataSnapshot.getChildrenCount()));
+        firebaseData.retrieveData("player", dataSnapshot -> {
+            if (dataSnapshot == null) {
+                future.complete(-1L);
+                return;
+            }
+            future.complete(dataSnapshot.getChildrenCount());
+        });
 
         try {
             return future.get();
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            Log.e("getNextPlayerIndex", String.format("Error occurred when getting future: %s", e));
             return -1L;
         }
     }
@@ -284,6 +205,23 @@ public class DataFunctions {
         if (playerId == -1L) return false;
 
         // populate storyQueueList
+        Map<String, Object> playerData = createNewPlayerData(serverCode, account);
+
+        // Add player data to Firebase under player/{playerId}
+        Boolean success = firebaseData.setValues(String.format("player/%s", playerId), playerData);
+
+        // return false if not successful.
+        if (success == null || !success) return false;
+
+        // ADD PLAYER ID TO SERVER PLAYERS LIST
+        addPlayerToServer(serverCode, playerId);
+
+        // ADD PLAYER ID TO ACCOUNT
+        addPlayerToAccount(account.getEmail(), playerId);
+        return true;
+    }
+
+    private static @NonNull Map<String, Object> createNewPlayerData(String serverCode, Account account) {
         List<StoryQueue> storyQueueList = new ArrayList<>();
         StoryQueue storyQueue = new StoryQueue();
         storyQueue.setChapter(0);
@@ -305,19 +243,7 @@ public class DataFunctions {
         playerData.put("server", serverCode);
         playerData.put("inventory", inventoryList);
         playerData.put("storyQueue", storyQueueList);
-
-        // Add player data to Firebase under player/{playerId}
-        Boolean success = firebaseData.setValues(String.format("player/%s", playerId), playerData);
-
-        // return false if not successful.
-        if (success == null || !success) return false;
-
-        // ADD PLAYER ID TO SERVER PLAYERS LIST
-        addPlayerToServer(serverCode, playerId);
-
-        // ADD PLAYER ID TO ACCOUNT
-        addPlayerToAccount(account.getEmail(), playerId);
-        return true;
+        return playerData;
     }
 
     private static void addPlayerToServer(String serverCode, Long playerId) {
@@ -325,6 +251,10 @@ public class DataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         firebaseData.retrieveData(String.format("server/%s/players", serverCode), dataSnapshot -> {
+            if (dataSnapshot == null) {
+                future.complete(null);
+                return;
+            }
             if (dataSnapshot.exists()) {
                 long playerCount = dataSnapshot.getChildrenCount();
                 firebaseData.setValue(String.format("server/%s/players/%s", serverCode, playerCount), playerId);
@@ -338,7 +268,7 @@ public class DataFunctions {
         try {
             future.get();
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            Log.e("addPlayerToServer", String.format("Error occurred when getting future: %s", e));
         }
     }
 
@@ -347,19 +277,20 @@ public class DataFunctions {
         FirebaseData firebaseData = new FirebaseData();
         String encodedEmail = FirebaseCharacters.encode(email);
 
-        firebaseData.retrieveData(String.format("accounts/%s/player", encodedEmail), new FirebaseData.FirebaseDataCallback() {
-            @Override
-            public void onDataReceived(DataSnapshot dataSnapshot) {
-                long index = dataSnapshot.getChildrenCount();
-                firebaseData.setValue(String.format("accounts/%s/player/%s", encodedEmail, index), playerId);
+        firebaseData.retrieveData(String.format("accounts/%s/player", encodedEmail), dataSnapshot -> {
+            if (dataSnapshot == null) {
                 future.complete(null);
+                return;
             }
+            long index = dataSnapshot.getChildrenCount();
+            firebaseData.setValue(String.format("accounts/%s/player/%s", encodedEmail, index), playerId);
+            future.complete(null);
         });
 
         try {
             future.get();
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            Log.e("addPlayerToAccount", String.format("Error occurred when getting future: %s", e));
         }
     }
 
@@ -464,14 +395,7 @@ public class DataFunctions {
                 if (chapter == null) return;
                 Chapter.Scene scene = chapter.getScenes().get(entry.getValue().getCurrentScene());
 
-                List<QASDetail.QASReward> qasRewards = new ArrayList<>();
-                for (Chapter.GameRewards gameRewards : scene.getRewards()) {
-                    QASDetail.QASReward qasReward = new QASDetail.QASReward();
-                    qasReward.setResourceId(gameRewards.getResourceId());
-                    qasReward.setResourceQuantity(gameRewards.getResourceQuantity());
-                    qasReward.setResourceImage(GameResourceCaller.getResourcesImage(gameRewards.getResourceId()));
-                    qasRewards.add(qasReward);
-                }
+                List<QASDetail.QASReward> qasRewards = getQasRewards(scene.getRewards());
 
                 QASDetail qasDetail = new QASDetail();
                 qasDetail.setQasName(String.format("%s: %s", chapter.getChapter(), scene.getScene()));
@@ -492,6 +416,18 @@ public class DataFunctions {
                 });
     }
 
+    private static @NonNull List<QASDetail.QASReward> getQasRewards(List<GameRewards> scene) {
+        List<QASDetail.QASReward> qasRewards = new ArrayList<>();
+        for (GameRewards gameRewards : scene) {
+            QASDetail.QASReward qasReward = new QASDetail.QASReward();
+            qasReward.setResourceId(gameRewards.getResourceId());
+            qasReward.setResourceQuantity(gameRewards.getResourceQuantity());
+            qasReward.setResourceImage(GameResourceCaller.getResourcesImage(gameRewards.getResourceId()));
+            qasRewards.add(qasReward);
+        }
+        return qasRewards;
+    }
+
     private static CompletableFuture<List<QASItems>> processTasksQueue(Map<Integer, TaskQueue> storyQueueMap) {
         Map<String, QASDetail> qasDetailsMapping = new HashMap<>();
         List<CompletableFuture<Void>> futures = new ArrayList<>();
@@ -506,14 +442,7 @@ public class DataFunctions {
                     return; // do not include from final list if it cannot be retrieved.
 
                 // process the rewards
-                List<QASDetail.QASReward> qasRewards = new ArrayList<>();
-                for (Chapter.GameRewards gameRewards : taskData.getRewards()) {
-                    QASDetail.QASReward qasReward = new QASDetail.QASReward();
-                    qasReward.setResourceId(gameRewards.getResourceId());
-                    qasReward.setResourceQuantity(gameRewards.getResourceQuantity());
-                    qasReward.setResourceImage(GameResourceCaller.getResourcesImage(gameRewards.getResourceId()));
-                    qasRewards.add(qasReward);
-                }
+                List<QASDetail.QASReward> qasRewards = getQasRewards(taskData.getRewards());
 
                 // create the QASDetail
                 QASDetail qasDetail = new QASDetail();
@@ -751,7 +680,7 @@ public class DataFunctions {
                     return;
                 }
             }
-            inventory.setResourceData(null); // this must not be in the fb rtdb
+            inventory.setResourceData(null); // this must not be in the firebase real-time database
             firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/inventory/%d",
                     playerId, inventory.getResourceId()), inventory);
         });

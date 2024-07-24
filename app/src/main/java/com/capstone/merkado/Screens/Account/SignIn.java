@@ -9,21 +9,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedDispatcher;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
-import com.capstone.merkado.DataManager.ValueReturn.ReturnStatus;
-import com.capstone.merkado.DataManager.ValueReturn.ValueReturnWithStatus;
-import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -35,32 +27,26 @@ public class SignIn extends AppCompatActivity {
 
     private final ActivityResultLauncher<Intent> doSignUp = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK) {
-                        // if the result is okay, proceed to next screen
-                        goToMainMenu();
-                    } else if (result.getResultCode() == RESULT_CANCELED) {
-                        Toast.makeText(getApplicationContext(), "Sign up cancelled.", Toast.LENGTH_SHORT).show();
-                    }
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // if the result is okay, proceed to next screen
+                    goToMainMenu();
+                } else if (result.getResultCode() == RESULT_CANCELED) {
+                    Toast.makeText(getApplicationContext(), "Sign up cancelled.", Toast.LENGTH_SHORT).show();
                 }
             });
 
     private final ActivityResultLauncher<Intent> doPasswordReset = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK) {
-                        // if the result is okay, let user sign in with their new password.
-                        Toast.makeText(getApplicationContext(), "Password reset successful. Please sign in with your new password.", Toast.LENGTH_SHORT).show();
-                    } else if (result.getResultCode() == RESULT_CANCELED) {
-                        // continue to Sign In
-                        Toast.makeText(getApplicationContext(), "Password reset cancelled", Toast.LENGTH_SHORT).show();
-                    }
-
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // if the result is okay, let user sign in with their new password.
+                    Toast.makeText(getApplicationContext(), "Password reset successful. Please sign in with your new password.", Toast.LENGTH_SHORT).show();
+                } else if (result.getResultCode() == RESULT_CANCELED) {
+                    // continue to Sign In
+                    Toast.makeText(getApplicationContext(), "Password reset cancelled", Toast.LENGTH_SHORT).show();
                 }
+
             });
 
     @Override
@@ -97,11 +83,11 @@ public class SignIn extends AppCompatActivity {
             } else {
                 if (emailObj == null) {
                     // if emailObj is null, then the user should input the email
-                    emailWarning.setText("Input email!");
+                    emailWarning.setText(R.string.warning_input_email);
                     emailWarning.setVisibility(View.VISIBLE);
                 } else {
                     // if the emailObj is not null, then the password was not input.
-                    passwordWarning.setText("Input password!");
+                    passwordWarning.setText(R.string.warning_input_password);
                     passwordWarning.setVisibility(View.VISIBLE);
                 }
             }
@@ -140,11 +126,11 @@ public class SignIn extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     break;
                 case WRONG_EMAIL:
-                    emailWarning.setText("Email wasn't registered. Please sign up.");
+                    emailWarning.setText(R.string.warning_email_not_registered);
                     emailWarning.setVisibility(View.VISIBLE);
                     break;
                 case WRONG_PASSWORD:
-                    passwordWarning.setText("Incorrect password!");
+                    passwordWarning.setText(R.string.warning_incorrect_password);
                     passwordWarning.setVisibility(View.VISIBLE);
                     break;
                 case SUCCESS:
@@ -165,7 +151,6 @@ public class SignIn extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Problem encountered. Try signing in later.", Toast.LENGTH_SHORT).show();
             return;
         }
-        DataFunctions.getEconomyBasic(merkado.getAccount(), economyBasicList -> merkado.setEconomyBasicList(economyBasicList));
         setResult(Activity.RESULT_OK);
         finish();
     }

@@ -1,7 +1,7 @@
 package com.capstone.merkado.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.capstone.merkado.Objects.ServerDataObjects.EconomyBasic;
+import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.R;
 
 import java.util.List;
 import java.util.Locale;
 
+@SuppressLint("NotifyDataSetChanged")
 public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.EconomiesAdapterViewer> {
     Context context;
-    List<EconomyBasic> economyBasicList;
+    List<BasicServerData> basicServerDataList;
     OnClickListener onClick;
 
-    public EconomiesAdapter(Context context, List<EconomyBasic> economyBasicList) {
+    public EconomiesAdapter(Context context, List<BasicServerData> basicServerDataList) {
         this.context = context;
-        this.economyBasicList = economyBasicList;
+        this.basicServerDataList = basicServerDataList;
     }
 
     @NonNull
@@ -37,13 +38,13 @@ public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.Econ
 
     @Override
     public void onBindViewHolder(@NonNull EconomiesAdapterViewer holder, int position) {
-        EconomyBasic economyBasic = economyBasicList.get(position);
-        holder.bind(context, economyBasic, position, onClick);
+        BasicServerData basicServerData = basicServerDataList.get(position);
+        holder.bind(context, basicServerData, onClick);
     }
 
     @Override
     public int getItemCount() {
-        return economyBasicList.size();
+        return basicServerDataList.size();
     }
 
     public static class EconomiesAdapterViewer extends RecyclerView.ViewHolder {
@@ -59,17 +60,27 @@ public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.Econ
             this.itemView = itemView;
         }
 
-        public void bind(Context context, EconomyBasic economyBasic, int position, OnClickListener onClick) {
+        public void bind(Context context, BasicServerData basicServerData, OnClickListener onClick) {
             // set the data
-            serverName.setText(economyBasic.getTitle());
-            playersOnline.setText(String.format(Locale.getDefault(), "%d player%s online", economyBasic.getPlayersOnline(), economyBasic.getPlayersOnline() <= 1 ? "" : "s"));
-            if (economyBasic.getImage() == null) {
+            serverName.setText(basicServerData.getName());
+            playersOnline.setText(
+                    String.format(Locale.getDefault(), "%d player%s online",
+                            basicServerData.getOnlinePlayersCount(),
+                            basicServerData.getOnlinePlayersCount() <= 1 ? "" : "s"));
+            if (basicServerData.getImage() == null) {
                 serverImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_earth));
             }
 
             // set on click listener
-            itemView.setOnClickListener(v -> onClick.onClick(economyBasic.getTitle(), position, economyBasic.getPlayerId()));
+            itemView.setOnClickListener(v -> {
+                if (onClick != null) onClick.onClick(basicServerData);
+            });
         }
+    }
+
+    public void updateList(List<BasicServerData> basicServerDataList) {
+        this.basicServerDataList = basicServerDataList;
+        notifyDataSetChanged();
     }
 
     public void setOnClickListener(OnClickListener onClick) {
@@ -77,6 +88,6 @@ public class EconomiesAdapter extends RecyclerView.Adapter<EconomiesAdapter.Econ
     }
 
     public interface OnClickListener {
-        void onClick(String title, Integer id, Integer playerId);
+        void onClick(BasicServerData serverData);
     }
 }

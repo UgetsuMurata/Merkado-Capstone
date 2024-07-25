@@ -24,10 +24,10 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.PlayerMarketUpdates;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
-import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.R;
 
 import java.util.ArrayList;
@@ -143,7 +143,7 @@ public class StoreConsumerView extends AppCompatActivity {
     }
 
     private void setUpView(List<OnSale> onSaleList, ResourceDisplayMode resourceDisplayMode) {
-        if (onSaleList == null || onSaleList.size() == 0) {
+        if (onSaleList == null || onSaleList.isEmpty()) {
             onSaleList = new ArrayList<>();
         }
         List<OnSale> displayOnSale = filterSaleList(onSaleList, resourceDisplayMode);
@@ -151,7 +151,7 @@ public class StoreConsumerView extends AppCompatActivity {
         storeViewAdapter = new StoreViewAdapter(this, displayOnSale);
         itemList.setAdapter(storeViewAdapter);
         storeViewAdapter.setOnClickListener(this::setUpDetails);
-        if (displayOnSale.size() > 0) {
+        if (!displayOnSale.isEmpty()) {
             itemListEmpty.setVisibility(View.GONE);
             itemList.setVisibility(View.VISIBLE);
             setUpDetails(displayOnSale.get(0));
@@ -179,9 +179,8 @@ public class StoreConsumerView extends AppCompatActivity {
         itemDescriptionContainer.setVisibility(View.VISIBLE);
         itemDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
-        DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData -> {
-            runOnUiThread(() -> itemDescription.setText(resourceData.getDescription()));
-        });
+        DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData ->
+                runOnUiThread(() -> itemDescription.setText(resourceData.getDescription())));
         itemName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         int itemTypeResource = GameResourceCaller.getResourceTypeBackgrounds(onSale.getType());
@@ -230,7 +229,7 @@ public class StoreConsumerView extends AppCompatActivity {
 
         purchaseOverlayCancel.setOnClickListener(v -> {
             quantityChange(1);
-            currentOnSale = null;
+            purchaseOverlayQuantityButtonsMode = -1;
             purchaseOverlay.setVisibility(View.GONE);
         });
         purchaseOverlayConfirm.setOnClickListener(v -> {
@@ -313,10 +312,4 @@ public class StoreConsumerView extends AppCompatActivity {
         playerMarketUpdates.stopListener();
         merkado.setPlayerDataListener(null);
     }
-
-    /*
-     * TODO:
-     * [ ] Add the bought items to the buyer's inventory.
-     * [ ]
-     */
 }

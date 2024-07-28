@@ -209,10 +209,12 @@ public class Merkado extends Application {
         private PlayerDataListener<List<Inventory>> playerInventoryListener;
         private PlayerDataListener<List<PlayerTask>> playerTaskListener;
         private PlayerDataListener<List<PlayerStory>> playerStoryListener;
+        private PlayerDataListener<Integer> marketIdListener;
         private PlayerDataListener<FactoryData> playerFactoryListener;
         private Player player;
 
         public PlayerDataFunctions() {
+            this.player = new Player();
         }
 
         public void updatePlayer(Player player) {
@@ -227,6 +229,8 @@ public class Merkado extends Application {
                 playerTaskListener.update(player.getPlayerTaskList());
             if (this.playerStoryListener != null)
                 playerStoryListener.update(player.getPlayerStoryList());
+            if (this.marketIdListener != null)
+                marketIdListener.update(player.getMarketId());
             if (this.playerFactoryListener != null)
                 playerFactoryListener.update(player.getFactory());
         }
@@ -249,6 +253,10 @@ public class Merkado extends Application {
 
         public void setPlayerStoryListener(PlayerDataListener<List<PlayerStory>> playerStoryListener) {
             this.playerStoryListener = playerStoryListener;
+        }
+
+        public void setPlayerMarketIdListener(PlayerDataListener<Integer> marketIdListener) {
+            this.marketIdListener = marketIdListener;
         }
 
         public void setPlayerFactoryListener(PlayerDataListener<FactoryData> playerFactoryListener) {
@@ -277,6 +285,10 @@ public class Merkado extends Application {
 
         public FactoryData getPlayerFactory() {
             return player.getFactory();
+        }
+
+        public Integer getPlayerMarketId() {
+            return player.getMarketId();
         }
 
         public interface PlayerDataListener<T> {

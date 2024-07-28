@@ -10,6 +10,7 @@ import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Player {
     private String accountId;
     private String server;
@@ -21,6 +22,19 @@ public class Player {
     private Integer marketId;
     private History history;
     private FactoryData factory;
+
+    public Player() {
+        this.accountId = "";
+        this.server = "";
+        this.money = 0F;
+        this.exp = 0L;
+        this.inventory = new ArrayList<>();
+        this.playerTaskList = new ArrayList<>();
+        this.playerStoryList = new ArrayList<>();
+        this.marketId = null;
+        this.history = null;
+        this.factory = null;
+    }
 
     /**
      * Converts the Firebase extractor for player data into a workable data object. Note that PlayerTask and PlayerStory should be put manually.

@@ -1,11 +1,14 @@
 package com.capstone.merkado.Screens.Game;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -17,7 +20,9 @@ import androidx.core.content.ContextCompat;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
 import com.capstone.merkado.R;
@@ -28,16 +33,18 @@ import com.capstone.merkado.Screens.Game.Sectors.Factory;
 import com.capstone.merkado.Screens.Game.Store.StoreSellerView;
 import com.capstone.merkado.Screens.Game.Store.Stores;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.Objects;
 
 public class MainMap extends AppCompatActivity {
 
     Merkado merkado;
-    CardView inventoryNav, questAndStoriesNav, factoriesNav, storeLock, factoryLock;
+    CardView inventoryNav, questAndStoriesNav, factoriesNav;
     ImageView storesNav, myStore, myFactory;
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
+    OpenStorePopup openStorePopup;
 
     // VARIABLES
     Long playerExp;
@@ -80,8 +87,8 @@ public class MainMap extends AppCompatActivity {
         playerLevelView = findViewById(R.id.player_level);
         myStore = findViewById(R.id.my_store);
         myFactory = findViewById(R.id.my_factory);
-        storeLock = findViewById(R.id.store_lock);
-        factoryLock = findViewById(R.id.factory_lock);
+        openStorePopup = new OpenStorePopup(this, findViewById(R.id.layout_open_store_popup), true);
+        openStorePopup.hide();
 
         // onBackPressed
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -123,12 +130,29 @@ public class MainMap extends AppCompatActivity {
         }
         updatePlayerLevelView(playerExp);
         merkado.getPlayerData().setPlayerExpListener(this::updatePlayerLevelView);
+        merkado.getPlayerData().setPlayerMarketIdListener(this::updateMarketView);
     }
 
     private void setupPlayerBalanceView() {
         this.playerMoney = merkado.getPlayerData().getPlayerMoney();
         updatePlayerBalanceView(this.playerMoney);
         merkado.getPlayerData().setPlayerMoneyListener(this::updatePlayerBalanceView);
+    }
+
+    private void updateMarketView(Integer marketId) {
+        myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                R.drawable.icon_store_closed));
+        if (playerLevel < 3) return;
+        if (marketId == null) {
+            myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                    R.drawable.icon_store_vacant));
+            myStore.setOnClickListener(v -> openStore());
+        } else {
+            myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                    R.drawable.icon_store_open));
+            myStore.setOnClickListener(v ->
+                    refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
+        }
     }
 
     private void updatePlayerLevelView(Long exp) {
@@ -159,15 +183,29 @@ public class MainMap extends AppCompatActivity {
             });
         }
         if (playerLevel >= 3) {
-            myStore.setOnClickListener(v -> refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
+            if (merkado.getPlayerData().getPlayerMarketId() == null) {
+                myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.icon_store_vacant));
+                myStore.setOnClickListener(v -> openStore());
+            } else {
+                myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.icon_store_open));
+                myStore.setOnClickListener(v ->
+                        refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
+            }
             factoriesNav.setOnClickListener(v ->
                     refreshAfterIntent.launch(new Intent(getApplicationContext(), Factories.class))
             );
-            storeLock.setVisibility(View.GONE);
         }
         if (playerLevel >= 4) {
-            myFactory.setOnClickListener(v -> sendFactoryIntent());
-            factoryLock.setVisibility(View.GONE);
+            if (merkado.getPlayerData().getPlayerFactory() == null)
+                myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.icon_factory_vacant));
+            else {
+                myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.icon_factory_open));
+                myFactory.setOnClickListener(v -> sendFactoryIntent());
+            }
         }
     }
 
@@ -176,8 +214,81 @@ public class MainMap extends AppCompatActivity {
         factoriesNav.setOnClickListener(null);
         myStore.setOnClickListener(null);
         myFactory.setOnClickListener(null);
-        storeLock.setVisibility(View.VISIBLE);
-        factoryLock.setVisibility(View.VISIBLE);
+        myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                R.drawable.icon_factory_closed));
+        myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                R.drawable.icon_store_closed));
+    }
+
+    private void openStore() {
+        openStorePopup.show();
+        openStorePopup.setButtonListener(new OpenStorePopup.ButtonListener() {
+            @Override
+            public void onConfirm() {
+                StoreDataFunctions.setUpStore(merkado.getPlayer().getServer(),
+                        merkado.getPlayerId(),
+                        merkado.getAccount().getUsername());
+                openStorePopup.hide();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getApplicationContext(), "Store not claimed.", Toast.LENGTH_SHORT).show();
+                openStorePopup.hide();
+            }
+        });
+    }
+
+    private static class OpenStorePopup {
+        MaterialCardView master;
+        ButtonListener buttonListener;
+
+        Context context;
+        TextView popUpText;
+
+        public OpenStorePopup(Context context, MaterialCardView master, Boolean firstTime) {
+            this.master = master;
+            this.context = context;
+            popUpText = master.findViewById(R.id.store_setup_message);
+            WoodenButton confirmButton = master.findViewById(R.id.store_setup_confirm);
+            TextView cancelButton = master.findViewById(R.id.store_setup_cancel);
+
+            isFirstTime(firstTime);
+
+            confirmButton.setOnClickListener(v -> {
+                if (buttonListener != null)
+                    buttonListener.onConfirm();
+            });
+
+            cancelButton.setOnClickListener(v -> {
+                if (buttonListener != null)
+                    buttonListener.onCancel();
+            });
+        }
+
+        public void hide() {
+            master.setVisibility(View.GONE);
+        }
+
+        public void show() {
+            master.setVisibility(View.VISIBLE);
+        }
+
+        public void isFirstTime(Boolean firstTime) {
+            popUpText.setText(ContextCompat.getString(context, firstTime ?
+                    R.string.open_store_popup_first_time :
+                    R.string.open_store_popup));
+        }
+
+        public void setButtonListener(ButtonListener buttonListener) {
+            this.buttonListener = buttonListener;
+        }
+
+        public interface ButtonListener {
+            void onConfirm();
+
+            void onCancel();
+        }
     }
 
     @Override

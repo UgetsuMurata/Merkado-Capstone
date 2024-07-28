@@ -15,6 +15,9 @@
     <string name="qasListEmpty">You have no %s today!</string>
 
     <!--STORE STRING VALUES-->
+    <string name="open_store_popup_header">Store Setup</string>
+    <string name="open_store_popup_first_time">Greetings, Merkadian! A prime market stall has just become available, and it\'s calling your name! Claim it now, start your shop, and pave your way to success!</string>
+    <string name="open_store_popup">Greetings, Merkadian! Your old market stall is still available and calling you back! Claiming it now will temporarily close your factory. Weigh your options and choose the path that best fits your town\'s needs!</string>
     <string name="storeItemListEmptySeller">You\'re not selling any%s. Add some!</string>
     <string name="storeItemListEmptyConsumer">No %s being sold today!</string>
 

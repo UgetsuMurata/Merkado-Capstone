@@ -66,9 +66,9 @@ public class StoreViewAdapter extends RecyclerView.Adapter<StoreViewAdapter.Stor
         }
 
         public void bind(Activity activity, OnSale onSale, OnClickListener onClickListener) {
-            DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData -> {
-                activity.runOnUiThread(() -> itemName.setText(resourceData.getName()));
-            });
+            DataFunctions.getResourceData(activity, onSale.getResourceId())
+                    .thenAccept(resourceData ->
+                            activity.runOnUiThread(() -> itemName.setText(resourceData.getName())));
 
             int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
             itemImage.setImageDrawable(ContextCompat.getDrawable(activity.getApplicationContext(), itemImageResource));

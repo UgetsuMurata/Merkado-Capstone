@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
+import com.capstone.merkado.Objects.StoresDataObjects.Market;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
@@ -19,7 +20,7 @@ public class Player {
     private List<Inventory> inventory;
     private List<PlayerTask> playerTaskList;
     private List<PlayerStory> playerStoryList;
-    private Integer marketId;
+    private Market market;
     private History history;
     private FactoryData factory;
 
@@ -31,7 +32,7 @@ public class Player {
         this.inventory = new ArrayList<>();
         this.playerTaskList = new ArrayList<>();
         this.playerStoryList = new ArrayList<>();
-        this.marketId = null;
+        this.market = null;
         this.history = null;
         this.factory = null;
     }
@@ -48,7 +49,7 @@ public class Player {
         this.exp = playerFBExtractor.getExp();
         this.inventory = playerFBExtractor.getInventory();
         this.history = playerFBExtractor.getHistory();
-        this.marketId = playerFBExtractor.getMarketId();
+        this.market = playerFBExtractor.getMarket();
         this.factory = playerFBExtractor.getFactory();
     }
 
@@ -60,7 +61,7 @@ public class Player {
         this.history = playerFBExtractor.getHistory();
         this.inventory = new ArrayList<>(playerFBExtractor.getInventory().values());
         this.exp = playerFBExtractor.getExp();
-        this.marketId = playerFBExtractor.getMarketId();
+        this.market = playerFBExtractor.getMarket();
         this.factory = playerFBExtractor.getFactory();
     }
 
@@ -120,12 +121,12 @@ public class Player {
         this.playerStoryList = playerStoryList;
     }
 
-    public Integer getMarketId() {
-        return marketId;
+    public Market getMarket() {
+        return market;
     }
 
-    public void setMarketId(Integer marketId) {
-        this.marketId = marketId;
+    public void setMarket(Market market) {
+        this.market = market;
     }
 
     public History getHistory() {

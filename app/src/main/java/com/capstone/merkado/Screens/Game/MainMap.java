@@ -22,12 +22,16 @@ import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
 import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
+import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
+import com.capstone.merkado.Objects.StoresDataObjects.Market;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Inventory.InventoryActivity;
 import com.capstone.merkado.Screens.Game.QuestAndStories.QuestAndStories;
+import com.capstone.merkado.Screens.Game.Sectors.ChooseSector;
 import com.capstone.merkado.Screens.Game.Sectors.Factories;
 import com.capstone.merkado.Screens.Game.Sectors.Factory;
 import com.capstone.merkado.Screens.Game.Store.StoreSellerView;
@@ -45,6 +49,7 @@ public class MainMap extends AppCompatActivity {
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
     OpenStorePopup openStorePopup;
+    OpenFactoryPopup openFactoryPopup;
 
     // VARIABLES
     Long playerExp;
@@ -87,8 +92,17 @@ public class MainMap extends AppCompatActivity {
         playerLevelView = findViewById(R.id.player_level);
         myStore = findViewById(R.id.my_store);
         myFactory = findViewById(R.id.my_factory);
-        openStorePopup = new OpenStorePopup(this, findViewById(R.id.layout_open_store_popup), true);
+        openStorePopup = new OpenStorePopup(this, findViewById(R.id.layout_open_store_popup),
+                merkado.getPlayerData().getPlayerMarket() == null ||
+                        !merkado.getPlayerData().getPlayerMarket().getHadMarket());
+        openFactoryPopup = new OpenFactoryPopup(this, findViewById(R.id.layout_open_factory_popup),
+                merkado.getPlayerData().getPlayerFactory() == null);
         openStorePopup.hide();
+        openFactoryPopup.hide();
+
+        // update features
+        merkado.getPlayerData().setPlayerMarketIdListener(this::updateMarketView);
+        merkado.getPlayerData().setPlayerFactoryListener(this::updateFactoryView);
 
         // onBackPressed
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -112,10 +126,9 @@ public class MainMap extends AppCompatActivity {
     private void sendFactoryIntent() {
         DataFunctions.getFactoryData(merkado.getPlayerId()).thenAccept(factoryData -> {
             FactoryTypes factoryTypes = "FOOD".equals(factoryData.getFactoryType()) ?
-                    FactoryTypes.FOOD : FactoryTypes.INDUSTRIAL;
+                    FactoryTypes.FOOD : FactoryTypes.MANUFACTURING;
             Intent intent = new Intent(getApplicationContext(), Factory.class);
             intent.putExtra("FACTORY_DETAILS", factoryData.getDetails());
-            intent.putExtra("FACTORY_ID", factoryData.getFactoryId());
             intent.putExtra("FACTORY_TYPE", factoryTypes);
             refreshAfterIntent.launch(intent);
         });
@@ -130,7 +143,6 @@ public class MainMap extends AppCompatActivity {
         }
         updatePlayerLevelView(playerExp);
         merkado.getPlayerData().setPlayerExpListener(this::updatePlayerLevelView);
-        merkado.getPlayerData().setPlayerMarketIdListener(this::updateMarketView);
     }
 
     private void setupPlayerBalanceView() {
@@ -139,11 +151,11 @@ public class MainMap extends AppCompatActivity {
         merkado.getPlayerData().setPlayerMoneyListener(this::updatePlayerBalanceView);
     }
 
-    private void updateMarketView(Integer marketId) {
+    private void updateMarketView(Market market) {
         myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 R.drawable.icon_store_closed));
         if (playerLevel < 3) return;
-        if (marketId == null) {
+        if (market == null || market.getId() == null) {
             myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                     R.drawable.icon_store_vacant));
             myStore.setOnClickListener(v -> openStore());
@@ -153,6 +165,27 @@ public class MainMap extends AppCompatActivity {
             myStore.setOnClickListener(v ->
                     refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
         }
+        openStorePopup.isFirstTime(market == null || !market.getHadMarket());
+    }
+
+    private void updateFactoryView(FactoryData factoryData) {
+        myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                R.drawable.icon_factory_closed));
+        if (playerLevel < 4) return;
+        if (merkado.getPlayerData().getPlayerFactory() == null ||
+                merkado.getPlayerData().getPlayerFactory().getFactoryMarketId() == null) {
+            myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                    R.drawable.icon_factory_vacant));
+            myFactory.setOnClickListener(v -> openFactory());
+        } else {
+            myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                    R.drawable.icon_factory_open));
+            if (factoryData.getFactoryType() == null)
+                myFactory.setOnClickListener(v ->
+                        startActivity(new Intent(getApplicationContext(), ChooseSector.class)));
+            else myFactory.setOnClickListener(v -> sendFactoryIntent());
+        }
+        openStorePopup.isFirstTime(factoryData == null);
     }
 
     private void updatePlayerLevelView(Long exp) {
@@ -183,9 +216,10 @@ public class MainMap extends AppCompatActivity {
             });
         }
         if (playerLevel >= 3) {
-            if (merkado.getPlayerData().getPlayerMarketId() == null) {
+            if (merkado.getPlayerData().getPlayerMarket() == null) {
                 myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                         R.drawable.icon_store_vacant));
+                openStorePopup.isFirstTime(true);
                 myStore.setOnClickListener(v -> openStore());
             } else {
                 myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
@@ -225,9 +259,14 @@ public class MainMap extends AppCompatActivity {
         openStorePopup.setButtonListener(new OpenStorePopup.ButtonListener() {
             @Override
             public void onConfirm() {
-                StoreDataFunctions.setUpStore(merkado.getPlayer().getServer(),
+                StoreDataFunctions.setUpStore(
+                        merkado.getPlayer().getServer(),
                         merkado.getPlayerId(),
-                        merkado.getAccount().getUsername());
+                        merkado.getAccount().getUsername(),
+                        merkado.getPlayer().getFactory() != null ?
+                                merkado.getPlayer().getFactory().getFactoryMarketId() :
+                                null);
+                Toast.makeText(getApplicationContext(), "Store claimed.", Toast.LENGTH_SHORT).show();
                 openStorePopup.hide();
             }
 
@@ -235,6 +274,29 @@ public class MainMap extends AppCompatActivity {
             public void onCancel() {
                 Toast.makeText(getApplicationContext(), "Store not claimed.", Toast.LENGTH_SHORT).show();
                 openStorePopup.hide();
+            }
+        });
+    }
+
+    private void openFactory() {
+        openFactoryPopup.show();
+        openFactoryPopup.setButtonListener(new OpenFactoryPopup.ButtonListener() {
+            @Override
+            public void onConfirm() {
+                FactoryDataFunctions.setUpFactory(
+                        merkado.getPlayer().getServer(),
+                        merkado.getPlayerId(),
+                        merkado.getAccount().getUsername(),
+                        merkado.getPlayer().getMarket().getId()
+                );
+                Toast.makeText(getApplicationContext(), "Factory claimed.", Toast.LENGTH_SHORT).show();
+                openFactoryPopup.hide();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getApplicationContext(), "Factory not opened.", Toast.LENGTH_SHORT).show();
+                openFactoryPopup.hide();
             }
         });
     }
@@ -278,6 +340,58 @@ public class MainMap extends AppCompatActivity {
             popUpText.setText(ContextCompat.getString(context, firstTime ?
                     R.string.open_store_popup_first_time :
                     R.string.open_store_popup));
+        }
+
+        public void setButtonListener(ButtonListener buttonListener) {
+            this.buttonListener = buttonListener;
+        }
+
+        public interface ButtonListener {
+            void onConfirm();
+
+            void onCancel();
+        }
+    }
+
+    private static class OpenFactoryPopup {
+        MaterialCardView master;
+        ButtonListener buttonListener;
+
+        Context context;
+        TextView popUpText;
+
+        public OpenFactoryPopup(Context context, MaterialCardView master, Boolean firstTime) {
+            this.master = master;
+            this.context = context;
+            popUpText = master.findViewById(R.id.factory_setup_message);
+            WoodenButton confirmButton = master.findViewById(R.id.factory_setup_confirm);
+            TextView cancelButton = master.findViewById(R.id.factory_setup_cancel);
+
+            isFirstTime(firstTime);
+
+            confirmButton.setOnClickListener(v -> {
+                if (buttonListener != null)
+                    buttonListener.onConfirm();
+            });
+
+            cancelButton.setOnClickListener(v -> {
+                if (buttonListener != null)
+                    buttonListener.onCancel();
+            });
+        }
+
+        public void hide() {
+            master.setVisibility(View.GONE);
+        }
+
+        public void show() {
+            master.setVisibility(View.VISIBLE);
+        }
+
+        public void isFirstTime(Boolean firstTime) {
+            popUpText.setText(ContextCompat.getString(context, firstTime ?
+                    R.string.open_factory_popup_first_time :
+                    R.string.open_factory_popup));
         }
 
         public void setButtonListener(ButtonListener buttonListener) {

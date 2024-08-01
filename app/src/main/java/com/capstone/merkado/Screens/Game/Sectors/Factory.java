@@ -86,15 +86,18 @@ public class Factory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gam_sec_factory);
 
-        if (!getIntent().hasExtra("FACTORY_DETAILS")) {
-            Toast.makeText(getApplicationContext(), "An error occurred. Please try again.", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        factoryDetails = getIntent().getParcelableExtra("FACTORY_DETAILS");
-        isFoodFactory = getIntent().getSerializableExtra("FACTORY_TYPE") == FactoryTypes.FOOD;
-
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
+
+        if (merkado.getPlayerData().getPlayerFactory() == null ||
+                merkado.getPlayerData().getPlayerFactory().getFactoryMarketId() == null) {
+            Toast.makeText(getApplicationContext(), "Cannot find factory ID. Please check if you claimed one.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        factoryDetails = merkado.getPlayerData().getPlayerFactory().getDetails();
+        isFoodFactory = Objects.equals(merkado.getPlayerData().getPlayerFactory().getFactoryType(),
+                FactoryTypes.FOOD.toString());
 
         idleClickerRes = isFoodFactory ?
                 R.drawable.gui_farming_scythe_idle :
@@ -129,7 +132,7 @@ public class Factory extends AppCompatActivity {
 
         clicker.setOnClickListener(v -> generateResource());
 
-        DataFunctions.getFactoryChoices(isFoodFactory ? FactoryTypes.FOOD : FactoryTypes.INDUSTRIAL)
+        DataFunctions.getFactoryChoices(isFoodFactory ? FactoryTypes.FOOD : FactoryTypes.MANUFACTURING)
                 .thenAccept(this::updateResourceList);
         factoryDataUpdates = new FactoryDataUpdates(merkado.getPlayerId());
         factoryDataUpdates.startListener(this::updateFactoryDetails);
@@ -247,7 +250,9 @@ public class Factory extends AppCompatActivity {
 
     private void saveAddedResource() {
         if (addedResource == 0) return;
-        DataFunctions.addFactoryProducts(merkado.getPlayer().getServer(),
+        DataFunctions.addFactoryProducts(
+                getApplicationContext(),
+                merkado.getPlayer().getServer(),
                 merkado.getPlayer().getFactory().getFactoryMarketId(),
                 currentResourceData.getResourceId(),
                 ((long) addedResource)

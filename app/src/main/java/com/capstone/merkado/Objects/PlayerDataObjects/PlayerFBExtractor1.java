@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
+import com.capstone.merkado.Objects.StoresDataObjects.Market;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Player data parser for Firebase.
  */
+@SuppressWarnings("unused")
 public class PlayerFBExtractor1 {
     private String accountId;
     private String server;
@@ -19,7 +21,7 @@ public class PlayerFBExtractor1 {
     private List<Inventory> inventory;
     private List<TaskQueue> taskQueue;
     private List<StoryQueue> storyQueue;
-    private Integer marketId;
+    private Market market;
     private History history;
     private FactoryData factory;
 
@@ -34,10 +36,10 @@ public class PlayerFBExtractor1 {
         this.money = playerFBExtractor2.getMoney();
         this.exp = playerFBExtractor2.getExp();
         this.inventory = new ArrayList<>(playerFBExtractor2.getInventory().values());
+        this.market = playerFBExtractor2.getMarket();
         this.taskQueue = playerFBExtractor2.getTaskQueue();
         this.storyQueue = playerFBExtractor2.getStoryQueue();
         this.history = playerFBExtractor2.getHistory();
-        this.marketId = playerFBExtractor2.getMarketId();
         this.factory = playerFBExtractor2.getFactory();
     }
 
@@ -98,12 +100,12 @@ public class PlayerFBExtractor1 {
         this.storyQueue = storyQueue;
     }
 
-    public Integer getMarketId() {
-        return marketId;
+    public Market getMarket() {
+        return market;
     }
 
-    public void setMarketId(Integer marketId) {
-        this.marketId = marketId;
+    public void setMarket(Market market) {
+        this.market = market;
     }
 
     public History getHistory() {

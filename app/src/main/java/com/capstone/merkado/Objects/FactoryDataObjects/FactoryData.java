@@ -5,9 +5,9 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+@SuppressWarnings("unused")
 public class FactoryData implements Parcelable {
     String factoryType;
-    Integer factoryId;
     Integer factoryMarketId;
     FactoryDetails details;
 
@@ -20,14 +20,6 @@ public class FactoryData implements Parcelable {
 
     public void setFactoryType(String factoryType) {
         this.factoryType = factoryType;
-    }
-
-    public Integer getFactoryId() {
-        return factoryId;
-    }
-
-    public void setFactoryId(Integer factoryId) {
-        this.factoryId = factoryId;
     }
 
     public Integer getFactoryMarketId() {
@@ -49,9 +41,9 @@ public class FactoryData implements Parcelable {
     protected FactoryData(Parcel in) {
         factoryType = in.readString();
         if (in.readByte() == 0) {
-            factoryId = null;
+            factoryMarketId = null;
         } else {
-            factoryId = in.readInt();
+            factoryMarketId = in.readInt();
         }
         details = in.readParcelable(FactoryDetails.class.getClassLoader());
     }
@@ -59,11 +51,11 @@ public class FactoryData implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(factoryType);
-        if (factoryId == null) {
+        if (factoryMarketId == null) {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-            dest.writeInt(factoryId);
+            dest.writeInt(factoryMarketId);
         }
         dest.writeParcelable(details, flags);
     }

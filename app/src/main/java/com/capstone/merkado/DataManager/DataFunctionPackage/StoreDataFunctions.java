@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class StoreDataFunctions {
 
-    public static void setUpStore(String server, Integer playerId, String username) {
+    public static void setUpStore(String server, Integer playerId, String username, Integer factoryId) {
         // create PlayerMarkets object
         PlayerMarkets playerMarkets = new PlayerMarkets();
         playerMarkets.setMarketOwner(playerId);
@@ -34,15 +34,30 @@ public class StoreDataFunctions {
             }
             createMarket(server, playerId, i, playerMarkets);
         });
+
+        if (factoryId != null) FactoryDataFunctions.removeFactory(server, playerId, factoryId);
     }
 
-    private static void createMarket(String server, Integer playerId, Integer index, PlayerMarkets playerMarkets){
+    private static void createMarket(String server, Integer playerId, Integer index, PlayerMarkets playerMarkets) {
         FirebaseData firebaseData = new FirebaseData();
         playerMarkets.setMarketId(index);
         firebaseData.setValue(
-                String.format(Locale.getDefault(), "player/%d/marketId", playerId), index);
+                String.format(Locale.getDefault(), "player/%d/market/id", playerId), index);
+        firebaseData.setValue(
+                String.format(Locale.getDefault(), "player/%d/market/hadMarket", playerId), true);
         firebaseData.setValue(
                 String.format(Locale.getDefault(), "server/%s/market/playerMarkets/%d", server, index), playerMarkets);
+    }
 
+    public static void removeMarket(String serverId, Integer playerId, Integer marketId) {
+        FirebaseData firebaseData = new FirebaseData();
+
+        firebaseData.removeData(
+                String.format(Locale.getDefault(), "player/%d/market/id", playerId)
+        );
+        firebaseData.removeData(
+                String.format(Locale.getDefault(), "server/%s/market/playerMarkets/%d",
+                        serverId, marketId)
+        );
     }
 }

@@ -237,16 +237,17 @@ public class InventoryActivity extends AppCompatActivity {
         // if resource data are not yet retrieved, retrieve it and save it.
         if (inventory == null) noDetails();
         else if (inventory.getResourceData() == null) {
-            DataFunctions.getResourceData(inventory.getResourceId()).thenAccept(resourceData -> {
-                // retrieve and remove the inventory chosen
-                Inventory inv = inventoryList.get(index);
-                inventoryList.remove(inv);
+            DataFunctions.getResourceData(getApplicationContext(), inventory.getResourceId())
+                    .thenAccept(resourceData -> {
+                        // retrieve and remove the inventory chosen
+                        Inventory inv = inventoryList.get(index);
+                        inventoryList.remove(inv);
 
-                // add the new inventory data in the same index
-                inv.setResourceData(resourceData);
-                inventoryList.add(index, inv);
-                showDetails(inv);
-            });
+                        // add the new inventory data in the same index
+                        inv.setResourceData(resourceData);
+                        inventoryList.add(index, inv);
+                        showDetails(inv);
+                    });
         } else showDetails(inventory);
     }
 

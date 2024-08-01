@@ -2,6 +2,7 @@ package com.capstone.merkado.Objects.PlayerDataObjects;
 
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
+import com.capstone.merkado.Objects.StoresDataObjects.Market;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Player data parser for Firebase.
  */
+@SuppressWarnings("unused")
 public class PlayerFBExtractor2 {
     private String accountId;
     private String server;
@@ -18,7 +20,7 @@ public class PlayerFBExtractor2 {
     private List<PlayerFBExtractor1.TaskQueue> taskQueue;
     private List<PlayerFBExtractor1.StoryQueue> storyQueue;
     private History history;
-    private Integer marketId;
+    private Market market;
     private FactoryData factory;
 
     // No-argument constructor required for Firebase
@@ -90,12 +92,12 @@ public class PlayerFBExtractor2 {
         this.history = history;
     }
 
-    public Integer getMarketId() {
-        return marketId;
+    public Market getMarket() {
+        return market;
     }
 
-    public void setMarketId(Integer marketId) {
-        this.marketId = marketId;
+    public void setMarket(Market market) {
+        this.market = market;
     }
 
     public FactoryData getFactory() {

@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">Merkado</string>
 
+    <!--GENERAL USE-->
+    <string name="confirm">Confirm</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="sell">Sell</string>
+
     <!--INPUT WARNINGS-->
     <string name="warning_input_email">Input email!</string>
     <string name="warning_input_password">Input password!</string>
-    <string name="warning_email_not_registered">Email wasn\'t registered. Please sign up.</string>
+    <string name="warning_email_not_registered">Email was not registered. Please sign up.</string>
     <string name="warning_incorrect_password">Incorrect password!</string>
+    <string name="warning_this_item_cannot_be_sold">This item cannot be sold!</string>
 
     <!-- LOBBY STRING VALUES -->
     <string name="lobby_sign_in_requirement">Sign in to join economy</string>
@@ -20,5 +27,26 @@
     <string name="open_store_popup">Greetings, Merkadian! Your old market stall is still available and calling you back! Claiming it now will temporarily close your factory. Weigh your options and choose the path that best fits your town\'s needs!</string>
     <string name="storeItemListEmptySeller">You\'re not selling any%s. Add some!</string>
     <string name="storeItemListEmptyConsumer">No %s being sold today!</string>
+
+    <!--FACTORY STRING VALUES-->
+    <string name="open_factory_popup_header">Factory Setup</string>
+    <string name="open_factory_popup_first_time">Greetings, Merkadian! An empty factory is waiting for you to make it roar! Claim it now, start generating resources, and set yourself on the path to greatness!</string>
+    <string name="open_factory_popup">Greetings, Merkadian! Your factory is ready to roar back to life! Claiming it now will temporarily close your market stall. Weigh your options and choose the path that best fits your needs!</string>
+
+    <!--FACTORY CHOICE-->
+    <string name="choose_a_job">Choose a job</string>
+    <string name="food_factory">Food Factory</string>
+    <string name="manufacturing_factory">Manufacturing Factory</string>
+
+    <!--CONTENT DESCRIPTIONS-->
+    <string name="food_factory_bg">FOOD FACTORY BG</string>
+    <string name="manufacturing_factory_bg">MANUFACTURING FACTORY BG</string>
+    <string name="map_house">MAP HOUSE</string>
+    <string name="map_factory">MAP FACTORY</string>
+    <string name="map_store">MAP STORE</string>
+    <string name="inventory_icon">INVENTORY ICON</string>
+    <string name="qas_icon">QAS ICON</string>
+    <string name="factory_icon">FACTORY ICON</string>
+    <string name="store_icon">STORE ICON</string>
 
 </resources>

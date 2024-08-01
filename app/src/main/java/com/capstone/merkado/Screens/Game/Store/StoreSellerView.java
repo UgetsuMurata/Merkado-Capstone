@@ -89,7 +89,7 @@ public class StoreSellerView extends AppCompatActivity {
         currentBalance = findViewById(R.id.player_current_balance);
 
         player = merkado.getPlayer();
-        playerMarketUpdates = new PlayerMarketUpdates(player.getServer(), player.getMarketId());
+        playerMarketUpdates = new PlayerMarketUpdates(player.getServer(), player.getMarket().getId());
         playerMarketUpdates.startListener(playerMarkets -> {
             if (playerMarkets == null)
                 setPlayerMarkets(
@@ -185,7 +185,7 @@ public class StoreSellerView extends AppCompatActivity {
         lspItemCancel = layoutSellPopup.findViewById(R.id.item_cancel);
         lspItemUpdate = layoutSellPopup.findViewById(R.id.item_confirm);
 
-        lspItemUpdate.setText("Update");
+        lspItemUpdate.setText(R.string.update);
     }
 
     private void initializePlayerDataListener() {
@@ -209,7 +209,7 @@ public class StoreSellerView extends AppCompatActivity {
         storeViewAdapter = new StoreViewAdapter(this, displayOnSale);
         cItemList.setAdapter(storeViewAdapter);
         storeViewAdapter.setOnClickListener(this::setUpDetails);
-        if (displayOnSale.size() > 0) {
+        if (!displayOnSale.isEmpty()) {
             cItemListEmpty.setVisibility(View.GONE);
             cItemList.setVisibility(View.VISIBLE);
             setUpDetails(displayOnSale.get(0));
@@ -237,9 +237,9 @@ public class StoreSellerView extends AppCompatActivity {
         dDescriptionContainer.setVisibility(View.VISIBLE);
         dDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
-        DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData -> {
-            runOnUiThread(() -> dResourceDescription.setText(resourceData.getDescription()));
-        });
+        DataFunctions.getResourceData(getApplicationContext(), onSale.getResourceId())
+                .thenAccept(resourceData ->
+                        runOnUiThread(() -> dResourceDescription.setText(resourceData.getDescription())));
         dResourceName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         int itemTypeResource = GameResourceCaller.getResourceTypeBackgrounds(onSale.getType());
@@ -324,11 +324,10 @@ public class StoreSellerView extends AppCompatActivity {
                 lspItemQuantityAdd.setImageDrawable(
                         ContextCompat.getDrawable(getApplicationContext(),
                                 R.drawable.gui_general_plus_active));
-                addSubtractHandler.postDelayed(() -> {
-                    runOnUiThread(() -> lspItemQuantityAdd.setImageDrawable(
-                            ContextCompat.getDrawable(getApplicationContext(),
-                                    R.drawable.gui_general_plus_idle)));
-                }, 100);
+                addSubtractHandler.postDelayed(() ->
+                        runOnUiThread(() -> lspItemQuantityAdd.setImageDrawable(
+                                ContextCompat.getDrawable(getApplicationContext(),
+                                        R.drawable.gui_general_plus_idle))), 100);
             }
         });
         lspItemQuantitySubtract.setOnClickListener(v -> {
@@ -337,11 +336,10 @@ public class StoreSellerView extends AppCompatActivity {
                 lspItemQuantitySubtract.setImageDrawable(
                         ContextCompat.getDrawable(getApplicationContext(),
                                 R.drawable.gui_general_subtract_active));
-                addSubtractHandler.postDelayed(() -> {
-                    runOnUiThread(() -> lspItemQuantitySubtract.setImageDrawable(
-                            ContextCompat.getDrawable(getApplicationContext(),
-                                    R.drawable.gui_general_subtract_idle)));
-                }, 100);
+                addSubtractHandler.postDelayed(() ->
+                        runOnUiThread(() -> lspItemQuantitySubtract.setImageDrawable(
+                                ContextCompat.getDrawable(getApplicationContext(),
+                                        R.drawable.gui_general_subtract_idle))), 100);
             }
         });
         lspItemQuantitySlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

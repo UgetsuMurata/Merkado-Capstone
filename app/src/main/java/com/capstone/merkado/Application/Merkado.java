@@ -22,6 +22,7 @@ import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
+import com.capstone.merkado.Objects.StoresDataObjects.Market;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
@@ -209,7 +210,7 @@ public class Merkado extends Application {
         private PlayerDataListener<List<Inventory>> playerInventoryListener;
         private PlayerDataListener<List<PlayerTask>> playerTaskListener;
         private PlayerDataListener<List<PlayerStory>> playerStoryListener;
-        private PlayerDataListener<Integer> marketIdListener;
+        private PlayerDataListener<Market> marketIdListener;
         private PlayerDataListener<FactoryData> playerFactoryListener;
         private Player player;
 
@@ -230,7 +231,7 @@ public class Merkado extends Application {
             if (this.playerStoryListener != null)
                 playerStoryListener.update(player.getPlayerStoryList());
             if (this.marketIdListener != null)
-                marketIdListener.update(player.getMarketId());
+                marketIdListener.update(player.getMarket());
             if (this.playerFactoryListener != null)
                 playerFactoryListener.update(player.getFactory());
         }
@@ -255,7 +256,7 @@ public class Merkado extends Application {
             this.playerStoryListener = playerStoryListener;
         }
 
-        public void setPlayerMarketIdListener(PlayerDataListener<Integer> marketIdListener) {
+        public void setPlayerMarketIdListener(PlayerDataListener<Market> marketIdListener) {
             this.marketIdListener = marketIdListener;
         }
 
@@ -287,8 +288,8 @@ public class Merkado extends Application {
             return player.getFactory();
         }
 
-        public Integer getPlayerMarketId() {
-            return player.getMarketId();
+        public Market getPlayerMarket() {
+            return player.getMarket();
         }
 
         public interface PlayerDataListener<T> {

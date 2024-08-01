@@ -46,10 +46,12 @@
                     "task": 0 // This is task id. Schema on this might be updated later.
                 }
             ],
-            "marketId": 0, // market Id connected to the server.
+            "market": {
+                "id": 0, // market Id connected to the server.
+                "hadMarket": true
+            },
             "factory": { // factory details for chapter 4.
                 "factoryType": "FOOD | MANUFACTURING",
-                "factoryId": 1,
                 "factoryMarketId": 0,
                 "details": {
                     "energy": 150, // this is the amount of taps the player can do.

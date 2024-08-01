@@ -190,7 +190,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         lspItemCancel = layoutSellPopup.findViewById(R.id.item_cancel);
         lspItemSell = layoutSellPopup.findViewById(R.id.item_confirm);
 
-        lspItemSell.setText("Sell");
+        lspItemSell.setText(R.string.sell);
     }
 
     /**
@@ -270,7 +270,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         inventoryAdapter = new InventoryAdapter(this, mappedInventory);
         cInventoryList.setAdapter(inventoryAdapter);
 
-        if (mappedInventory.size() > 0) {
+        if (!mappedInventory.isEmpty()) {
             cInventoryListEmpty.setVisibility(View.GONE);
             cInventoryList.setVisibility(View.VISIBLE);
 
@@ -298,16 +298,17 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         // if resource data are not yet retrieved, retrieve it and save it.
         if (inventory == null) noDetails();
         else if (inventory.getResourceData() == null) {
-            DataFunctions.getResourceData(inventory.getResourceId()).thenAccept(resourceData -> {
-                // retrieve and remove the inventory chosen
-                Inventory inv = inventoryList.get(index);
-                inventoryList.remove(inv);
+            DataFunctions.getResourceData(getApplicationContext(), inventory.getResourceId())
+                    .thenAccept(resourceData -> {
+                        // retrieve and remove the inventory chosen
+                        Inventory inv = inventoryList.get(index);
+                        inventoryList.remove(inv);
 
-                // add the new inventory data in the same index
-                inv.setResourceData(resourceData);
-                inventoryList.add(index, inv);
-                showDetails(inv, index);
-            });
+                        // add the new inventory data in the same index
+                        inv.setResourceData(resourceData);
+                        inventoryList.add(index, inv);
+                        showDetails(inv, index);
+                    });
         } else showDetails(inventory, index);
     }
 
@@ -315,7 +316,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
      * This is where the displaying of data actually happens after verifying the inventory data.
      *
      * @param inventory inventory instance to be displayed.
-     * @param index
+     * @param index detail index.
      */
     private void showDetails(Inventory inventory, Integer index) {
         dDescriptionContainerEmpty.setVisibility(View.GONE);
@@ -335,8 +336,8 @@ public class StoreSellerSelectItem extends AppCompatActivity {
             else
                 Toast.makeText(getApplicationContext(), "This item cannot be sold!", Toast.LENGTH_SHORT).show();
         });
-        if (disabled) dSellButton.setText("This item cannot be sold!");
-        else dSellButton.setText("Sell");
+        if (disabled) dSellButton.setText(R.string.warning_this_item_cannot_be_sold);
+        else dSellButton.setText(R.string.sell);
     }
 
     /**
@@ -405,11 +406,10 @@ public class StoreSellerSelectItem extends AppCompatActivity {
                 lspItemQuantityAdd.setImageDrawable(
                         ContextCompat.getDrawable(getApplicationContext(),
                                 R.drawable.gui_general_plus_active));
-                addSubtractHandler.postDelayed(() -> {
-                    runOnUiThread(() -> lspItemQuantityAdd.setImageDrawable(
-                            ContextCompat.getDrawable(getApplicationContext(),
-                                    R.drawable.gui_general_plus_idle)));
-                }, 100);
+                addSubtractHandler.postDelayed(() ->
+                        runOnUiThread(() -> lspItemQuantityAdd.setImageDrawable(
+                                ContextCompat.getDrawable(getApplicationContext(),
+                                        R.drawable.gui_general_plus_idle))), 100);
             }
         });
         lspItemQuantitySubtract.setOnClickListener(v -> {
@@ -418,11 +418,10 @@ public class StoreSellerSelectItem extends AppCompatActivity {
                 lspItemQuantitySubtract.setImageDrawable(
                         ContextCompat.getDrawable(getApplicationContext(),
                                 R.drawable.gui_general_subtract_active));
-                addSubtractHandler.postDelayed(() -> {
-                    runOnUiThread(() -> lspItemQuantitySubtract.setImageDrawable(
-                            ContextCompat.getDrawable(getApplicationContext(),
-                                    R.drawable.gui_general_subtract_idle)));
-                }, 100);
+                addSubtractHandler.postDelayed(() ->
+                        runOnUiThread(() -> lspItemQuantitySubtract.setImageDrawable(
+                                ContextCompat.getDrawable(getApplicationContext(),
+                                        R.drawable.gui_general_subtract_idle))), 100);
             }
         });
         lspItemQuantitySlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -506,10 +505,8 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         if (inventoryList == null || inventoryList.size() <= key) return;
         Inventory inventory = inventoryList.get(key);
         int newQty = inventory.getQuantity() - removeQty;
-        if (newQty == 0) {
-            inventoryList.remove(inventory);
-        } else {
-            inventoryList.remove(inventory);
+        inventoryList.remove(inventory);
+        if (newQty != 0) {
             inventory.setQuantity(newQty);
             inventoryList.add(key, inventory);
         }

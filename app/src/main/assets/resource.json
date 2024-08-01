@@ -1,0 +1,67 @@
+[
+  {
+    "description": "Congratulations on joining [server_name]! As a proud citizen of our town, you now have the opportunity to contribute to our community's prosperity. Wear this badge with pride and help our economy thrive!",
+    "name": "Joining Badge",
+    "resourceId": 0,
+    "sellable": false,
+    "type": "COLLECTIBLE"
+  },
+  {
+    "description": "A quantifiable piece of experience that unlocks your way through the world of economics.",
+    "name": "Merkado Experience",
+    "resourceId": 1,
+    "sellable": false,
+    "type": "GAME MECHANICS"
+  },
+  {
+    "description": "A fine Filipino snack that is loved by many! It is a delicious dish made with saba in a lumpia wrapper, coated in brown sugar and is deep-fried. One is never enough! This snack gives you N energy points.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 0,
+      "proficiencyReward": 1
+    },
+    "name": "Turon",
+    "resourceId": 2,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "Gleaming remnants of a bygone age, these jagged metal scraps hold the whispers of past machinery. Collect enough of these scraps to upgrade your technology, crafting powerful tools that could turn the tide of your adventure!",
+    "factoryDefaults": {
+      "proficiencyRequirement": 0,
+      "proficiencyReward": 1
+    },
+    "name": "Metal Scraps",
+    "resourceId": 3,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "An aged, well-worn pendant once cherished by a loyal companion. The faint etching of a name now lost to time adds an air of mystery. Could this relic hold the key to uncovering forgotten bonds and tales of loyalty?",
+    "name": "Dog Collar Pendant",
+    "resourceId": 4,
+    "sellable": true,
+    "type": "COLLECTIBLE"
+  },
+  {
+    "description": "Delight in this traditional Filipino steamed rice cake, a sweet blend of rice flour, tapioca flour, and brown sugar. Often enjoyed with freshly grated coconut, this beloved snack grants you N energy points, fueling your journey with its irresistible charm!",
+    "factoryDefaults": {
+      "proficiencyRequirement": 50,
+      "proficiencyReward": 2
+    },
+    "name": "Kutsinta",
+    "resourceId": 5,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A rugged, well-used container brimming with the essentials for any tinkerer. Within its sturdy frame lies an assortment of tools, each with the potential to mend, create, and innovate. Unlock its potential to transform your simple ideas into grand inventions!",
+    "factoryDefaults": {
+      "proficiencyRequirement": 50,
+      "proficiencyReward": 2
+    },
+    "name": "Toolbox",
+    "resourceId": 6,
+    "sellable": true,
+    "type": "RESOURCE"
+  }
+]

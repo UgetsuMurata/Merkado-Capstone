@@ -156,8 +156,9 @@ public class FactoryConsumerView extends AppCompatActivity {
         itemDescriptionContainer.setVisibility(View.VISIBLE);
         itemDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
-        DataFunctions.getResourceDataById(onSale.getResourceId()).thenAccept(resourceData ->
-                runOnUiThread(() -> itemDescription.setText(resourceData.getDescription())));
+        DataFunctions.getResourceData(getApplicationContext(), onSale.getResourceId())
+                .thenAccept(resourceData ->
+                        runOnUiThread(() -> itemDescription.setText(resourceData.getDescription())));
         itemName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         int itemTypeResource = GameResourceCaller.getResourceTypeBackgrounds(onSale.getType());
@@ -172,7 +173,7 @@ public class FactoryConsumerView extends AppCompatActivity {
         itemDescriptionContainerEmpty.setVisibility(View.VISIBLE);
     }
 
-    private PlayerFactory processPlayerFactory(MarketStandardList marketStandardList, PlayerFactory playerFactory) {
+    private void processPlayerFactory(MarketStandardList marketStandardList, PlayerFactory playerFactory) {
         List<OnSale> onSaleList = playerFactory.getOnSale();
         List<OnSale> finalizedList = new ArrayList<>();
         for (OnSale onSale : onSaleList) {
@@ -182,7 +183,6 @@ public class FactoryConsumerView extends AppCompatActivity {
             finalizedList.add(onSale);
         }
         playerFactory.setOnSale(finalizedList);
-        return playerFactory;
     }
 
     private void buyItem(OnSale onSale, Integer onSaleId) {

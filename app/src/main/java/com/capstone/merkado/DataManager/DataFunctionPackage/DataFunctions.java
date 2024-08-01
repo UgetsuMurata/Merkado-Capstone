@@ -1,5 +1,6 @@
 package com.capstone.merkado.DataManager.DataFunctionPackage;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
+import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData.FactoryDetails;
@@ -239,9 +241,9 @@ public class DataFunctions {
         Map<String, Object> playerData = new HashMap<>();
         playerData.put("accountId", account.getEmail());
         playerData.put("exp", 0);
+        playerData.put("inventory", inventoryList);
         playerData.put("money", 2000);
         playerData.put("server", serverCode);
-        playerData.put("inventory", inventoryList);
         playerData.put("storyQueue", storyQueueList);
         return playerData;
     }
@@ -493,19 +495,6 @@ public class DataFunctions {
         return qasItemsMapping;
     }
 
-    public static CompletableFuture<ResourceData> getResourceDataById(Integer id) {
-        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
-        FirebaseData firebaseData = new FirebaseData();
-
-        firebaseData.retrieveData(String.format(Locale.getDefault(), "resource/%d", id),
-                future::complete);
-
-        return future.thenCompose(dataSnapshot -> {
-            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
-            return CompletableFuture.completedFuture(dataSnapshot.getValue(ResourceData.class));
-        });
-    }
-
     public static CompletableFuture<List<PlayerMarkets>> getAllPlayerMarkets(String serverId, Integer playerId) {
         CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
@@ -693,17 +682,12 @@ public class DataFunctions {
         );
     }
 
-    public static CompletableFuture<ResourceData> getResourceData(Integer resourceId) {
-        FirebaseData firebaseData = new FirebaseData();
-        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+    public static CompletableFuture<ResourceData> getResourceData(Context context, Integer resourceId) {
+        CompletableFuture<List<ResourceData>> future = new CompletableFuture<>();
+        JsonHelper.getResourceList(context, future::complete);
 
-        firebaseData.retrieveData(
-                String.format(Locale.getDefault(), "resource/%d", resourceId),
-                future::complete);
-
-        return future.thenCompose(dataSnapshot -> {
-            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
-            ResourceData resourceData = dataSnapshot.getValue(ResourceData.class);
+        return future.thenCompose(resourceDataList -> {
+            ResourceData resourceData = resourceDataList.get(resourceId);
             return CompletableFuture.completedFuture(resourceData);
         });
     }
@@ -723,7 +707,7 @@ public class DataFunctions {
     public static void sell(OnSale onSale, Player player, Integer playerId) {
         FirebaseData firebaseData = new FirebaseData();
 
-        getPlayerMarket(player.getServer(), player.getMarketId()).thenAccept(onSales -> {
+        getPlayerMarket(player.getServer(), player.getMarket().getId()).thenAccept(onSales -> {
             boolean existing = false; // for checking if a sale exists already.
             int index = -1; // for keeping track of the location of the onSale.
             OnSale onSaleCopy = new OnSale(); // for taking note of the existing onSale, in case it EXISTS.
@@ -746,7 +730,7 @@ public class DataFunctions {
                 onSaleCopy.setQuantity(qty);
                 firebaseData.setValue(String.format(Locale.getDefault(),
                         "server/%s/market/playerMarkets/%d/onSale/%d",
-                        player.getServer(), player.getMarketId(), index), onSaleCopy);
+                        player.getServer(), player.getMarket().getId(), index), onSaleCopy);
             } else {
                 // if it doesn't, add the new onSale among the existing sales. use index + 1 as its id.
                 onSale.setOnSaleId(index + 1);
@@ -754,11 +738,11 @@ public class DataFunctions {
                     onSales.add(onSale);
                     firebaseData.setValue(String.format(Locale.getDefault(),
                             "server/%s/market/playerMarkets/%d/onSale",
-                            player.getServer(), player.getMarketId()), onSales);
+                            player.getServer(), player.getMarket().getId()), onSales);
                 } else {
                     firebaseData.setValue(String.format(Locale.getDefault(),
                             "server/%s/market/playerMarkets/%d/onSale/0",
-                            player.getServer(), player.getMarketId()), onSale);
+                            player.getServer(), player.getMarket().getId()), onSale);
                 }
 
             }
@@ -782,7 +766,7 @@ public class DataFunctions {
 
     public static void editSale(OnSale onSale, Player player, Integer playerId) {
         FirebaseData firebaseData = new FirebaseData();
-        getPlayerMarket(player.getServer(), player.getMarketId()).thenAccept(onSales -> {
+        getPlayerMarket(player.getServer(), player.getMarket().getId()).thenAccept(onSales -> {
             OnSale onSaleTarget = null;
             for (OnSale onSaleItem : onSales) {
                 if (onSaleItem.getOnSaleId().equals(onSale.getOnSaleId())) {
@@ -801,16 +785,16 @@ public class DataFunctions {
                 finalOnSale.setQuantity(onSaleTarget.getQuantity() + onSale.getQuantity());
                 firebaseData.setValue(String.format(Locale.getDefault(),
                         "server/%s/market/playerMarkets/%d/onSale/%d",
-                        player.getServer(), player.getMarketId(), onSale.getOnSaleId()), finalOnSale);
+                        player.getServer(), player.getMarket().getId(), onSale.getOnSaleId()), finalOnSale);
             } else if (onSaleTarget.getQuantity() < onSale.getQuantity() * -1) {
                 onSale.setQuantity(onSaleTarget.getQuantity());
                 firebaseData.removeData(String.format(Locale.getDefault(),
                         "server/%s/market/playerMarkets/%d/onSale/%d",
-                        player.getServer(), player.getMarketId(), onSale.getOnSaleId()));
+                        player.getServer(), player.getMarket().getId(), onSale.getOnSaleId()));
             } else {
                 firebaseData.removeData(String.format(Locale.getDefault(),
                         "server/%s/market/playerMarkets/%d/onSale/%d",
-                        player.getServer(), player.getMarketId(), onSale.getOnSaleId()));
+                        player.getServer(), player.getMarket().getId(), onSale.getOnSaleId()));
             }
             getInventoryItem(playerId, onSale.getResourceId()).thenAccept(inventory -> {
                 if (inventory == null) {
@@ -844,7 +828,7 @@ public class DataFunctions {
             long currentIndex = dataSnapshot.getChildrenCount();
             playerMarkets.setMarketId(Math.toIntExact(currentIndex));
             firebaseData.setValue(String.format(Locale.getDefault(), "server/%s/market/playerMarkets/%d", server, currentIndex), playerMarkets);
-            firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/marketId", playerId), currentIndex);
+            firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/market/id", playerId), currentIndex);
         });
 
         return playerMarkets;
@@ -1037,7 +1021,7 @@ public class DataFunctions {
                 .filter(rd -> {
                     if (rd == null) return false;
                     return type == FactoryTypes.FOOD && "EDIBLE".equalsIgnoreCase(rd.getType()) ||
-                            type == FactoryTypes.INDUSTRIAL && "RESOURCE".equalsIgnoreCase(rd.getType());
+                            type == FactoryTypes.MANUFACTURING && "RESOURCE".equalsIgnoreCase(rd.getType());
                 })
                 .collect(Collectors.toList());
     }
@@ -1071,7 +1055,7 @@ public class DataFunctions {
         firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/factory/details", playerId), factoryDetails);
     }
 
-    public static void addFactoryProducts(String serverId, Integer factoryMarketId, Integer resourceId, Long quantity) {
+    public static void addFactoryProducts(Context context, String serverId, Integer factoryMarketId, Integer resourceId, Long quantity) {
         FirebaseData firebaseData = new FirebaseData();
         String childPath = String.format(Locale.getDefault(),
                 "server/%s/market/playerFactory/%d/onSale", serverId, factoryMarketId);
@@ -1092,7 +1076,7 @@ public class DataFunctions {
                 }
                 onSaleList.add(onSale);
             }
-            getResourceData(resourceId).thenAccept(resourceData -> {
+            getResourceData(context, resourceId).thenAccept(resourceData -> {
                 if (resourceData == null) return;
                 OnSale newOnSale = new OnSale();
                 newOnSale.setOnSaleId(onSaleList.size());

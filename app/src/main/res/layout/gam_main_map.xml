@@ -62,6 +62,7 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/map_house"
             android:src="@drawable/icon_house"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/house_icon_end"
@@ -97,8 +98,9 @@
                 android:id="@+id/my_factory"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:src="@drawable/icon_factory_closed"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/map_factory"
+                android:src="@drawable/icon_factory_closed"
                 app:layout_constraintBottom_toBottomOf="@id/factory_icon_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/factory_icon_start"
@@ -133,6 +135,7 @@
                     android:id="@+id/my_store"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:contentDescription="@string/map_store"
                     android:src="@drawable/icon_store_closed"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/store_icon_end"
@@ -141,8 +144,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--STORE ICON-->
 
     <!--BOTTOM NAVIGATION BUTTONS-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,6 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/inventory_icon"
                 android:src="@drawable/icon_inventory" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -185,6 +187,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/qas_icon"
                 android:src="@drawable/icon_book" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -203,6 +206,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/factory_icon"
                 android:src="@drawable/icon_factory" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -211,18 +215,33 @@
             android:layout_width="68dp"
             android:layout_height="68dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/store_icon"
             android:src="@drawable/gui_gamemap_stores_idle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--POP UPS-->
     <include
         android:id="@+id/layout_open_store_popup"
         layout="@layout/layout_open_store_popup"
         android:layout_width="300dp"
         android:layout_height="180dp"
         android:elevation="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/layout_open_factory_popup"
+        layout="@layout/layout_open_factory_popup"
+        android:layout_width="300dp"
+        android:layout_height="180dp"
+        android:elevation="100dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

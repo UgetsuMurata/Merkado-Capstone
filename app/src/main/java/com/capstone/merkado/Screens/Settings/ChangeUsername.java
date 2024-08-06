@@ -1,17 +1,16 @@
 package com.capstone.merkado.Screens.Settings;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Helpers.StringVerifier;
 import com.capstone.merkado.Helpers.StringVerifier.UsernameCode;
 import com.capstone.merkado.Helpers.WarningTextHelper;
@@ -50,12 +49,7 @@ public class ChangeUsername extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
         save = findViewById(R.id.save);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
 
         username.setText(account.getUsername());
         username.setOnFocusChangeListener((v, hasFocus) -> {

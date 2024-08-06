@@ -15,7 +15,7 @@ import com.capstone.merkado.Adapters.FactoriesGridAdapter;
 import com.capstone.merkado.Adapters.StoreProductAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.WoodenButton;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
 import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Objects.FactoryDataObjects.PlayerFactory;
 import com.capstone.merkado.R;
@@ -62,7 +62,7 @@ public class Factories extends AppCompatActivity {
         factoriesGridAdapter.setOnClickListener(this::setUpFactoryDetails);
 
         // get all markets
-        DataFunctions.getAllPlayerFactory(merkado.getPlayer().getServer())
+        FactoryDataFunctions.getAllPlayerFactory(merkado.getPlayer().getServer())
                 .thenAccept(playerMarketsList -> {
                     playerFactories.clear();
                     playerFactories.addAll(playerMarketsList);

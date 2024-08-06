@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Adapters.EconomiesAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions.PlayerListListener;
+import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.PlayerListListener;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Economy.AddEconomy;

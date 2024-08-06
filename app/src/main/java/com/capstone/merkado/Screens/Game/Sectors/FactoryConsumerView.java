@@ -18,11 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.merkado.Adapters.StoreViewAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.PlayerFactoryUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions.PlayerFactoryUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.FactoryDataObjects.PlayerFactory;
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandardList;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
@@ -113,7 +115,7 @@ public class FactoryConsumerView extends AppCompatActivity {
             }
             playerfactory = pm;
 
-            DataFunctions.getMarketStandardList(merkado.getPlayer().getServer(), msl -> {
+            StoreDataFunctions.getMarketStandardList(merkado.getPlayer().getServer(), msl -> {
                 if (msl == null) return;
                 processPlayerFactory(msl, playerfactory);
                 setUpView(playerfactory.getOnSale());
@@ -156,9 +158,8 @@ public class FactoryConsumerView extends AppCompatActivity {
         itemDescriptionContainer.setVisibility(View.VISIBLE);
         itemDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
-        DataFunctions.getResourceData(getApplicationContext(), onSale.getResourceId())
-                .thenAccept(resourceData ->
-                        runOnUiThread(() -> itemDescription.setText(resourceData.getDescription())));
+        ResourceData resourceData = InternalDataFunctions.getResourceData(getApplicationContext(), onSale.getResourceId());
+        itemDescription.setText(resourceData.getDescription());
         itemName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         int itemTypeResource = GameResourceCaller.getResourceTypeBackgrounds(onSale.getType());
@@ -236,7 +237,7 @@ public class FactoryConsumerView extends AppCompatActivity {
                     purchaseOverlayQuantity,
                     currentOnSale
             );
-            DataFunctions.buyFromPlayerMarket(storeBuyingData).thenAccept(marketError -> {
+            StoreDataFunctions.buyFromPlayerMarket(storeBuyingData).thenAccept(marketError -> {
                 switch (marketError) {
                     case NOT_EXIST:
                         Toast.makeText(getApplicationContext(), "Product does not exist. Please check your purchase.", Toast.LENGTH_SHORT).show();

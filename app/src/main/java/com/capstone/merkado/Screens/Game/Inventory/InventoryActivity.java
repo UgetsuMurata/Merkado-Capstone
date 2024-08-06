@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Adapters.InventoryAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
@@ -50,7 +51,7 @@ public class InventoryActivity extends AppCompatActivity {
     List<Inventory> inventoryList;
     LinkedHashMap<Integer, Inventory> inventoryMap;
     InventoryAdapter inventoryAdapter;
-    DataFunctions.InventoryUpdates inventoryUpdates;
+    InventoryDataFunctions.InventoryUpdates inventoryUpdates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class InventoryActivity extends AppCompatActivity {
 
         initializeViews();
 
-        inventoryUpdates = new DataFunctions.InventoryUpdates(merkado.getPlayerId());
+        inventoryUpdates = new InventoryDataFunctions.InventoryUpdates(merkado.getPlayerId());
         inventoryUpdates.startListener(inventoryList -> {
             if (inventoryList == null) return;
             this.inventoryList = inventoryList;
@@ -115,7 +116,7 @@ public class InventoryActivity extends AppCompatActivity {
         cInventoryList = findViewById(R.id.inventory_list);
         cInventoryListEmpty = findViewById(R.id.inventory_list_empty);
 
-        DataFunctions.getPlayerInventory(merkado.getPlayerId()).thenAccept(inventoryList -> {
+        InventoryDataFunctions.getPlayerInventory(merkado.getPlayerId()).thenAccept(inventoryList -> {
             this.inventoryList = inventoryList;
             this.inventoryMap = mapInventoryList(inventoryList);
             filterInventoryAndShow(ResourceDisplayMode.COLLECTIBLES);
@@ -209,7 +210,7 @@ public class InventoryActivity extends AppCompatActivity {
         inventoryAdapter = new InventoryAdapter(this, mappedInventory);
         cInventoryList.setAdapter(inventoryAdapter);
 
-        if (mappedInventory.size() > 0) {
+        if (!mappedInventory.isEmpty()) {
             cInventoryListEmpty.setVisibility(View.GONE);
             cInventoryList.setVisibility(View.VISIBLE);
 
@@ -237,17 +238,15 @@ public class InventoryActivity extends AppCompatActivity {
         // if resource data are not yet retrieved, retrieve it and save it.
         if (inventory == null) noDetails();
         else if (inventory.getResourceData() == null) {
-            DataFunctions.getResourceData(getApplicationContext(), inventory.getResourceId())
-                    .thenAccept(resourceData -> {
-                        // retrieve and remove the inventory chosen
-                        Inventory inv = inventoryList.get(index);
-                        inventoryList.remove(inv);
+            ResourceData resourceData = InternalDataFunctions.getResourceData(getApplicationContext(), inventory.getResourceId());
+            // retrieve and remove the inventory chosen
+            Inventory inv = inventoryList.get(index);
+            inventoryList.remove(inv);
 
-                        // add the new inventory data in the same index
-                        inv.setResourceData(resourceData);
-                        inventoryList.add(index, inv);
-                        showDetails(inv);
-                    });
+            // add the new inventory data in the same index
+            inv.setResourceData(resourceData);
+            inventoryList.add(index, inv);
+            showDetails(inv);
         } else showDetails(inventory);
     }
 

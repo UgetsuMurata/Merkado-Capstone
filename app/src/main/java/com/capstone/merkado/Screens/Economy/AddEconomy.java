@@ -12,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.Helpers.StringVerifier;
 import com.capstone.merkado.Helpers.WarningTextHelper;
 import com.capstone.merkado.Objects.Account;
@@ -80,7 +81,7 @@ public class AddEconomy extends AppCompatActivity {
             runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "You already joined this economy!"));
         } else {
             String serverCodeStr = serverCodeEditText.getText().toString().trim();
-            Boolean serverExists = DataFunctions.checkServerExistence(serverCodeStr);
+            Boolean serverExists = ServerDataFunctions.checkServerExistence(serverCodeStr);
             if (Boolean.TRUE.equals(serverExists)) {
                 Account account = merkado.getAccount();
                 if (account == null) {
@@ -88,7 +89,7 @@ public class AddEconomy extends AppCompatActivity {
                     finish();
                     return;
                 }
-                Boolean results = DataFunctions.addPlayerToServer(serverCodeStr, account);
+                Boolean results = PlayerDataFunctions.addPlayerToServer(serverCodeStr, account);
                 runOnUiThread(()-> {
                     Toast.makeText(getApplicationContext(), results ? "Server added successfully!" : "Failed to join server. Try again later.", Toast.LENGTH_SHORT).show();
                     setResult(results ? RESULT_OK : RESULT_CANCELED);

@@ -24,11 +24,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.merkado.Adapters.StoreViewAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.PlayerMarketUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions.PlayerMarketUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
@@ -93,7 +96,7 @@ public class StoreSellerView extends AppCompatActivity {
         playerMarketUpdates.startListener(playerMarkets -> {
             if (playerMarkets == null)
                 setPlayerMarkets(
-                        DataFunctions.setUpPlayerMarket(player.getServer(), merkado.getAccount().getUsername(), merkado.getPlayerId()),
+                        StoreDataFunctions.setUpPlayerMarket(player.getServer(), merkado.getAccount().getUsername(), merkado.getPlayerId()),
                         ResourceDisplayMode.COLLECTIBLES);
             else if (currentResourceDisplayMode == null) {
                 currentResourceDisplayMode = ResourceDisplayMode.COLLECTIBLES;
@@ -237,9 +240,8 @@ public class StoreSellerView extends AppCompatActivity {
         dDescriptionContainer.setVisibility(View.VISIBLE);
         dDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
-        DataFunctions.getResourceData(getApplicationContext(), onSale.getResourceId())
-                .thenAccept(resourceData ->
-                        runOnUiThread(() -> dResourceDescription.setText(resourceData.getDescription())));
+        ResourceData resourceData = InternalDataFunctions.getResourceData(getApplicationContext(), onSale.getResourceId());
+        dResourceDescription.setText(resourceData.getDescription());
         dResourceName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         int itemTypeResource = GameResourceCaller.getResourceTypeBackgrounds(onSale.getType());
@@ -274,7 +276,7 @@ public class StoreSellerView extends AppCompatActivity {
                 GameResourceCaller.getResourceTypeBackgrounds(onSale.getType())));
         lspItemImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 GameResourceCaller.getResourcesImage(onSale.getResourceId())));
-        DataFunctions.getMarketPrice(player.getServer(), onSale.getResourceId())
+        StoreDataFunctions.getMarketPrice(player.getServer(), onSale.getResourceId())
                 .thenAccept(
                         marketPrice -> {
                             lspItemMarketPrice.setText(
@@ -285,7 +287,7 @@ public class StoreSellerView extends AppCompatActivity {
                 );
 
         // SET QUANTITY
-        DataFunctions.getInventoryItem(merkado.getPlayerId(), onSale.getResourceId()).thenAccept(inventory -> {
+        InventoryDataFunctions.getInventoryItem(merkado.getPlayerId(), onSale.getResourceId()).thenAccept(inventory -> {
             lspItemMaxQuantity = onSale.getQuantity() + inventory.getQuantity();
             lspItemQuantitySlider.setMax(lspItemMaxQuantity);
             lspItemQuantitySlider.setMin(0);
@@ -410,7 +412,7 @@ public class StoreSellerView extends AppCompatActivity {
         // update the OnSale object.
         onSale.setQuantity(lspItemQuantityCount - onSale.getQuantity());
         onSale.setPrice(LSPItemSetPrice);
-        DataFunctions.editSale(onSale, player, merkado.getPlayerId());
+        StoreDataFunctions.editSale(onSale, player, merkado.getPlayerId());
         layoutSellPopup.setVisibility(View.GONE);
     }
 

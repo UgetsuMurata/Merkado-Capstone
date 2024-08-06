@@ -24,8 +24,8 @@ import com.capstone.merkado.Adapters.FactoryChoiceAdapter.ReturnChoiceStatus;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.IconLevels;
 import com.capstone.merkado.CustomViews.WoodenButton;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.FactoryDataUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions.FactoryDataUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData.FactoryDetails;
@@ -132,7 +132,7 @@ public class Factory extends AppCompatActivity {
 
         clicker.setOnClickListener(v -> generateResource());
 
-        DataFunctions.getFactoryChoices(isFoodFactory ? FactoryTypes.FOOD : FactoryTypes.MANUFACTURING)
+        FactoryDataFunctions.getFactoryChoices(isFoodFactory ? FactoryTypes.FOOD : FactoryTypes.MANUFACTURING)
                 .thenAccept(this::updateResourceList);
         factoryDataUpdates = new FactoryDataUpdates(merkado.getPlayerId());
         factoryDataUpdates.startListener(this::updateFactoryDetails);
@@ -250,7 +250,7 @@ public class Factory extends AppCompatActivity {
 
     private void saveAddedResource() {
         if (addedResource == 0) return;
-        DataFunctions.addFactoryProducts(
+        FactoryDataFunctions.addFactoryProducts(
                 getApplicationContext(),
                 merkado.getPlayer().getServer(),
                 merkado.getPlayer().getFactory().getFactoryMarketId(),
@@ -281,7 +281,7 @@ public class Factory extends AppCompatActivity {
         factoryDetails.setLastUsedEnergy(energyLastRecharged);
         factoryDetails.setEnergy(energyCount);
         factoryDetails.setOnProduction(currentProduction);
-        DataFunctions.updateFactoryDetails(factoryDetails, merkado.getPlayerId());
+        FactoryDataFunctions.updateFactoryDetails(factoryDetails, merkado.getPlayerId());
     }
 
     private void changePanels(FactoryActivityMode mode) {

@@ -21,7 +21,6 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
 import com.capstone.merkado.CustomViews.WoodenButton;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
@@ -124,7 +123,7 @@ public class MainMap extends AppCompatActivity {
     }
 
     private void sendFactoryIntent() {
-        DataFunctions.getFactoryData(merkado.getPlayerId()).thenAccept(factoryData -> {
+        FactoryDataFunctions.getFactoryData(merkado.getPlayerId()).thenAccept(factoryData -> {
             FactoryTypes factoryTypes = "FOOD".equals(factoryData.getFactoryType()) ?
                     FactoryTypes.FOOD : FactoryTypes.MANUFACTURING;
             Intent intent = new Intent(getApplicationContext(), Factory.class);

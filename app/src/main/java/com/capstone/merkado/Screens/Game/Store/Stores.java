@@ -1,5 +1,6 @@
 package com.capstone.merkado.Screens.Game.Store;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.merkado.Adapters.StoreProductAdapter;
 import com.capstone.merkado.Adapters.StoresGridAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.R;
@@ -34,6 +35,7 @@ public class Stores extends AppCompatActivity {
 
     List<PlayerMarkets> playerMarkets;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +60,11 @@ public class Stores extends AppCompatActivity {
         storesGridAdapter.setOnClickListener(this::setUpStoreDetails);
 
         // get all markets
-        DataFunctions.getAllPlayerMarkets(merkado.getPlayer().getServer(), merkado.getPlayerId())
+        StoreDataFunctions.getAllPlayerMarkets(merkado.getPlayer().getServer(), merkado.getPlayerId())
                 .thenAccept(playerMarketsList -> {
                     playerMarkets.clear();
                     playerMarkets.addAll(playerMarketsList);
-                    if (playerMarkets.size() > 0) setUpStoreDetails(playerMarkets.get(0), playerMarkets.get(0).getMarketId());
+                    if (!playerMarkets.isEmpty()) setUpStoreDetails(playerMarkets.get(0), playerMarkets.get(0).getMarketId());
                     else Bot.createBotStores();
                     storesGridAdapter.notifyDataSetChanged();
                 });
@@ -72,7 +74,7 @@ public class Stores extends AppCompatActivity {
         // store name
         storeName.setText(playerMarket.getStoreName());
 
-        if (playerMarket.getOnSale() == null || playerMarket.getOnSale().size() == 0) {
+        if (playerMarket.getOnSale() == null || playerMarket.getOnSale().isEmpty()) {
             showNoProducts.setVisibility(View.VISIBLE);
             showProducts.setVisibility(View.GONE);
         } else {

@@ -88,6 +88,7 @@ public class AccountDataFunctions {
         String encodedEmail = FirebaseCharacters.encode(email);
 
         firebaseData.retrieveData(String.format("accounts/%s", encodedEmail), dataSnapshot -> {
+            if (dataSnapshot == null) return;
             if (!dataSnapshot.exists()) {
                 booleanReturn.valueReturn(false);
                 return;
@@ -198,6 +199,7 @@ public class AccountDataFunctions {
      *
      * @param verificationCode VerificationCode instance.
      */
+    @SuppressWarnings("unused")
     public static void sendCodeThroughEmail(VerificationCode verificationCode) {
         // TODO: Use the API to send the code through email.
     }

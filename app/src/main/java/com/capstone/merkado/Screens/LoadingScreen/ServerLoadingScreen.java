@@ -8,8 +8,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
@@ -98,7 +99,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
      * Process 1 processes all player details.
      */
     private void process1() {
-        CompletableFuture<Void> future = ServerDataFunctions.getPlayerDataFromId(basicServerData.getPlayerId()).thenAccept(playerFBExtractor1 -> {
+        CompletableFuture<Void> future = PlayerDataFunctions.getPlayerDataFromId(basicServerData.getPlayerId()).thenAccept(playerFBExtractor1 -> {
             this.playerFBExtractor = playerFBExtractor1;
             if (playerFBExtractor != null) {
                 merkado.setPlayer(new Player(playerFBExtractor), basicServerData.getPlayerId());
@@ -133,7 +134,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
             if (playerFBExtractor.getStoryQueue() == null) return;
             for (PlayerFBExtractor1.StoryQueue storyQueue : playerFBExtractor.getStoryQueue()) {
                 PlayerStory playerStory = new PlayerStory();
-                Chapter chapter = DataFunctions.getChapterFromId(storyQueue.getChapter());
+                Chapter chapter = StoryDataFunctions.getChapterFromId(storyQueue.getChapter());
                 if (chapter == null) continue;
 
                 playerStory.setChapter(chapter);
@@ -146,8 +147,8 @@ public class ServerLoadingScreen extends AppCompatActivity {
                         }
                     }
                 }
-                playerStory.setCurrentLineGroup(DataFunctions.getLineGroupFromId(Long.valueOf(storyQueue.getChapter()), Long.valueOf(storyQueue.getCurrentScene()), storyQueue.getCurrentLineGroup()));
-                playerStory.setNextLineGroup(DataFunctions.getLineGroupFromId(Long.valueOf(storyQueue.getChapter()), Long.valueOf(storyQueue.getCurrentScene()), storyQueue.getNextLineGroup()));
+                playerStory.setCurrentLineGroup(StoryDataFunctions.getLineGroupFromId(Long.valueOf(storyQueue.getChapter()), Long.valueOf(storyQueue.getCurrentScene()), storyQueue.getCurrentLineGroup()));
+                playerStory.setNextLineGroup(StoryDataFunctions.getLineGroupFromId(Long.valueOf(storyQueue.getChapter()), Long.valueOf(storyQueue.getCurrentScene()), storyQueue.getNextLineGroup()));
                 playerStoryList.add(playerStory);
             }
             merkado.getPlayer().setPlayerStoryList(playerStoryList);
@@ -163,7 +164,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
             if (playerFBExtractor.getTaskQueue() == null) return;
             for (PlayerFBExtractor1.TaskQueue taskQueue : playerFBExtractor.getTaskQueue()) {
                 PlayerTask playerTask = new PlayerTask();
-                playerTask.setTask(DataFunctions.getTaskFromId(taskQueue.getTask()));
+                playerTask.setTask(QASDataFunctions.getTaskFromId(taskQueue.getTask()));
                 playerTask.setTaskStatusCode(taskQueue.getTaskStatusCode());
                 playerTaskList.add(playerTask);
             }

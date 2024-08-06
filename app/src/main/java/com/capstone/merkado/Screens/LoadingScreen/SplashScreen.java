@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
@@ -78,11 +77,10 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     /**
-     * 2nd process of the loading screen. This retrieves the static texts from Firebase.
+     * 2nd process of the loading screen. This retrieves all internal data saved in json file.
      */
     private void process2() {
-        // get the data from Firebase.
-        DataFunctions.getAbout(string -> merkado.getStaticContents().setAbout(string));
-        DataFunctions.getTermsAndConditions(string -> merkado.getStaticContents().setTermsAndConditions(string));
+        // load internal data
+        merkado.loadJSONResources(getApplicationContext());
     }
 }

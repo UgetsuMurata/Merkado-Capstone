@@ -20,7 +20,7 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.IconButton;
 import com.capstone.merkado.CustomViews.IconToggle;
 import com.capstone.merkado.CustomViews.IconToggle.ToggleStatus;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
@@ -454,16 +454,16 @@ public class StoryMode extends AppCompatActivity {
             currentSceneEnded();
             return;
         }
-        DataFunctions.changeCurrentLineGroup(nextLineGroupId, merkado.getPlayerId(), currentQueueIndex);
+        StoryDataFunctions.changeCurrentLineGroup(nextLineGroupId, merkado.getPlayerId(), currentQueueIndex);
 
         new Thread(() -> {
-            LineGroup lineGroup = DataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), playerStory.getCurrentScene().getId(), nextLineGroupId);
+            LineGroup lineGroup = StoryDataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), playerStory.getCurrentScene().getId(), nextLineGroupId);
             if (lineGroup == null) {
                 Toast.makeText(getApplicationContext(), "The story encountered a problem. Please try again later.", Toast.LENGTH_SHORT).show();
                 finish();
                 return;
             }
-            DataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
+            StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
             runOnUiThread(() -> initializeScreen(lineGroup));
         }).start();
@@ -473,7 +473,7 @@ public class StoryMode extends AppCompatActivity {
         Chapter.Scene currentScene = playerStory.getNextScene();
         if (currentScene == null) {
             finish();
-            DataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
+            StoryDataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
             return;
         }
         playerStory.setCurrentScene(currentScene);
@@ -485,17 +485,17 @@ public class StoryMode extends AppCompatActivity {
                 }
             }
         } else playerStory.setNextScene(null);
-        DataFunctions.changeCurrentScene(Math.toIntExact(currentScene.getId()), merkado.getPlayerId(), currentQueueIndex);
-        DataFunctions.changeNextScene(currentScene.getNextScene() == null ? null : Math.toIntExact(currentScene.getNextScene()), merkado.getPlayerId(), currentQueueIndex);
+        StoryDataFunctions.changeCurrentScene(Math.toIntExact(currentScene.getId()), merkado.getPlayerId(), currentQueueIndex);
+        StoryDataFunctions.changeNextScene(currentScene.getNextScene() == null ? null : Math.toIntExact(currentScene.getNextScene()), merkado.getPlayerId(), currentQueueIndex);
         new Thread(() -> {
-            DataFunctions.changeCurrentLineGroup(0, merkado.getPlayerId(), currentQueueIndex);
-            LineGroup lineGroup = DataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), currentScene.getId(), 0);
+            StoryDataFunctions.changeCurrentLineGroup(0, merkado.getPlayerId(), currentQueueIndex);
+            LineGroup lineGroup = StoryDataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), currentScene.getId(), 0);
             if (lineGroup == null) {
                 Toast.makeText(getApplicationContext(), "The story encountered a problem. Please try again later.", Toast.LENGTH_SHORT).show();
                 finish();
                 return;
             }
-            DataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
+            StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
             runOnUiThread(() -> initializeScreen(lineGroup));
         }).start();

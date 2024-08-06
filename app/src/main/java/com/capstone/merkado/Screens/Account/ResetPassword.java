@@ -9,14 +9,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
-import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.Generator;
 import com.capstone.merkado.Helpers.NotificationHelper;
 import com.capstone.merkado.Helpers.StringVerifier;
@@ -29,15 +26,16 @@ import java.util.Locale;
 
 public class ResetPassword extends AppCompatActivity {
 
-    private Merkado merkado;
-
     /**
      * VIEWS
      */
     private LinearLayout findEmail, enterCode, changePassword;
-    private CardView cancel, goToPage1, goToPage2, goBackToPage2, goToPage3, updatePassword;
     private TextInputEditText email, code, password, confirmPassword;
-    private TextView emailWarning, codeInstructions, codeWarning, resendCode, passwordWarning, confirmPasswordWarning;
+    private TextView emailWarning;
+    private TextView codeInstructions;
+    private TextView codeWarning;
+    private TextView passwordWarning;
+    private TextView confirmPasswordWarning;
 
     /**
      * VARIABLES
@@ -52,29 +50,29 @@ public class ResetPassword extends AppCompatActivity {
         setContentView(R.layout.acc_reset_password);
 
         // initialize this activity's screen.
-        merkado = Merkado.getInstance();
+        Merkado merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
         // find views
         findEmail = findViewById(R.id.find_email);
         enterCode = findViewById(R.id.enter_code);
         changePassword = findViewById(R.id.change_password);
-        cancel = findViewById(R.id.cancel);
-        goToPage1 = findViewById(R.id.go_to_page1);
-        goToPage2 = findViewById(R.id.go_to_page2);
-        goBackToPage2 = findViewById(R.id.go_back_to_page2);
-        goToPage3 = findViewById(R.id.go_to_page3);
+        CardView cancel = findViewById(R.id.cancel);
+        CardView goToPage1 = findViewById(R.id.go_to_page1);
+        CardView goToPage2 = findViewById(R.id.go_to_page2);
+        CardView goBackToPage2 = findViewById(R.id.go_back_to_page2);
+        CardView goToPage3 = findViewById(R.id.go_to_page3);
         email = findViewById(R.id.email);
         emailWarning = findViewById(R.id.email_warning);
         codeInstructions = findViewById(R.id.code_instructions);
         code = findViewById(R.id.code);
         codeWarning = findViewById(R.id.code_warning);
-        resendCode = findViewById(R.id.resend_code);
+        TextView resendCode = findViewById(R.id.resend_code);
         password = findViewById(R.id.password);
         passwordWarning = findViewById(R.id.password_warning);
         confirmPassword = findViewById(R.id.confirm_password);
         confirmPasswordWarning = findViewById(R.id.confirm_password_warning);
-        updatePassword = findViewById(R.id.update_password);
+        CardView updatePassword = findViewById(R.id.update_password);
 
         // Page Navigation
         goToPage(1);
@@ -177,28 +175,25 @@ public class ResetPassword extends AppCompatActivity {
             WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Invalid email.");
         } else {
             // check if email exists in database
-            AccountDataFunctions.emailExists(email.getText().toString(), new ValueReturn<Boolean>() {
-                @Override
-                public void valueReturn(@Nullable Boolean bool) {
-                    if (bool == null) return;
-                    if (bool) {
-                        // if the email exists, save the email and go to page 2, send code.
-                        emailString = email.getText().toString();
-                        goToPage(2);
-                        sendCode();
+            AccountDataFunctions.emailExists(email.getText().toString(), bool -> {
+                if (bool == null) return;
+                if (bool) {
+                    // if the email exists, save the email and go to page 2, send code.
+                    emailString = email.getText().toString();
+                    goToPage(2);
+                    sendCode();
 
-                        // set up the code instructions in page 2.
-                        String instructions = String.format("We sent a 4-digit code to %s. Please check your email for it.", emailString);
-                        SpannableString instructionSpannableString = new SpannableString(instructions); // create a SpannableString
-                        int start = instructions.indexOf(emailString); // find the start of emailString.
-                        int end = start + emailString.length(); // find the end of the emailString.
-                        StyleSpan boldSpan = new StyleSpan(Typeface.BOLD); // retrieve the StyleSpan Bold
-                        instructionSpannableString.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Bolden the emailString
-                        codeInstructions.setText(instructionSpannableString); // set the new code instructions.
-                    } else {
-                        // if the email does not exist, show warning.
-                        WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Email is not registered. Please recheck your input.");
-                    }
+                    // set up the code instructions in page 2.
+                    String instructions = String.format("We sent a 4-digit code to %s. Please check your email for it.", emailString);
+                    SpannableString instructionSpannableString = new SpannableString(instructions); // create a SpannableString
+                    int start = instructions.indexOf(emailString); // find the start of emailString.
+                    int end = start + emailString.length(); // find the end of the emailString.
+                    StyleSpan boldSpan = new StyleSpan(Typeface.BOLD); // retrieve the StyleSpan Bold
+                    instructionSpannableString.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Bolden the emailString
+                    codeInstructions.setText(instructionSpannableString); // set the new code instructions.
+                } else {
+                    // if the email does not exist, show warning.
+                    WarningTextHelper.showWarning(getApplicationContext(), emailWarning, "Email is not registered. Please recheck your input.");
                 }
             });
         }

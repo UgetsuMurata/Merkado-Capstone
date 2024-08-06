@@ -1,16 +1,15 @@
 package com.capstone.merkado.Screens.Settings;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.Helpers.StringVerifier;
 import com.capstone.merkado.Helpers.WarningTextHelper;
 import com.capstone.merkado.R;
@@ -49,12 +48,7 @@ public class ChangePassword extends AppCompatActivity {
         WarningTextHelper.hide(newPasswordWarning);
         WarningTextHelper.hide(confirmPasswordWarning);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
 
         oldPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {

@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets.OnSale;
 import com.capstone.merkado.R;
 
@@ -66,10 +67,8 @@ public class StoreViewAdapter extends RecyclerView.Adapter<StoreViewAdapter.Stor
         }
 
         public void bind(Activity activity, OnSale onSale, OnClickListener onClickListener) {
-            DataFunctions.getResourceData(activity, onSale.getResourceId())
-                    .thenAccept(resourceData ->
-                            activity.runOnUiThread(() -> itemName.setText(resourceData.getName())));
-
+            ResourceData resourceData = InternalDataFunctions.getResourceData(activity, onSale.getResourceId());
+            itemName.setText(resourceData.getName());
             int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
             itemImage.setImageDrawable(ContextCompat.getDrawable(activity.getApplicationContext(), itemImageResource));
             itemPrice.setText(String.format(Locale.getDefault(), "P %.2f", onSale.getPrice()));

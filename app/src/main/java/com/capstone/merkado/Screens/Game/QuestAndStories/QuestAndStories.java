@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.merkado.Adapters.QASAdapter;
 import com.capstone.merkado.Adapters.QASRewardsAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail.QASReward;
@@ -85,11 +85,11 @@ public class QuestAndStories extends AppCompatActivity {
     private CompletableFuture<List<QASItems>> getItemsByShowMode(ShowMode showMode) {
         switch (showMode) {
             case ALL:
-                return DataFunctions.getAllQuestsAndStories(merkado.getPlayerId());
+                return QASDataFunctions.getAllQuestsAndStories(merkado.getPlayerId());
             case QUEST:
-                return DataFunctions.getAllQuests(merkado.getPlayerId());
+                return QASDataFunctions.getAllQuests(merkado.getPlayerId());
             case STORY:
-                return DataFunctions.getAllStories(merkado.getPlayerId());
+                return QASDataFunctions.getAllStories(merkado.getPlayerId());
             default:
                 return CompletableFuture.completedFuture(new ArrayList<>());
         }

@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
 import com.capstone.merkado.R;
 
 public class SignOut extends AppCompatActivity {

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -15,18 +16,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions.PlayerDataUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.PlayerDataUpdates;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
+import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.Objects.StoresDataObjects.Market;
+import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unused")
 public class Merkado extends Application {
@@ -35,6 +41,8 @@ public class Merkado extends Application {
     private Account account;
     private StaticContents staticContents;
     private List<BasicServerData> basicServerData;
+    private List<ResourceData> resourceDataList;
+    private List<Chapter> chapterList;
     private Player player;
     private Integer playerId;
     private MediaPlayer sfxPlayer;
@@ -115,6 +123,40 @@ public class Merkado extends Application {
         setPlayer(null, null);
         setServer(null);
         setBasicServerList(null);
+    }
+
+    public void loadJSONResources(Context context) {
+        CountDownLatch latch = new CountDownLatch(3);
+        JsonHelper.getResourceList(context, resourceData -> {
+            this.resourceDataList = resourceData;
+            latch.countDown();
+        });
+        JsonHelper.getStoryList(context, chapterList -> {
+            this.chapterList = chapterList;
+            latch.countDown();
+        });
+        JsonHelper.getAppData(context, staticContents -> {
+            this.staticContents = staticContents;
+            latch.countDown();
+        });
+
+        try {
+            boolean completed = latch.await(5000, TimeUnit.MILLISECONDS);
+            if (!completed) {
+                Log.w("loadJSONResources", "Loading JSON Resources timed out.");
+            }
+        } catch (InterruptedException e) {
+            Log.e("loadJSONResources",
+                    String.format("Error encountered while waiting for JSON Resources: %s", e));
+        }
+    }
+
+    public List<ResourceData> getResourceDataList() {
+        return resourceDataList;
+    }
+
+    public List<Chapter> getChapterList() {
+        return chapterList;
     }
 
     /**

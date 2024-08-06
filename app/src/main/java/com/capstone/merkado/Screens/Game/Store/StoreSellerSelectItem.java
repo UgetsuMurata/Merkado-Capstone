@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Adapters.InventoryAdapter;
 import com.capstone.merkado.Application.Merkado;
-import com.capstone.merkado.DataManager.DataFunctionPackage.DataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.OtherProcessors;
 import com.capstone.merkado.Helpers.OtherProcessors.InventoryProcessors.Disable;
@@ -73,7 +75,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
     Float lspItemSetPrice;
     Integer lspItemQuantityCount, lspItemMaxQuantity, lspQuantityButtonsMode = 0;
     InventoryAdapter inventoryAdapter;
-    DataFunctions.InventoryUpdates inventoryUpdates;
+    InventoryDataFunctions.InventoryUpdates inventoryUpdates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
         initializeViews();
 
-        inventoryUpdates = new DataFunctions.InventoryUpdates(merkado.getPlayerId());
+        inventoryUpdates = new InventoryDataFunctions.InventoryUpdates(merkado.getPlayerId());
         inventoryUpdates.startListener(inventoryList -> {
             if (inventoryList == null) return;
             this.inventoryList = inventoryList;
@@ -156,7 +158,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         cInventoryList = findViewById(R.id.inventory_list);
         cInventoryListEmpty = findViewById(R.id.inventory_list_empty);
 
-        DataFunctions.getPlayerInventory(merkado.getPlayerId()).thenAccept(inventoryList -> {
+        InventoryDataFunctions.getPlayerInventory(merkado.getPlayerId()).thenAccept(inventoryList -> {
             this.inventoryList = inventoryList;
             this.inventoryMap = mapInventoryList(inventoryList);
             filterInventoryAndShow(currentMode == null ? ResourceDisplayMode.COLLECTIBLES : currentMode);
@@ -298,17 +300,15 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         // if resource data are not yet retrieved, retrieve it and save it.
         if (inventory == null) noDetails();
         else if (inventory.getResourceData() == null) {
-            DataFunctions.getResourceData(getApplicationContext(), inventory.getResourceId())
-                    .thenAccept(resourceData -> {
-                        // retrieve and remove the inventory chosen
-                        Inventory inv = inventoryList.get(index);
-                        inventoryList.remove(inv);
+            ResourceData resourceData = InternalDataFunctions.getResourceData(getApplicationContext(), inventory.getResourceId());
+            // retrieve and remove the inventory chosen
+            Inventory inv = inventoryList.get(index);
+            inventoryList.remove(inv);
 
-                        // add the new inventory data in the same index
-                        inv.setResourceData(resourceData);
-                        inventoryList.add(index, inv);
-                        showDetails(inv, index);
-                    });
+            // add the new inventory data in the same index
+            inv.setResourceData(resourceData);
+            inventoryList.add(index, inv);
+            showDetails(inv, index);
         } else showDetails(inventory, index);
     }
 
@@ -362,7 +362,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
                 GameResourceCaller.getResourceTypeBackgrounds(inventory.getResourceData().getType())));
         lspItemImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 GameResourceCaller.getResourcesImage(inventory.getResourceId())));
-        DataFunctions.getMarketPrice(merkado.getPlayer().getServer(), inventory.getResourceId())
+        StoreDataFunctions.getMarketPrice(merkado.getPlayer().getServer(), inventory.getResourceId())
                 .thenAccept(
                         marketPrice -> {
                             lspItemMarketPrice.setText(
@@ -496,7 +496,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
         updateItems(index, lspItemQuantityCount);
 
-        DataFunctions.sell(onSale, merkado.getPlayer(), merkado.getPlayerId());
+        StoreDataFunctions.sell(onSale, merkado.getPlayer(), merkado.getPlayerId());
         layoutSellPopup.setVisibility(View.GONE);
         Toast.makeText(getApplicationContext(), "Item on sale!", Toast.LENGTH_SHORT).show();
     }

@@ -105,8 +105,14 @@ public class MainMap extends AppCompatActivity {
         openFactoryPopup.hide();
 
         // update features
-        merkado.getPlayerData().setPlayerMarketIdListener(this::updateMarketView);
-        merkado.getPlayerData().setPlayerFactoryListener(this::updateFactoryView);
+        merkado.getPlayerData().setPlayerMarketIdListener(market -> {
+            updateMarketView(market);
+            updateAccessibleButtons();
+        });
+        merkado.getPlayerData().setPlayerFactoryListener(factoryData -> {
+            updateFactoryView(factoryData);
+            updateAccessibleButtons();
+        });
 
         // onBackPressed
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {

@@ -298,6 +298,29 @@ public class PlayerDataFunctions {
         }
     }
 
+    public static void addPlayerExperience(Integer playerId, Long quantity) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        String dataPath = String.format(Locale.getDefault(), "player/%d/exp", playerId);
+
+        firebaseData.retrieveData(dataPath, future::complete);
+        future.thenAccept(dataSnapshot -> {
+            long totalEXP;
+            if (dataSnapshot == null) return;
+            if (!dataSnapshot.exists()) {
+                firebaseData.setValue(dataPath, quantity);
+            } else {
+                Long currentEXP = dataSnapshot.getValue(Long.class);
+                if (currentEXP == null)
+                    firebaseData.setValue(dataPath, quantity);
+                else {
+                    totalEXP = quantity + currentEXP;
+                    firebaseData.setValue(dataPath, totalEXP);
+                }
+            }
+        });
+    }
+
     public static class PlayerDataUpdates {
         FirebaseData firebaseData;
         String childPath;

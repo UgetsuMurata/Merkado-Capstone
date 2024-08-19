@@ -41,4 +41,12 @@
         <attr name="buttonDisabled" format="reference"/>
         <attr name="buttonEnable" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="ConstraintClicker">
+        <attr name="clickerStart" format="float"/>
+        <attr name="clickerEnd" format="float"/>
+        <attr name="clickerTop" format="float"/>
+        <attr name="clickerBottom" format="float"/>
+        <!--showArea is used for debugging purposes. This must be removed or turned false in production.-->
+        <attr name="showArea" format="boolean"/>
+    </declare-styleable>
 </resources>

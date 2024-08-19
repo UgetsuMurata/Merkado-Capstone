@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.CustomViews.ConstraintClicker;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
 import com.capstone.merkado.CustomViews.WoodenButton;
@@ -45,6 +46,7 @@ public class MainMap extends AppCompatActivity {
     Merkado merkado;
     CardView inventoryNav, questAndStoriesNav, factoriesNav;
     ImageView storesNav, myStore, myFactory;
+    ConstraintClicker myStoreClicker, myHouseClicker, myFactoryClicker;
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
     OpenStorePopup openStorePopup;
@@ -91,6 +93,9 @@ public class MainMap extends AppCompatActivity {
         playerLevelView = findViewById(R.id.player_level);
         myStore = findViewById(R.id.my_store);
         myFactory = findViewById(R.id.my_factory);
+        myHouseClicker = findViewById(R.id.my_house_clicker);
+        myStoreClicker = findViewById(R.id.my_store_clicker);
+        myFactoryClicker = findViewById(R.id.my_factory_clicker);
         openStorePopup = new OpenStorePopup(this, findViewById(R.id.layout_open_store_popup),
                 merkado.getPlayerData().getPlayerMarket() == null ||
                         !merkado.getPlayerData().getPlayerMarket().getHadMarket());
@@ -152,37 +157,37 @@ public class MainMap extends AppCompatActivity {
 
     private void updateMarketView(Market market) {
         myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                R.drawable.icon_store_closed));
+                R.drawable.gui_my_store_closed));
         if (playerLevel < 3) return;
         if (market == null || market.getId() == null) {
             myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                    R.drawable.icon_store_vacant));
-            myStore.setOnClickListener(v -> openStore());
+                    R.drawable.gui_my_store_vacant));
+            myStoreClicker.setOnClickListener(v -> openStore());
         } else {
             myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                    R.drawable.icon_store_open));
-            myStore.setOnClickListener(v ->
+                    R.drawable.gui_my_store_open));
+            myStoreClicker.setOnClickListener(v ->
                     refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
         }
-        openStorePopup.isFirstTime(market == null || !market.getHadMarket());
+        openStorePopup.isFirstTime(market == null || market.getHadMarket() == null || !market.getHadMarket());
     }
 
     private void updateFactoryView(FactoryData factoryData) {
         myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                R.drawable.icon_factory_closed));
+                R.drawable.gui_my_factory_closed));
         if (playerLevel < 4) return;
         if (merkado.getPlayerData().getPlayerFactory() == null ||
                 merkado.getPlayerData().getPlayerFactory().getFactoryMarketId() == null) {
             myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                    R.drawable.icon_factory_vacant));
-            myFactory.setOnClickListener(v -> openFactory());
+                    R.drawable.gui_my_factory_vacant));
+            myFactoryClicker.setOnClickListener(v -> openFactory());
         } else {
             myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                    R.drawable.icon_factory_open));
+                    R.drawable.gui_my_factory_open));
             if (factoryData.getFactoryType() == null)
-                myFactory.setOnClickListener(v ->
+                myFactoryClicker.setOnClickListener(v ->
                         startActivity(new Intent(getApplicationContext(), ChooseSector.class)));
-            else myFactory.setOnClickListener(v -> sendFactoryIntent());
+            else myFactoryClicker.setOnClickListener(v -> sendFactoryIntent());
         }
         openStorePopup.isFirstTime(factoryData == null);
     }
@@ -215,15 +220,15 @@ public class MainMap extends AppCompatActivity {
             });
         }
         if (playerLevel >= 3) {
-            if (merkado.getPlayerData().getPlayerMarket() == null) {
+            if (merkado.getPlayerData().getPlayerMarket() == null || merkado.getPlayerData().getPlayerMarket().getId() == null) {
                 myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                        R.drawable.icon_store_vacant));
+                        R.drawable.gui_my_store_vacant));
                 openStorePopup.isFirstTime(true);
-                myStore.setOnClickListener(v -> openStore());
+                myStoreClicker.setOnClickListener(v -> openStore());
             } else {
                 myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                        R.drawable.icon_store_open));
-                myStore.setOnClickListener(v ->
+                        R.drawable.gui_my_store_open));
+                myStoreClicker.setOnClickListener(v ->
                         refreshAfterIntent.launch(new Intent(getApplicationContext(), StoreSellerView.class)));
             }
             factoriesNav.setOnClickListener(v ->
@@ -231,13 +236,14 @@ public class MainMap extends AppCompatActivity {
             );
         }
         if (playerLevel >= 4) {
-            if (merkado.getPlayerData().getPlayerFactory() == null)
+            if (merkado.getPlayerData().getPlayerFactory() == null || merkado.getPlayerData().getPlayerFactory().getFactoryMarketId() == null) {
                 myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                        R.drawable.icon_factory_vacant));
-            else {
+                        R.drawable.gui_my_factory_vacant));
+                myFactoryClicker.setOnClickListener(v -> openFactory());
+            } else {
                 myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                        R.drawable.icon_factory_open));
-                myFactory.setOnClickListener(v -> sendFactoryIntent());
+                        R.drawable.gui_my_factory_open));
+                myFactoryClicker.setOnClickListener(v -> sendFactoryIntent());
             }
         }
     }
@@ -245,12 +251,12 @@ public class MainMap extends AppCompatActivity {
     private void disableAll() {
         storesNav.setOnClickListener(null);
         factoriesNav.setOnClickListener(null);
-        myStore.setOnClickListener(null);
-        myFactory.setOnClickListener(null);
+        myStoreClicker.setOnClickListener(null);
+        myFactoryClicker.setOnClickListener(null);
         myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                R.drawable.icon_factory_closed));
+                R.drawable.gui_my_factory_closed));
         myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
-                R.drawable.icon_store_closed));
+                R.drawable.gui_my_store_closed));
     }
 
     private void openStore() {

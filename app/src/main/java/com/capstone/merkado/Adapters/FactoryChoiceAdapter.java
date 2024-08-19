@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
-import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData.FactoryDetails;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.R;
 import com.google.android.material.card.MaterialCardView;

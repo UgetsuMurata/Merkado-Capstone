@@ -300,7 +300,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         // if resource data are not yet retrieved, retrieve it and save it.
         if (inventory == null) noDetails();
         else if (inventory.getResourceData() == null) {
-            ResourceData resourceData = InternalDataFunctions.getResourceData(getApplicationContext(), inventory.getResourceId());
+            ResourceData resourceData = InternalDataFunctions.getResourceData(inventory.getResourceId());
             // retrieve and remove the inventory chosen
             Inventory inv = inventoryList.get(index);
             inventoryList.remove(inv);

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.PlayerDataUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.PlayerListListener;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.Account;
@@ -30,6 +31,7 @@ import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +51,7 @@ public class Merkado extends Application {
     private MediaPlayer bgmPlayer;
     private PlayerDataUpdates playerDataUpdates;
     private PlayerDataListener playerDataListener;
+    private AccountDataFunctions accountDataFunctions;
     private PlayerDataFunctions playerDataFunctions;
     private String currentServer;
 
@@ -113,6 +116,13 @@ public class Merkado extends Application {
      */
     public void setAccount(Account account) {
         this.account = account;
+        if (account != null) {
+            accountDataFunctions = new AccountDataFunctions(account.getEmail());
+            setBasicServerList(new ArrayList<>());
+        } else {
+            if (accountDataFunctions != null) accountDataFunctions.stop();
+            accountDataFunctions = null;
+        }
     }
 
     /**
@@ -223,8 +233,7 @@ public class Merkado extends Application {
         if (server == null) {
             logOutToServer();
             this.currentServer = null;
-        }
-        else {
+        } else {
             this.currentServer = server;
             logInToServer();
         }
@@ -243,6 +252,10 @@ public class Merkado extends Application {
 
     public PlayerDataFunctions getPlayerData() {
         return playerDataFunctions;
+    }
+
+    public AccountDataFunctions getAccountDataFunctions() {
+        return accountDataFunctions;
     }
 
     @SuppressWarnings("unused")
@@ -339,6 +352,35 @@ public class Merkado extends Application {
         }
     }
 
+    public static class AccountDataFunctions {
+
+        private ServerBasicDataListener serverBasicDataListener;
+        private final Merkado merkado;
+        private final PlayerListListener playerListListener;
+
+        public AccountDataFunctions(String email) {
+            merkado = Merkado.getInstance();
+            playerListListener = new PlayerListListener(email);
+            playerListListener.start(basicServerDataList -> {
+                merkado.setBasicServerList(basicServerDataList);
+                if (serverBasicDataListener != null)
+                    serverBasicDataListener.onUpdate(basicServerDataList);
+            });
+        }
+
+        public void setServerBasicDataListener(ServerBasicDataListener serverBasicDataListener) {
+            this.serverBasicDataListener = serverBasicDataListener;
+        }
+
+        public void stop() {
+            playerListListener.stop();
+        }
+
+        public interface ServerBasicDataListener {
+            void onUpdate(List<BasicServerData> basicServerDataList);
+        }
+    }
+
     public void setBGM(Context context, int file, boolean loop) {
         if (bgmPlayer != null) {
             releaseBGM();
@@ -423,14 +465,6 @@ public class Merkado extends Application {
         }
     }
 
-
-
-    @Override
-    public void onTerminate() {
-        logOutToServer();
-        super.onTerminate();
-    }
-
     /**
      * Organized way of storing static contents, which includes:
      * <ul>
@@ -439,6 +473,7 @@ public class Merkado extends Application {
      * </ul>
      */
     public static class StaticContents {
+
         String about, termsAndConditions;
 
         public String getAbout() {
@@ -460,5 +495,11 @@ public class Merkado extends Application {
 
     public interface PlayerDataListener {
         void onPlayerDataListenerReceived(Player player);
+    }
+
+    @Override
+    public void onTerminate() {
+        logOutToServer();
+        super.onTerminate();
     }
 }

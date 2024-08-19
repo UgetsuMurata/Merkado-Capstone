@@ -194,6 +194,12 @@
                                 }
                             ]
                         }
+                    ],
+                    "rewards": [
+                        {
+                            "resourceId": 0,
+                            "resourceQuantity": 0
+                        }
                     ]
                 }
             ]

@@ -240,7 +240,7 @@ public class StoreSellerView extends AppCompatActivity {
         dDescriptionContainer.setVisibility(View.VISIBLE);
         dDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
-        ResourceData resourceData = InternalDataFunctions.getResourceData(getApplicationContext(), onSale.getResourceId());
+        ResourceData resourceData = InternalDataFunctions.getResourceData(onSale.getResourceId());
         dResourceDescription.setText(resourceData.getDescription());
         dResourceName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());

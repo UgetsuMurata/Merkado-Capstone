@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +30,7 @@ public class Lobby extends AppCompatActivity {
     RecyclerView serverList;
     CardView addEconomy;
     TextView noEconomy;
+    ImageView backButton;
 
     EconomiesAdapter economiesAdapter;
     List<BasicServerData> basicServerDataList;
@@ -54,11 +54,22 @@ public class Lobby extends AppCompatActivity {
         serverList = findViewById(R.id.server_list);
         addEconomy = findViewById(R.id.add_economy);
         noEconomy = findViewById(R.id.empty_economy);
-        ImageView backButton = findViewById(R.id.back_button);
-        addEconomy.setOnClickListener(v -> doAddEconomy.launch(new Intent(getApplicationContext(), AddEconomy.class)));
+        backButton = findViewById(R.id.back_button);
 
+        backButton.setOnClickListener(v -> finish());
+
+        if (merkado.getAccount() == null) loggedOut();
+        else loggedIn();
+    }
+
+    private void loggedOut() {
+        noEconomy.setText(R.string.lobby_sign_in_requirement);
+        addEconomy.setVisibility(View.GONE);
+    }
+
+    private void loggedIn() {
+        addEconomy.setOnClickListener(v -> doAddEconomy.launch(new Intent(getApplicationContext(), AddEconomy.class)));
         basicServerDataList = merkado.getEconomyBasicList();
-        backButton.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -84,14 +95,8 @@ public class Lobby extends AppCompatActivity {
         if (basicServerDataList == null || basicServerDataList.isEmpty()) {
             noEconomy.setVisibility(View.VISIBLE);
             serverList.setVisibility(View.GONE);
-
-            if (merkado.getAccount() == null) {
-                noEconomy.setText(R.string.lobby_sign_in_requirement);
-                addEconomy.setVisibility(View.GONE);
-            } else {
-                noEconomy.setText(R.string.lobby_empty);
-                addEconomy.setVisibility(View.VISIBLE);
-            }
+            noEconomy.setText(R.string.lobby_empty);
+            addEconomy.setVisibility(View.VISIBLE);
         } else {
             serverList.setVisibility(View.VISIBLE);
             noEconomy.setVisibility(View.GONE);

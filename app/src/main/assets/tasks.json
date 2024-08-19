@@ -1,0 +1,16 @@
+[
+  {
+    "category": "Daily Task",
+    "description": "Go to anyone's store and buy three (3) foods.",
+    "rewards": [
+      {
+        "resourceId": 0,
+        "resourceQuantity": 1
+      }
+    ],
+    "shortDescription": "Buy three (3) foods from a store.",
+    "taskCode": "1",
+    "title": "Buy Three Foods",
+    "triggers": "store>buy>food>3"
+  }
+]

@@ -124,16 +124,17 @@ public class Factory extends AppCompatActivity {
                         R.drawable.bg_food_factory :
                         R.drawable.bg_manufacturing_factory));
 
+
         resourceDataList = new ArrayList<>();
         productionChoices.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
         factoryChoiceAdapter = new FactoryChoiceAdapter(this);
         factoryChoiceAdapter.setOnChoiceSet(this::onChoiceSet);
         productionChoices.setAdapter(factoryChoiceAdapter);
 
+        updateResourceList(FactoryDataFunctions.getFactoryChoices(isFoodFactory ? FactoryTypes.FOOD : FactoryTypes.MANUFACTURING));
+
         clicker.setOnClickListener(v -> generateResource());
 
-        FactoryDataFunctions.getFactoryChoices(isFoodFactory ? FactoryTypes.FOOD : FactoryTypes.MANUFACTURING)
-                .thenAccept(this::updateResourceList);
         factoryDataUpdates = new FactoryDataUpdates(merkado.getPlayerId());
         factoryDataUpdates.startListener(this::updateFactoryDetails);
 
@@ -251,7 +252,6 @@ public class Factory extends AppCompatActivity {
     private void saveAddedResource() {
         if (addedResource == 0) return;
         FactoryDataFunctions.addFactoryProducts(
-                getApplicationContext(),
                 merkado.getPlayer().getServer(),
                 merkado.getPlayer().getFactory().getFactoryMarketId(),
                 currentResourceData.getResourceId(),

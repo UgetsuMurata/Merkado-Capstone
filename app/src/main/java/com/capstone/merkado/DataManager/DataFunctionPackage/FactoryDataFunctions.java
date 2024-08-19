@@ -1,7 +1,5 @@
 package com.capstone.merkado.DataManager.DataFunctionPackage;
 
-import android.content.Context;
-
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
@@ -88,6 +86,10 @@ public class FactoryDataFunctions {
         FirebaseData firebaseData = new FirebaseData();
         String factoryTypeName = factoryType == FactoryTypes.FOOD ? "Food Factory" : "Manufacturing Factory";
         String factoryName = String.format("%s's %s", username, factoryTypeName);
+        ResourceData resourceData = FactoryDataFunctions.getFactoryChoices(
+                factoryType == FactoryTypes.FOOD ?
+                        FactoryTypes.FOOD :
+                        FactoryTypes.MANUFACTURING).get(0);
         firebaseData.setValue(
                 String.format(
                         Locale.getDefault(),
@@ -95,6 +97,14 @@ public class FactoryDataFunctions {
                         playerId
                 ),
                 factoryType.toString()
+        );
+        firebaseData.setValue(
+                String.format(
+                        Locale.getDefault(),
+                        "player/%d/factory/details/onProduction",
+                        playerId
+                ),
+                resourceData.getResourceId()
         );
         firebaseData.setValue(
                 String.format(
@@ -137,21 +147,9 @@ public class FactoryDataFunctions {
                 CompletableFuture.completedFuture(dataSnapshot.getValue(FactoryData.class)));
     }
 
-    public static CompletableFuture<List<ResourceData>> getFactoryChoices(FactoryTypes type) {
-        FirebaseData firebaseData = new FirebaseData();
-        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
-
-        firebaseData.retrieveData("resource", future::complete);
-
-        return future.thenCompose(dataSnapshot -> {
-            List<ResourceData> resourceData = new ArrayList<>();
-            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                ResourceData rd = ds.getValue(ResourceData.class);
-                if (rd == null) continue;
-                resourceData.add(rd);
-            }
-            return CompletableFuture.completedFuture(filter(type, resourceData));
-        });
+    public static List<ResourceData> getFactoryChoices(FactoryTypes type) {
+        List<ResourceData> resourceDataList = InternalDataFunctions.getAllResources();
+        return filter(type, resourceDataList);
     }
 
     public static void updateFactoryDetails(FactoryData.FactoryDetails factoryDetails, Integer playerId) {
@@ -159,7 +157,7 @@ public class FactoryDataFunctions {
         firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/factory/details", playerId), factoryDetails);
     }
 
-    public static void addFactoryProducts(Context context, String serverId, Integer factoryMarketId, Integer resourceId, Long quantity) {
+    public static void addFactoryProducts(String serverId, Integer factoryMarketId, Integer resourceId, Long quantity) {
         FirebaseData firebaseData = new FirebaseData();
         String childPath = String.format(Locale.getDefault(),
                 "server/%s/market/playerFactory/%d/onSale", serverId, factoryMarketId);
@@ -180,7 +178,7 @@ public class FactoryDataFunctions {
                 }
                 onSaleList.add(onSale);
             }
-            ResourceData resourceData = InternalDataFunctions.getResourceData(context, resourceId);
+            ResourceData resourceData = InternalDataFunctions.getResourceData(resourceId);
             if (resourceData == null) return;
             PlayerMarkets.OnSale newOnSale = new PlayerMarkets.OnSale();
             newOnSale.setOnSaleId(onSaleList.size());

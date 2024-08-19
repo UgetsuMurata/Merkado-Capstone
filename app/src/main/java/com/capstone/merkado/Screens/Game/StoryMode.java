@@ -22,6 +22,7 @@ import com.capstone.merkado.CustomViews.IconToggle;
 import com.capstone.merkado.CustomViews.IconToggle.ToggleStatus;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
+import com.capstone.merkado.Helpers.RewardProcessor;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.ImagePlacementData;
@@ -444,6 +445,9 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentLineEnded() {
+        RewardProcessor.processRewards(
+                merkado.getPlayerId(),
+                playerStory.getCurrentScene().getRewards());
         if (playerStory.getCurrentLineGroup().getIsQuiz() != null && playerStory.getCurrentLineGroup().getIsQuiz()) {
             // change nextLineGroupId based on the quizScore.
             nextLineGroupId = processQuizNextLineGroup(quizScore, playerStory.getCurrentLineGroup().getNextLineCode());
@@ -690,7 +694,7 @@ public class StoryMode extends AppCompatActivity {
 
         int finalIdle = idle;
         new Handler().postDelayed(() ->
-                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), finalIdle))
+                        imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), finalIdle))
                 , 250);
     }
 

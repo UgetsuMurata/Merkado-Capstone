@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_mai_main_menu"
-    android:padding="10dp"
+    android:background="@drawable/bg_gam_main_map"
     tools:context=".Screens.Game.MainMap">
 
     <!--TOP UI-->
@@ -13,6 +12,7 @@
         android:id="@+id/top_ui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -38,111 +38,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/house_icon_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".4" />
+        <com.capstone.merkado.CustomViews.ConstraintClicker
+            android:id="@+id/my_house_clicker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="2dp"
+            app:clickerBottom=".635"
+            app:clickerEnd=".2379"
+            app:clickerStart=".0418"
+            app:clickerTop=".417" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/house_icon_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".7" />
+        <com.capstone.merkado.CustomViews.ConstraintClicker
+            android:id="@+id/my_store_clicker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="2dp"
+            app:clickerBottom=".805"
+            app:clickerEnd=".525"
+            app:clickerStart=".315"
+            app:clickerTop=".469"/>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/house_icon_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".4" />
+        <com.capstone.merkado.CustomViews.ConstraintClicker
+            android:id="@+id/my_factory_clicker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="2dp"
+            app:clickerBottom=".667"
+            app:clickerEnd=".9859"
+            app:clickerStart=".549"
+            app:clickerTop=".162" />
 
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/map_house"
-            android:src="@drawable/icon_house"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/house_icon_end"
-            app:layout_constraintStart_toStartOf="@id/house_icon_start"
-            app:layout_constraintTop_toTopOf="@id/house_icon_top" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/my_factory"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:contentDescription="@string/map_factory"
+            android:scaleType="fitXY"
+            android:src="@drawable/gui_my_factory_closed" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/factory_icon_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent=".75" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/map_house"
+            android:scaleType="fitXY"
+            android:src="@drawable/gui_my_house" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/factory_icon_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent=".60" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/factory_icon_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent=".25" />
-
-            <ImageView
-                android:id="@+id/my_factory"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/map_factory"
-                android:src="@drawable/icon_factory_closed"
-                app:layout_constraintBottom_toBottomOf="@id/factory_icon_bottom"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/factory_icon_start"
-                app:layout_constraintTop_toTopOf="@id/factory_icon_top" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/store_icon_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".05" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/store_icon_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".3" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/store_icon_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".4" />
-
-                <ImageView
-                    android:id="@+id/my_store"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:contentDescription="@string/map_store"
-                    android:src="@drawable/icon_store_closed"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/store_icon_end"
-                    app:layout_constraintStart_toStartOf="@id/store_icon_start"
-                    app:layout_constraintTop_toTopOf="@id/store_icon_top" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/my_store"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/map_store"
+            android:scaleType="fitXY"
+            android:src="@drawable/gui_my_store_closed" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--BOTTOM NAVIGATION BUTTONS-->
@@ -150,6 +97,7 @@
         android:id="@+id/bottom_navigation_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 

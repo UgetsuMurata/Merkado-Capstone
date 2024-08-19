@@ -181,7 +181,7 @@ public class StoreConsumerView extends AppCompatActivity {
         itemDescriptionContainer.setVisibility(View.VISIBLE);
         itemDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
-        ResourceData resourceData = InternalDataFunctions.getResourceData(getApplicationContext(), onSale.getResourceId());
+        ResourceData resourceData = InternalDataFunctions.getResourceData(onSale.getResourceId());
         itemDescription.setText(resourceData.getDescription());
         itemName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());

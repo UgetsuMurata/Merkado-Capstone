@@ -21,13 +21,19 @@ public class StoryDataFunctions {
      * @return LineGroup instance.
      */
     public static @Nullable LineGroup getLineGroupFromId(Long chapterId, Long sceneId, Integer lineGroupIndex) {
+        if (chapterId == null || sceneId == null || lineGroupIndex == null) return null;
         Merkado merkado = Merkado.getInstance();
         List<Chapter> chapterList = merkado.getChapterList();
-        Chapter chapter = chapterList.get(Math.toIntExact(chapterId));
-        if (chapter == null) return null;
-        Chapter.Scene scene = chapter.getScenes().get(Math.toIntExact(sceneId));
-        if (scene == null) return null;
-        return scene.getLineGroup().get(lineGroupIndex);
+        Chapter chapter;
+        if (chapterList.size() > chapterId) chapter = chapterList.get(Math.toIntExact(chapterId));
+        else return null;
+        Chapter.Scene scene;
+        if (chapter.getScenes().size() > sceneId)
+            scene = chapter.getScenes().get(Math.toIntExact(sceneId));
+        else return null;
+        if (scene.getLineGroup().size() > lineGroupIndex)
+            return scene.getLineGroup().get(lineGroupIndex);
+        else return null;
     }
 
     /**

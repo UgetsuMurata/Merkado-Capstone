@@ -4,6 +4,7 @@ import com.capstone.merkado.Objects.StoryDataObjects.Chapter.GameRewards;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class TaskData {
     String title;
     String description;

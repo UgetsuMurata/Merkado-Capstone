@@ -1,7 +1,9 @@
 package com.capstone.merkado.Objects.ResourceDataObjects;
 
+import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryDefaults;
 
+@SuppressWarnings("unused")
 public class ResourceData {
     Integer resourceId;
     String name;
@@ -34,7 +36,7 @@ public class ResourceData {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = StringProcessor.stringProcessor(description);
     }
 
     public String getType() {

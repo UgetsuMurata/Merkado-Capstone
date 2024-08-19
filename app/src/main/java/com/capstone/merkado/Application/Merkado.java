@@ -19,6 +19,7 @@ import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.PlayerDataUpdates;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.PlayerListListener;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
+import com.capstone.merkado.Exceptions.Crash;
 import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
@@ -54,6 +55,7 @@ public class Merkado extends Application {
     private AccountDataFunctions accountDataFunctions;
     private PlayerDataFunctions playerDataFunctions;
     private String currentServer;
+    private BasicServerData currentServerData;
 
     @Override
     public void onCreate() {
@@ -70,6 +72,7 @@ public class Merkado extends Application {
         // initialize variables
         staticContents = new StaticContents();
         playerDataFunctions = new PlayerDataFunctions();
+        Thread.setDefaultUncaughtExceptionHandler(new Crash());
     }
 
     /**
@@ -229,12 +232,13 @@ public class Merkado extends Application {
         this.playerDataListener = playerDataListener;
     }
 
-    public void setServer(@Nullable String server) {
-        if (server == null) {
+    public void setServer(@Nullable BasicServerData serverData) {
+        if (serverData == null) {
             logOutToServer();
             this.currentServer = null;
         } else {
-            this.currentServer = server;
+            this.currentServer = serverData.getId();
+            this.currentServerData = serverData;
             logInToServer();
         }
     }
@@ -244,7 +248,12 @@ public class Merkado extends Application {
             ServerDataFunctions.logInToServer(this.playerId, this.currentServer);
     }
 
-    private void logOutToServer() {
+    public String getServerName() {
+        if (this.currentServer != null) return this.currentServerData.getName();
+        return "";
+    }
+
+    public void logOutToServer() {
         ServerDataFunctions.logOutFromServer(this.playerId, this.currentServer);
         this.playerId = null;
         this.currentServer = null;
@@ -345,6 +354,14 @@ public class Merkado extends Application {
 
         public Market getPlayerMarket() {
             return player.getMarket();
+        }
+
+        public Boolean hasStore() {
+            return player.getMarket() != null && player.getMarket().getId() != null;
+        }
+
+        public Boolean hasFactory() {
+            return player.getFactory() != null && player.getFactory().getFactoryMarketId() != null;
         }
 
         public interface PlayerDataListener<T> {

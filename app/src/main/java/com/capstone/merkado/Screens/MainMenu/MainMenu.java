@@ -7,10 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,60 +22,39 @@ import com.capstone.merkado.Screens.Settings.SettingsMenu;
 
 public class MainMenu extends AppCompatActivity {
 
-    private Merkado merkado;
-
-    /**
-     * VIEWS
-     */
-    private ImageView account, settings;
-    private CardView play;
-
-    /**
-     * VARIABLES
-     */
-    private Account currentUser;
     private final ActivityResultLauncher<Intent> doSignIn = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent i = new Intent(getApplicationContext(), MainMenu.class);
-                        overridePendingTransition(0, 0);
-                        startActivity(i);
-                        overridePendingTransition(0, 0);
-                        finish();
-                    }
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent i = new Intent(getApplicationContext(), MainMenu.class);
+                    overridePendingTransition(0, 0);
+                    startActivity(i);
+                    overridePendingTransition(0, 0);
+                    finish();
                 }
             });
 
     private final ActivityResultLauncher<Intent> doSignOut = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent i = new Intent(getApplicationContext(), MainMenu.class);
-                        overridePendingTransition(0, 0);
-                        startActivity(i);
-                        overridePendingTransition(0, 0);
-                        finish();
-                    }
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent i = new Intent(getApplicationContext(), MainMenu.class);
+                    overridePendingTransition(0, 0);
+                    startActivity(i);
+                    overridePendingTransition(0, 0);
+                    finish();
                 }
             });
 
     private final ActivityResultLauncher<Intent> doSettings = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent i = new Intent(getApplicationContext(), MainMenu.class);
-                        overridePendingTransition(0, 0);
-                        startActivity(i);
-                        overridePendingTransition(0, 0);
-                        finish();
-                    }
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent i = new Intent(getApplicationContext(), MainMenu.class);
+                    overridePendingTransition(0, 0);
+                    startActivity(i);
+                    overridePendingTransition(0, 0);
+                    finish();
                 }
             });
 
@@ -89,16 +64,16 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.mai_main_menu);
 
         // initialize this activity's screen.
-        merkado = Merkado.getInstance();
+        Merkado merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
         // find views
-        account = findViewById(R.id.account_button);
-        settings = findViewById(R.id.settings_button);
-        play = findViewById(R.id.play);
+        ImageView account = findViewById(R.id.account_button);
+        ImageView settings = findViewById(R.id.settings_button);
+        CardView play = findViewById(R.id.play);
 
         // get current account
-        currentUser = merkado.getAccount();
+        Account currentUser = merkado.getAccount();
 
         // welcome the user if signed in
         if (currentUser != null) {
@@ -109,9 +84,11 @@ public class MainMenu extends AppCompatActivity {
         if (currentUser != null) {
             account.setOnClickListener(v -> doSignOut.launch(new Intent(getApplicationContext(), SignOut.class)));
             account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_sign_out));
+            settings.setVisibility(View.VISIBLE);
         } else {
             account.setOnClickListener(v -> doSignIn.launch(new Intent(getApplicationContext(), SignIn.class)));
             account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_sign_in));
+            settings.setVisibility(View.GONE);
         }
 
         // navigate to settings

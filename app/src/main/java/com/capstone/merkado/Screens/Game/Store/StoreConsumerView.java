@@ -205,6 +205,9 @@ public class StoreConsumerView extends AppCompatActivity {
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         purchaseOverlayQuantity = 1;
 
+        purchaseOverlayFinalCost = currentOnSale.getPrice() * 1;
+        purchaseOverlayCost.setText(String.format(Locale.getDefault(), "%.2f", purchaseOverlayFinalCost));
+
         purchaseOverlayItemName.setText(onSale.getItemName());
         purchaseOverlayImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), itemImageResource));
         purchaseOverlayItemQuantity.setText(StringProcessor.numberToSpacedString(purchaseOverlayQuantity));

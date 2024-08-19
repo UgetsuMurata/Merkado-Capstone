@@ -2,9 +2,12 @@ package com.capstone.merkado.Objects.PlayerDataObjects;
 
 import androidx.annotation.Nullable;
 
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.StoresDataObjects.Market;
+import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
+import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
@@ -51,6 +54,7 @@ public class Player {
         this.history = playerFBExtractor.getHistory();
         this.market = playerFBExtractor.getMarket();
         this.factory = playerFBExtractor.getFactory();
+        this.playerStoryList = convertToPlayerStory(playerFBExtractor.getStoryQueue());
     }
 
     public Player(@Nullable PlayerFBExtractor2 playerFBExtractor) {
@@ -63,6 +67,7 @@ public class Player {
         this.exp = playerFBExtractor.getExp();
         this.market = playerFBExtractor.getMarket();
         this.factory = playerFBExtractor.getFactory();
+        this.playerStoryList = convertToPlayerStory(new PlayerFBExtractor1(playerFBExtractor).getStoryQueue());
     }
 
     public String getAccountId() {
@@ -143,5 +148,44 @@ public class Player {
 
     public void setFactory(FactoryData factory) {
         this.factory = factory;
+    }
+
+    private List<PlayerStory> convertToPlayerStory(List<PlayerFBExtractor1.StoryQueue> storyQueueList) {
+        List<PlayerStory> playerStories = new ArrayList<>();
+        if (storyQueueList == null || storyQueueList.isEmpty()) return null;
+        for (PlayerFBExtractor1.StoryQueue storyQueue : storyQueueList) {
+            PlayerStory playerStory = new PlayerStory();
+            Chapter chapter = StoryDataFunctions.getChapterFromId(storyQueue.getChapter());
+            Chapter.Scene currentScene = null;
+            LineGroup currentLineGroup = null;
+            Chapter.Scene nextScene = null;
+            LineGroup nextLineGroup = null;
+
+            if (chapter != null &&
+                    storyQueue.getCurrentScene() != null &&
+                    storyQueue.getCurrentScene() < chapter.getScenes().size())
+                currentScene = chapter.getScenes().get(storyQueue.getCurrentScene());
+            if (currentScene != null &&
+                    storyQueue.getCurrentLineGroup() != null &&
+                    storyQueue.getCurrentLineGroup() < currentScene.getLineGroup().size())
+                currentLineGroup = currentScene.getLineGroup().get(storyQueue.getCurrentLineGroup());
+            if (currentScene != null &&
+                    storyQueue.getNextLineGroup() != null &&
+                    storyQueue.getNextLineGroup() < currentScene.getLineGroup().size())
+                nextLineGroup = currentScene.getLineGroup().get(storyQueue.getNextLineGroup());
+            if (chapter != null &&
+                    storyQueue.getNextScene() != null &&
+                    storyQueue.getNextScene() < chapter.getScenes().size())
+                nextScene = chapter.getScenes().get(storyQueue.getNextScene());
+
+            playerStory.setChapter(chapter);
+            playerStory.setCurrentScene(currentScene);
+            playerStory.setNextScene(nextScene);
+            playerStory.setCurrentLineGroup(currentLineGroup);
+            playerStory.setNextLineGroup(nextLineGroup);
+
+            playerStories.add(playerStory);
+        }
+        return playerStories;
     }
 }

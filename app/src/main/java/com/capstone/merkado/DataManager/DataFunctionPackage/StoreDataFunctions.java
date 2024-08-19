@@ -6,6 +6,7 @@ import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandard;
 import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandardList;
+import com.capstone.merkado.Objects.StoresDataObjects.Market;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
 import com.google.firebase.database.DataSnapshot;
@@ -51,10 +52,13 @@ public class StoreDataFunctions {
     private static void createMarket(String server, Integer playerId, Integer index, PlayerMarkets playerMarkets) {
         FirebaseData firebaseData = new FirebaseData();
         playerMarkets.setMarketId(index);
+
+        Market market = new Market();
+        market.setId(index);
+        market.setHadMarket(true);
+
         firebaseData.setValue(
-                String.format(Locale.getDefault(), "player/%d/market/id", playerId), index);
-        firebaseData.setValue(
-                String.format(Locale.getDefault(), "player/%d/market/hadMarket", playerId), true);
+                String.format(Locale.getDefault(), "player/%d/market/", playerId), market);
         firebaseData.setValue(
                 String.format(Locale.getDefault(), "server/%s/market/playerMarkets/%d", server, index), playerMarkets);
     }

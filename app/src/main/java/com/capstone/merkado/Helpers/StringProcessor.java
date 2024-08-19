@@ -57,6 +57,14 @@ public class StringProcessor {
         return processed;
     }
 
+    public static String stringProcessor(String rawString) {
+        String processed = rawString;
+        if (rawString.contains("[server_name]")) {
+            processed = rawString.replaceAll("\\[server_name]", Merkado.getInstance().getServerName());
+        }
+        return processed;
+    }
+
     /**
      * Converts the number into spaced string. This is for the numbers that uses the font "logo.ttf" which needs to be spaced out for numbers.
      * @param number raw number (<i>Integer</i> datatype).

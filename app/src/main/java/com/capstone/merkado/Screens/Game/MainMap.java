@@ -125,6 +125,7 @@ public class MainMap extends AppCompatActivity {
         // setup ui data
         setupPlayerLevelView();
         setupPlayerBalanceView();
+        updateAccessibleButtons();
     }
 
     private void sendFactoryIntent() {
@@ -200,6 +201,7 @@ public class MainMap extends AppCompatActivity {
         if (!Objects.equals(previousPlayerLevel, playerLevel)) {
             previousPlayerLevel = playerLevel;
             accessibleFunctionalityUpdate();
+            updateAccessibleButtons();
             playerLevelView.setPlayerLevel(playerLevel);
         }
     }
@@ -245,6 +247,22 @@ public class MainMap extends AppCompatActivity {
                         R.drawable.gui_my_factory_open));
                 myFactoryClicker.setOnClickListener(v -> sendFactoryIntent());
             }
+        }
+    }
+
+    private void updateAccessibleButtons() {
+        if (playerLevel == 1) {
+            storesNav.setVisibility(View.GONE);
+            factoriesNav.setVisibility(View.GONE);
+        } else if (playerLevel == 2) {
+            storesNav.setVisibility(View.VISIBLE);
+            factoriesNav.setVisibility(View.GONE);
+        } else if (playerLevel == 3) {
+            storesNav.setVisibility(View.VISIBLE);
+            factoriesNav.setVisibility(View.VISIBLE);
+        } else if (playerLevel == 4) {
+            storesNav.setVisibility(View.VISIBLE);
+            factoriesNav.setVisibility(merkado.getPlayerData().hasFactory() ? View.GONE : View.VISIBLE);
         }
     }
 

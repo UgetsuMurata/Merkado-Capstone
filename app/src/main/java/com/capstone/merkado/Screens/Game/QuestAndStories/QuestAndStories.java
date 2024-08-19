@@ -156,7 +156,7 @@ public class QuestAndStories extends AppCompatActivity {
 
     private void goToStory(QASDetail qasDetail) {
         Intent intent = new Intent(getApplicationContext(), StoryMode.class);
-        intent.putExtra("PLAYER_STORY", merkado.getPlayer().getPlayerStoryList().get(qasDetail.getQueueId()));
+        intent.putExtra("PLAYER_STORY", merkado.getPlayerData().getPlayerStory().get(qasDetail.getQueueId()));
         intent.putExtra("CURRENT_QUEUE_INDEX", qasDetail.getQueueId());
         startActivity(intent);
     }

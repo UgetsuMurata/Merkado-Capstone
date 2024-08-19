@@ -67,7 +67,7 @@ public class FactoryDataFunctions {
         playerFactory.setFactoryId(index);
 
         firebaseData.setValue(
-                String.format(Locale.getDefault(), "server/%s/market/playerFactory/", server),
+                String.format(Locale.getDefault(), "server/%s/market/playerFactory/%d", server, index),
                 playerFactory
         );
     }

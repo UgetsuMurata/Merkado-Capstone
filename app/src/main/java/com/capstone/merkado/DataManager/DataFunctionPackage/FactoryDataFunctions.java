@@ -1,5 +1,7 @@
 package com.capstone.merkado.DataManager.DataFunctionPackage;
 
+import androidx.annotation.Nullable;
+
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class FactoryDataFunctions {
 
-    public static void setUpFactory(String server, Integer playerId, String username, Integer marketId) {
+    public static void setUpFactory(String server, Integer playerId, String username, @Nullable Integer marketId) {
         FirebaseData firebaseData = new FirebaseData();
 
         // create FactoryData object

@@ -310,7 +310,9 @@ public class MainMap extends AppCompatActivity {
                         merkado.getPlayer().getServer(),
                         merkado.getPlayerId(),
                         merkado.getAccount().getUsername(),
-                        merkado.getPlayer().getMarket().getId()
+                        merkado.getPlayer().getMarket() != null?
+                                merkado.getPlayer().getMarket().getId():
+                                null
                 );
                 Toast.makeText(getApplicationContext(), "Factory claimed.", Toast.LENGTH_SHORT).show();
                 openFactoryPopup.hide();

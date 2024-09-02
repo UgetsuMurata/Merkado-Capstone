@@ -9,8 +9,36 @@
       }
     ],
     "shortDescription": "Buy three (3) foods from a store.",
-    "taskCode": "1",
+    "taskCode": "0",
     "title": "Buy Three Foods",
     "triggers": "store>buy>food>3"
+  },
+  {
+    "category": "Daily Task",
+    "description": "Go to anyone's store and buy three (3) tools.",
+    "rewards": [
+      {
+        "resourceId": 0,
+        "resourceQuantity": 1
+      }
+    ],
+    "shortDescription": "Buy three (3) tools from a store.",
+    "taskCode": "1",
+    "title": "Buy Three Tools",
+    "triggers": "store>buy>tools>3"
+  },
+  {
+    "category": "Daily Task",
+    "description": "Obtain one (1) collectible item.",
+    "rewards": [
+      {
+        "resourceId": 0,
+        "resourceQuantity": 1
+      }
+    ],
+    "shortDescription": "Obtain one (1) collectible item.",
+    "taskCode": "2",
+    "title": "Daily collections",
+    "triggers": "store>buy>collectibles>1"
   }
 ]

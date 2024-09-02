@@ -80,6 +80,8 @@ public class FactoryData implements Parcelable {
     public static class FactoryDetails implements Parcelable {
         Long energy;
         Long energyMax;
+        Long energyRecharge;
+        Long productPerTap;
         Long lastUsedEnergy;
         Integer onProduction;
         Long foodProficiency;
@@ -136,6 +138,22 @@ public class FactoryData implements Parcelable {
             this.lastUsedEnergy = lastUsedEnergy;
         }
 
+        public Long getEnergyRecharge() {
+            return energyRecharge;
+        }
+
+        public void setEnergyRecharge(Long energyRecharge) {
+            this.energyRecharge = energyRecharge;
+        }
+
+        public Long getProductPerTap() {
+            return productPerTap;
+        }
+
+        public void setProductPerTap(Long productPerTap) {
+            this.productPerTap = productPerTap;
+        }
+
         public FactoryDetails(Parcel in) {
             if (in.readByte() == 1) onProduction = in.readInt();
             else onProduction = null;
@@ -147,6 +165,10 @@ public class FactoryData implements Parcelable {
             else energy = null;
             if (in.readByte() == 1) energyMax = in.readLong();
             else energyMax = null;
+            if (in.readByte() == 1) energyRecharge = in.readLong();
+            else energyRecharge = null;
+            if (in.readByte() == 1) productPerTap = in.readLong();
+            else productPerTap = null;
             if (in.readByte() == 1) lastUsedEnergy = in.readLong();
             else lastUsedEnergy = null;
         }
@@ -177,11 +199,20 @@ public class FactoryData implements Parcelable {
                 dest.writeByte((byte) 1);
                 dest.writeLong(energy);
             }
-            if (energyMax == null) {
-                dest.writeByte((byte) 0);
-            } else {
+            if (energyMax == null) dest.writeByte((byte) 0);
+            else {
                 dest.writeByte((byte) 1);
                 dest.writeLong(energyMax);
+            }
+            if (energyRecharge == null) dest.writeByte((byte) 0);
+            else {
+                dest.writeByte((byte) 1);
+                dest.writeLong(energyRecharge);
+            }
+            if (productPerTap == null) dest.writeByte((byte) 0);
+            else {
+                dest.writeByte((byte) 1);
+                dest.writeLong(productPerTap);
             }
             if (lastUsedEnergy == null) {
                 dest.writeByte((byte) 0);

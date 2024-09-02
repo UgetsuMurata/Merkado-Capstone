@@ -14,53 +14,244 @@
     "type": "GAME MECHANICS"
   },
   {
+    "description": "Delight in this traditional Filipino steamed rice cake, a sweet blend of rice flour, tapioca flour, and brown sugar. Often enjoyed with freshly grated coconut, this beloved snack grants you N energy points, fueling your journey with its irresistible charm!",
+    "factoryDefaults": {
+      "proficiencyRequirement": 0,
+      "proficiencyReward": 1
+    },
+    "name": "Kutsinta",
+    "resourceId": 2,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A sweet snack made from silken tofu, highlighting street food economies.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 0,
+      "proficiencyReward": 1
+    },
+    "name": "Taho",
+    "resourceId": 3,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
     "description": "A fine Filipino snack that is loved by many! It is a delicious dish made with saba in a lumpia wrapper, coated in brown sugar and is deep-fried. One is never enough! This snack gives you N energy points.",
     "factoryDefaults": {
       "proficiencyRequirement": 0,
       "proficiencyReward": 1
     },
     "name": "Turon",
-    "resourceId": 2,
+    "resourceId": 4,
     "sellable": true,
     "type": "EDIBLE"
   },
   {
-    "description": "Gleaming remnants of a bygone age, these jagged metal scraps hold the whispers of past machinery. Collect enough of these scraps to upgrade your technology, crafting powerful tools that could turn the tide of your adventure!",
+    "description": "A boiled duck embryo, representing both a common snack and delicacy.",
     "factoryDefaults": {
-      "proficiencyRequirement": 0,
-      "proficiencyReward": 1
-    },
-    "name": "Metal Scraps",
-    "resourceId": 3,
-    "sellable": true,
-    "type": "RESOURCE"
-  },
-  {
-    "description": "An aged, well-worn pendant once cherished by a loyal companion. The faint etching of a name now lost to time adds an air of mystery. Could this relic hold the key to uncovering forgotten bonds and tales of loyalty?",
-    "name": "Dog Collar Pendant",
-    "resourceId": 4,
-    "sellable": true,
-    "type": "COLLECTIBLE"
-  },
-  {
-    "description": "Delight in this traditional Filipino steamed rice cake, a sweet blend of rice flour, tapioca flour, and brown sugar. Often enjoyed with freshly grated coconut, this beloved snack grants you N energy points, fueling your journey with its irresistible charm!",
-    "factoryDefaults": {
-      "proficiencyRequirement": 50,
+      "proficiencyRequirement": 1,
       "proficiencyReward": 2
     },
-    "name": "Kutsinta",
+    "name": "Balut",
     "resourceId": 5,
     "sellable": true,
     "type": "EDIBLE"
   },
   {
+    "description": "Spring rolls, often made in large quantities for social gatherings and trading.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 1,
+      "proficiencyReward": 2
+    },
+    "name": "Lumpia",
+    "resourceId": 6,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A dessert, illustrating the mix of cultures and economic classes.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 1,
+      "proficiencyReward": 2
+    },
+    "name": "Halo-Halo",
+    "resourceId": 7,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A rice cake, symbolizing traditional economies and festive markets.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 2,
+      "proficiencyReward": 3
+    },
+    "name": "Bibingka",
+    "resourceId": 8,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "Noodles, often used to symbolize long life and prosperity.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 2,
+      "proficiencyReward": 3
+    },
+    "name": "Pancit",
+    "resourceId": 9,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A sour soup, representing a staple food in households.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 3,
+      "proficiencyReward": 3
+    },
+    "name": "Sinigang",
+    "resourceId": 10,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A marinated meat dish, known for being economical and widespread.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 3,
+      "proficiencyReward": 3
+    },
+    "name": "Adobo",
+    "resourceId": 11,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A peanut sauce-based stew, often considered a special occasion dish.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 4,
+      "proficiencyReward": 3
+    },
+    "name": "Kare-Kare",
+    "resourceId": 12,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A roasted pig dish, often a luxury good at major celebrations.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 5,
+      "proficiencyReward": 3
+    },
+    "name": "Lechon",
+    "resourceId": 13,
+    "sellable": true,
+    "type": "EDIBLE"
+  },
+  {
+    "description": "A staple food resource, fundamental for population growth and stability.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 0,
+      "proficiencyReward": 1
+    },
+    "name": "Grain",
+    "resourceId": 14,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "Powers factories and is traded for other vital resources.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 0,
+      "proficiencyReward": 1
+    },
+    "name": "Coal",
+    "resourceId": 15,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "Essential for building structures or trading for other resources.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 0,
+      "proficiencyReward": 1
+    },
+    "name": "Timber",
+    "resourceId": 16,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "A crucial energy resource, powering cities or vehicles.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 1,
+      "proficiencyReward": 2
+    },
+    "name": "Oil Barrels",
+    "resourceId": 17,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
     "description": "A rugged, well-used container brimming with the essentials for any tinkerer. Within its sturdy frame lies an assortment of tools, each with the potential to mend, create, and innovate. Unlock its potential to transform your simple ideas into grand inventions!",
     "factoryDefaults": {
-      "proficiencyRequirement": 50,
+      "proficiencyRequirement": 1,
       "proficiencyReward": 2
     },
     "name": "Toolbox",
-    "resourceId": 6,
+    "resourceId": 18,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "Gleaming remnants of a bygone age, these jagged metal scraps hold the whispers of past machinery. Collect enough of these scraps to upgrade your technology, crafting powerful tools that could turn the tide of your adventure!",
+    "factoryDefaults": {
+      "proficiencyRequirement": 2,
+      "proficiencyReward": 3
+    },
+    "name": "Metal Scraps",
+    "resourceId": 19,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "Used in manufacturing weapons, tools, or industrial products.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 2,
+      "proficiencyReward": 3
+    },
+    "name": "Iron Ingots",
+    "resourceId": 20,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "A luxury good, used in trading for higher value items or services.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 3,
+      "proficiencyReward": 3
+    },
+    "name": "Silk",
+    "resourceId": 21,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "A valuable mineral used as currency or to craft high-end items.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 4,
+      "proficiencyReward": 3
+    },
+    "name": "Gold Ore",
+    "resourceId": 22,
+    "sellable": true,
+    "type": "RESOURCE"
+  },
+  {
+    "description": "High-value trade items used in luxury goods or as a currency reserve.",
+    "factoryDefaults": {
+      "proficiencyRequirement": 5,
+      "proficiencyReward": 3
+    },
+    "name": "Gems",
+    "resourceId": 23,
     "sellable": true,
     "type": "RESOURCE"
   }

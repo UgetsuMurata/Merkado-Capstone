@@ -1,18 +1,24 @@
 package com.capstone.merkado.Screens.LoadingScreen;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.AppUpdateDataFunctions;
+import com.capstone.merkado.Helpers.Updater;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,6 +28,12 @@ public class SplashScreen extends AppCompatActivity {
     private Merkado merkado;
     private ProgressBar progressBar;
     private final int maxProcesses = 2;
+
+    private MaterialCardView updateNotification;
+    private WoodenButton updateConfirmation;
+    private Activity activity;
+
+    private String updateLink = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +47,14 @@ public class SplashScreen extends AppCompatActivity {
         progressBar = findViewById(R.id.simpleProgressBar);
         progressBar.setMax(maxProcesses);
 
+        updateNotification = findViewById(R.id.app_update_notification);
+        updateConfirmation = findViewById(R.id.app_update_confirmation);
+        activity = this;
+
+        checkForUpdatesAndStartLoading();
+    }
+
+    private void startLoading() {
         new Thread(() -> {
             long startingTime = System.currentTimeMillis();
             AtomicInteger process_number = new AtomicInteger(0);
@@ -57,8 +77,25 @@ public class SplashScreen extends AppCompatActivity {
                     startActivity(new Intent(SplashScreen.this, MainMenu.class));
                     finish();
                 }
-            }, 1000 - System.currentTimeMillis()-startingTime));
+            }, 1000 - System.currentTimeMillis() - startingTime));
         }).start();
+    }
+
+    private void checkForUpdatesAndStartLoading() {
+        AppUpdateDataFunctions.hasNewUpdate(this).thenAccept(hasNewUpdate -> {
+            if (hasNewUpdate) {
+                runOnUiThread(() -> updateNotification.setVisibility(View.VISIBLE));
+                updateConfirmation.setOnClickListener(v ->
+                    AppUpdateDataFunctions.getUpdateLink().thenAccept(updateLink -> {
+                        Updater.allowDownload(activity);
+                        this.updateLink = updateLink;
+                    })
+                );
+            } else startLoading();
+        }).exceptionally(throwable -> {
+            startLoading();
+            return null;
+        });
     }
 
     /**
@@ -82,5 +119,12 @@ public class SplashScreen extends AppCompatActivity {
     private void process2() {
         // load internal data
         merkado.loadJSONResources(getApplicationContext());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!"".equals(updateLink))
+            Updater.updateApp(getApplicationContext(), updateLink);
     }
 }

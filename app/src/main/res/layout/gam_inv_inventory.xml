@@ -164,7 +164,7 @@
                         android:adjustViewBounds="true"
                         android:elevation="2dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/resource_4_dog_collar_pendant_sample"
+                        android:src="@drawable/resource_0_joining_badge"
                         app:layout_constraintDimensionRatio="2:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

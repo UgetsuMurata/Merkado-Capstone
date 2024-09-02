@@ -6,8 +6,15 @@ import java.util.Objects;
 
 public class LevelMaxSetter {
     public static Long getProficiencyMaxLevel(Long currentLevel) {
-        List<Long> proficiencyMaxLevel = Arrays.asList(50L, 150L, 300L, 500L, 750L, 1000L, 1500L);
+        List<Long> proficiencyMaxLevel = Arrays.asList(50L, 300L, 1000L, 3000L, 5000L);
         return process(currentLevel,
+                proficiencyMaxLevel,
+                proficiencyMaxLevel.get(proficiencyMaxLevel.size() - 1));
+    }
+
+    public static Long getProficiencyLevel(Long currentProficiency) {
+        List<Long> proficiencyMaxLevel = Arrays.asList(50L, 300L, 1000L, 3000L, 5000L);
+        return processLevel(currentProficiency,
                 proficiencyMaxLevel,
                 proficiencyMaxLevel.get(proficiencyMaxLevel.size() - 1));
     }
@@ -42,6 +49,14 @@ public class LevelMaxSetter {
         if (Objects.equals(current, maxLevel)) return maxLevel;
         for (Long level : levelMax) {
             if (current < level) return level;
+        }
+        return 0L;
+    }
+
+    private static Long processLevel(Long current, List<Long> levelMax, Long maxLevel) {
+        if (Objects.equals(current, maxLevel)) return (long) levelMax.size() - 1;
+        for (int i = 0; i < levelMax.size(); i++) {
+            if (current < levelMax.get(i)) return (long) i;
         }
         return 0L;
     }

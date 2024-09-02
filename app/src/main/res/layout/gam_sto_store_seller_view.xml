@@ -223,7 +223,7 @@
                         android:layout_height="0dp"
                         android:scaleType="fitCenter"
                         android:elevation="2dp"
-                        android:src="@drawable/resource_2_turon_sample"
+                        android:src="@drawable/resource_4_turon_sample"
                         app:layout_constraintDimensionRatio="2:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"

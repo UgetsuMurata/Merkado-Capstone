@@ -165,7 +165,7 @@ public class MainMap extends AppCompatActivity {
     private void updateMarketView(Market market) {
         myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 R.drawable.gui_my_store_closed));
-        if (playerLevel < 3) return;
+        if (playerLevel < 2) return;
         if (market == null || market.getId() == null) {
             myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                     R.drawable.gui_my_store_vacant));
@@ -226,8 +226,6 @@ public class MainMap extends AppCompatActivity {
                     refreshAfterIntent.launch(new Intent(getApplicationContext(), Stores.class));
                 }, 100);
             });
-        }
-        if (playerLevel >= 3) {
             if (merkado.getPlayerData().getPlayerMarket() == null || merkado.getPlayerData().getPlayerMarket().getId() == null) {
                 myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                         R.drawable.gui_my_store_vacant));
@@ -261,9 +259,6 @@ public class MainMap extends AppCompatActivity {
             storesNav.setVisibility(View.GONE);
             factoriesNav.setVisibility(View.GONE);
         } else if (playerLevel == 2) {
-            storesNav.setVisibility(View.VISIBLE);
-            factoriesNav.setVisibility(View.GONE);
-        } else if (playerLevel == 3) {
             storesNav.setVisibility(View.VISIBLE);
             factoriesNav.setVisibility(View.VISIBLE);
         } else if (playerLevel == 4) {

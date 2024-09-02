@@ -13,6 +13,7 @@
         android:id="@+id/item_lock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/lock_icon"
         android:elevation="4dp"
         android:padding="15dp"
         android:src="@drawable/icon_lock" />
@@ -21,6 +22,7 @@
         android:id="@+id/item_lock_filter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/filter_overlay"
         android:elevation="2dp"
         android:alpha=".5"
         android:src="@color/light_gray"/>
@@ -30,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/image_container"
         android:padding="5dp"
-        android:src="@drawable/resource_2_turon_sample" />
+        android:src="@drawable/resource_4_turon_sample" />
 </com.google.android.material.card.MaterialCardView>

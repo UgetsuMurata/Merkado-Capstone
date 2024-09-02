@@ -38,6 +38,14 @@
     <string name="food_factory">Food Factory</string>
     <string name="manufacturing_factory">Manufacturing Factory</string>
 
+    <!--FACTORY BOOSTER-->
+    <string name="x">x</string>
+    <string name="forward_slash">/</string>
+
+    <!--APP UPDATE-->
+    <string name="app_update">App Update</string>
+    <string name="app_update_contents">There is a pending update to Merkado. Please update the app and restart.</string>
+
     <!--CONTENT DESCRIPTIONS-->
     <string name="food_factory_bg">FOOD FACTORY BG</string>
     <string name="manufacturing_factory_bg">MANUFACTURING FACTORY BG</string>
@@ -48,5 +56,8 @@
     <string name="qas_icon">QAS ICON</string>
     <string name="factory_icon">FACTORY ICON</string>
     <string name="store_icon">STORE ICON</string>
+    <string name="image_container">IMAGE CONTAINER</string>
+    <string name="lock_icon">LOCK ICON</string>
+    <string name="filter_overlay">FILTER OVERLAY</string>
 
 </resources>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="24dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="2dp">
+
+    <ImageView
+        android:id="@+id/resource_img"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image_container"
+        android:src="@drawable/resource_3_taho" />
+
+    <TextView
+        android:id="@+id/resource_name"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/text"
+        android:gravity="center_vertical"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:fontFamily="@font/text"
+        android:gravity="center_vertical"
+        android:text="@string/x"
+        android:textColor="@color/black"
+        tools:ignore="TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/current_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:fontFamily="@font/text"
+        android:gravity="center_vertical"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/quantity_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:fontFamily="@font/text"
+        android:gravity="center_vertical"
+        android:text="@string/forward_slash"
+        android:textColor="@color/black"
+        tools:ignore="TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/resource_quantity"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:fontFamily="@font/text"
+        android:gravity="center_vertical"
+        android:textColor="@color/black" />
+
+</LinearLayout>

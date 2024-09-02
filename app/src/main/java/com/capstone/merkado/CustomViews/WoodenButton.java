@@ -29,6 +29,7 @@ import com.capstone.merkado.R;
 
 import java.util.HashMap;
 
+@SuppressWarnings("unused")
 public class WoodenButton extends ConstraintLayout {
 
     ImageView background;
@@ -41,7 +42,7 @@ public class WoodenButton extends ConstraintLayout {
 
     HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> drawableMapping;
     View.OnClickListener onClickListener;
-    Boolean showToast = true;
+    Boolean showToast = false;
     String toastMessage = "This button is disabled.";
 
     public WoodenButton(@NonNull Context context) {
@@ -91,9 +92,11 @@ public class WoodenButton extends ConstraintLayout {
         }
 
         itemView.setOnClickListener(v -> {
-            if (onClickListener != null && state != DISABLED) onClickListener.onClick(v);
-            else if (onClickListener != null) Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
-            onClickDrawableChanges();
+            if (onClickListener == null) return;
+            if (state != DISABLED) {
+                onClickListener.onClick(v);
+                onClickDrawableChanges();
+            } else if (showToast) Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
         });
     }
 

@@ -3,6 +3,8 @@ package com.capstone.merkado.DataManager.DataFunctionPackage;
 import androidx.annotation.Nullable;
 
 import com.capstone.merkado.DataManager.FirebaseData;
+import com.capstone.merkado.DataManager.StaticData.UpgradeBoosters;
+import com.capstone.merkado.DataManager.StaticData.UpgradeBoosters.Booster;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
@@ -25,8 +27,10 @@ public class FactoryDataFunctions {
 
         // create FactoryData object
         FactoryData.FactoryDetails factoryDetails = new FactoryData.FactoryDetails();
-        factoryDetails.setEnergy(50L);
-        factoryDetails.setEnergyMax(50L);
+        factoryDetails.setEnergy(UpgradeBoosters.getMaximumEnergyLevelValue(0L));
+        factoryDetails.setEnergyMax(0L);
+        factoryDetails.setEnergyRecharge(0L);
+        factoryDetails.setProductPerTap(0L);
         factoryDetails.setLastUsedEnergy(System.currentTimeMillis());
         factoryDetails.setOnProduction(-1);
         factoryDetails.setFoodProficiency(0L);
@@ -157,6 +161,23 @@ public class FactoryDataFunctions {
     public static void updateFactoryDetails(FactoryData.FactoryDetails factoryDetails, Integer playerId) {
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.setValue(String.format(Locale.getDefault(), "player/%d/factory/details", playerId), factoryDetails);
+    }
+
+    public static void updateFactoryBoosterLevel(Integer playerId, Booster booster, Long level) {
+        FirebaseData firebaseData = new FirebaseData();
+        String dataPath = "";
+        switch (booster) {
+            case ProductPerTap:
+                dataPath = "player/%d/factory/details/productPerTap";
+                break;
+            case MaximumEnergy:
+                dataPath = "player/%d/factory/details/energyMax";
+                break;
+            case EnergyRecharge:
+                dataPath = "player/%d/factory/details/energyRecharge";
+                break;
+        }
+        firebaseData.setValue(String.format(Locale.getDefault(), dataPath, playerId), level);
     }
 
     public static void addFactoryProducts(String serverId, Integer factoryMarketId, Integer resourceId, Long quantity) {

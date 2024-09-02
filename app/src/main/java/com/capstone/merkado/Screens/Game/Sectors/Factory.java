@@ -19,15 +19,18 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.capstone.merkado.Adapters.BoosterUpgradePopupAdapter;
 import com.capstone.merkado.Adapters.FactoryChoiceAdapter;
 import com.capstone.merkado.Adapters.FactoryChoiceAdapter.ReturnChoiceStatus;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.IconLevels;
 import com.capstone.merkado.CustomViews.WoodenButton;
-import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions.FactoryDataUpdates;
 import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions.FactoryDataUpdates;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
+import com.capstone.merkado.DataManager.StaticData.UpgradeBoosters;
+import com.capstone.merkado.DataManager.StaticData.UpgradeBoosters.Booster;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData.FactoryDetails;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
@@ -57,6 +60,11 @@ public class Factory extends AppCompatActivity {
     // PLAYER DETAILS
     IconLevels proficiencyLevel, energyLevel;
 
+    // UPGRADE
+    WoodenButton pptUpgrade, meUpgrade, erUpgrade;
+    TextView pptLevelText, pptValueText, meLevelText, meValueText, erLevelText, erValueText;
+    BoosterUpgradePopupAdapter popupAdapter;
+
     // VARIABLES
     Boolean isFoodFactory = true;
     Integer currentProduction;
@@ -80,6 +88,7 @@ public class Factory extends AppCompatActivity {
     Integer resourcePerTap = 1;
     Integer idleClickerRes, activeClickerRes;
     FactoryActivityMode factoryActivityMode = PRODUCT;
+    Long pptLevel, meLevel, erLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +105,9 @@ public class Factory extends AppCompatActivity {
         }
 
         factoryDetails = merkado.getPlayerData().getPlayerFactory().getDetails();
+        pptLevel = factoryDetails.getProductPerTap();
+        meLevel = factoryDetails.getEnergyMax();
+        erLevel = factoryDetails.getEnergyRecharge();
         isFoodFactory = Objects.equals(merkado.getPlayerData().getPlayerFactory().getFactoryType(),
                 FactoryTypes.FOOD.toString());
 
@@ -116,6 +128,21 @@ public class Factory extends AppCompatActivity {
         proficiencyLevel = findViewById(R.id.proficiency_level);
         factoryHeader = findViewById(R.id.factory_header);
         boosterButton = findViewById(R.id.booster_button);
+
+        pptUpgrade = findViewById(R.id.ppt_upgrade);
+        pptLevelText = findViewById(R.id.ppt_level);
+        pptValueText = findViewById(R.id.ppt_value);
+        meUpgrade = findViewById(R.id.me_upgrade);
+        meLevelText = findViewById(R.id.me_level);
+        meValueText = findViewById(R.id.me_value);
+        erUpgrade = findViewById(R.id.er_upgrade);
+        erLevelText = findViewById(R.id.er_level);
+        erValueText = findViewById(R.id.er_value);
+        popupAdapter = new BoosterUpgradePopupAdapter(
+                this,
+                merkado.getPlayerId(),
+                findViewById(R.id.layout_booster_upgrade_popup),
+                isFoodFactory ? FactoryTypes.FOOD : FactoryTypes.MANUFACTURING);
 
         factoryHeader.setText(isFoodFactory ? "Food Factory" : "Manufacturing Factory");
         clicker.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), idleClickerRes));
@@ -149,7 +176,9 @@ public class Factory extends AppCompatActivity {
         };
 
         energyCount = factoryDetails.getEnergy();
-        energyCountLimit = factoryDetails.getEnergyMax();
+        energyCountLimit = UpgradeBoosters.getMaximumEnergyLevelValue(factoryDetails.getEnergyMax());
+        energyRecharge = UpgradeBoosters.getEnergyRechargeLevelValue(factoryDetails.getEnergyRecharge());
+        resourcePerTap = Math.toIntExact(UpgradeBoosters.getProductPerTapLevelValue(factoryDetails.getProductPerTap()));
         energyLastRecharged = factoryDetails.getLastUsedEnergy();
 
         if (!energyCount.equals(energyCountLimit)) {
@@ -163,6 +192,10 @@ public class Factory extends AppCompatActivity {
 
         boosterButton.setOnClickListener(v ->
                 changePanels(factoryActivityMode == BOOSTER ? PRODUCT : BOOSTER));
+
+        setUpBoosterUpgrades();
+        merkado.getPlayerData().setPlayerInventoryListener(inventories -> popupAdapter.setInventoryContents(inventories));
+        popupAdapter.setInventoryContents(merkado.getPlayerData().getPlayerInventory());
     }
 
     private Long calculateAddedEnergy() {
@@ -244,8 +277,9 @@ public class Factory extends AppCompatActivity {
         clickHandler.postDelayed(clickSaveRunnable, 2000);
         addedResource += resourcePerTap;
         energyCount -= resourcePerTap;
+        Long addedProficiency = currentResourceData.getFactoryDefaults().getProficiencyReward() * resourcePerTap;
         startEnergyRecharge();
-        updateProficiencyLevel(currentResourceData.getFactoryDefaults().getProficiencyReward());
+        updateProficiencyLevel(addedProficiency);
         updateEnergyLevel(energyCount);
     }
 
@@ -313,6 +347,64 @@ public class Factory extends AppCompatActivity {
         animator.start();
     }
 
+    private void setUpBoosterUpgrades() {
+        pptUpgrade.setOnClickListener(v -> {
+            popupAdapter.setBooster(Booster.ProductPerTap, pptLevel);
+            popupAdapter.show();
+        });
+        updateBooster(Booster.ProductPerTap);
+        meUpgrade.setOnClickListener(v -> {
+            popupAdapter.setBooster(Booster.MaximumEnergy, meLevel);
+            popupAdapter.show();
+        });
+        updateBooster(Booster.MaximumEnergy);
+        erUpgrade.setOnClickListener(v -> {
+            popupAdapter.setBooster(Booster.EnergyRecharge, erLevel);
+            popupAdapter.show();
+        });
+        updateBooster(Booster.EnergyRecharge);
+        popupAdapter.setOnEvent((booster, nextLevel, nextValue) -> {
+            switch (booster) {
+                case ProductPerTap:
+                    pptLevel = nextLevel;
+                    resourcePerTap = Math.toIntExact(nextValue);
+                    break;
+                case MaximumEnergy:
+                    meLevel = nextLevel;
+                    energyCountLimit = nextValue;
+                    runOnUiThread(() -> energyLevel.changeLimitValue(Math.toIntExact(energyCountLimit)));
+                    break;
+                case EnergyRecharge:
+                    erLevel = nextLevel;
+                    energyRecharge = nextValue;
+                    break;
+            }
+            updateBooster(booster);
+        });
+    }
+
+    private void updateBooster(Booster booster) {
+        switch (booster) {
+            case ProductPerTap:
+                runOnUiThread(() -> updateBoosterValues(booster, pptLevelText, pptValueText, pptLevel));
+                break;
+            case MaximumEnergy:
+                runOnUiThread(() -> updateBoosterValues(booster, meLevelText, meValueText, meLevel));
+                break;
+            case EnergyRecharge:
+                runOnUiThread(() -> updateBoosterValues(booster, erLevelText, erValueText, erLevel));
+                break;
+        }
+    }
+
+    private void updateBoosterValues(Booster booster, TextView level, TextView value, Long levelVal) {
+        level.setText(String.valueOf(levelVal));
+        Long valueVal = UpgradeBoosters.getBoosterLevelValue(booster, levelVal);
+        if (Booster.EnergyRecharge.equals(booster))
+            value.setText(UpgradeBoosters.getBoosterUnit(booster, valueVal));
+        else value.setText(String.valueOf(valueVal));
+    }
+
     /**
      * This is used to indicate which panel is currently displayed.
      */
@@ -329,7 +421,7 @@ public class Factory extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        factoryDataUpdates.stopListener();
+        if (factoryDataUpdates != null) factoryDataUpdates.stopListener();
         saveAddedResource();
         updateUserFactoryDetails();
         super.onDestroy();

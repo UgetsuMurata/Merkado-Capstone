@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
+import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.R;
 import com.google.android.material.card.MaterialCardView;
@@ -41,7 +42,7 @@ public class FactoryChoiceAdapter extends RecyclerView.Adapter<FactoryChoiceAdap
     public FactoryChoiceAdapter(Context context, List<ResourceData> resourceData, @Nullable Long proficiency, @Nullable Integer onProductionId) {
         this.context = context;
         this.resourceData = resourceData;
-        this.proficiency = proficiency == null ? 0 : proficiency;
+        this.proficiency = proficiency == null ? 0 : LevelMaxSetter.getProficiencyLevel(proficiency);
         this.onProductionId = onProductionId == null ? -1 : onProductionId;
     }
 
@@ -117,7 +118,7 @@ public class FactoryChoiceAdapter extends RecyclerView.Adapter<FactoryChoiceAdap
     }
 
     public void updateFactoryDetails(Long proficiency, Integer onProductionId) {
-        this.proficiency = proficiency;
+        this.proficiency = proficiency == null ? 0 : LevelMaxSetter.getProficiencyLevel(proficiency);
         this.onProductionId = onProductionId;
         notifyDataSetChanged();
     }

@@ -77,7 +77,7 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:padding="5dp"
-                        android:src="@drawable/resource_2_turon_sample" />
+                        android:src="@drawable/resource_4_turon_sample" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
@@ -110,7 +110,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent=".25" />
 
-
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/clicker_end"
                 android:layout_width="wrap_content"
@@ -124,6 +123,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent=".25" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <include
+                    android:id="@+id/layout_booster_upgrade_popup"
+                    layout="@layout/layout_booster_upgrade_popup"
+                    android:layout_width="300dp"
+                    android:layout_height="220dp"
+                    android:visibility="gone"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.capstone.merkado.CustomViews.IconLevels
                 android:id="@+id/energy_level"
@@ -184,8 +201,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
+                android:elevation="0dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/bg_manufacturing_factory" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -234,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/elements"
-                    android:text="1"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -315,7 +334,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/elements"
-                    android:text="1"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -337,9 +356,17 @@
                         android:id="@+id/me_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:fontFamily="@font/elements"
                         android:text="150"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/elements"
+                        android:text=" ⚡"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
 
@@ -380,7 +407,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/elements"
-                    android:text="1"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -402,16 +429,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/elements"
-                        android:text="10"
-                        android:textColor="@color/black"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:text="5 minutes"
                         android:layout_weight="1"
-                        android:fontFamily="@font/elements"
-                        android:text=" seconds"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
 

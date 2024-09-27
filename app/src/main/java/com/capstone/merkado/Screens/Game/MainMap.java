@@ -15,9 +15,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.capstone.merkado.Adapters.SupplyDemandDisplayAdapter;
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.CustomViews.ChoiceSwitch;
 import com.capstone.merkado.CustomViews.ConstraintClicker;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
@@ -25,9 +30,12 @@ import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
+import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.Objects.StoresDataObjects.Market;
+import com.capstone.merkado.Objects.StoresDataObjects.MarketData.CompiledData;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Inventory.InventoryActivity;
 import com.capstone.merkado.Screens.Game.QuestAndStories.QuestAndStories;
@@ -39,18 +47,27 @@ import com.capstone.merkado.Screens.Game.Store.Stores;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class MainMap extends AppCompatActivity {
 
     Merkado merkado;
     CardView inventoryNav, questAndStoriesNav, factoriesNav;
-    ImageView storesNav, myStore, myFactory;
-    ConstraintClicker myStoreClicker, myHouseClicker, myFactoryClicker;
+    ImageView storesNav, myStore, myFactory, board;
+    ConstraintClicker myStoreClicker, myHouseClicker, myFactoryClicker, boardClicker;
+    ConstraintLayout layoutMarketDataWindow;
     PlayerBalanceView playerBalanceView;
     PlayerLevelView playerLevelView;
     OpenStorePopup openStorePopup;
     OpenFactoryPopup openFactoryPopup;
+
+    // Market Data Window
+    TextView inflationRate, purchasingPower, updateTime;
+    RecyclerView supplyRecyclerview, demandRecyclerview;
+    ChoiceSwitch supplyCategory, demandCategory;
+    ImageView exitButton;
+    SupplyDemandDisplayAdapter supplyDisplayAdapter, demandDisplayAdapter;
 
     // VARIABLES
     Long playerExp;
@@ -93,9 +110,12 @@ public class MainMap extends AppCompatActivity {
         playerLevelView = findViewById(R.id.player_level);
         myStore = findViewById(R.id.my_store);
         myFactory = findViewById(R.id.my_factory);
+        board = findViewById(R.id.board);
         myHouseClicker = findViewById(R.id.my_house_clicker);
         myStoreClicker = findViewById(R.id.my_store_clicker);
         myFactoryClicker = findViewById(R.id.my_factory_clicker);
+        boardClicker = findViewById(R.id.board_clicker);
+        layoutMarketDataWindow = findViewById(R.id.layout_market_data_window);
         openStorePopup = new OpenStorePopup(this, findViewById(R.id.layout_open_store_popup),
                 merkado.getPlayerData().getPlayerMarket() == null ||
                         !merkado.getPlayerData().getPlayerMarket().getHadMarket());
@@ -132,6 +152,7 @@ public class MainMap extends AppCompatActivity {
         setupPlayerLevelView();
         setupPlayerBalanceView();
         updateAccessibleButtons();
+        setUpMarketDataWindow();
     }
 
     private void sendFactoryIntent() {
@@ -241,6 +262,10 @@ public class MainMap extends AppCompatActivity {
                     refreshAfterIntent.launch(new Intent(getApplicationContext(), Factories.class))
             );
         }
+        if (playerLevel >= 3) {
+            board.setVisibility(View.VISIBLE);
+            boardClicker.setOnClickListener(v -> openMarketDataWindow());
+        }
         if (playerLevel >= 4) {
             if (merkado.getPlayerData().getPlayerFactory() == null || merkado.getPlayerData().getPlayerFactory().getFactoryMarketId() == null) {
                 myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
@@ -272,10 +297,12 @@ public class MainMap extends AppCompatActivity {
         factoriesNav.setOnClickListener(null);
         myStoreClicker.setOnClickListener(null);
         myFactoryClicker.setOnClickListener(null);
+        boardClicker.setOnClickListener(null);
         myFactory.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 R.drawable.gui_my_factory_closed));
         myStore.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 R.drawable.gui_my_store_closed));
+        board.setVisibility(View.GONE);
     }
 
     private void openStore() {
@@ -311,8 +338,8 @@ public class MainMap extends AppCompatActivity {
                         merkado.getPlayer().getServer(),
                         merkado.getPlayerId(),
                         merkado.getAccount().getUsername(),
-                        merkado.getPlayer().getMarket() != null?
-                                merkado.getPlayer().getMarket().getId():
+                        merkado.getPlayer().getMarket() != null ?
+                                merkado.getPlayer().getMarket().getId() :
                                 null
                 );
                 Toast.makeText(getApplicationContext(), "Factory claimed.", Toast.LENGTH_SHORT).show();
@@ -429,6 +456,58 @@ public class MainMap extends AppCompatActivity {
 
             void onCancel();
         }
+    }
+
+    private void setUpMarketDataWindow() {
+        inflationRate = layoutMarketDataWindow.findViewById(R.id.inflation_rate);
+        purchasingPower = layoutMarketDataWindow.findViewById(R.id.purchasing_power);
+        updateTime = layoutMarketDataWindow.findViewById(R.id.update_time);
+        supplyRecyclerview = layoutMarketDataWindow.findViewById(R.id.supply_recyclerview);
+        demandRecyclerview = layoutMarketDataWindow.findViewById(R.id.demand_recyclerview);
+        supplyCategory = layoutMarketDataWindow.findViewById(R.id.supply_category);
+        demandCategory = layoutMarketDataWindow.findViewById(R.id.demand_category);
+        exitButton = layoutMarketDataWindow.findViewById(R.id.exit_window);
+    }
+
+    private void openMarketDataWindow() {
+        layoutMarketDataWindow.setVisibility(View.VISIBLE);
+        CompiledData compiledData = merkado.getCompiledMarketData();
+        Float inflationRateValue = compiledData.getInflationRate().getInflationRate();
+        Float purchasingPowerValue = compiledData.getInflationRate().getPurchasingPower();
+        Long millisUpdateTime = StringProcessor.serverHourStringToMillis(compiledData.getInflationRate().getUpdateTime());
+
+        inflationRate.setText(inflationRateValue != null ?
+                String.format(Locale.getDefault(), "%.2f%%", inflationRateValue * 100) :
+                "N/A");
+        purchasingPower.setText(inflationRateValue != null ?
+                String.format(Locale.getDefault(), "%.2f%%", purchasingPowerValue * 100) :
+                "N/A");
+        updateTime.setText(StringProcessor.convertMillisToFullDateAndTime(millisUpdateTime));
+
+        // show recyclerview
+        supplyRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        supplyDisplayAdapter = new SupplyDemandDisplayAdapter(this,
+                merkado.getCompiledMarketData().getSupplyDemands(),
+                SupplyDemandDisplayAdapter.Display.SUPPLY);
+        supplyRecyclerview.setAdapter(supplyDisplayAdapter);
+
+        supplyCategory.setOnChooseListener(choice1Chosen ->
+                supplyDisplayAdapter.changeDisplayedList(choice1Chosen ?
+                        ResourceDisplayMode.EDIBLES :
+                        ResourceDisplayMode.RESOURCES));
+
+        demandRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        demandDisplayAdapter = new SupplyDemandDisplayAdapter(this,
+                merkado.getCompiledMarketData().getSupplyDemands(),
+                SupplyDemandDisplayAdapter.Display.DEMAND);
+        demandRecyclerview.setAdapter(demandDisplayAdapter);
+
+        demandCategory.setOnChooseListener(choice1Chosen ->
+                demandDisplayAdapter.changeDisplayedList(choice1Chosen ?
+                        ResourceDisplayMode.EDIBLES :
+                        ResourceDisplayMode.RESOURCES));
+
+        exitButton.setOnClickListener(v -> layoutMarketDataWindow.setVisibility(View.GONE));
     }
 
     @Override

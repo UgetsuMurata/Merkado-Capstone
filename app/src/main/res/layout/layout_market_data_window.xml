@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gam_main_map_bulletin_overlay"
+    android:orientation="horizontal">
+
+
+    <!--EXIT-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/exit_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.765" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/exit_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <ImageView
+            android:id="@+id/exit_window"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/gui_close_button"
+            app:layout_constraintBottom_toBottomOf="@id/exit_bottom"
+            app:layout_constraintStart_toStartOf="@id/exit_start" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--MARKET DATA-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/market_data_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.274" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/market_data_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.47" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/market_data_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.27" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/market_data_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.385" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingHorizontal="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/market_data_bottom"
+            app:layout_constraintEnd_toEndOf="@id/market_data_end"
+            app:layout_constraintStart_toStartOf="@id/market_data_start"
+            app:layout_constraintTop_toTopOf="@id/market_data_top">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/text"
+                android:gravity="center"
+                android:text="Market Data"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/elements"
+                    android:text="Inflation Rate:"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/inflation_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/elements"
+                    android:text="1.4%"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/elements"
+                    android:text="Purchasing Power:"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/purchasing_power"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/elements"
+                    android:text="1.4%"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- SUPPLY -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/supply_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.274" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/supply_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.47" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/supply_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.453" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/supply_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.76" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/supply_bottom"
+            app:layout_constraintEnd_toEndOf="@id/supply_end"
+            app:layout_constraintStart_toStartOf="@id/supply_start"
+            app:layout_constraintTop_toTopOf="@id/supply_top">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/text"
+                android:gravity="center"
+                android:text="Supply"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.capstone.merkado.CustomViews.ChoiceSwitch
+                android:id="@+id/supply_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/supply_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="3dp"
+                android:layout_weight="1"
+                tools:listitem="@layout/item_market_data_window" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- DEMAND -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/demand_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.525" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/demand_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.716" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/demand_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.274" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/demand_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.76" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/demand_bottom"
+            app:layout_constraintEnd_toEndOf="@id/demand_end"
+            app:layout_constraintStart_toStartOf="@id/demand_start"
+            app:layout_constraintTop_toTopOf="@id/demand_top">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/text"
+                android:gravity="center"
+                android:text="Demand"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <com.capstone.merkado.CustomViews.ChoiceSwitch
+                android:id="@+id/demand_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/demand_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="2dp"
+                android:layout_weight="1"
+                tools:listitem="@layout/item_market_data_window" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- UPDATE TIME -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/update_time_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.55" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/update_time_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.78" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/update_time_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.83" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/update_time_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.86" />
+
+        <TextView
+            android:id="@+id/update_time"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:text="September 18, 2024 - 11:00 PM"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/update_time_bottom"
+            app:layout_constraintEnd_toEndOf="@id/update_time_end"
+            app:layout_constraintStart_toStartOf="@id/update_time_start"
+            app:layout_constraintTop_toTopOf="@id/update_time_top" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

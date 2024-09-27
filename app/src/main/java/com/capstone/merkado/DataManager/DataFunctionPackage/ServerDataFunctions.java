@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.capstone.merkado.DataManager.FirebaseData;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 
@@ -108,6 +109,81 @@ public class ServerDataFunctions {
         } catch (InterruptedException | ExecutionException e) {
             Log.e("checkServerExistence", String.format("Error occurred when getting future: %s", e));
             return null;
+        }
+    }
+
+    public static void logOutUpdaterPlayer(String serverId, Integer playerId) {
+        UpdaterPlayerListener updaterPlayerListener = new UpdaterPlayerListener(serverId);
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format("server/%s/onlinePlayers", serverId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null) return;
+                    if (!dataSnapshot.exists()) {
+                        updaterPlayerListener.setUpdaterPlayer(null);
+                    } else {
+                        for (DataSnapshot onlinePlayer : dataSnapshot.getChildren()) {
+                            Integer onlinePlayerId = onlinePlayer.getValue(Integer.class);
+                            if (onlinePlayerId != null && !onlinePlayerId.equals(playerId)) {
+                                // set updaterPlayer to the first player id that is not this player's id.
+                                updaterPlayerListener.setUpdaterPlayer(onlinePlayerId);
+                                return;
+                            }
+                        }
+                        updaterPlayerListener.setUpdaterPlayer(null);
+                    }
+                }
+        );
+    }
+
+    public static class UpdaterPlayerListener {
+        ValueReturn<Integer> returnValue;
+        FirebaseData firebaseData;
+        Integer initialData;
+        String serverId;
+
+        public UpdaterPlayerListener(String serverId) {
+            this.serverId = serverId;
+            firebaseData = new FirebaseData();
+        }
+
+        public CompletableFuture<Integer> getInitialData() {
+            CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+            firebaseData.retrieveData(String.format("server/%s/updaterPlayer", serverId),
+                    future::complete);
+            return future.thenCompose(dataSnapshot -> {
+                if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+                initialData = dataSnapshot.getValue(Integer.class);
+                return CompletableFuture.completedFuture(initialData);
+            });
+        }
+
+        public void setUpdaterPlayer(Integer playerId) {
+            FirebaseData fbData = new FirebaseData();
+            fbData.setValue(String.format("server/%s/updaterPlayer", serverId), playerId);
+        }
+
+        public void start(ValueReturn<Integer> returnValue) {
+            firebaseData.retrieveDataRealTime(
+                    String.format("server/%s/updaterPlayer", serverId),
+                    dataSnapshot -> {
+                        if (dataSnapshot == null) {
+                            if (returnValue != null)
+                                returnValue.valueReturn(null);
+                        } else {
+                            if (returnValue != null)
+                                returnValue.valueReturn(dataSnapshot.getValue(Integer.class));
+                        }
+                    }
+            );
+            this.returnValue = returnValue;
+        }
+
+        public void end() {
+            firebaseData.stopRealTimeUpdates(
+                    String.format("server/%s/updaterPlayer", this.serverId)
+            );
+            this.returnValue = null;
         }
     }
 }

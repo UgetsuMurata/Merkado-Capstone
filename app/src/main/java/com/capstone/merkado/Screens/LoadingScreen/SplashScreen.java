@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.AppUpdateDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.UtilityDataFunctions;
 import com.capstone.merkado.Helpers.Updater;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
@@ -27,7 +27,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private Merkado merkado;
     private ProgressBar progressBar;
-    private final int maxProcesses = 2;
+    private final int maxProcesses = 3;
 
     private MaterialCardView updateNotification;
     private WoodenButton updateConfirmation;
@@ -62,11 +62,13 @@ public class SplashScreen extends AppCompatActivity {
                 process_number.getAndIncrement();
                 switch (process_number.get()) {
                     case 1:
-                        process1();
+                        getServerTimeOffset();
                         break;
                     case 2:
-                        process2();
+                        process1();
                         break;
+                    case 3:
+                        process2();
                     default:
                         break;
                 }
@@ -82,11 +84,11 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void checkForUpdatesAndStartLoading() {
-        AppUpdateDataFunctions.hasNewUpdate(this).thenAccept(hasNewUpdate -> {
+        UtilityDataFunctions.hasNewUpdate(this).thenAccept(hasNewUpdate -> {
             if (hasNewUpdate) {
                 runOnUiThread(() -> updateNotification.setVisibility(View.VISIBLE));
                 updateConfirmation.setOnClickListener(v ->
-                    AppUpdateDataFunctions.getUpdateLink().thenAccept(updateLink -> {
+                    UtilityDataFunctions.getUpdateLink().thenAccept(updateLink -> {
                         Updater.allowDownload(activity);
                         this.updateLink = updateLink;
                     })
@@ -96,6 +98,10 @@ public class SplashScreen extends AppCompatActivity {
             startLoading();
             return null;
         });
+    }
+
+    private void getServerTimeOffset() {
+        UtilityDataFunctions.getServerTimeOffset().thenAccept(serverTimeOffset -> merkado.setServerTimeOffset(serverTimeOffset));
     }
 
     /**

@@ -89,9 +89,34 @@
             },
             "market": { // NEW: This holds the market data.
                 "marketStandard": {
-                    "resourceId" : {
-                        "resourceId": 0,
-                        "marketPrice": 100
+                    "marketPrice": {
+                        "resourceId": {
+                            "resourceId": 0,
+                            "marketPrice": 100,
+                            "metadata": { // NEW
+                                "demand": {
+                                    "hour1": 10,
+                                    "hour24": 1200
+                                },
+                                "supply": 10200
+                            }
+                        }
+                    },
+                    "metadata": { // NEW
+                        "totalWeightedPrice": 10200,
+                        "inflationRate": 0.25,
+                        "purchasingPower": 0.25,
+                        "updateTime": "YYYYMMDD;HH"
+                    }
+                },
+                "marketHistory": { // NEW
+                    "demand": {
+                        "resourceId": {
+                            "YYYYMMDD;HH": 10
+                        }
+                    },
+                    "totalWeightedPrice": {
+                        "YYYYMMDD;HH": 10200
                     }
                 },
                 "playerMarkets": [ // putting this in the server will make them easily accessible to a bunch of players.
@@ -134,7 +159,8 @@
                     }
                 ]
             },
-            "onlinePlayers": [0, 1]
+            "onlinePlayers": [0, 1],
+            "updaterPlayer": 0 // player assigned to update the server data.
         }
     },
     "story": [

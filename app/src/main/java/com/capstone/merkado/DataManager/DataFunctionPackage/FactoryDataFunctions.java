@@ -2,10 +2,12 @@ package com.capstone.merkado.DataManager.DataFunctionPackage;
 
 import androidx.annotation.Nullable;
 
+import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.StaticData.UpgradeBoosters;
 import com.capstone.merkado.DataManager.StaticData.UpgradeBoosters.Booster;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
+import com.capstone.merkado.Helpers.PlayerActions;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
 import com.capstone.merkado.Objects.FactoryDataObjects.PlayerFactory;
@@ -31,7 +33,7 @@ public class FactoryDataFunctions {
         factoryDetails.setEnergyMax(0L);
         factoryDetails.setEnergyRecharge(0L);
         factoryDetails.setProductPerTap(0L);
-        factoryDetails.setLastUsedEnergy(System.currentTimeMillis());
+        factoryDetails.setLastUsedEnergy(currentTimeMillis());
         factoryDetails.setOnProduction(-1);
         factoryDetails.setFoodProficiency(0L);
         factoryDetails.setManufacturingProficiency(0L);
@@ -43,7 +45,7 @@ public class FactoryDataFunctions {
         PlayerFactory playerFactory = new PlayerFactory();
         playerFactory.setFactoryOwner(playerId);
         playerFactory.setFactoryName(String.format("%s's Factory", username));
-        playerFactory.setOpened(System.currentTimeMillis());
+        playerFactory.setOpened(currentTimeMillis());
 
         firebaseData.retrieveData(
                 String.format(Locale.getDefault(), "server/%s/market/playerFactory/", server),
@@ -187,6 +189,7 @@ public class FactoryDataFunctions {
         firebaseData.retrieveData(childPath, dataSnapshot -> {
             if (dataSnapshot == null) return;
             List<PlayerMarkets.OnSale> onSaleList = new ArrayList<>();
+            PlayerActions.Store.createResource(resourceId, Math.toIntExact(quantity));
             int i = -1;
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                 i++;
@@ -299,5 +302,10 @@ public class FactoryDataFunctions {
         public void stopListener() {
             firebaseData.stopRealTimeUpdates(childPath);
         }
+    }
+
+    private static Long currentTimeMillis() {
+        Merkado merkado = Merkado.getInstance();
+        return merkado.currentTimeMillis();
     }
 }

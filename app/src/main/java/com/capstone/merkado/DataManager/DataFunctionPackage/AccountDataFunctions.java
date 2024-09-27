@@ -2,6 +2,7 @@ package com.capstone.merkado.DataManager.DataFunctionPackage;
 
 import android.content.Context;
 
+import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.SharedPref;
 import com.capstone.merkado.DataManager.ValueReturn.ReturnStatus;
@@ -141,7 +142,7 @@ public class AccountDataFunctions {
 
         // update the Firebase Realtime Database
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.setValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(email)), System.currentTimeMillis());
+        firebaseData.setValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(email)), currentTimeMillis());
     }
 
     public static Account getSignedIn(Context context) {
@@ -215,11 +216,11 @@ public class AccountDataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         // generate temporary username
-        String username = String.format(Locale.getDefault(), "User %d", System.currentTimeMillis());
+        String username = String.format(Locale.getDefault(), "User %d", currentTimeMillis());
 
         // store data
         AccountData accountData = new AccountData();
-        accountData.setLastOnline(System.currentTimeMillis());
+        accountData.setLastOnline(currentTimeMillis());
         accountData.setPassword(StringHash.hashPassword(password));
         accountData.setUsername(username);
 
@@ -245,7 +246,7 @@ public class AccountDataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         // update lastOnline in accounts/{email}.
-        firebaseData.setValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(account.getEmail())), System.currentTimeMillis());
+        firebaseData.setValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(account.getEmail())), currentTimeMillis());
 
         // delete from sharedPref.
         SharedPref.delete(context, SharedPref.KEEP_SIGNED_IN);
@@ -280,5 +281,10 @@ public class AccountDataFunctions {
         if (account != null) {
             signInAccountInSharedPref(context, account.getEmail(), username);
         }
+    }
+
+    private static Long currentTimeMillis() {
+        Merkado merkado = Merkado.getInstance();
+        return merkado.currentTimeMillis();
     }
 }

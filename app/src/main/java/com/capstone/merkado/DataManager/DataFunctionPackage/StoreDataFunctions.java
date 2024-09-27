@@ -1,30 +1,42 @@
 package com.capstone.merkado.DataManager.DataFunctionPackage;
 
+import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
+import com.capstone.merkado.Helpers.MathFormula;
+import com.capstone.merkado.Helpers.PlayerActions;
+import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandard;
 import com.capstone.merkado.Objects.ServerDataObjects.MarketStandard.MarketStandardList;
 import com.capstone.merkado.Objects.StoresDataObjects.Market;
+import com.capstone.merkado.Objects.StoresDataObjects.MarketData;
+import com.capstone.merkado.Objects.StoresDataObjects.MarketData.CurrentSupplyDemand;
+import com.capstone.merkado.Objects.StoresDataObjects.MarketData.InflationRate;
+import com.capstone.merkado.Objects.StoresDataObjects.MarketPrice;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.StoresDataObjects.StoreBuyingData;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.concurrent.CompletableFuture;
 
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 public class StoreDataFunctions {
 
     public static void setUpStore(String server, Integer playerId, String username, Integer factoryId) {
         // create PlayerMarkets object
         PlayerMarkets playerMarkets = new PlayerMarkets();
         playerMarkets.setMarketOwner(playerId);
-        playerMarkets.setOpened(System.currentTimeMillis());
+        playerMarkets.setOpened(currentTimeMillis());
         playerMarkets.setStoreName(String.format("%s's Store", username));
 
         FirebaseData firebaseData = new FirebaseData();
@@ -140,6 +152,9 @@ public class StoreDataFunctions {
             // update buyer's money.
             updateMarketMoney(String.format(Locale.getDefault(), "player/%d/money", storeBuyingData.getPlayerId()), -1 * cost);
             updateMarketInventory(onSale, storeBuyingData.getQuantity(), storeBuyingData.getPlayerId());
+
+            // update actions
+            PlayerActions.Store.buying(onSale.getResourceId(), storeBuyingData.getQuantity());
 
             return CompletableFuture.completedFuture(StoreDataFunctions.MarketError.SUCCESS);
         });
@@ -340,8 +355,10 @@ public class StoreDataFunctions {
                 }
                 Inventory newInventory = new Inventory(inventory); // copy
                 newInventory.setQuantity(inventory.getQuantity() - onSale.getQuantity());
-                if (newInventory.getQuantity() > 0) InventoryDataFunctions.setInventoryItem(newInventory, playerId);
-                else InventoryDataFunctions.removeInventoryItem(playerId, newInventory.getResourceId());
+                if (newInventory.getQuantity() > 0)
+                    InventoryDataFunctions.setInventoryItem(newInventory, playerId);
+                else
+                    InventoryDataFunctions.removeInventoryItem(playerId, newInventory.getResourceId());
             });
         });
     }
@@ -351,7 +368,7 @@ public class StoreDataFunctions {
         PlayerMarkets playerMarkets = new PlayerMarkets();
         playerMarkets.setMarketOwner(playerId);
         playerMarkets.setStoreName(String.format("%s's Store", username));
-        playerMarkets.setOpened(System.currentTimeMillis());
+        playerMarkets.setOpened(currentTimeMillis());
 
         firebaseData.retrieveData(String.format("server/%s/market/playerMarkets", server), dataSnapshot -> {
             if (dataSnapshot == null) return;
@@ -424,4 +441,552 @@ public class StoreDataFunctions {
         });
     }
 
+    // MARKET DATA
+
+    /**
+     * Checks for <b>Market Data</b> update time and tests if it is an hour (or more) later. If
+     * it is, then the market data will process a reset. It will then return a long value of
+     * the exact written update time.
+     * @param serverId Server id.
+     * @return A Long CompletableFuture of the updateTime.
+     */
+    public static CompletableFuture<Long> marketDataTimeCheck(String serverId, Float sensitivityFactor) {
+        if (!getUpdaterPlayer()) return CompletableFuture.completedFuture(null);
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/metadata/updateTime",
+                        serverId),
+                future::complete
+        );
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+            if (!dataSnapshot.exists())
+                // there are no updateTimes yet. get the defaults to the history and get last hour's time as history timestamp.
+                processResets(
+                        serverId,
+                        sensitivityFactor,
+                        StringProcessor.millisToServerHourString(currentTimeHourInMillis() - (1000 * 60 * 60)));
+            else {
+                // there are updateTimes.
+                String updateTimeString = dataSnapshot.getValue(String.class);
+                Long updateTime = StringProcessor.serverHourStringToMillis(updateTimeString);
+                if (currentTimeHourInMillis() > updateTime) {
+                    // if current hour exceeded updateTime.
+                    processResets(serverId, sensitivityFactor, updateTime, currentTimeHourInMillis());
+                } else return CompletableFuture.completedFuture(updateTime);
+            }
+            return CompletableFuture.completedFuture(currentTimeHourInMillis());
+        });
+    }
+
+    public static CompletableFuture<Long> getMarketDataUpdateTime(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/metadata/updateTime",
+                        serverId),
+                future::complete
+        );
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists())
+                return CompletableFuture.completedFuture(null);
+
+            String updateTimeString = dataSnapshot.getValue(String.class);
+            Long updateTime = StringProcessor.serverHourStringToMillis(updateTimeString);
+            return CompletableFuture.completedFuture(updateTime);
+        });
+    }
+
+    public static void addDemandToResource(String serverId, Integer resourceId, Integer demandCount) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/marketPrice/%d/metadata",
+                        serverId, resourceId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null) return;
+                    CurrentSupplyDemand supplyDemand = dataSnapshot.getValue(CurrentSupplyDemand.class);
+                    Integer hour1demand = demandCount;
+                    Integer hour24demand = demandCount;
+                    if (supplyDemand != null) {
+                        hour1demand = Objects.requireNonNullElse(supplyDemand.getDemand().getHour1(), 0) + hour1demand;
+                        hour24demand = Objects.requireNonNullElse(supplyDemand.getDemand().getHour24(), 0) + hour24demand;
+                    }
+                    setCurrentDemand(serverId, resourceId, hour1demand, hour24demand);
+                }
+        );
+    }
+
+    public static void addSupplyToResource(String serverId, Integer resourceId, Integer supplyCount) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/marketPrice/%d/metadata",
+                        serverId, resourceId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null) return;
+                    CurrentSupplyDemand supplyDemand = dataSnapshot.getValue(CurrentSupplyDemand.class);
+                    Integer newSupply = supplyCount;
+                    if (supplyDemand != null)
+                        newSupply = Objects.requireNonNullElse(supplyDemand.getSupply(), 0) + newSupply;
+                    setCurrentSupply(serverId, resourceId, newSupply);
+                }
+        );
+    }
+
+    public static CompletableFuture<MarketData.CompiledData> getCompiledMarketData(String serverId) {
+        return getCurrentMarketPrices(serverId).thenCombine(getGeneralMetadata(serverId),
+                ((marketPrices, inflationRate) ->
+                        new MarketData.CompiledData(inflationRate, marketPrices)));
+    }
+
+    private static void processResets(String serverId, Float sensitivityFactor, Long updateTime, Long currentTime) {
+        long hoursPassed = (currentTime - updateTime) / (1000 * 60 * 60);
+
+        List<String> hourStringList = new ArrayList<>();
+        for (int i = 1; i <= hoursPassed; i++) {
+            String hourString = StringProcessor.millisToServerHourString(updateTime + (1000L * 60 * 60 * i));
+            hourStringList.add(hourString);
+        }
+
+        recalculatePrice(serverId, sensitivityFactor);
+
+        hourStringList.forEach(hourString -> transferDemandToHistory(serverId, hourString));
+        resetDemand(serverId);
+
+        hourStringList.forEach(hourString -> transferGeneralMetadataToHistory(serverId, hourString));
+        calculateGeneralMetadata(serverId);
+
+        setMarketDataUpdateTime(serverId);
+    }
+
+    /**
+     * Calls functions that is used to reset multiple parts of market data.
+     * @param serverId server id.
+     * @param sensitivityFactor sensitivity factor from the server owner.
+     * @param updateTime update time string before the reset.
+     */
+    private static void processResets(String serverId, Float sensitivityFactor, String updateTime) {
+        recalculatePrice(serverId, sensitivityFactor);
+
+        transferDemandToHistory(serverId, updateTime);
+        resetDemand(serverId);
+
+        transferGeneralMetadataToHistory(serverId, updateTime);
+        calculateGeneralMetadata(serverId);
+
+        setMarketDataUpdateTime(serverId);
+    }
+
+    /**
+     * Calculates the new prices for each resources for sale.
+     * @param serverId server id.
+     * @param sensitivityFactor sensitivity factor from server settings.
+     */
+    private static void recalculatePrice(String serverId, Float sensitivityFactor) {
+        getCurrentMarketPrices(serverId).thenAccept(marketPrices -> {
+            if (marketPrices == null) return;
+            for (MarketPrice marketPrice : marketPrices) {
+                Float newPrice = MathFormula.getNewPrice(
+                        marketPrice.getMarketPrice(),
+                        sensitivityFactor,
+                        marketPrice.getMetadata().getDemand().getHour24(),
+                        marketPrice.getMetadata().getSupply());
+                setMarketPrice(serverId, marketPrice.getResourceId(), newPrice);
+            }
+        });
+    }
+
+    /**
+     * Resets the demand data for each resources. <i>Note that price
+     * recalculation and data transfer should go first before the reset.</i>
+     * @param serverId server id.
+     */
+    private static void resetDemand(String serverId) {
+        cleanHistoryDemand(serverId);
+        getHistoryDemandSum(serverId).thenAccept(demandSums -> {
+            // if there are no returned sums. Set hour24 to 0.
+            if (demandSums == null) {
+                for (int resourceId = 2; resourceId <= 23; resourceId++) {
+                    setCurrentDemand(serverId, resourceId, 0, 0);
+                }
+                return;
+            }
+
+            // if there are returned sums. Set hour24 to the corresponding values (default: 0).
+            for (int resourceId = 2; resourceId <= 23; resourceId++) {
+                setCurrentDemand(
+                        serverId,
+                        resourceId,
+                        0,
+                        demandSums.getOrDefault(resourceId, 0));
+            }
+        });
+    }
+
+    /**
+     * Transfers the demand data gathered from current copy of resources to the history. <i>Note: This should go first before resetting the values in current marketStandard price.</i>
+     * @param serverId Server id.
+     * @param updateTime Formatted string for the timestamp of this data.
+     */
+    private static void transferDemandToHistory(String serverId, String updateTime) {
+        getCurrentMarketPrices(serverId).thenAccept(marketPrices -> {
+            for (MarketPrice marketPrice : marketPrices) {
+                setHistoryDemand(serverId,
+                        marketPrice.getResourceId(),
+                        updateTime,
+                        marketPrice.getMetadata().getDemand().getHour1());
+            }
+        });
+    }
+
+    /**
+     * Calculates for the Total Weighted Price and Inflation Rate.
+     * <i>Note: price recalculation should go first before
+     * recalculation of total weighted price, inflation rate,
+     * and purchasing power. Also, make sure that the previous
+     * TWP must be transferred to history.</i>
+     * @param serverId server id.
+     */
+    private static void calculateGeneralMetadata(String serverId) {
+        getCurrentMarketPrices(serverId).thenAccept(marketPrices -> {
+            Float twp = MathFormula.getTotalWeightedPrice(marketPrices);
+            Long hour24 = currentTimeHourInMillis() - (1000 * 60 * 60 * 24);
+            String hour24String = StringProcessor.millisToServerHourString(hour24);
+            getHistoryTotalWeightedPrice(serverId, hour24String).thenAccept(twp24 -> {
+                Float inflationRate = MathFormula.getInflationRate(twp, twp24);
+                Float purchasingPower = MathFormula.getPurchasingPower(twp, twp24);
+                setMarketStandardMetadata(serverId, twp, inflationRate, purchasingPower);
+            });
+        });
+    }
+
+    private static CompletableFuture<InflationRate> getGeneralMetadata(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+
+        firebaseData.retrieveData(
+                String.format("server/%s/market/marketStandard/metadata",
+                        serverId),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists())
+                return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(dataSnapshot.getValue(InflationRate.class));
+        });
+    }
+
+    private static void transferGeneralMetadataToHistory(String serverId, String updateTime) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format("server/%s/market/marketStandard/metadata/totalWeightedPrice",
+                        serverId),
+                dataSnapshot -> {
+                    Float totalWeightedPrice;
+                    if (dataSnapshot == null || !dataSnapshot.exists()) {
+                        totalWeightedPrice = MathFormula.getTotalWeightedPrice(getSavedMarketPrice());
+                    } else totalWeightedPrice = dataSnapshot.getValue(Float.class);
+                    if (totalWeightedPrice == null) return;
+                    setHistoryTotalWeightedPrice(serverId, updateTime, totalWeightedPrice);
+                    cleanHistoryTWP(serverId);
+                }
+        );
+    }
+
+    private static void setMarketDataUpdateTime(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format("server/%s/market/marketStandard/metadata/updateTime",
+                        serverId),
+                StringProcessor.millisToServerHourString(currentTimeMillis())
+        );
+    }
+
+    private static void cleanHistoryDemand(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format("server/%s/market/marketHistory/demand",
+                        serverId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null || !dataSnapshot.exists()) return;
+                    // get current time and get 24-hour time
+                    long currentTime = currentTimeHourInMillis();
+                    long time24hours = currentTime - (1000 * 60 * 60 * 25);
+                    for (DataSnapshot resourceDS : dataSnapshot.getChildren()) {
+                        // get resourceId
+                        String resourceIdString = resourceDS.getKey();
+                        Integer resourceId;
+
+                        // parse resourceId from string. if not parseable, skip.
+                        try {
+                            resourceId = Integer.parseInt(resourceIdString);
+                        } catch (NumberFormatException ignore) {
+                            continue;
+                        }
+
+                        if (!resourceDS.hasChildren())
+                            continue; // skip if it does not contain anything.
+
+                        for (DataSnapshot demandDS : resourceDS.getChildren()) {
+                            String demandTimeString = demandDS.getKey();
+                            Long demandTime = StringProcessor.serverHourStringToMillis(demandTimeString);
+                            if (time24hours >= demandTime) {
+                                deleteHistoryDemand(serverId, resourceId, demandTimeString);
+                            }
+                        }
+                    }
+                }
+        );
+    }
+
+    private static void cleanHistoryTWP(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format("server/%s/market/marketHistory/totalWeightedPrice",
+                        serverId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null || !dataSnapshot.exists()) return;
+                    // get current time and get 24-hour time
+                    long currentTime = currentTimeHourInMillis();
+                    long time24hours = currentTime - (1000 * 60 * 60 * 25);
+
+                    for (DataSnapshot twpDS : dataSnapshot.getChildren()) {
+                        String timeString = twpDS.getKey();
+                        Long time = StringProcessor.serverHourStringToMillis(timeString);
+                        if (time24hours >= time) {
+                            deleteHistoryTWP(serverId, timeString);
+                        }
+                    }
+                }
+        );
+    }
+
+    private static void setMarketStandardMetadata(String serverId, Float totalWeightedPrice, Float inflationRate, Float purchasingPower) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/metadata/totalWeightedPrice",
+                        serverId),
+                totalWeightedPrice
+        );
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/metadata/inflationRate",
+                        serverId),
+                inflationRate
+        );
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/metadata/purchasingPower",
+                        serverId),
+                purchasingPower
+        );
+    }
+
+    private static void setCurrentDemand(String serverId, Integer resourceId, Integer demand1hour, Integer demand24hours) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/marketPrice/%d/metadata/demand/hour1",
+                        serverId, resourceId),
+                demand1hour);
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/marketPrice/%d/metadata/demand/hour24",
+                        serverId, resourceId),
+                demand24hours);
+    }
+
+    private static void setCurrentSupply(String serverId, Integer resourceId, Integer newSupply) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketStandard/marketPrice/%d/metadata/supply",
+                        serverId, resourceId),
+                newSupply);
+    }
+
+    /**
+     * Retrieves the sum of all demand within the current 24-hour time period.
+     * @param serverId id of the server.
+     * @return <b>CompletableFuture</b> of a mapped <b>Resource Id</b> and <b>Sum</b>.
+     */
+    private static CompletableFuture<Map<Integer, Integer>> getHistoryDemandSum(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData(
+                String.format("server/%s/market/marketHistory/demand",
+                        serverId),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists())
+                return CompletableFuture.completedFuture(null);
+
+            // get current time and get 24-hour time
+            long currentTime = currentTimeHourInMillis();
+            long time24hours = currentTime - (1000 * 60 * 60 * 24);
+
+            Map<Integer, Integer> demandSums = new HashMap<>();
+
+            // iterate through each resources
+            for (DataSnapshot resourceDS : dataSnapshot.getChildren()) {
+                // get resourceId
+                String resourceIdString = resourceDS.getKey();
+                int resourceId;
+
+                // parse resourceId from string. if not parseable, skip.
+                try {
+                    resourceId = Integer.parseInt(resourceIdString);
+                } catch (NumberFormatException ignore) {
+                    continue;
+                }
+
+                if (!resourceDS.hasChildren())
+                    continue; // skip if it does not contain anything.
+
+
+                Integer currentSum = 0;
+
+                // iterate through each demand entry
+                for (DataSnapshot demandDS : resourceDS.getChildren()) {
+                    String demandTimeString = demandDS.getKey();
+                    Long demandTime = StringProcessor.serverHourStringToMillis(demandTimeString);
+
+                    if (time24hours <= demandTime) currentSum += demandDS.getValue(Integer.class);
+                }
+
+                demandSums.put(resourceId, currentSum);
+            }
+
+            return CompletableFuture.completedFuture(demandSums);
+        });
+    }
+
+    private static void deleteHistoryDemand(String serverId, Integer resourceId, String time) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.removeData(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketHistory/demand/%d/%s",
+                        serverId, resourceId, time)
+        );
+    }
+
+    private static void deleteHistoryTWP(String serverId, String time) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.removeData(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketHistory/totalWeightedPrice/%s",
+                        serverId, time)
+        );
+    }
+
+    private static void setHistoryDemand(String serverId, Integer resourceId, String time, Integer demand) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketHistory/demand/%d/%s",
+                        serverId, resourceId, time),
+                demand);
+    }
+
+    private static void setHistoryTotalWeightedPrice(String serverId, String time, Float twp) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "server/%s/market/marketHistory/totalWeightedPrice/%s",
+                        serverId, time),
+                twp);
+    }
+
+    private static CompletableFuture<Float> getHistoryTotalWeightedPrice(String serverId, String time) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+
+        firebaseData.retrieveData(
+                String.format(
+                        "server/%s/market/marketHistory/totalWeightedPrice/%s",
+                        serverId, time
+                ),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists())
+                return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(dataSnapshot.getValue(Float.class));
+        });
+    }
+
+    private static CompletableFuture<List<MarketPrice>> getCurrentMarketPrices(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+
+        firebaseData.retrieveData(
+                String.format(
+                        "server/%s/market/marketStandard/marketPrice",
+                        serverId
+                ),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+            List<MarketPrice> marketPriceList = new ArrayList<>();
+            for (DataSnapshot resource : dataSnapshot.getChildren()) {
+                MarketPrice marketPrice = resource.getValue(MarketPrice.class);
+                if (marketPrice == null) continue;
+                marketPriceList.add(marketPrice);
+            }
+
+            return CompletableFuture.completedFuture(marketPriceList);
+        });
+    }
+
+    private static void setMarketPrice(String serverId, Integer resourceId, Float newPrice) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(
+                        Locale.getDefault(),
+                        "server/%s/market/marketStandard/marketPrice/%d/marketPrice",
+                        serverId, resourceId
+                ),
+                newPrice
+        );
+    }
+
+    private static Long currentTimeMillis() {
+        Merkado merkado = Merkado.getInstance();
+        return merkado.currentTimeMillis();
+    }
+
+    private static Long currentTimeHourInMillis() {
+        // Create a Calendar instance and set it to the current time
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+        calendar.setTimeInMillis(currentTimeMillis());
+
+        // Round down to the nearest hour (set minutes, seconds, and milliseconds to zero)
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        // Get the rounded current time in milliseconds
+        return calendar.getTimeInMillis();
+    }
+
+    private static Boolean getUpdaterPlayer() {
+        Merkado merkado = Merkado.getInstance();
+        return merkado.getUpdaterPlayer();
+    }
+
+    private static List<MarketPrice> getSavedMarketPrice() {
+        Merkado merkado = Merkado.getInstance();
+        return merkado.getCompiledMarketData().getSupplyDemands();
+    }
 }

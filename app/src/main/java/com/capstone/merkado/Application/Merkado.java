@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,6 +20,8 @@ import com.capstone.merkado.Broadcast.NetworkChangeReceiver;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.PlayerDataUpdates;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.PlayerListListener;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions.UpdaterPlayerListener;
+import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.Exceptions.Crash;
 import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.Account;
@@ -28,6 +31,7 @@ import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.Objects.StoresDataObjects.Market;
+import com.capstone.merkado.Objects.StoresDataObjects.MarketData.CompiledData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
@@ -56,6 +60,12 @@ public class Merkado extends Application {
     private PlayerDataFunctions playerDataFunctions;
     private String currentServer;
     private BasicServerData currentServerData;
+    private Long serverTimeOffset;
+    private Boolean updaterPlayer;
+    private UpdaterPlayerListener updaterPlayerListener;
+    private Handler serverDataUpdateHandler;
+    private Runnable serverDataUpdateRunnable;
+    private CompiledData compiledMarketData;
 
     @Override
     public void onCreate() {
@@ -73,6 +83,8 @@ public class Merkado extends Application {
         staticContents = new StaticContents();
         playerDataFunctions = new PlayerDataFunctions();
         Thread.setDefaultUncaughtExceptionHandler(new Crash());
+
+        serverDataUpdateHandler = new Handler();
     }
 
     /**
@@ -101,6 +113,14 @@ public class Merkado extends Application {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    public Long currentTimeMillis() {
+        return System.currentTimeMillis() + serverTimeOffset;
+    }
+
+    public void setServerTimeOffset(Long serverTimeOffset) {
+        this.serverTimeOffset = serverTimeOffset;
     }
 
     /**
@@ -244,8 +264,10 @@ public class Merkado extends Application {
     }
 
     private void logInToServer() {
-        if (this.playerId != null && this.currentServer != null)
+        if (this.playerId != null && this.currentServer != null) {
             ServerDataFunctions.logInToServer(this.playerId, this.currentServer);
+            setUpdaterPlayerListener();
+        }
     }
 
     public String getServerName() {
@@ -254,9 +276,84 @@ public class Merkado extends Application {
     }
 
     public void logOutToServer() {
+        serverDataUpdateHandler.removeCallbacks(serverDataUpdateRunnable);
+        ServerDataFunctions.logOutUpdaterPlayer(this.currentServer, this.playerId);
         ServerDataFunctions.logOutFromServer(this.playerId, this.currentServer);
         this.playerId = null;
         this.currentServer = null;
+    }
+
+    private void setUpdaterPlayerListener() {
+        updaterPlayerListener = new UpdaterPlayerListener(this.currentServer);
+        updaterPlayerListener.getInitialData().thenAccept(updaterPlayer -> {
+            if (updaterPlayer == null || updaterPlayer.equals(this.playerId)) {
+                updaterPlayerListener.setUpdaterPlayer(this.playerId);
+                setUpdaterPlayer(true);
+                serverDataUpdateRunnable = this::serverDataUpdateTime;
+                serverDataUpdateTime();
+            } else {
+                setUpdaterPlayer(false);
+                updaterPlayerListener.start(newUpdaterPlayer -> {
+                    if (newUpdaterPlayer == null) {
+                        updaterPlayerListener.setUpdaterPlayer(this.playerId);
+                        setUpdaterPlayer(true);
+                        updaterPlayerListener.end();
+                    } else if (newUpdaterPlayer.equals(this.playerId)) {
+                        setUpdaterPlayer(true);
+                        updaterPlayerListener.end();
+                    } else setUpdaterPlayer(false);
+                });
+                serverDataUpdateRunnable = this::getUpdatedCompiledMarketData;
+            }
+            getUpdatedCompiledMarketData();
+        });
+    }
+
+    private void serverDataUpdateTime() {
+        if (updaterPlayer == null || !updaterPlayer) return;
+        StoreDataFunctions.marketDataTimeCheck(this.currentServer, 0.1f).thenAccept(currentHourTime -> {
+            long timeUntilNextUpdate = currentHourTime + TimeUnit.HOURS.toMillis(1) - currentTimeMillis();
+            timeUntilNextUpdate = Math.max(timeUntilNextUpdate, 0);
+            serverDataUpdateHandler.removeCallbacks(serverDataUpdateRunnable);
+            serverDataUpdateHandler.postDelayed(serverDataUpdateRunnable, timeUntilNextUpdate);
+            getUpdatedCompiledMarketData();
+        }).exceptionally(ex -> {
+            Log.e("serverDataUpdateTime", String.format("%s", ex.getMessage()));
+            return null;
+        });
+        StoreDataFunctions.getCompiledMarketData(this.currentServer)
+                .thenAccept(this::setCompiledMarketData);
+    }
+
+    private void getUpdatedCompiledMarketData() {
+        StoreDataFunctions.getCompiledMarketData(this.currentServer)
+                .thenAccept(this::setCompiledMarketData);
+        StoreDataFunctions.getMarketDataUpdateTime(this.currentServer).thenAccept(updateHourTime -> {
+            long timeUntilNextUpdate = updateHourTime + TimeUnit.HOURS.toMillis(1) - currentTimeMillis();
+            timeUntilNextUpdate = Math.max(timeUntilNextUpdate, 1000);
+            serverDataUpdateHandler.removeCallbacks(serverDataUpdateRunnable);
+            serverDataUpdateHandler.postDelayed(serverDataUpdateRunnable, timeUntilNextUpdate);
+            getUpdatedCompiledMarketData();
+        }).exceptionally(ex -> {
+            Log.e("getUpdatedCompiledMarketData", String.format("%s", ex.getMessage()));
+            return null;
+        });
+    }
+
+    public CompiledData getCompiledMarketData() {
+        return compiledMarketData;
+    }
+
+    public void setCompiledMarketData(CompiledData compiledMarketData) {
+        this.compiledMarketData = compiledMarketData;
+    }
+
+    public Boolean getUpdaterPlayer() {
+        return updaterPlayer;
+    }
+
+    public void setUpdaterPlayer(Boolean updaterPlayer) {
+        this.updaterPlayer = updaterPlayer;
     }
 
     public PlayerDataFunctions getPlayerData() {

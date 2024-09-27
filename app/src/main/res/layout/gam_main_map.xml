@@ -56,7 +56,7 @@
             app:clickerBottom=".805"
             app:clickerEnd=".525"
             app:clickerStart=".315"
-            app:clickerTop=".469"/>
+            app:clickerTop=".469" />
 
         <com.capstone.merkado.CustomViews.ConstraintClicker
             android:id="@+id/my_factory_clicker"
@@ -67,6 +67,16 @@
             app:clickerEnd=".9859"
             app:clickerStart=".549"
             app:clickerTop=".162" />
+
+        <com.capstone.merkado.CustomViews.ConstraintClicker
+            android:id="@+id/board_clicker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="2dp"
+            app:clickerBottom=".91"
+            app:clickerEnd=".134"
+            app:clickerStart=".029"
+            app:clickerTop=".799" />
 
         <ImageView
             android:id="@+id/my_factory"
@@ -90,6 +100,14 @@
             android:contentDescription="@string/map_store"
             android:scaleType="fitXY"
             android:src="@drawable/gui_my_store_closed" />
+
+        <ImageView
+            android:id="@+id/board"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/map_store"
+            android:scaleType="fitXY"
+            android:src="@drawable/gui_sign_board" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--BOTTOM NAVIGATION BUTTONS-->
@@ -195,4 +213,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <include
+        android:id="@+id/layout_market_data_window"
+        layout="@layout/layout_market_data_window"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

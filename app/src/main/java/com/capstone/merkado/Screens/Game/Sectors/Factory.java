@@ -199,7 +199,7 @@ public class Factory extends AppCompatActivity {
     }
 
     private Long calculateAddedEnergy() {
-        return (System.currentTimeMillis() - energyLastRecharged) / energyRecharge;
+        return (merkado.currentTimeMillis() - energyLastRecharged) / energyRecharge;
     }
 
     private void setOnProduction(ResourceData resourceData) {
@@ -297,10 +297,10 @@ public class Factory extends AppCompatActivity {
     private void startEnergyRecharge() {
         if (startEnergyRecharge) return;
         startEnergyRecharge = true;
-        energyLastRecharged = System.currentTimeMillis();
+        energyLastRecharged = merkado.currentTimeMillis();
         energyRechargeRunnable = () -> {
             energyCount++;
-            energyLastRecharged = System.currentTimeMillis();
+            energyLastRecharged = merkado.currentTimeMillis();
             updateEnergyLevel(energyCount);
             if (energyCount.equals(energyCountLimit)) {
                 startEnergyRecharge = false;

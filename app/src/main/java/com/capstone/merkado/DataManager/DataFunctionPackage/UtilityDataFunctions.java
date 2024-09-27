@@ -10,7 +10,7 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.concurrent.CompletableFuture;
 
-public class AppUpdateDataFunctions {
+public class UtilityDataFunctions {
     public static CompletableFuture<Boolean> hasNewUpdate(Activity activity) {
         String currentVersionName = getCurrentVersionName(activity);
         if (currentVersionName == null)
@@ -56,5 +56,13 @@ public class AppUpdateDataFunctions {
             if (versionName == null) return CompletableFuture.completedFuture(null);
             return CompletableFuture.completedFuture(versionName);
         });
+    }
+
+    public static CompletableFuture<Long> getServerTimeOffset() {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<Long> future = new CompletableFuture<>();
+
+        firebaseData.getServerTimeOffset(future::complete);
+        return future;
     }
 }

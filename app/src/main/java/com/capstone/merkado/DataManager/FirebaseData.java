@@ -1,5 +1,7 @@
 package com.capstone.merkado.DataManager;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -26,12 +28,12 @@ public class FirebaseData {
         void onDataReceived(@Nullable DataSnapshot dataSnapshot);
     }
 
-    public interface BooleanCallback {
+    public interface ValueCallback<T> {
         /**
-         * Returns Boolean callback value.
-         * @param bool callback value.
+         * Returns Object callback value.
+         * @param t callback value.
          */
-        void callback(@Nullable Boolean bool);
+        void callback(@Nullable T t);
     }
 
     // REAL-TIME DATABASE
@@ -46,7 +48,7 @@ public class FirebaseData {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                databaseError.toException().printStackTrace();
+                Log.e("retrieveData", String.format("%s", databaseError.toException().getMessage()));
                 callback.onDataReceived(null);
             }
         });
@@ -63,7 +65,7 @@ public class FirebaseData {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                databaseError.toException().printStackTrace();
+                Log.e("retrieveDataRealTime", String.format("%s", databaseError.toException().getMessage()));
                 callback.onDataReceived(null);
             }
         };
@@ -92,7 +94,7 @@ public class FirebaseData {
         try {
             return future.get();
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            Log.e("setValues", String.format("%s", e));
             return null;
         }
     }
@@ -109,7 +111,7 @@ public class FirebaseData {
      * @param key the key to be checked.
      * @param booleanCallback the return callback.
      */
-    public void isKeyExists(String node, String key, BooleanCallback booleanCallback) {
+    public void isKeyExists(String node, String key, ValueCallback<Boolean> booleanCallback) {
         // combine the node and the key to navigate to that node.
         DatabaseReference childRef = databaseRef.child(String.format("%s/%s", node, key));
 
@@ -123,8 +125,25 @@ public class FirebaseData {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                databaseError.toException().printStackTrace();
+                Log.e("isKeyExists", String.format("%s", databaseError.toException().getMessage()));
                 booleanCallback.callback(null);
+            }
+        });
+    }
+
+    public void getServerTimeOffset(ValueCallback<Long> doubleValueCallback){
+        DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+        offsetRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Long offset = dataSnapshot.getValue(Long.class);
+                doubleValueCallback.callback(offset);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("getServerTime", String.format("%s", databaseError.toException().getMessage()));
+                doubleValueCallback.callback(null);
             }
         });
     }

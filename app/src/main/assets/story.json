@@ -140,7 +140,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "bedroom",
+                        "background": "dining_table",
                         "bgm": "morning_wakeup loop",
                         "dialogueLines": [
                             {
@@ -148,7 +148,7 @@
                                 "dialogue": "Oh, eto na ang mga baon ninyo mga anak."
                             },
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Nay, Sampung piso?",
                                 "imageChanges": [
                                     {
@@ -157,19 +157,19 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "pork_vendor1_b_apron",
+                                        "image": "nene_b_normal",
                                         "placement": "3;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "pork_vendor1_f_confused",
+                                        "image": "nene_f_disappointed",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     }
                                 ]
                             },
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Anong mabibili namin dito, nay? Kahit ata candy kulang po dito eh"
                             },
                             {
@@ -177,18 +177,18 @@
                                 "dialogue": "Pasensya na anak, ‘yan lang talga kinayanan natin ngayon eh.",
                                 "imageChanges": [
                                     {
-                                        "image": "nanay1_f_confused",
+                                        "image": "nanay_f_sad",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
                             },
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Sya nga pala, nay. May project po kami sa school. Kailangan daw bumili ng art materials.",
                                 "imageChanges": [
                                     {
-                                        "image": "pork_vendor1_f_talking",
+                                        "image": "nene_f_relieved",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     },
@@ -226,11 +226,11 @@
                                 ]
                             },
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Bye, nay!",
                                 "imageChanges": [
                                     {
-                                        "image": "pork_vendor1_f_talking",
+                                        "image": "nene_f_smile",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     },
@@ -337,7 +337,7 @@
                                 "dialogue": "Buti naman at naisipan mo pang pumasok hahaha",
                                 "imageChanges": [
                                     {
-                                        "image": "jaxon1_f_compassion",
+                                        "image": "jaxon_f_laugh",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -1042,7 +1042,7 @@
                 "id": 3,
                 "lineGroup": [
                     {
-                        "background": "school",
+                        "background": "classroom",
                         "bgm": "warmth",
                         "dialogueLines": [
                             {
@@ -1954,7 +1954,7 @@
                                 "dialogue": "Ako ang bahala, may budget naman ako.",
                                 "imageChanges": [
                                     {
-                                        "image": "jaxon1_f_normal",
+                                        "image": "jaxon_f_laugh",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -2268,16 +2268,16 @@
                                 ]
                             },
                             {
-                                "character": "TEACHER",
+                                "character": "TITO",
                                 "dialogue": "Magandang hapon din, <b>{$USER_NAME}</b>. Nais sana naming bumili ng prutas, pero hindi kami makapag-decide kung sa supermarket ba o sa palengke.",
                                 "imageChanges": [
                                     {
-                                        "image": "teacher1_b_uniform1",
+                                        "image": "tito_b_normal",
                                         "placement": "3;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "teacher1_f_laugh",
+                                        "image": "tito_f_smile",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     },
@@ -2298,7 +2298,7 @@
                                 "dialogue": "Sabi ko nga dito nalang sa palengke since malapit na kami, pero gusto nila ng quality sa supermarket.",
                                 "imageChanges": [
                                     {
-                                        "image": "teacher1_f_compassion",
+                                        "image": "tito_f_normal",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     },
@@ -2400,12 +2400,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "teacher1_b_uniform1",
+                                "image": "tito_b_normal",
                                 "placement": "3;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "teacher1_f_compassion",
+                                "image": "tito_f_normal",
                                 "placement": "3;FACE",
                                 "toShow": true
                             },
@@ -2461,12 +2461,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "teacher1_b_uniform1",
+                                "image": "tito_b_normal",
                                 "placement": "3;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "teacher1_f_compassion",
+                                "image": "tito_f_normal",
                                 "placement": "3;FACE",
                                 "toShow": true
                             },
@@ -2488,11 +2488,11 @@
                         "defaultNextLine": 9,
                         "dialogueLines": [
                             {
-                                "character": "TEACHER",
+                                "character": "TITO",
                                 "dialogue": "Tama ka, salamat ng marami. Umuwi narin kayo at baka hinahanap na kayo ng magulang ninyo.",
                                 "imageChanges": [
                                     {
-                                        "image": "teacher1_f_talking1",
+                                        "image": "tito_f_talking",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     }
@@ -2522,12 +2522,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "teacher1_b_uniform1",
+                                "image": "tito_b_normal",
                                 "placement": "3;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "teacher1_f_compassion",
+                                "image": "tito_f_normal",
                                 "placement": "3;FACE",
                                 "toShow": true
                             },
@@ -2557,14 +2557,14 @@
                                 "dialogue": "Ano ka ba, basic nalang sa atin ang magdecide haha",
                                 "imageChanges": [
                                     {
-                                        "image": "jaxon1_f_normal",
+                                        "image": "jaxon_f_laugh",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Oh, mga bata, kumusta kayo? ",
                                 "imageChanges": [
                                     {
@@ -2578,12 +2578,12 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "eian1_b_uniform",
+                                        "image": "kapitan_b_normal",
                                         "placement": "4;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "eian1_f_compassion",
+                                        "image": "kapitan_f_smile",
                                         "placement": "4;FACE",
                                         "toShow": true
                                     }
@@ -2601,11 +2601,11 @@
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Hay nako, sinabi n’yo pa, ang raming kailangan asikasuhin ngayon para sa ating mga mamamayan. S’ya nga pala, maaari ba kaming humingi ng tulong sa inyo?",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_f_confused",
+                                        "image": "kapitan_f_worried",
                                         "placement": "4;FACE",
                                         "toShow": true
                                     }
@@ -2616,22 +2616,22 @@
                                 "dialogue": "About saan ‘yan kap?"
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Mayroon kasing programa ang barangay, at ito ay ang pagtulong natin sa mga nasalanta ng bagyo, pero namomroblema kami sa mga ipapamigay na relief goods.",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_f_normal",
+                                        "image": "kapitan_f_talking",
                                         "placement": "4;FACE",
                                         "toShow": true
                                     }
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Limited lang kasi ang maaaaring idistribute ng barangay dahil kulang sa supply at mga gamit ang barangay hall natin."
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Ngayon, kailangan naming isipin kung ano-anong produkto ang ipapamigay, paano ito gagawin, sino-sino ang beneficiaries, at gaano karami ang ididistribute. Maaari n’yo ba kaming tulungan?"
                             },
                             {
@@ -2788,12 +2788,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "kapitan_b_normal",
                                 "placement": "4;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "kapitan_f_normal",
                                 "placement": "4;FACE",
                                 "toShow": true
                             }
@@ -2863,12 +2863,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "kapitan_b_normal",
                                 "placement": "4;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "kapitan_f_normal",
                                 "placement": "4;FACE",
                                 "toShow": true
                             }
@@ -2888,19 +2888,19 @@
                                 "dialogue": "Sa pamamagitan nito, mabibilang natin kung ilan pa ba ang nangangailangan ng tulong bukod sa lubos na naapektuhan ng sakuna"
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Nakakamangha naman ang mga batang ito. Talagang tunay na ang kabataan ang pag-asa ng bayan."
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Mga bata palang kayo pero pinapabilib n’yo na ako sa galing ninyo mag-isip."
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Oh, sya sige, susundin namin lahat ng payo n’yo. Tiyak na makakatulong ito sa pamamahagi natin ng relief goods para sa mga nasalanta. Salamat ng marami sa inyo!",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_f_talking",
+                                        "image": "kapitan_f_talking",
                                         "placement": "4;FACE",
                                         "toShow": true
                                     }
@@ -2918,7 +2918,7 @@
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "KAPITAN",
                                 "dialogue": "Sige, mag-iingat kayo."
                             },
                             {
@@ -2969,12 +2969,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "kapitan_b_normal",
                                 "placement": "4;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "kapitan_f_normal",
                                 "placement": "4;FACE",
                                 "toShow": true
                             }
@@ -2996,7 +2996,7 @@
                 "id": 7,
                 "lineGroup": [
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "warmth loop",
                         "dialogueLines": [
                             {
@@ -3093,7 +3093,7 @@
                 "id": 8,
                 "lineGroup": [
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLine": 1,
                         "dialogueLines": [
@@ -3171,7 +3171,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "defaultNextLine": 3,
                         "dialogueLines": [
                             {
@@ -3204,7 +3204,7 @@
                         ]
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "defaultNextLine": 3,
                         "dialogueLines": [
                             {
@@ -3241,7 +3241,7 @@
                         ]
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "defaultNextLine": 6,
                         "dialogueLines": [
                             {
@@ -3315,7 +3315,7 @@
                         ]
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "defaultNextLine": 6,
                         "dialogueLines": [
                             {
@@ -3359,7 +3359,7 @@
                         ]
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "defaultNextLine": 6,
                         "dialogueLines": [
                             {
@@ -3407,7 +3407,7 @@
                         ]
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "defaultNextLine": 7,
                         "dialogueLines": [
                             {
@@ -3467,7 +3467,7 @@
                         ]
                     },
                     {
-                        "background": "market_inside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLine": 8,
                         "dialogueLines": [
@@ -3547,7 +3547,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "market_inside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLine": 10,
                         "dialogueLines": [
@@ -3592,7 +3592,7 @@
                         ]
                     },
                     {
-                        "background": "market_inside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLine": 10,
                         "dialogueLines": [
@@ -3641,7 +3641,7 @@
                         ]
                     },
                     {
-                        "background": "market_inside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLine": 11,
                         "dialogueLines": [
@@ -3821,7 +3821,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "pork_shop",
+                        "background": "market",
                         "dialogueLines": [
                             {
                                 "character": "NANAY",
@@ -4041,7 +4041,7 @@
                 "id": 10,
                 "lineGroup": [
                     {
-                        "background": "pork_shop",
+                        "background": "market",
                         "dialogueLines": [
                             {
                                 "character": "NANAY",
@@ -4107,7 +4107,7 @@
                 "id": 11,
                 "lineGroup": [
                     {
-                        "background": "market_inside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLine": 1,
                         "dialogueLines": [
@@ -4335,7 +4335,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "market_inside",
+                        "background": "market",
                         "bgm": "market loop",
                         "dialogueLines": [
                             {
@@ -4521,7 +4521,7 @@
                 "id": 12,
                 "lineGroup": [
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLines": 1,
                         "dialogueLines": [
@@ -4602,7 +4602,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLines": 2,
                         "dialogueLines": [
@@ -4747,7 +4747,7 @@
                         "nextLineCode": "score==1:2;score==0:3"
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLines": 4,
                         "dialogueLines": [
@@ -4800,7 +4800,7 @@
                         ]
                     },
                     {
-                        "background": "market_outside",
+                        "background": "market",
                         "bgm": "market loop",
                         "defaultNextLines": 4,
                         "dialogueLines": [
@@ -5262,7 +5262,7 @@
                 "id": 14,
                 "lineGroup": [
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 1,
                         "dialogueLines": [
@@ -5446,12 +5446,12 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "home",
+                        "background": "dining_table",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 2,
                         "dialogueLines": [
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Ang sarap ng ulam, ang galing talagang magluto ni Nanay! Mapapasandok ulit ako."
                             },
                             {
@@ -5476,11 +5476,11 @@
                                 ]
                             },
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Kailan ulit tayo makakatikim ng ganito?",
                                 "imageChanges": [
                                     {
-                                        "image": "pork_vendor1_f_confused",
+                                        "image": "nene_f_sad",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -5498,20 +5498,20 @@
                                 ]
                             },
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Kailan kaya ‘yun, Nay? Yung hindi na tayo mamomroblema sa araw-araw na pagkain."
                             },
                             {
-                                "character": "EIAN",
+                                "character": "TATAY",
                                 "dialogue": "Masaya naman tayo, kahit maliit ang kita. Magkakasama tayo at mahal namin kayo.",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_b_uniform",
+                                        "image": "tatay_b_normal",
                                         "placement": "5;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "eian1_f_compassion",
+                                        "image": "tatay_f_normal",
                                         "placement": "5;FACE",
                                         "toShow": true
                                     }
@@ -5557,22 +5557,22 @@
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "TATAY",
                                 "dialogue": "At kapag alam mong mahal ka ng iba, mas gagalingan mo para maabot ang mga pangarap mo.",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_f_talking",
+                                        "image": "tatay_f_smile",
                                         "placement": "5;FACE",
                                         "toShow": true
                                     }
                                 ]
                             },
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Dapat pala laging may nagmamahal sa tao para maging masaya siya.",
                                 "imageChanges": [
                                     {
-                                        "image": "pork_vendor1_f_normal",
+                                        "image": "nene_f_normal",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -5620,12 +5620,12 @@
                         "id": 1,
                         "initialImages": [
                             {
-                                "image": "pork_vendor1_b_apron",
+                                "image": "nene_b_normal",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "pork_vendor1_f_talking",
+                                "image": "nene_f_normal",
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
@@ -5634,7 +5634,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "home",
+                        "background": "dining_table",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 6,
                         "dialogueLines": [
@@ -5674,7 +5674,7 @@
                         ]
                     },
                     {
-                        "background": "home",
+                        "background": "dining_table",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 6,
                         "dialogueLines": [
@@ -5713,7 +5713,7 @@
                         ]
                     },
                     {
-                        "background": "home",
+                        "background": "dining_table",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 6,
                         "dialogueLines": [
@@ -5752,7 +5752,7 @@
                         ]
                     },
                     {
-                        "background": "home",
+                        "background": "dining_table",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 6,
                         "dialogueLines": [
@@ -5791,7 +5791,7 @@
                         ]
                     },
                     {
-                        "background": "home",
+                        "background": "dining_table",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 7,
                         "dialogueLines": [
@@ -5808,32 +5808,32 @@
                                 "dialogue": "Full support kami ni Tatay at mga kaibigan niyo sa lahat ng mabubuting bagay na gusto n’yong gawin."
                             },
                             {
-                                "character": "EIAN",
+                                "character": "TATAY",
                                 "dialogue": "Sige, ituloy na natin ang pagkain. Pagkatapos nalang ang kuwentuhan",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_b_uniform",
+                                        "image": "tatay_b_normal",
                                         "placement": "5;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "eian1_f_compassion",
+                                        "image": "tatay_f_smile",
                                         "placement": "5;FACE",
                                         "toShow": true
                                     }
                                 ]
                             },
                             {
-                                "character": "TINDERA",
+                                "character": "NENE",
                                 "dialogue": "Sige, Tay!",
                                 "imageChanges": [
                                     {
-                                        "image": "pork_vendor1_b_apron",
+                                        "image": "nene_b_normal",
                                         "placement": "1;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "pork_vendor1_f_compassion",
+                                        "image": "nene_f_smile",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -5886,12 +5886,12 @@
                 "id": 15,
                 "lineGroup": [
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
-                                "character": "EIAN",
+                                "character": "TATAY",
                                 "dialogue": "Sige na, ilatag n’yo na ‘yung higaan para makapagpahinga na tayo."
                             },
                             {
@@ -5910,11 +5910,11 @@
                                 "dialogue": "Oh diba, mahal, sabi ko sa’yo, matalino ‘tong anak natin."
                             },
                             {
-                                "character": "EIAN",
+                                "character": "TATAY",
                                 "dialogue": "Proud na proud ako sa’yo, anak. Pinaghirapan mo ‘yan, at susuportahan ka namin ng nanay mo.",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_f_talking",
+                                        "image": "tatay_f_smile",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     }
@@ -6026,12 +6026,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "tatay_b_normal",
                                 "placement": "3;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "tatay_f_normal",
                                 "placement": "3;FACE",
                                 "toShow": true
                             },
@@ -6049,7 +6049,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 2,
                         "dialogueLines": [
@@ -6163,7 +6163,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 4,
                         "dialogueLines": [
@@ -6197,7 +6197,7 @@
                         ]
                     },
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 4,
                         "dialogueLines": [
@@ -6242,7 +6242,7 @@
                         ]
                     },
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "curiosity_strikes loop",
                         "dialogueLines": [
                             {
@@ -6346,7 +6346,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "curiosity_strikes loop",
                         "defaultNextLine": 2,
                         "dialogueLines": [
@@ -6462,7 +6462,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "home",
+                        "background": "living_room",
                         "bgm": "curiosity_strikes loop",
                         "dialogueLines": [
                             {
@@ -6530,7 +6530,7 @@
                 "id": 17,
                 "lineGroup": [
                     {
-                        "background": "home",
+                        "background": "bedroom",
                         "bgm": "curiosity_strikes loop",
                         "dialogueLines": [
                             {
@@ -6552,12 +6552,12 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "jaxon1_b_uniform",
+                                        "image": "nibble_b_normal",
                                         "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "jaxon1_f_compassion",
+                                        "image": "nibble_f_cute",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -6579,7 +6579,7 @@
                                 "dialogue": "Teka, ba’t nagkaroon ng daga rito?"
                             },
                             {
-                                "character": "JAXON",
+                                "character": "NIBBLE",
                                 "dialogue": "Luh? Nakaka offend ‘yun ah!"
                             },
                             {
@@ -6594,7 +6594,7 @@
                                 ]
                             },
                             {
-                                "character": "JAXON",
+                                "character": "NIBBLE",
                                 "dialogue": "Of course, naman. By the way, hindi ako daga noh. Ako si Nibble. I’ll be your guide sa pag solve ng problems mo."
                             },
                             {
@@ -6602,11 +6602,11 @@
                                 "dialogue": "Problema? Paano mo naman nalaman problema ko?"
                             },
                             {
-                                "character": "JAXON",
+                                "character": "NIBBLE",
                                 "dialogue": "Hindi ba kagabi, kulang nalang pagbagsakan ng langit at lupa ‘yang mukha mo."
                             },
                             {
-                                "character": "JAXON",
+                                "character": "NIBBLE",
                                 "dialogue": "Kaya huwag ka nang mag-alala d’yan. Tutulungan kita throughout your journey!"
                             },
                             {
@@ -6621,7 +6621,7 @@
                                 ]
                             },
                             {
-                                "character": "JAXON",
+                                "character": "NIBBLE",
                                 "dialogue": "Bhie, hindi ka nga nanagi…"
                             },
                             {
@@ -6644,12 +6644,12 @@
                                 "dialogue": "Ano po ‘yon, nay?",
                                 "imageChanges": [
                                     {
-                                        "image": "jaxon1_b_uniform",
+                                        "image": "nibble_b_normal",
                                         "placement": "2;BODY",
                                         "toShow": false
                                     },
                                     {
-                                        "image": "jaxon1_f_compassion",
+                                        "image": "nibble_f_cute",
                                         "placement": "2;FACE",
                                         "toShow": false
                                     }
@@ -6717,12 +6717,12 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "jaxon1_b_uniform",
+                                        "image": "nibble_b_normal",
                                         "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "jaxon1_f_compassion",
+                                        "image": "nibble_f_cute",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -6733,7 +6733,7 @@
                                 "dialogue": "Hindi ka puwede lumabas, makikita ka nila nanay. Kailangan ko na magbihis at papasok pa ako school."
                             },
                             {
-                                "character": "JAXON",
+                                "character": "NIBBLE",
                                 "dialogue": "Noted, boss!"
                             },
                             {

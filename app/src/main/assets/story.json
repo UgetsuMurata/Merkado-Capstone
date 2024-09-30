@@ -3,6 +3,7 @@
         "category": "Main Story",
         "chapter": "Prologue",
         "id": 0,
+        "trigger": 1,
         "scenes": [
             {
                 "description": "Gumising at maghandang pumasok sa paaralan.",
@@ -6524,13 +6525,21 @@
                     }
                 ],
                 "scene": "Ang tunay na problema pagdating ng isang madilim na gabi"
-            },
+            }
+        ],
+        "shortDescription": "Ang pagsisimula ng lakbay pang ekonomiko"
+    },
+    {
+        "category": "Side Quest",
+        "chapter": "",
+        "id": 1,
+        "scenes": [
             {
                 "description": "Isang malaking daga!",
-                "id": 17,
+                "id": 0,
                 "lineGroup": [
                     {
-                        "background": "bedroom",
+                        "background": "home",
                         "bgm": "curiosity_strikes loop",
                         "dialogueLines": [
                             {
@@ -6552,12 +6561,12 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "nibble_b_normal",
+                                        "image": "jaxon1_b_uniform",
                                         "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "nibble_f_cute",
+                                        "image": "jaxon1_f_compassion",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -6579,7 +6588,7 @@
                                 "dialogue": "Teka, ba’t nagkaroon ng daga rito?"
                             },
                             {
-                                "character": "NIBBLE",
+                                "character": "JAXON",
                                 "dialogue": "Luh? Nakaka offend ‘yun ah!"
                             },
                             {
@@ -6594,7 +6603,7 @@
                                 ]
                             },
                             {
-                                "character": "NIBBLE",
+                                "character": "JAXON",
                                 "dialogue": "Of course, naman. By the way, hindi ako daga noh. Ako si Nibble. I’ll be your guide sa pag solve ng problems mo."
                             },
                             {
@@ -6602,11 +6611,11 @@
                                 "dialogue": "Problema? Paano mo naman nalaman problema ko?"
                             },
                             {
-                                "character": "NIBBLE",
+                                "character": "JAXON",
                                 "dialogue": "Hindi ba kagabi, kulang nalang pagbagsakan ng langit at lupa ‘yang mukha mo."
                             },
                             {
-                                "character": "NIBBLE",
+                                "character": "JAXON",
                                 "dialogue": "Kaya huwag ka nang mag-alala d’yan. Tutulungan kita throughout your journey!"
                             },
                             {
@@ -6621,7 +6630,7 @@
                                 ]
                             },
                             {
-                                "character": "NIBBLE",
+                                "character": "JAXON",
                                 "dialogue": "Bhie, hindi ka nga nanagi…"
                             },
                             {
@@ -6644,12 +6653,12 @@
                                 "dialogue": "Ano po ‘yon, nay?",
                                 "imageChanges": [
                                     {
-                                        "image": "nibble_b_normal",
+                                        "image": "jaxon1_b_uniform",
                                         "placement": "2;BODY",
                                         "toShow": false
                                     },
                                     {
-                                        "image": "nibble_f_cute",
+                                        "image": "jaxon1_f_compassion",
                                         "placement": "2;FACE",
                                         "toShow": false
                                     }
@@ -6717,12 +6726,12 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "nibble_b_normal",
+                                        "image": "jaxon1_b_uniform",
                                         "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "nibble_f_cute",
+                                        "image": "jaxon1_f_compassion",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -6733,7 +6742,7 @@
                                 "dialogue": "Hindi ka puwede lumabas, makikita ka nila nanay. Kailangan ko na magbihis at papasok pa ako school."
                             },
                             {
-                                "character": "NIBBLE",
+                                "character": "JAXON",
                                 "dialogue": "Noted, boss!"
                             },
                             {
@@ -6759,7 +6768,8 @@
     {
         "category": "Main Story",
         "chapter": "Yunit II: Maykroekonomiks",
-        "id": 1,
+        "id": 2,
+        "trigger": 3,
         "scenes": [
             {
                 "description": "Napansin mong tumataas ang bilihin at hindi napigilang ikwento ito sa magulang.",
@@ -8883,8 +8893,15 @@
                                 "dialogue": "Sige po…",
                                 "dialogueChoices": [
                                     {
-                                        "choice": "Bumili ng branded na gamot (total: 850)",
-                                        "nextLineGroup": 1
+                                        "choice": "Bumili ng branded na gamot (Total: 850)",
+                                        "nextLineGroup": 1,
+                                        "variable": {
+                                            "method": "SET",
+                                            "name": "SCENE5CHOICE",
+                                            "value": "1",
+                                            "code": "GO_TO_LINEGROUP",
+                                            "valueType": "NUMERICAL"
+                                        }
                                     },
                                     {
                                         "choice": "Bumili ng generic na gamot (Total: 650)",
@@ -8918,7 +8935,14 @@
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Sige po, bilhin ko na ‘yang branded na gamot, para gumaling agad si Nene"
+                                "dialogue": "Sige po, bilhin ko na ‘yang branded na gamot, para gumaling agad si Nene",
+                                "variable": {
+                                    "method": "SET",
+                                    "name": "SCENE5CHOICE",
+                                    "value": "1",
+                                    "code": "GO_TO_LINEGROUP",
+                                    "valueType": "NUMERICAL"
+                                }
                             },
                             {
                                 "character": "PHARMACIST",
@@ -8956,7 +8980,14 @@
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Magiging okay naman siguro kahit generic lang ang bilihin ko. Kapos talaga sa pera eh. "
+                                "dialogue": "Magiging okay naman siguro kahit generic lang ang bilihin ko. Kapos talaga sa pera eh.",
+                                "variable": {
+                                    "method": "SET",
+                                    "name": "SCENE5CHOICE",
+                                    "value": "2",
+                                    "code": "GO_TO_LINEGROUP",
+                                    "valueType": "NUMERICAL"
+                                }
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -8998,7 +9029,14 @@
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Mas importante na mabili ko ang gamot n’ya para sa lagnat kaya ‘yun ang uunahin ko."
+                                "dialogue": "Mas importante na mabili ko ang gamot n’ya para sa lagnat kaya ‘yun ang uunahin ko.",
+                                "variable": {
+                                    "method": "SET",
+                                    "name": "SCENE5CHOICE",
+                                    "value": "3",
+                                    "code": "GO_TO_LINEGROUP",
+                                    "valueType": "NUMERICAL"
+                                }
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -9006,7 +9044,7 @@
                             },
                             {
                                 "character": "PHARMACIST",
-                                "dialogue": "Sige pa wait nalang po Ma’am/Sir ha. "
+                                "dialogue": "Sige pa wait nalang po, Mamsir, ha. "
                             }
                         ],
                         "id": 3,
@@ -9042,10 +9080,191 @@
                 "description": "Agad na bumalik sa kanilang tahanan ang pangunahing karakter upang ibigay ang gamot sa kanyang kapatid",
                 "id": 6,
                 "lineGroup": [
+                    {
+                        "background": "living_room",
+                        "bgm": "merkado_theme loop",
+                        "defaultNextLine": 1,
+                        "dialogueLines": [
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Nay, eto na po ‘yung gamot."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Oh sya, akin na."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Ne, inumin mo muna tong gamot mo."
+                            },
+                            {
+                                "character": "NENE",
+                                "dialogue": "Thank you, Nay. Thank you, kuya."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Sige na Ne, pahinga ka muna d’yan."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Anak, may natira pa ba?",
+                                "variable": {
+                                    "method": "GET",
+                                    "name": "SCENE5CHOICE"
+                                }
+                            }
+                        ],
+                        "id": 0,
+                        "initialImages": [
+
+                        ],
+                        "transition": "FTB"
+                    },{
+                        "background": "living_room",
+                        "bgm": "merkado_theme loop",
+                        "defaultNextLine": 4,
+                        "dialogueLines": [
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Pasensya na nay, wala na. Ang mahal po ng branded na gamot."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Inalala ko lang si Nene kaya hindi ko na pinili ‘yung generic."
+                            }
+                        ],
+                        "id": 1,
+                        "initialImages": [
+                        ],
+                        "transition": "FTB"
+                    },{
+                        "background": "living_room",
+                        "bgm": "merkado_theme loop",
+                        "defaultNextLine": 4,
+                        "dialogueLines": [
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Meron pa naman nay, pero generic lang po ‘yung binili ko. Sana effective parin."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Sabi naman po ay wala halos ganon pinagkaiba iyon sa branded."
+                            }
+                        ],
+                        "id": 2,
+                        "initialImages": [
+                            {
+                                "image": "mc1_b_uniform",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_worried",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            }
+                        ],
+                        "transition": "FTB"
+                    },{
+                        "background": "living_room",
+                        "bgm": "merkado_theme loop",
+                        "defaultNextLine": 4,
+                        "dialogueLines": [
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Meron pa nay, kaso para lang po sa lagnat ang binili ko kasi feeling ko mas kailangan ‘yun ngayon ni Nene."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Hindi ko na po nabili ‘yung ibang gamot."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Pero, parehas naman pong branded at generic ‘yung binili ko para siguradong gagaling na si Nene."
+                            }
+                        ],
+                        "id": 3,
+                        "initialImages": [
+                            {
+                                "image": "mc1_b_uniform",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_worried",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            }
+                        ],
+                        "transition": "FTB"
+                    },{
+                        "background": "living_room",
+                        "bgm": "merkado_theme loop",
+                        "dialogueLines": [
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Hayaan mo na, nak. Magdodoble kayod nalang din si Nanay para may pang gastos tayo ngayong linggo."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Huwag na rin kayo mag-alala nay, sabi ni Aling Isabel tutulungan daw po n’ya ako magkaroon ng business sa palengke."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Nako anak, wala pa tayong pang puhunan sa ganyan."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "S’ya narin daw po ang bahala ron, nay. Bukas po ay magsisimula na kaming mag plano para doon."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Totoo ba ‘yan anak. Nako, pupuntahan ko bukas si Aling Isabel at magpapasalamat."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Malaking tulong na iyon sa atin. Salamat din sa iyo anak."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Dapat nag-aaral kalang ngayon pero pinproblema mo narin pamilya natin."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Okay lang ‘yun sakin Nay. Huwag po kayo mag-alala."
+                            },
+                            {
+                                "character": "null",
+                                "dialogue": "<i>Niyakap siya ng kaniyang nanay.</i>"
+                            }
+                        ],
+                        "id": 4,
+                        "initialImages": [
+                            {
+                                "image": "mc1_b_uniform",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_worried",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            }
+                        ],
+                        "transition": "FTB"
+                    }
                 ],
                 "nextScene": 7,
                 "scene": "Pagpupunyagi sa Kabila ng Pagsubok"
-            },
+            }
+        ],
+        "shortDescription": "Ang estruktura ng pamilihan: Ang konsyumer at prodyuser nito"
+    },
+    {
+        "category": "Side Quest",
+        "chapter": "",
+        "id": 3,
+        "scenes": [
             {
                 "description": "Muli kang naging mapag-isa at iniisip ang mga maaaring gawin sa buhay",
                 "id": 7,
@@ -9198,7 +9417,7 @@
     {
         "category": "Main Story",
         "chapter": "Yunit III: Makroekonomiks",
-        "id": 2,
+        "id": 4,
         "scenes": [
             {
                 "description": "Isang malaking pasasalamat ang ipinakita mo kay Aling Isabel dahil sa kanyang naging tulong sa iyong buhay",
@@ -11245,7 +11464,8 @@
     {
         "category": "Main Story",
         "chapter": "Yunit IV: Mga Sektor ng Ekonomiya at mga Patakarang Pang-Ekonomiko nito.",
-        "id": 3,
+        "id": 5,
+        "trigger": 6,
         "scenes": [
             {
                 "description": "Narinig ninyong magkaibigan na nagsimula nang magbigay ng anunsyo ang inyong kapitan tungkol sa isang napakahalagang usapin.",
@@ -13338,7 +13558,15 @@
                 ],
                 "nextScene": 6,
                 "scene": "Sektor ng Agrikultura"
-            },
+            }
+        ],
+        "shortDescription": "Susi sa Pag-unlad: Mga Sektor ng Ekonomiya at mga Patakarang Pang-Ekonomiko"
+    },
+    {
+        "category": "Side Quest",
+        "chapter": "",
+        "id": 6,
+        "scenes": [
             {
                 "description": "Napunta ka sa isang mahirap na sitwasyon kung saan ang tanging nais mo ay magsimulang muli.",
                 "id": 6,
@@ -13583,7 +13811,7 @@
     {
         "category": "Main Story",
         "chapter": "ENDING",
-        "id": 4,
+        "id": 7,
         "scenes": [
             {
                 "description": "Sa wakas! Nakamit mo na rin ang tagumpay na iyong inaasam. Muli kang nakabangon at naiahon ang iyong pamilya sa kahirapan",

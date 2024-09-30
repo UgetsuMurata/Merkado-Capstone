@@ -5,230 +5,323 @@
         "CHANGE": THIS MEANS THAT THE ATTRIBUTE IS TO BE CHANGED, BUT THE CHANGES ARE NOT YET IMPLEMENTED.
 */
 {
-    "accounts": {
-        "email@gmail__DOT__com": { // Email is converted into a firebase-safe key.
-            "lastOnline": 123456, // Epoch millis.
-            "password": "hashedPassword",
-            "player": [0, 1, 2], // List of player Ids.
-            "username": "username"
+  "accounts": {
+    "email@gmail__DOT__com": {
+      // Email is converted into a firebase-safe key.
+      "lastOnline": 123456,
+      // Epoch millis.
+      "password": "hashedPassword",
+      "player": [
+        0,
+        1,
+        2
+      ],
+      // List of player Ids.
+      "username": "username"
+    }
+  },
+  "appData": {
+    "About": "Lorem Ipsum",
+    "TermsAndConditions": "Lorem Ipsum"
+  },
+  "player": [
+    {
+      "accountId": "email@gmail.com",
+      "exp": 0,
+      "inventory": {
+        "resourceId": {
+          "resourceId": 0,
+          "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
+          "quantity": 0,
+          "sellable": false
         }
-    },
-    "appData": {
-        "About": "Lorem Ipsum",
-        "TermsAndConditions": "Lorem Ipsum"
-    },
-    "player": [
+      },
+      "money": 2000,
+      "server": "0",
+      "storyQueue": [
         {
-            "accountId": "email@gmail.com",
-            "exp": 0,
-            "inventory": {
-                "resourceId" : {
-                    "resourceId": 0,
-                    "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
-                    "quantity": 0,
-                    "sellable": false
-                }
-            },
-            "money": 2000,
-            "server": "0",
-            "storyQueue": [
-                {
-                    "currentLineGroup": 0,
-                    "nextLineGroup": 1,
-                    "currentScene": 0,
-                    "nextScene": 1,
-                    "story": 0, // This is chapter
-                    "isTaken": true // CHANGE: This isn't actually used. Might remove it later.
-                }
-            ],
-            "taskQueue": [
-                {
-                    "task": 0 // This is task id. Schema on this might be updated later.
-                }
-            ],
-            "market": {
-                "id": 0, // market Id connected to the server.
-                "hadMarket": true
-            },
-            "factory": { // factory details for chapter 4.
-                "factoryType": "FOOD | MANUFACTURING",
-                "factoryMarketId": 0,
-                "details": {
-                    "energy": 150, // this is the amount of taps the player can do.
-                    "energyMax": 150, // this is the maximum amount of taps the player can do.
-                    "lastUsedEnergy": 1123456, // this is the timestamp when the user last used their energy. Used to generate more energy.
-                    "onProduction": 1, // resource id
-                    "foodProficiency": 100, // proficiency is the player's experience in the factory type.
-                    "manufacturingProficiency": 0,
-                    "multiplier": 1 // NEW: multiplies the added resource
-                }
-            }
+          "variableHolder": {
+            "variableName": "value"
+          },
+          "currentLineGroup": 0,
+          "nextLineGroup": 1,
+          "currentScene": 0,
+          "nextScene": 1,
+          "story": 0,
+          // This is chapter
+          "trigger": 0
+          // this is the next quest if this story finishes.
         }
-    ],
-    "resource": [
+      ],
+      "storyHistory": [
         {
-            "resourceId": 0,
-            "name": "Resource Name",
-            "description": "Lorem Ipsum",
-            "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS", // This only has four possible values.
-            "sellable": false,
-            "factoryDefaults": {
-                "proficiencyRequirement": 100,
-                "proficiencyReward": 1 // This is the amount of added proficiency when generating this.
-            }
+          "variableHolder": {
+            "variableName": "value"
+          },
+          "currentLineGroup": 0,
+          "nextLineGroup": 1,
+          "currentScene": 0,
+          "nextScene": 1,
+          "story": 0
+          // This is chapter
         }
-    ],
-    "server": {
-        "serverId": {
-            "image": "src",
-            "name": "Server Name",
-            "players": [0, 1], // List of playerIds.
-            "settings": {
-                "playerLimit": 30, // NEW: key change from "player_limit" to "playerLimit".
-                "marketNameDisplayed": false // NEW: indicator of whether or not the player name is displayed in their market.
-            },
-            "market": { // NEW: This holds the market data.
-                "marketStandard": {
-                    "marketPrice": {
-                        "resourceId": {
-                            "resourceId": 0,
-                            "marketPrice": 100,
-                            "metadata": { // NEW
-                                "demand": {
-                                    "hour1": 10,
-                                    "hour24": 1200
-                                },
-                                "supply": 10200
-                            }
-                        }
-                    },
-                    "metadata": { // NEW
-                        "totalWeightedPrice": 10200,
-                        "inflationRate": 0.25,
-                        "purchasingPower": 0.25,
-                        "updateTime": "YYYYMMDD;HH"
-                    }
+      ],
+      "taskQueue": [
+        {
+          "task": 0
+          // This is task id. Schema on this might be updated later.
+        }
+      ],
+      "market": {
+        "id": 0,
+        // market Id connected to the server.
+        "hadMarket": true
+      },
+      "factory": {
+        // factory details for chapter 4.
+        "factoryType": "FOOD | MANUFACTURING",
+        "factoryMarketId": 0,
+        "details": {
+          "energy": 150,
+          // this is the amount of taps the player can do.
+          "energyMax": 150,
+          // this is the maximum amount of taps the player can do.
+          "lastUsedEnergy": 1123456,
+          // this is the timestamp when the user last used their energy. Used to generate more energy.
+          "onProduction": 1,
+          // resource id
+          "foodProficiency": 100,
+          // proficiency is the player's experience in the factory type.
+          "manufacturingProficiency": 0,
+          "multiplier": 1
+          // NEW: multiplies the added resource
+        }
+      }
+    }
+  ],
+  "resource": [
+    {
+      "resourceId": 0,
+      "name": "Resource Name",
+      "description": "Lorem Ipsum",
+      "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
+      // This only has four possible values.
+      "sellable": false,
+      "factoryDefaults": {
+        "proficiencyRequirement": 100,
+        "proficiencyReward": 1
+        // This is the amount of added proficiency when generating this.
+      }
+    }
+  ],
+  "server": {
+    "serverId": {
+      "image": "src",
+      "name": "Server Name",
+      "players": [
+        0,
+        1
+      ],
+      // List of playerIds.
+      "settings": {
+        "playerLimit": 30,
+        // NEW: key change from "player_limit" to "playerLimit".
+        "marketNameDisplayed": false
+        // NEW: indicator of whether or not the player name is displayed in their market.
+      },
+      "market": {
+        // NEW: This holds the market data.
+        "marketStandard": {
+          "marketPrice": {
+            "resourceId": {
+              "resourceId": 0,
+              "marketPrice": 100,
+              "metadata": {
+                // NEW
+                "demand": {
+                  "hour1": 10,
+                  "hour24": 1200
                 },
-                "marketHistory": { // NEW
-                    "demand": {
-                        "resourceId": {
-                            "YYYYMMDD;HH": 10
-                        }
-                    },
-                    "totalWeightedPrice": {
-                        "YYYYMMDD;HH": 10200
-                    }
-                },
-                "playerMarkets": [ // putting this in the server will make them easily accessible to a bunch of players.
-                    {
-                        "marketOwner": 0, // playerId ["-1" if managed by bot.]
-                        "marketId": 0,
-                        "storeName": "Store Name",
-                        "opened": 123456, // epoch millis
-                        "onSale": [ // list of what's being sold
-                            {
-                                "onSaleId": 0,
-                                "resourceId": 0,
-                                "itemName": "Resource Name",
-                                "type":"COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
-                                "price": 105,
-                                "quantity": 10,
-                                "inventoryReference": 0 // CHANGE: remove this. replace with the "resourceId" for the code.
-                            }
-                        ]
-                    }
-                ],
-                "playerFactory": [
-                    {
-                        "factoryOwner": 0, // playerId ["-1" if managed by bot.]
-                        "factoryId": 0,
-                        "factoryName": "Factory Name",
-                        "factoryType": "Food Factory", // NEW: .
-                        "opened": 123456, // epoch millis
-                        "onSale": [ // list of what's being sold
-                            {
-                                "onSaleId": 0,
-                                "resourceId": 0,
-                                "itemName": "Resource Name",
-                                "type":"COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
-                                "price": 105,
-                                "quantity": 10,
-                                "inventoryReference": 0 // CHANGE: remove this. replace with the "resourceId" for the code.
-                            }
-                        ]
-                    }
-                ]
-            },
-            "onlinePlayers": [0, 1],
-            "updaterPlayer": 0 // player assigned to update the server data.
-        }
-    },
-    "story": [
-        {
-            "id": 0, // Story Id
-            "category": "Main Story | Side Story | Extra Story", // This only has three possible values.
-            "chapter": "Chapter Name",
-            "shortDescription": "Lorem Ipsum",
-            "scenes": [
-                {
-                    "id": 0, // scene id
-                    "scene": "Scene Name",
-                    "description":"Lorem Ipsum",
-                    "nextScene": 1, // next scene id
-                    "lineGroup": [
-                        {
-                            "id": 0, // lineGroup id
-                            "background": "background_resource_code",
-                            "transition": "FTB", // for now, only FTB (fade to black) is available.
-                            "bgm": "bgm_resource_code [loop]", // loop is optional. if no "loop", bgm will not loop.
-                            "isQuiz": false, // this is optional. indicate true if this linegroup contains a quiz.
-                            "nextLineCode": "score=={score integer}:{next line group id};score==3:4", // this comes with the "isQuiz" if it was true. ";" is the separator between conditions. 
-                            "dialogueLines": [
-                                {
-                                    "character": "Character name",
-                                    "dialogue": "Lorem Ipsum",
-                                    "imageChanges": [ // this is optional for when there are changes with the character's resources.
-                                        {
-                                            "image": "sprite_resource_code",
-                                            "placement": "[1-5];[BODY|FACE]", // this is for placement in the screen, relative to other resources.
-                                            "toShow": true // this is for indicating if the resource will be hidden or not.
-                                        }
-                                    ],
-                                    "dialogueChoices": [
-                                        { // must contain exactly 4 instances of this object.
-                                            "choice": "Lorem Ipsum Short", // Short sample of the dialogue.
-                                            "nextLineGroup": 1 // indicates what LineGroup must go next after this.
-                                        }
-                                    ],
-                                    "quizChoices": [
-                                        { // must contain exactly 4 instances of this object.
-                                            "choice": "Lorem Ipsum Short",
-                                            "points": 1, // points that the player will get from this choice.
-                                            "dialogueLine": { // this will be displayed depending on player's choice.
-                                                "character":"Character name",
-                                                "dialogue": "Lorem Ipsum", // continuation of the choice to make the dialogue flow nicely.
-                                                "imageChanges": [
-                                                    {
-                                                        "image": "sprite_resource_code",
-                                                        "placement": "[1-5];[BODY|FACE]", // this is for placement in the screen, relative to other resources.
-                                                        "toShow": true // this is for indicating if the resource will be hidden or not.
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    "rewards": [
-                        {
-                            "resourceId": 0,
-                            "resourceQuantity": 0
-                        }
-                    ]
-                }
+                "supply": 10200
+              }
+            }
+          },
+          "metadata": {
+            // NEW
+            "totalWeightedPrice": 10200,
+            "inflationRate": 0.25,
+            "purchasingPower": 0.25,
+            "updateTime": "YYYYMMDD;HH"
+          }
+        },
+        "marketHistory": {
+          // NEW
+          "demand": {
+            "resourceId": {
+              "YYYYMMDD;HH": 10
+            }
+          },
+          "totalWeightedPrice": {
+            "YYYYMMDD;HH": 10200
+          }
+        },
+        "playerMarkets": [
+          // putting this in the server will make them easily accessible to a bunch of players.
+          {
+            "marketOwner": 0,
+            // playerId ["-1" if managed by bot.]
+            "marketId": 0,
+            "storeName": "Store Name",
+            "opened": 123456,
+            // epoch millis
+            "onSale": [
+              // list of what's being sold
+              {
+                "onSaleId": 0,
+                "resourceId": 0,
+                "itemName": "Resource Name",
+                "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
+                "price": 105,
+                "quantity": 10,
+                "inventoryReference": 0
+                // CHANGE: remove this. replace with the "resourceId" for the code.
+              }
             ]
+          }
+        ],
+        "playerFactory": [
+          {
+            "factoryOwner": 0,
+            // playerId ["-1" if managed by bot.]
+            "factoryId": 0,
+            "factoryName": "Factory Name",
+            "factoryType": "Food Factory",
+            // NEW: .
+            "opened": 123456,
+            // epoch millis
+            "onSale": [
+              // list of what's being sold
+              {
+                "onSaleId": 0,
+                "resourceId": 0,
+                "itemName": "Resource Name",
+                "type": "COLLECTIBLE | EDIBLE | RESOURCE | GAME MECHANICS",
+                "price": 105,
+                "quantity": 10,
+                "inventoryReference": 0
+                // CHANGE: remove this. replace with the "resourceId" for the code.
+              }
+            ]
+          }
+        ]
+      },
+      "onlinePlayers": [
+        0,
+        1
+      ],
+      "updaterPlayer": 0
+      // player assigned to update the server data.
+    }
+  },
+  "story": [
+    {
+      "id": 0,
+      // Story Id
+      "category": "Main Story | Side Story | Extra Story",
+      // This only has three possible values.
+      "chapter": "Chapter Name",
+      "shortDescription": "Lorem Ipsum",
+      "scenes": [
+        {
+          "id": 0,
+          // scene id
+          "scene": "Scene Name",
+          "description": "Lorem Ipsum",
+          "nextScene": 1,
+          // next scene id
+          "lineGroup": [
+            {
+              "id": 0,
+              // lineGroup id
+              "background": "background_resource_code",
+              "transition": "FTB",
+              // for now, only FTB (fade to black) is available.
+              "bgm": "bgm_resource_code [loop]",
+              // loop is optional. if no "loop", bgm will not loop.
+              "isQuiz": false,
+              // this is optional. indicate true if this linegroup contains a quiz.
+              "nextLineCode": "score=={score integer}:{next line group id};score==3:4",
+              // this comes with the "isQuiz" if it was true. ";" is the separator between conditions.
+              "dialogueLines": [
+                {
+                  "character": "Character name",
+                  "dialogue": "Lorem Ipsum",
+                  "imageChanges": [
+                    // this is optional for when there are changes with the character's resources.
+                    {
+                      "image": "sprite_resource_code",
+                      "placement": "[1-5];[BODY|FACE]",
+                      // this is for placement in the screen, relative to other resources.
+                      "toShow": true
+                      // this is for indicating if the resource will be hidden or not.
+                    }
+                  ],
+                  "dialogueChoices": [
+                    {
+                      // must contain exactly 4 instances of this object.
+                      "choice": "Lorem Ipsum Short",
+                      // Short sample of the dialogue.
+                      "nextLineGroup": 1,
+                      // indicates what LineGroup must go next after this.
+                      "variable": {
+                        "method": "GET",
+                        // GET, SET, DELETE, UPDATE
+                        "name": "VARIABLE_NAME",
+                        // [NAME]
+                        "value": "VARIABLE_VALUE",
+                        // [VALUE]
+                        "code": "CODE_STRING",
+                        // [CODE STRING OF WHAT TO DO WITH THE NUMBER]
+                        "valueType": "STRING"
+                        // NUMERICAL, DECIMAL, STRING, BOOLEAN
+                      }
+                    }
+                  ],
+                  "quizChoices": [
+                    {
+                      // must contain exactly 4 instances of this object.
+                      "choice": "Lorem Ipsum Short",
+                      "points": 1,
+                      // points that the player will get from this choice.
+                      "dialogueLine": {
+                        // this will be displayed depending on player's choice.
+                        "character": "Character name",
+                        "dialogue": "Lorem Ipsum",
+                        // continuation of the choice to make the dialogue flow nicely.
+                        "imageChanges": [
+                          {
+                            "image": "sprite_resource_code",
+                            "placement": "[1-5];[BODY|FACE]",
+                            // this is for placement in the screen, relative to other resources.
+                            "toShow": true
+                            // this is for indicating if the resource will be hidden or not.
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "rewards": [
+            {
+              "resourceId": 0,
+              "resourceQuantity": 0
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }

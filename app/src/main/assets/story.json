@@ -9086,24 +9086,88 @@
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
+                                "character": "null",
+                                "dialogue": "Matapos makapag desisyon ay agad nitong binili ang gamot at diretsong umuwi ng kanilang bahay."
+                            },
+                            {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Nay, eto na po ‘yung gamot."
+                                "dialogue": "Nay, eto na po ‘yung gamot.",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_b_uniform",
+                                        "placement": "1;BODY",
+                                        "toShow": true
+                                    },
+                                    {
+                                        "image": "mc1_f_nervous",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Oh sya, akin na."
+                                "dialogue": "Oh sya, akin na.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_b_home",
+                                        "placement": "2;BODY",
+                                        "toShow": true
+                                    },
+                                    {
+                                        "image": "nanay1_f_confused",
+                                        "placement": "2;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Ne, inumin mo muna tong gamot mo."
+                                "dialogue": "Ne, inumin mo muna tong gamot mo.",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_curious",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NENE",
-                                "dialogue": "Thank you, Nay. Thank you, kuya."
+                                "dialogue": "Thank you, Nay. Thank you, kuya.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nene_b_normal",
+                                        "placement": "3;BODY",
+                                        "toShow": true
+                                    },
+                                    {
+                                        "image": "nene_f_relieved",
+                                        "placement": "3;FACE",
+                                        "toShow": true
+                                    },
+                                    {
+                                        "image": "mc1_f_compassion",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    },
+                                    {
+                                        "image": "nanay1_f_compassion",
+                                        "placement": "2;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Sige na Ne, pahinga ka muna d’yan."
+                                "dialogue": "Sige na Ne, pahinga ka muna d’yan.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nene_f_smile",
+                                        "placement": "3;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NANAY",
@@ -9111,15 +9175,25 @@
                                 "variable": {
                                     "method": "GET",
                                     "name": "SCENE5CHOICE"
-                                }
+                                },
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_nervous",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    },
+                                    {
+                                        "image": "nanay1_f_confused",
+                                        "placement": "2;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             }
                         ],
                         "id": 0,
-                        "initialImages": [
-
-                        ],
                         "transition": "FTB"
-                    },{
+                    },
+                    {
                         "background": "living_room",
                         "bgm": "merkado_theme loop",
                         "defaultNextLine": 4,
@@ -9135,9 +9209,30 @@
                         ],
                         "id": 1,
                         "initialImages": [
+                            {
+                                "image": "mc1_b_uniform",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_confused",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_b_home",
+                                "placement": "2;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_confused",
+                                "placement": "2;FACE",
+                                "toShow": true
+                            }
                         ],
                         "transition": "FTB"
-                    },{
+                    },
+                    {
                         "background": "living_room",
                         "bgm": "merkado_theme loop",
                         "defaultNextLine": 4,
@@ -9159,13 +9254,24 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc1_f_worried",
+                                "image": "mc1_f_confused",
                                 "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_b_home",
+                                "placement": "2;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_confused",
+                                "placement": "2;FACE",
                                 "toShow": true
                             }
                         ],
                         "transition": "FTB"
-                    },{
+                    },
+                    {
                         "background": "living_room",
                         "bgm": "merkado_theme loop",
                         "defaultNextLine": 4,
@@ -9191,13 +9297,24 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc1_f_worried",
+                                "image": "mc1_f_confused",
                                 "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_b_home",
+                                "placement": "2;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_confused",
+                                "placement": "2;FACE",
                                 "toShow": true
                             }
                         ],
                         "transition": "FTB"
-                    },{
+                    },
+                    {
                         "background": "living_room",
                         "bgm": "merkado_theme loop",
                         "dialogueLines": [
@@ -9207,19 +9324,49 @@
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Huwag na rin kayo mag-alala nay, sabi ni Aling Isabel tutulungan daw po n’ya ako magkaroon ng business sa palengke."
+                                "dialogue": "Huwag na rin kayo mag-alala nay, sabi ni Aling Isabel tutulungan daw po n’ya ako magkaroon ng business sa palengke.",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_compassion",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+
+                                ]
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Nako anak, wala pa tayong pang puhunan sa ganyan."
+                                "dialogue": "Nako anak, wala pa tayong pang puhunan sa ganyan.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_confused",
+                                        "placement": "2;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "S’ya narin daw po ang bahala ron, nay. Bukas po ay magsisimula na kaming mag plano para doon."
+                                "dialogue": "S’ya narin daw po ang bahala ron, nay. Bukas po ay magsisimula na kaming mag plano para doon.",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_amazed",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+
+                                ]
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Totoo ba ‘yan anak. Nako, pupuntahan ko bukas si Aling Isabel at magpapasalamat."
+                                "dialogue": "Totoo ba ‘yan anak. Nako, pupuntahan ko bukas si Aling Isabel at magpapasalamat.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_compassion",
+                                        "placement": "2;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NANAY",
@@ -9227,11 +9374,25 @@
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Dapat nag-aaral kalang ngayon pero pinproblema mo narin pamilya natin."
+                                "dialogue": "Dapat nag-aaral kalang ngayon pero pinproblema mo narin pamilya natin.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_normal",
+                                        "placement": "2;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Okay lang ‘yun sakin Nay. Huwag po kayo mag-alala."
+                                "dialogue": "Okay lang ‘yun sakin Nay. Huwag po kayo mag-alala.",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_compassion",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "null",
@@ -9246,8 +9407,18 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc1_f_worried",
+                                "image": "mc1_f_confused",
                                 "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_b_home",
+                                "placement": "2;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_reminiscing",
+                                "placement": "2;FACE",
                                 "toShow": true
                             }
                         ],
@@ -10949,7 +11120,150 @@
                 "description": "Ngayon mo napagtanto ang naging desisyon mo sa buhay pagdating sa kahalagahan ng maayos na pag-iimpok",
                 "id": 5,
                 "lineGroup": [
+                    {
+                        "background": "living_room",
+                        "bgm": "merkado_theme loop",
+                        "defaultNextLine": 1,
+                        "dialogueLines": [
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Nay, bibili lang po ako ng paninda natin."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Sige, anak mag-iingat ka."
+                            }
+                        ],
+                        "id": 0,
+                        "initialImages": [
+                            {
+                                "image": "mc1_b_casual",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_smile",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_b_home_arms",
+                                "placement": "2;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_smile",
+                                "placement": "2;FACE",
+                                "toShow": true
+                            }
+                        ],
+                        "transition": "FTB"
+                    },
+                    {
+                        "background": "market",
+                        "bgm": "merkado_theme loop",
+                        "defaultNextLine": 2,
+                        "dialogueLines": [
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Hala! ang tataas ng presyo ng mga bilihin. Itong kape, nasa 50 pesos na."
+                            }
+                        ],
+                        "id": 1,
+                        "initialImages": [
+                            {
+                                "image": "mc1_b_casual",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_confused",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            }
+                        ],
+                        "transition": "FTB"
+                    },
+                    {
+                        "background": "market",
+                        "bgm": "merkado_theme loop",
+                        "dialogueLines": [
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Buti nalang, sinunod ko ang bilin ni Jaxon na ilagay sa bangko ang ipon ko."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Kahit papaano may interes akong magagamit."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Pero, mahal pa rin ng mga bilihin. Hindi parin ito sapat para tumaas ang kaya kong mabili. "
+                            }
+                        ],
+                        "id": 2,
+                        "initialImages": [
+                            {
+                                "image": "mc1_b_casual",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_curious",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            }
+                        ],
+                        "transition": "FTB"
+                    },
+                    {
+                        "background": "living_room",
+                        "bgm": "merkado_theme loop",
+                        "dialogueLines": [
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Nako! Paano ‘to? Akala ko sakto na itong naipon ko para sa mga bibilhin kong paninda. "
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Bakit naman ang mamahal ng mga bilihin?"
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Totoo nga ang sabi nila, mas okay kung sa bangko ilagay ang pera.",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_nervous",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Safe na, may interes ka pang makukuha."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Hays, maghahanap nalang siguro muna ako ng ibang brand na mas mura. "
+                            }
 
+                        ],
+                        "id": 3,
+                        "initialImages": [
+                            {
+                                "image": "mc1_b_casual",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_confused",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            }
+                        ],
+                        "transition": "FTB"
+                    }
                 ],
                 "nextScene": 6,
                 "scene": "Pag-impok: Pera sa Bangko o Sa Bulsa?"

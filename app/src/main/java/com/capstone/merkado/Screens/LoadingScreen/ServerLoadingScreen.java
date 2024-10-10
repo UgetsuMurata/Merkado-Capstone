@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ServerLoadingScreen extends AppCompatActivity {
 
     private Merkado merkado;
-    Integer maxProcesses = 5;
+    Integer maxProcesses = 6;
     BasicServerData basicServerData;
     PlayerFBExtractor1 playerFBExtractor;
     List<PlayerStory> playerStoryList;
@@ -72,14 +72,16 @@ public class ServerLoadingScreen extends AppCompatActivity {
                         process1();
                         break;
                     case 2:
-                        process2();
+                        merkado.extractObjectives(getApplicationContext());
                         break;
                     case 3:
-                        process3();
+                        process2();
                         break;
                     case 4:
-                        process4();
+                        process3();
                         break;
+                    case 5:
+                        process4();
                     default:
                         break;
                 }
@@ -179,7 +181,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
         Integer index = 0;
         if (merkado.getPlayer().getPlayerStoryList() == null) return;
         for (PlayerStory playerStory : merkado.getPlayer().getPlayerStoryList()) {
-            if (playerStory.getChapter().getChapter().equals("Prologue")) {
+            if (playerStory.getChapter().getChapter().equals("Prologue") && playerStory.getCurrentScene().getId() == 0) {
                 intent.putExtra("PROLOGUE", true);
                 intent.putExtra("PLAYER_STORY", playerStory);
                 intent.putExtra("CURRENT_QUEUE_INDEX", index);

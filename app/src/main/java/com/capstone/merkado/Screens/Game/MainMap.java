@@ -14,7 +14,6 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +29,7 @@ import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
+import com.capstone.merkado.Helpers.StoryTriggers;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
@@ -53,7 +53,7 @@ import java.util.Objects;
 public class MainMap extends AppCompatActivity {
 
     Merkado merkado;
-    CardView inventoryNav, questAndStoriesNav, factoriesNav;
+    ImageView inventoryNav, questAndStoriesNav, factoriesNav;
     ImageView storesNav, myStore, myFactory, board;
     ConstraintClicker myStoreClicker, myHouseClicker, myFactoryClicker, boardClicker;
     ConstraintLayout layoutMarketDataWindow;

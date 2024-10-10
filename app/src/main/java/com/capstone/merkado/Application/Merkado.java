@@ -30,6 +30,7 @@ import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
+import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
 import com.capstone.merkado.Objects.StoresDataObjects.Market;
 import com.capstone.merkado.Objects.StoresDataObjects.MarketData.CompiledData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
@@ -50,6 +51,7 @@ public class Merkado extends Application {
     private List<BasicServerData> basicServerData;
     private List<ResourceData> resourceDataList;
     private List<Chapter> chapterList;
+    private List<Objectives> objectivesList;
     private Player player;
     private Integer playerId;
     private MediaPlayer sfxPlayer;
@@ -506,6 +508,18 @@ public class Merkado extends Application {
         }
     }
 
+    public void extractObjectives(Context context){
+        JsonHelper.getObjectivesList(context, this::setObjectivesList);
+    }
+
+    public void setObjectivesList(List<Objectives> objectivesList){
+        this.objectivesList = objectivesList;
+    }
+
+    public List<Objectives> getObjectivesList() {
+        return objectivesList;
+    }
+
     public void setBGM(Context context, int file, boolean loop) {
         if (bgmPlayer != null) {
             releaseBGM();
@@ -518,6 +532,7 @@ public class Merkado extends Application {
             return;
         }
         bgmPlayer = MediaPlayer.create(context, file);
+        bgmPlayer.setVolume(1f, 1f);
         bgmPlayer.setLooping(loop);
         bgmPlayer.start();
     }

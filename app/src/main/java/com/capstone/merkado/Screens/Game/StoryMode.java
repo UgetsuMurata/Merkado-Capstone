@@ -1,5 +1,6 @@
 package com.capstone.merkado.Screens.Game;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -89,6 +90,10 @@ public class StoryMode extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gam_story_mode);
+
+        if (getIntent().hasExtra("PROLOGUE")) {
+            StoryTriggers.objectives(this, 1);
+        }
 
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
@@ -468,6 +473,7 @@ public class StoryMode extends AppCompatActivity {
     private void currentLineEnded() {
         if (!isHistory)
             RewardProcessor.processRewards(
+                    this,
                     merkado.getPlayerId(),
                     playerStory.getCurrentScene().getRewards());
         if (playerStory.getCurrentLineGroup().getIsQuiz() != null && playerStory.getCurrentLineGroup().getIsQuiz()) {

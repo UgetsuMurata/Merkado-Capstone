@@ -112,7 +112,7 @@ public class StoryResourceCaller {
                 case "mc1_f_curious":
                     return R.drawable.sprite_mc1_f_curious;
                 case "mc1_f_sad":
-                    return R.drawable.sprite_mc1_f_curious;
+                    return R.drawable.sprite_mc1_f_smirk;
             }
         } else if (imgResource.startsWith("mc2")) {
             switch (imgResource) {

@@ -1,0 +1,55 @@
+[
+  {
+    "id": 0,
+    "title": "Kabanata I",
+    "subtitle": "Mga Pangunahing Konsepto ng Ekonomiks",
+    "objectives": [
+      "Unawain ang konsepto ng ekonomiks at halaga nito sa buhay.",
+      "Tukuyin ang sanhi ng kakapusan at magbigay ng solusyon.",
+      "Alamin ang kaibahan ng pangangailangan at kagustuhan.",
+      "Maging mahusay sa alokasyon ng limitadong yaman.",
+      "Maging responsableng mamimili at ipagtanggol ang karapatan.",
+      "Unawain ang produksiyon at epekto nito sa buhay.",
+      "Suriin ang papel ng negosyo sa ekonomiya."
+    ]
+  },
+  {
+    "id": 1,
+    "title": "Kabanata II",
+    "subtitle": "Maykroekonomiks",
+    "objectives": [
+      "Ipaliwanag ang kahulugan ng demand at epekto nito sa buhay ng pamilya.",
+      "Ipatupad ang price elasticity at tugon ng mamimili sa pagbabago ng presyo.",
+      "Ipaliwanag ang interaksiyon ng demand at supply at epekto nito sa presyo.",
+      "Suriin ang epekto ng shortage at surplus sa presyo at dami ng produkto.",
+      "Unawain ang estruktura ng pamilihan at epekto nito sa mamimili at supplier.",
+      "Ipakita ang ugnayan ng pamahalaan at pamilihan sa price ceiling at price floor."
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Kabanata III",
+    "subtitle": "Makroekonomiks",
+    "objectives": [
+      "Ilarawan at suriin ang paikot na daloy ng ekonomiya at ang ugnayan ng mga sektor.",
+      "Suriin ang pambansang kita at produkto, tulad ng GNP at GDP, at ang mga paraan ng pagsukat nito.",
+      "Suriin ang ugnayan ng kita, pagkonsumo, at pag-iimpok, at ang kahalagahan ng mga ito sa ekonomiya.",
+      "Suriin ang konsepto ng implasyon, mga sanhi at epekto nito, at makilahok sa paglutas ng mga suliranin nito.",
+      "Ipaliwanag at suriin ang patakarang piskal, kasama ang papel ng pamahalaan at responsibilidad sa pagbabayad ng buwis.",
+      "Ipaliwanag at suriin ang patakarang pananalapi at ang mga hakbang ng BSP para mapanatili ang halaga ng salapi."
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Kabanata IV",
+    "subtitle": "Mga Sektor ng Ekonomiya at mga Patakarang Pang-Ekonomiko nito",
+    "objectives": [
+      "Ipaliwanag ang pambansang kaunlaran, mga palatandaan, at kontribusyon ng mamamayan.",
+      "Suriin ang papel ng agrikultura, pangingisda, paggugubat, mga suliranin, at patakaran dito.",
+      "Suriin ang papel ng industriya, ugnayan sa agrikultura, at mga patakaran na sumusuporta dito.",
+      "Suriin ang papel ng sektor ng paglilingkod at mga patakaran para sa proteksyon ng manggagawa.",
+      "Ipaliwanag ang impormal na sektor, mga sanhi at epekto nito, at pagsunod sa patakarang pang-ekonomiya.",
+      "Suriin ang ugnayan ng Pilipinas sa kalakalang panlabas at mga patakarang tumutulong dito."
+    ]
+  }
+]

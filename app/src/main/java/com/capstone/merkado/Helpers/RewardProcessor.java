@@ -1,13 +1,13 @@
 package com.capstone.merkado.Helpers;
 
-import androidx.annotation.Nullable;
+import android.app.Activity;
+import android.content.Context;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
-import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RewardProcessor {
-    public static void processRewards(Integer playerId, List<Chapter.GameRewards> rewards) {
-        List<Chapter.GameRewards> remainingRewards = new ArrayList<>(specialRewards(playerId, rewards));
+    public static void processRewards(Activity activity, Integer playerId, List<Chapter.GameRewards> rewards) {
+        List<Chapter.GameRewards> remainingRewards = new ArrayList<>(specialRewards(activity, playerId, rewards));
 
         for (Chapter.GameRewards reward : remainingRewards) {
             // get resource data
@@ -36,7 +36,7 @@ public class RewardProcessor {
         }
     }
 
-    private static List<Chapter.GameRewards> specialRewards(Integer playerId, List<Chapter.GameRewards> rewards) {
+    private static List<Chapter.GameRewards> specialRewards(Activity activity, Integer playerId, List<Chapter.GameRewards> rewards) {
         List<Chapter.GameRewards> gameRewardsCopy = new ArrayList<>();
         for (Chapter.GameRewards reward : rewards) {
             Long rewardId = reward.getResourceId();
@@ -44,7 +44,7 @@ public class RewardProcessor {
                 Long quantity = reward.getResourceQuantity();
                 Long currentExp = Merkado.getInstance().getPlayer().getExp();
                 PlayerDataFunctions.addPlayerExperience(playerId, quantity,
-                        totalExp -> playerLevelTriggers(playerId, totalExp, currentExp));
+                        totalExp -> playerLevelTriggers(activity, playerId, totalExp, currentExp));
             } else {
                 gameRewardsCopy.add(reward);
             }
@@ -52,12 +52,14 @@ public class RewardProcessor {
         return gameRewardsCopy;
     }
 
-    private static void playerLevelTriggers(Integer playerId, Long totalExp, Long currentExp) {
+    private static void playerLevelTriggers(Activity activity, Integer playerId, Long totalExp, Long currentExp) {
         Long maxLevel = LevelMaxSetter.getMaxPlayerExperience(totalExp);
         Long prevMaxLevel = LevelMaxSetter.getMaxPlayerExperience(currentExp);
         Integer playerLevel = LevelMaxSetter.getPlayerLevel(maxLevel);
         // check if playerLevel changed.
-        if (maxLevel > prevMaxLevel)
+        if (maxLevel > prevMaxLevel) {
             StoryTriggers.checkForLevelTriggers(playerId, playerLevel);
+            StoryTriggers.objectives(activity, playerLevel);
+        }
     }
 }

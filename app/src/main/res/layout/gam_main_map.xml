@@ -119,68 +119,49 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
             android:id="@+id/inventory_nav"
             android:layout_width="52dp"
             android:layout_height="52dp"
+            android:adjustViewBounds="true"
             android:layout_marginEnd="12dp"
-            app:cardCornerRadius="999dp"
+            android:contentDescription="@string/store_icon"
+            android:src="@drawable/gui_gamemap_inventory_idle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/quests_and_stories_nav"
-            app:strokeColor="@color/merkado_orange"
-            app:strokeWidth="4dp">
+            app:layout_constraintEnd_toEndOf="parent" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:contentDescription="@string/inventory_icon"
-                android:src="@drawable/icon_inventory" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
             android:id="@+id/quests_and_stories_nav"
             android:layout_width="52dp"
             android:layout_height="52dp"
+            android:adjustViewBounds="true"
             android:layout_marginEnd="12dp"
-            app:cardCornerRadius="999dp"
+            android:contentDescription="@string/store_icon"
+            android:src="@drawable/gui_gamemap_quest_idle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/factories"
-            app:strokeColor="@color/merkado_orange"
-            app:strokeWidth="4dp">
+            app:layout_constraintEnd_toEndOf="parent" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:contentDescription="@string/qas_icon"
-                android:src="@drawable/icon_book" />
-        </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
             android:id="@+id/factories"
             android:layout_width="52dp"
             android:layout_height="52dp"
+            android:adjustViewBounds="true"
             android:layout_marginEnd="12dp"
-            app:cardCornerRadius="999dp"
+            android:contentDescription="@string/store_icon"
+            android:src="@drawable/gui_gamemap_factory_idle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/store_nav"
-            app:strokeColor="@color/merkado_orange"
-            app:strokeWidth="4dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:contentDescription="@string/factory_icon"
-                android:src="@drawable/icon_factory" />
-        </com.google.android.material.card.MaterialCardView>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/store_nav"
             android:layout_width="68dp"
             android:layout_height="68dp"
             android:adjustViewBounds="true"
+
             android:contentDescription="@string/store_icon"
             android:src="@drawable/gui_gamemap_stores_idle"
             app:layout_constraintBottom_toBottomOf="parent"

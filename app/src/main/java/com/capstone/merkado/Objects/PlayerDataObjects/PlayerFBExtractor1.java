@@ -22,7 +22,7 @@ public class PlayerFBExtractor1 {
     private List<TaskQueue> taskQueue;
     private List<StoryQueue> storyQueue;
     private Market market;
-    private History history;
+    private List<PlayerFBExtractor1.StoryQueue> storyHistory;
     private FactoryData factory;
 
     // No-argument constructor required for Firebase
@@ -39,7 +39,7 @@ public class PlayerFBExtractor1 {
         this.market = playerFBExtractor2.getMarket();
         this.taskQueue = playerFBExtractor2.getTaskQueue();
         this.storyQueue = playerFBExtractor2.getStoryQueue();
-        this.history = playerFBExtractor2.getHistory();
+        this.storyHistory = playerFBExtractor2.getStoryHistory();
         this.factory = playerFBExtractor2.getFactory();
     }
 
@@ -108,12 +108,12 @@ public class PlayerFBExtractor1 {
         this.market = market;
     }
 
-    public History getHistory() {
-        return history;
+    public List<PlayerFBExtractor1.StoryQueue> getStoryHistory() {
+        return storyHistory;
     }
 
-    public void setHistory(History history) {
-        this.history = history;
+    public void setStoryHistory(List<PlayerFBExtractor1.StoryQueue> storyHistory) {
+        this.storyHistory = storyHistory;
     }
 
     public FactoryData getFactory() {
@@ -153,9 +153,9 @@ public class PlayerFBExtractor1 {
         private Integer chapter;
         private Integer currentLineGroup;
         private Integer currentScene;
-        private Boolean isTaken;
         private Integer nextLineGroup;
         private Integer nextScene;
+        private Integer trigger;
 
         // No-argument constructor required for Firebase
         public StoryQueue() {
@@ -187,14 +187,6 @@ public class PlayerFBExtractor1 {
             this.currentScene = currentScene;
         }
 
-        public Boolean getTaken() {
-            return isTaken;
-        }
-
-        public void setTaken(Boolean taken) {
-            isTaken = taken;
-        }
-
         public Integer getNextLineGroup() {
             return nextLineGroup;
         }
@@ -209,6 +201,14 @@ public class PlayerFBExtractor1 {
 
         public void setNextScene(Integer nextScene) {
             this.nextScene = nextScene;
+        }
+
+        public Integer getTrigger() {
+            return trigger;
+        }
+
+        public void setTrigger(Integer trigger) {
+            this.trigger = trigger;
         }
     }
 }

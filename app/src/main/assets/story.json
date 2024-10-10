@@ -10117,7 +10117,14 @@
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Sige, magpapatulong ako kay Nanay at Aling Isabel gumawa ng bank account"
+                                "dialogue": "Sige, magpapatulong ako kay Nanay at Aling Isabel gumawa ng bank account",
+                                "variable": {
+                                    "method": "SET",
+                                    "name": "SCENE2CHOICE",
+                                    "value": "2",
+                                    "code": "GO_TO_LINEGROUP",
+                                    "valueType": "NUMERICAL"
+                                }
                             },
                             {
                                 "character": "JAXON",
@@ -10155,7 +10162,14 @@
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Siguro, itatabi ko parin sya sa alkansiya ko."
+                                "dialogue": "Siguro, itatabi ko parin sya sa alkansiya ko.",
+                                "variable": {
+                                    "method": "SET",
+                                    "name": "SCENE2CHOICE",
+                                    "value": "3",
+                                    "code": "GO_TO_LINEGROUP",
+                                    "valueType": "NUMERICAL"
+                                }
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -11166,7 +11180,11 @@
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Hala! ang tataas ng presyo ng mga bilihin. Itong kape, nasa 50 pesos na."
+                                "dialogue": "Hala! ang tataas ng presyo ng mga bilihin. Itong kape, nasa 50 pesos na.",
+                                "variable": {
+                                    "method": "GET",
+                                    "name": "SCENE2CHOICE"
+                                }
                             }
                         ],
                         "id": 1,

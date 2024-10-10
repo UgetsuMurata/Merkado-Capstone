@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,12 +56,18 @@ public class QASAdapter extends RecyclerView.Adapter<QASAdapter.QASAdapterViewer
         }
 
         public void bind(Context context, QASItems qasItems, OnClickListener onClick) {
-            qasCategory.setText(qasItems.getQasCategory());
+            boolean history = qasItems.getQasCategory().contains("[HISTORY]");
+            if (history) {
+                qasCategory.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.gray));
+                qasCategory.setText(qasItems.getQasCategory().substring(9));
+            } else {
+                qasCategory.setText(qasItems.getQasCategory());
+            }
 
             QASItemsAdapter qasItemsAdapter = new QASItemsAdapter(context, qasItems.getQasDetails(), qasItems.getQasGroup());
             qasListIndividual.setLayoutManager(new LinearLayoutManager(context));
             qasListIndividual.setAdapter(qasItemsAdapter);
-            qasItemsAdapter.setOnClickListener(onClick::onClick);
+            qasItemsAdapter.setOnClickListener((qasDetail, qasGroup) -> onClick.onClick(qasDetail, qasGroup, history));
         }
     }
 
@@ -69,6 +76,6 @@ public class QASAdapter extends RecyclerView.Adapter<QASAdapter.QASAdapterViewer
     }
 
     public interface OnClickListener {
-        void onClick(QASDetail qasDetail, String qasGroup);
+        void onClick(QASDetail qasDetail, String qasGroup, Boolean history);
     }
 }

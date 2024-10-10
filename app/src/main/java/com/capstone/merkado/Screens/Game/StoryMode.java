@@ -23,6 +23,8 @@ import com.capstone.merkado.CustomViews.IconToggle.ToggleStatus;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.RewardProcessor;
+import com.capstone.merkado.Helpers.StoryTriggers;
+import com.capstone.merkado.Helpers.StoryVariableHelper;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.ImagePlacementData;
@@ -38,6 +40,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class StoryMode extends AppCompatActivity {
 
@@ -74,7 +77,9 @@ public class StoryMode extends AppCompatActivity {
     Integer currentQueueIndex;
     Integer currentLineGroupIndex = 0;
     Integer nextLineGroupId;
+    Integer trigger;
     Boolean temporaryStopAutoPlay = false;
+    Boolean isHistory = false;
     Handler handler;
     Runnable runnable;
     Integer quizScore = 0;
@@ -119,6 +124,7 @@ public class StoryMode extends AppCompatActivity {
         // get the lineGroup from the intent
         playerStory = getIntent().getParcelableExtra("PLAYER_STORY");
         currentQueueIndex = getIntent().getIntExtra("CURRENT_QUEUE_INDEX", -1);
+        isHistory = getIntent().getBooleanExtra("HISTORY", false);
         nextLineGroupId = playerStory.getNextLineGroup() != null ?
                 playerStory.getNextLineGroup().getId() : null;
 
@@ -127,6 +133,8 @@ public class StoryMode extends AppCompatActivity {
             finish();
             return;
         }
+
+        trigger = playerStory.getTrigger();
 
         initializeScreen(playerStory.getCurrentLineGroup());
 
@@ -272,9 +280,22 @@ public class StoryMode extends AppCompatActivity {
             LineGroup.DialogueLine dialogueLine = lineGroup.getDialogueLines().get(currentLineGroupIndex);
             displayLine(dialogueLine);
 
+            if (dialogueLine.getVariable() != null)
+                if ("GET".equals(dialogueLine.getVariable().getMethod())) {
+                    try {
+                        playerStory = StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory).get();
+                    } catch (ExecutionException | InterruptedException e) {
+                        Log.e("processVariable",
+                                String.format(
+                                        "StoryVariableHelper.processVariable() received an error: %s",
+                                        e));
+                    }
+                } else {
+                    StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory);
+                }
+
             // set up onClickListener for the click area.
             clickArea.setOnClickListener(v -> {
-
                 // increment the index
                 currentLineGroupIndex++;
 
@@ -441,13 +462,14 @@ public class StoryMode extends AppCompatActivity {
         if (bgmString == null) return;
         String[] bgmData = bgmString.split(" ");
         int bgmResource = StoryResourceCaller.getBGM(bgmData[0]);
-        merkado.setBGM(getApplicationContext(), bgmResource, "loop".equals(bgmData[1]));
+        merkado.setBGM(getApplicationContext(), bgmResource, bgmData.length == 2 && "loop".equals(bgmData[1]));
     }
 
     private void currentLineEnded() {
-        RewardProcessor.processRewards(
-                merkado.getPlayerId(),
-                playerStory.getCurrentScene().getRewards());
+        if (!isHistory)
+            RewardProcessor.processRewards(
+                    merkado.getPlayerId(),
+                    playerStory.getCurrentScene().getRewards());
         if (playerStory.getCurrentLineGroup().getIsQuiz() != null && playerStory.getCurrentLineGroup().getIsQuiz()) {
             // change nextLineGroupId based on the quizScore.
             nextLineGroupId = processQuizNextLineGroup(quizScore, playerStory.getCurrentLineGroup().getNextLineCode());
@@ -455,10 +477,12 @@ public class StoryMode extends AppCompatActivity {
             // reset the quizScore
             quizScore = 0;
         } else if (nextLineGroupId == null || nextLineGroupId == -1) {
+            StoryDataFunctions.addStoryHistoryToPlayer(merkado.getPlayerId(), playerStory.getChapter().getId(), playerStory.getCurrentScene().getId());
             currentSceneEnded();
             return;
         }
-        StoryDataFunctions.changeCurrentLineGroup(nextLineGroupId, merkado.getPlayerId(), currentQueueIndex);
+        if (!isHistory)
+            StoryDataFunctions.changeCurrentLineGroup(nextLineGroupId, merkado.getPlayerId(), currentQueueIndex);
 
         new Thread(() -> {
             LineGroup lineGroup = StoryDataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), playerStory.getCurrentScene().getId(), nextLineGroupId);
@@ -467,17 +491,23 @@ public class StoryMode extends AppCompatActivity {
                 finish();
                 return;
             }
-            StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
+            if (!isHistory)
+                StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
             runOnUiThread(() -> initializeScreen(lineGroup));
         }).start();
     }
 
     private void currentSceneEnded() {
+        if (isHistory) {
+            finish();
+            return;
+        }
         Chapter.Scene currentScene = playerStory.getNextScene();
         if (currentScene == null) {
             finish();
             StoryDataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
+            if (trigger != null) StoryTriggers.trigger(merkado.getPlayerId(), trigger);
             return;
         }
         playerStory.setCurrentScene(currentScene);
@@ -499,6 +529,7 @@ public class StoryMode extends AppCompatActivity {
                 finish();
                 return;
             }
+
             StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
             runOnUiThread(() -> initializeScreen(lineGroup));

@@ -125,19 +125,19 @@ public class QuestAndStories extends AppCompatActivity {
         QASAdapter qasAdapter = new QASAdapter(getApplicationContext(), qasItemsList);
         qasList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         qasList.setAdapter(qasAdapter);
-        qasAdapter.setOnClickListener((qasDetail, qasGroup) ->
-                runOnUiThread(() -> setUpDetails(qasDetail, qasGroup)));
+        qasAdapter.setOnClickListener((qasDetail, qasGroup, history) ->
+                runOnUiThread(() -> setUpDetails(qasDetail, qasGroup, history)));
         qasAdapter.notifyDataSetChanged();
     }
 
-    private void setUpDetails(@NonNull QASDetail qasDetail, String group) {
+    private void setUpDetails(@NonNull QASDetail qasDetail, String group, Boolean history) {
         qasName.setText(qasDetail.getQasName());
         qasDescription.setText(qasDetail.getQasDescription());
         if ("STORIES".equals(group)) {
             qasStartStory.setVisibility(View.VISIBLE);
-            qasStartStory.setOnClickListener(v -> goToStory(qasDetail));
+            qasStartStory.setOnClickListener(v -> goToStory(qasDetail, history));
         } else qasStartStory.setVisibility(View.GONE);
-        if (qasDetail.getQasRewards().isEmpty()) qasRewardsSection.setVisibility(View.GONE);
+        if (qasDetail.getQasRewards().isEmpty() || history) qasRewardsSection.setVisibility(View.GONE);
         else {
             qasRewardsSection.setVisibility(View.VISIBLE);
             showRewards(qasDetail.getQasRewards());
@@ -154,10 +154,13 @@ public class QuestAndStories extends AppCompatActivity {
         this.qasRewards.setAdapter(qasRewardsAdapter);
     }
 
-    private void goToStory(QASDetail qasDetail) {
+    private void goToStory(QASDetail qasDetail, Boolean history) {
         Intent intent = new Intent(getApplicationContext(), StoryMode.class);
-        intent.putExtra("PLAYER_STORY", merkado.getPlayerData().getPlayerStory().get(qasDetail.getQueueId()));
+        intent.putExtra("PLAYER_STORY", history?
+                merkado.getPlayerData().getStoryHistory().get(qasDetail.getQueueId()):
+                merkado.getPlayerData().getPlayerStory().get(qasDetail.getQueueId()));
         intent.putExtra("CURRENT_QUEUE_INDEX", qasDetail.getQueueId());
+        intent.putExtra("HISTORY", history);
         startActivity(intent);
     }
 

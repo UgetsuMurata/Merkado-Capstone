@@ -7,11 +7,13 @@ import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
+import com.capstone.merkado.Objects.StoryDataObjects.Variable;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 public class StoryDataFunctions {
     /**
@@ -87,4 +89,68 @@ public class StoryDataFunctions {
         });
     }
 
+    public static void addStoryToPlayer(Integer playerId, PlayerFBExtractor1.StoryQueue storyQueue) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(), "player/%d/storyQueue/", playerId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null) return;
+                    Long index = dataSnapshot.getChildrenCount();
+                    firebaseData.setValue(
+                            String.format(Locale.getDefault(),
+                                    "player/%d/storyQueue/%d", playerId, index),
+                            storyQueue
+                    );
+                });
+    }
+
+    public static void addStoryHistoryToPlayer(Integer playerId, Long chapter, Long scene) {
+        FirebaseData firebaseData = new FirebaseData();
+
+        PlayerFBExtractor1.StoryQueue storyQueue = new PlayerFBExtractor1.StoryQueue();
+        storyQueue.setChapter(Math.toIntExact(chapter));
+        storyQueue.setCurrentLineGroup(0);
+        storyQueue.setCurrentScene(Math.toIntExact(scene));
+        storyQueue.setNextLineGroup(1);
+        storyQueue.setNextScene(1);
+
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(), "player/%d/storyHistory/", playerId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null) return;
+                    Long index = dataSnapshot.getChildrenCount();
+                    firebaseData.setValue(
+                            String.format(Locale.getDefault(),
+                                    "player/%d/storyHistory/%d", playerId, index),
+                            storyQueue
+                    );
+                });
+    }
+
+    public static void addVariableToPlayer(Integer playerId, Integer storyQueueId, Variable variable) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "player/%d/storyQueue/%d/variableHolder/%s",
+                        playerId, storyQueueId, variable.getName()),
+                variable
+        );
+    }
+
+    public static CompletableFuture<Variable> getVariableFromPlayer(Integer playerId, Integer storyQueueId, Variable variable) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(),
+                        "player/%d/storyQueue/%d/variableHolder/%s",
+                        playerId, storyQueueId, variable.getName()),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(dataSnapshot.getValue(Variable.class));
+        });
+    }
 }

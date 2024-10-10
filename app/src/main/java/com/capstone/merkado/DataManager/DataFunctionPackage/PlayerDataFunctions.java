@@ -231,7 +231,6 @@ public class PlayerDataFunctions {
         storyQueue.setChapter(0);
         storyQueue.setCurrentLineGroup(0);
         storyQueue.setCurrentScene(0);
-        storyQueue.setTaken(false);
         storyQueue.setNextLineGroup(1);
         storyQueue.setNextScene(1);
         storyQueueList.add(storyQueue);
@@ -298,7 +297,7 @@ public class PlayerDataFunctions {
         }
     }
 
-    public static void addPlayerExperience(Integer playerId, Long quantity) {
+    public static void addPlayerExperience(Integer playerId, Long quantity, ValueReturn<Long> longValue) {
         FirebaseData firebaseData = new FirebaseData();
         CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
         String dataPath = String.format(Locale.getDefault(), "player/%d/exp", playerId);
@@ -309,13 +308,16 @@ public class PlayerDataFunctions {
             if (dataSnapshot == null) return;
             if (!dataSnapshot.exists()) {
                 firebaseData.setValue(dataPath, quantity);
+                longValue.valueReturn(quantity);
             } else {
                 Long currentEXP = dataSnapshot.getValue(Long.class);
-                if (currentEXP == null)
+                if (currentEXP == null) {
                     firebaseData.setValue(dataPath, quantity);
-                else {
+                    longValue.valueReturn(quantity);
+                } else {
                     totalEXP = quantity + currentEXP;
                     firebaseData.setValue(dataPath, totalEXP);
+                    longValue.valueReturn(totalEXP);
                 }
             }
         });

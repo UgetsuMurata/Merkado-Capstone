@@ -19,7 +19,7 @@ public class PlayerFBExtractor2 {
     private HashMap<String, Inventory> inventory;
     private List<PlayerFBExtractor1.TaskQueue> taskQueue;
     private List<PlayerFBExtractor1.StoryQueue> storyQueue;
-    private History history;
+    private List<PlayerFBExtractor1.StoryQueue> storyHistory;
     private Market market;
     private FactoryData factory;
 
@@ -84,12 +84,12 @@ public class PlayerFBExtractor2 {
         this.storyQueue = storyQueue;
     }
 
-    public History getHistory() {
-        return history;
+    public List<PlayerFBExtractor1.StoryQueue> getStoryHistory() {
+        return storyHistory;
     }
 
-    public void setHistory(History history) {
-        this.history = history;
+    public void setStoryHistory(List<PlayerFBExtractor1.StoryQueue> storyHistory) {
+        this.storyHistory = storyHistory;
     }
 
     public Market getMarket() {

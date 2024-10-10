@@ -3,13 +3,13 @@ package com.capstone.merkado.Objects.StoryDataObjects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class PlayerStory implements Parcelable{
+public class PlayerStory implements Parcelable {
     private Chapter chapter;
     private LineGroup currentLineGroup;
     private Chapter.Scene currentScene;
-    private Boolean isTaken;
     private LineGroup nextLineGroup;
     private Chapter.Scene nextScene;
+    private Integer trigger;
 
     public PlayerStory() {
     }
@@ -24,19 +24,22 @@ public class PlayerStory implements Parcelable{
         dest.writeParcelable(chapter, flags);
         dest.writeParcelable(currentLineGroup, flags);
         dest.writeParcelable(currentScene, flags);
-        dest.writeByte((byte) (isTaken == null ? 0 : isTaken ? 1 : 2));
         dest.writeParcelable(nextLineGroup, flags);
         dest.writeParcelable(nextScene, flags);
+        if (trigger == null) dest.writeByte((byte) 0);
+        else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(trigger);
+        }
     }
 
     protected PlayerStory(Parcel in) {
         chapter = in.readParcelable(Chapter.class.getClassLoader());
         currentLineGroup = in.readParcelable(LineGroup.class.getClassLoader());
         currentScene = in.readParcelable(Chapter.Scene.class.getClassLoader());
-        byte tmpIsTaken = in.readByte();
-        isTaken = tmpIsTaken == 0 ? null : tmpIsTaken == 1;
         nextLineGroup = in.readParcelable(LineGroup.class.getClassLoader());
         nextScene = in.readParcelable(Chapter.Scene.class.getClassLoader());
+        if (in.readByte() == 1) trigger = in.readInt();
     }
 
     public static final Parcelable.Creator<PlayerStory> CREATOR = new Creator<PlayerStory>() {
@@ -91,11 +94,11 @@ public class PlayerStory implements Parcelable{
         this.nextLineGroup = nextLineGroup;
     }
 
-    public Boolean getTaken() {
-        return isTaken;
+    public Integer getTrigger() {
+        return trigger;
     }
 
-    public void setTaken(Boolean taken) {
-        isTaken = taken;
+    public void setTrigger(Integer trigger) {
+        this.trigger = trigger;
     }
 }

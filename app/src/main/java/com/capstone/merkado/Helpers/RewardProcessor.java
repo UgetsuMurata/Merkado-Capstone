@@ -1,8 +1,13 @@
 package com.capstone.merkado.Helpers;
 
+import androidx.annotation.Nullable;
+
+import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
+import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
@@ -37,11 +42,22 @@ public class RewardProcessor {
             Long rewardId = reward.getResourceId();
             if (rewardId == 1) {
                 Long quantity = reward.getResourceQuantity();
-                PlayerDataFunctions.addPlayerExperience(playerId, quantity);
+                Long currentExp = Merkado.getInstance().getPlayer().getExp();
+                PlayerDataFunctions.addPlayerExperience(playerId, quantity,
+                        totalExp -> playerLevelTriggers(playerId, totalExp, currentExp));
             } else {
                 gameRewardsCopy.add(reward);
             }
         }
         return gameRewardsCopy;
+    }
+
+    private static void playerLevelTriggers(Integer playerId, Long totalExp, Long currentExp) {
+        Long maxLevel = LevelMaxSetter.getMaxPlayerExperience(totalExp);
+        Long prevMaxLevel = LevelMaxSetter.getMaxPlayerExperience(currentExp);
+        Integer playerLevel = LevelMaxSetter.getPlayerLevel(maxLevel);
+        // check if playerLevel changed.
+        if (maxLevel > prevMaxLevel)
+            StoryTriggers.checkForLevelTriggers(playerId, playerLevel);
     }
 }

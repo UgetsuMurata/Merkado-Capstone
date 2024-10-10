@@ -158,6 +158,7 @@ public class LineGroup implements Parcelable {
         private List<DialogueChoice> dialogueChoices;
         private List<QuizChoice> quizChoices;
         private String sfx;
+        private Variable variable;
 
         // No-argument constructor required for Firebase
         public DialogueLine() {
@@ -204,6 +205,14 @@ public class LineGroup implements Parcelable {
             this.sfx = sfx;
         }
 
+        public Variable getVariable() {
+            return variable;
+        }
+
+        public void setVariable(Variable variable) {
+            this.variable = variable;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -217,6 +226,7 @@ public class LineGroup implements Parcelable {
             dest.writeTypedList(dialogueChoices);
             dest.writeTypedList(quizChoices);
             dest.writeString(sfx);
+            dest.writeParcelable(variable, flags);
         }
 
         protected DialogueLine(Parcel in) {
@@ -226,6 +236,7 @@ public class LineGroup implements Parcelable {
             dialogueChoices = in.createTypedArrayList(DialogueChoice.CREATOR);
             quizChoices = in.createTypedArrayList(QuizChoice.CREATOR);
             sfx = in.readString();
+            variable = in.readParcelable(Variable.class.getClassLoader());
         }
 
         public static final Creator<DialogueLine> CREATOR = new Creator<DialogueLine>() {
@@ -249,7 +260,7 @@ public class LineGroup implements Parcelable {
         }
     }
 
-    public static class QuizChoice implements Parcelable{
+    public static class QuizChoice implements Parcelable {
         String choice;
         DialogueLine dialogueLine;
         Integer points;

@@ -24,7 +24,7 @@ public class Player {
     private List<PlayerTask> playerTaskList;
     private List<PlayerStory> playerStoryList;
     private Market market;
-    private History history;
+    private List<PlayerStory> storyHistory;
     private FactoryData factory;
 
     public Player() {
@@ -36,7 +36,7 @@ public class Player {
         this.playerTaskList = new ArrayList<>();
         this.playerStoryList = new ArrayList<>();
         this.market = null;
-        this.history = null;
+        this.storyHistory = null;
         this.factory = null;
     }
 
@@ -51,7 +51,7 @@ public class Player {
         this.money = playerFBExtractor.getMoney();
         this.exp = playerFBExtractor.getExp();
         this.inventory = playerFBExtractor.getInventory();
-        this.history = playerFBExtractor.getHistory();
+        this.storyHistory = convertToPlayerStory(playerFBExtractor.getStoryHistory());
         this.market = playerFBExtractor.getMarket();
         this.factory = playerFBExtractor.getFactory();
         this.playerStoryList = convertToPlayerStory(playerFBExtractor.getStoryQueue());
@@ -62,7 +62,7 @@ public class Player {
         this.accountId = playerFBExtractor.getAccountId();
         this.server = playerFBExtractor.getServer();
         this.money = playerFBExtractor.getMoney();
-        this.history = playerFBExtractor.getHistory();
+        this.storyHistory = convertToPlayerStory(playerFBExtractor.getStoryHistory());
         this.inventory = new ArrayList<>(playerFBExtractor.getInventory().values());
         this.exp = playerFBExtractor.getExp();
         this.market = playerFBExtractor.getMarket();
@@ -134,12 +134,12 @@ public class Player {
         this.market = market;
     }
 
-    public History getHistory() {
-        return history;
+    public List<PlayerStory> getStoryHistory() {
+        return storyHistory;
     }
 
-    public void setHistory(History history) {
-        this.history = history;
+    public void setStoryHistory(List<PlayerStory> storyHistory) {
+        this.storyHistory = storyHistory;
     }
 
     public FactoryData getFactory() {

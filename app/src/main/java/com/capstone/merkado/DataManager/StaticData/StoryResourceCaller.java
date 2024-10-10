@@ -28,6 +28,10 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_nanay1_b_home;
                 case "nanay1_b_casual":
                     return R.drawable.sprite_nanay1_b_home;
+                case "nanay1_b_modest":
+                    return R.drawable.sprite_nanay1_b_home;
+                case "nanay1_b_normal2":
+                    return R.drawable.sprite_nanay1_b_home;
             }
         } else if (imgResource.startsWith("nanay2")) {
             switch (imgResource) {
@@ -52,6 +56,37 @@ public class StoryResourceCaller {
         } else if (imgResource.startsWith("pork_vendor1")) {
             if ("pork_vendor1_b_casual".equals(imgResource))
                 return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("nene")) {
+            if ("nene_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("tito")) {
+            if ("tito_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("kapitan")) {
+            if ("kapitan_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("tatay")) {
+            if ("tatay_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("pharma")) {
+            if ("pharma_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("rp1")) {
+            if ("rp1_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("rp2")) {
+            if ("rp2_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("rp3")) {
+            if ("rp3_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_casual;
+        } else if (imgResource.startsWith("nibble")) {
+            switch (imgResource) {
+                case "nibble_b_normal":
+                    return R.drawable.sprite_mc2_b_uniform;
+                case "nibble_b_cute":
+                    return R.drawable.sprite_mc2_b_casual;
+            }
         }
         return R.drawable.sprite_empty_b_empty;
     }
@@ -76,6 +111,8 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_mc1_f_nervous;
                 case "mc1_f_curious":
                     return R.drawable.sprite_mc1_f_curious;
+                case "mc1_f_sad":
+                    return R.drawable.sprite_mc1_f_curious;
             }
         } else if (imgResource.startsWith("mc2")) {
             switch (imgResource) {
@@ -99,6 +136,8 @@ public class StoryResourceCaller {
                 case "nanay1_f_normal":
                     return R.drawable.sprite_nanay1_f_angry;
                 case "nanay1_f_laughing":
+                    return R.drawable.sprite_nanay1_f_talking2;
+                case "nanay_f_sad":
                     return R.drawable.sprite_nanay1_f_talking2;
             }
         } else if (imgResource.startsWith("nanay2")) {
@@ -127,6 +166,8 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_jaxon1_f_compassion;
                 case "jaxon1_f_talking":
                     return R.drawable.sprite_jaxon1_f_talking;
+                case "jaxon_f_laugh":
+                    return R.drawable.sprite_jaxon1_f_talking;
             }
         } else if (imgResource.startsWith("eian1")) {
             switch (imgResource) {
@@ -149,6 +190,88 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_pork_vendor1_f_confused;
                 case "pork_vendor1_f_compassion":
                     return R.drawable.sprite_pork_vendor1_f_compassion;
+            }
+        } else if (imgResource.startsWith("tito")) {
+            switch (imgResource) {
+                case "tito_f_smile":
+                    return R.drawable.sprite_pork_vendor1_f_normal;
+                case "tito_f_normal":
+                    return R.drawable.sprite_pork_vendor1_f_talking;
+                case "tito_f_talking":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+            }
+        } else if (imgResource.startsWith("kapitan")) {
+            switch (imgResource) {
+                case "kapitan_f_normal":
+                    return R.drawable.sprite_pork_vendor1_f_normal;
+                case "kapitan_f_talking":
+                    return R.drawable.sprite_pork_vendor1_f_talking;
+                case "kapitan_f_smile":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+                case "kapitan_f_worried":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+            }
+        } else if (imgResource.startsWith("tatay")) {
+            switch (imgResource) {
+                case "tatay_f_smile":
+                    return R.drawable.sprite_pork_vendor1_f_normal;
+                case "tatay_f_talking":
+                    return R.drawable.sprite_pork_vendor1_f_talking;
+                case "tatay_f_confused":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+                case "tatay_f_normal":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+            }
+        } else if (imgResource.startsWith("pharma")) {
+            switch (imgResource) {
+                case "pharma_f_normal":
+                    return R.drawable.sprite_pork_vendor1_f_normal;
+                case "pharma_f_talking":
+                    return R.drawable.sprite_pork_vendor1_f_talking;
+                case "tatay_f_confused":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+                case "tatay_f_normal":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+            }
+        } else if (imgResource.startsWith("rp1")) {
+            switch (imgResource) {
+                case "rp1_f_normal":
+                    return R.drawable.sprite_pork_vendor1_f_normal;
+                case "rp1_f_curious":
+                    return R.drawable.sprite_pork_vendor1_f_talking;
+                case "rp1_f_talking":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+            }
+        } else if (imgResource.startsWith("rp2")) {
+            switch (imgResource) {
+                case "rp2_f_disappointed":
+                    return R.drawable.sprite_pork_vendor1_f_normal;
+                case "rp2_f_normal":
+                    return R.drawable.sprite_pork_vendor1_f_talking;
+                case "rp2_f_talking":
+                    return R.drawable.sprite_pork_vendor1_f_confused;
+            }
+        } else if (imgResource.startsWith("rp3")) {
+            switch (imgResource) {
+                case "rp3_f_normal":
+                    return R.drawable.sprite_pork_vendor1_f_normal;
+                case "rp3_f_talking":
+                    return R.drawable.sprite_pork_vendor1_f_talking;
+            }
+        } else if (imgResource.startsWith("nibble")) {
+            switch (imgResource) {
+                case "nibble_f_worried":
+                    return R.drawable.sprite_mc2_f_thinking;
+                case "nibble_f_normal":
+                    return R.drawable.sprite_mc2_f_thinking2;
+                case "nibble_f_cute":
+                    return R.drawable.sprite_mc2_f_thinking;
+                case "nibble_f_angry":
+                    return R.drawable.sprite_mc2_f_thinking2;
+                case "nibble_f_reminscing":
+                    return R.drawable.sprite_mc2_f_thinking;
+                case "nibble_f_smile":
+                    return R.drawable.sprite_mc2_f_thinking2;
             }
         }
         return R.drawable.sprite_empty_b_empty;

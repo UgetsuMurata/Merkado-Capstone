@@ -17,7 +17,7 @@ public class Chapter implements Parcelable {
     private String category;
     private String shortDescription;
     private List<Scene> scenes;
-    private String triggers;
+    private Integer trigger;
 
     public Chapter() {
     }
@@ -29,7 +29,7 @@ public class Chapter implements Parcelable {
             id = in.readLong();
         }
         chapter = in.readString();
-        triggers = in.readString();
+        trigger = in.readInt();
         scenes = new ArrayList<>();
         if (in.readByte() == 1) in.readList(scenes, Scene.class.getClassLoader());
         category = in.readString();
@@ -45,7 +45,7 @@ public class Chapter implements Parcelable {
             dest.writeLong(id);
         }
         dest.writeString(chapter);
-        dest.writeString(triggers);
+        dest.writeInt(trigger);
         if (scenes == null || scenes.isEmpty()) dest.writeByte((byte) 0);
         else {
             dest.writeByte((byte) 1);
@@ -96,12 +96,12 @@ public class Chapter implements Parcelable {
         this.scenes = scenes;
     }
 
-    public String getTriggers() {
-        return triggers;
+    public Integer getTriggers() {
+        return trigger;
     }
 
-    public void setTriggers(String triggers) {
-        this.triggers = triggers;
+    public void setTriggers(Integer trigger) {
+        this.trigger = trigger;
     }
 
     public String getCategory() {

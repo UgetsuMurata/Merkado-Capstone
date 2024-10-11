@@ -29,7 +29,6 @@ import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
-import com.capstone.merkado.Helpers.StoryTriggers;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryTypes;
@@ -44,6 +43,7 @@ import com.capstone.merkado.Screens.Game.Sectors.Factories;
 import com.capstone.merkado.Screens.Game.Sectors.Factory;
 import com.capstone.merkado.Screens.Game.Store.StoreSellerView;
 import com.capstone.merkado.Screens.Game.Store.Stores;
+import com.capstone.merkado.Screens.Game.Story.StoryMode;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 import com.google.android.material.card.MaterialCardView;
 

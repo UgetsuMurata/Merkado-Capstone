@@ -16,6 +16,7 @@ public class LineGroup implements Parcelable {
     private String transition;
     private String bgm;
     private Boolean isQuiz;
+    private Integer gradedQuiz;
     private String nextLineCode;
 
     // No-argument constructor required for Firebase
@@ -87,6 +88,14 @@ public class LineGroup implements Parcelable {
         this.isQuiz = isQuiz;
     }
 
+    public Integer getGradedQuiz() {
+        return gradedQuiz;
+    }
+
+    public void setGradedQuiz(Integer gradedQuiz) {
+        this.gradedQuiz = gradedQuiz;
+    }
+
     public String getNextLineCode() {
         return nextLineCode;
     }
@@ -119,6 +128,12 @@ public class LineGroup implements Parcelable {
         dest.writeString(transition);
         dest.writeString(bgm);
         dest.writeByte((byte) (isQuiz == null ? 0 : isQuiz ? 1 : 2));
+        if (gradedQuiz == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(gradedQuiz);
+        }
         dest.writeString(nextLineCode);
     }
 
@@ -136,6 +151,7 @@ public class LineGroup implements Parcelable {
         bgm = in.readString();
         byte tmpIsQuiz = in.readByte();
         isQuiz = tmpIsQuiz == 0 ? null : tmpIsQuiz == 1;
+        if (in.readByte() == 1) gradedQuiz = in.readInt();
         nextLineCode = in.readString();
     }
 

@@ -153,4 +153,13 @@ public class StoryDataFunctions {
             return CompletableFuture.completedFuture(dataSnapshot.getValue(Variable.class));
         });
     }
+
+    public static void setStudentScore(Integer playerId, Integer quizId, Integer score) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(),
+                        "player/%d/quizScores/%d", playerId, quizId),
+                score
+        );
+    }
 }

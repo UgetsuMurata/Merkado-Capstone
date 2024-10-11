@@ -18,6 +18,10 @@
         tools:ignore="DiscouragedApi"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.Game.Story.QuizDisplay"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".Screens.Game.ObjectivesDisplay"
             android:exported="false"
             android:screenOrientation="landscape" />
@@ -70,7 +74,7 @@
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".Screens.Game.StoryMode"
+            android:name=".Screens.Game.Story.StoryMode"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity

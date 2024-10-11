@@ -38,6 +38,9 @@
       },
       "money": 2000,
       "server": "0",
+      "quizScores": {
+        "0": 10
+      },
       "storyQueue": [
         {
           "variableHolder": {

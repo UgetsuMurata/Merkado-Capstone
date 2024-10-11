@@ -23,7 +23,7 @@ import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail.QASReward;
 import com.capstone.merkado.R;
-import com.capstone.merkado.Screens.Game.StoryMode;
+import com.capstone.merkado.Screens.Game.Story.StoryMode;
 
 import java.util.ArrayList;
 import java.util.List;

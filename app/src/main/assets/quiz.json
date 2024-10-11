@@ -1,0 +1,127 @@
+[
+  {
+    "id": 0,
+    "items": [
+      {
+        "question": "Ano ang pagkakaiba ng sambahayan at pamayanan?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Ang sambahayan ay nakatuon sa mga desisyon para sa pangangailangan ng pamilya, habang ang pamayanan ay nagdedesisyon para sa kabuuang kapakanan ng komunidad."
+          },
+          {
+            "id": 1,
+            "choice": "Sambahayan ay tumutukoy sa buong barangay, habang ang pamayanan ay tumutukoy lamang sa mga miyembro ng isang pamilya."
+          },
+          {
+            "id": 2,
+            "choice": "Sambahayan ay responsable sa mga pampublikong serbisyo tulad ng pamamahagi ng relief goods, habang ang pamayanan ay tumutukoy sa personal na desisyon sa mga gastusin ng pamilya."
+          },
+          {
+            "id": 3,
+            "choice": "Sambahayan ay isang grupo ng pamilya na nakatira sa iisang komunidad, habang ang pamayanan ay isang grupo ng mga bahay sa iisang sambahayan."
+          }
+        ]
+      },
+      {
+        "question": "Ano-Ano ang mahahalagang konsepto sa Ekonomiks?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Cost, Opportunity, Trade-off, at Incentives"
+          },
+          {
+            "id": 1,
+            "choice": "Opportunity Cost, Incentives, Trade-Off, Rational Thinking"
+          },
+          {
+            "id": 2,
+            "choice": "Trade-off, Opportunity Cost, Incentives, Marginal Thinking"
+          },
+          {
+            "id": 3,
+            "choice": "Marginal Thinking, Incentives, Interest Rate, Trade-off"
+          }
+        ]
+      },
+      {
+        "question": "Ito ay tumutukoy sa halaga o benepisyo na isinusuko mo kapag pumili ka ng isang bagay sa halip na isa pang alternatibo.",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Opportunity Cost"
+          },
+          {
+            "id": 1,
+            "choice": "Trade-off"
+          },
+          {
+            "id": 2,
+            "choice": "Marginal Thinking"
+          },
+          {
+            "id": 3,
+            "choice": "Incentives"
+          }
+        ]
+      },
+      {
+        "question": "Ito naman ay tumutukoy sa pagsasakripisyo ng isang bagay upang makamit ang isa pa.",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Marginal Thinking"
+          },
+          {
+            "id": 1,
+            "choice": "Incentives"
+          },
+          {
+            "id": 2,
+            "choice": "Trade-off"
+          },
+          {
+            "id": 3,
+            "choice": "Opportunity Cost"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang kahalagahan ng Ekonomiks?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Ang pag-aaral ng ekonomiks ay makatutulong upang mas matuto tayo ng mga bagong aralin."
+          },
+          {
+            "id": 1,
+            "choice": "Ang pag-aaral ng ekonomiks ay makatutulong sa mabuting pamamahala at pagbuo ng mabuting desisyon."
+          },
+          {
+            "id": 2,
+            "choice": "Ang pag-aaral ng ekonomiks ay makatutulong sa paghubong ng panibagong bersiyon ng ating sarili."
+          },
+          {
+            "id": 3,
+            "choice": "Ang pag-aaral ng ekonomiks ay mahalaga sa ating kinabukasan."
+          }
+        ]
+      }
+    ]
+  }
+]

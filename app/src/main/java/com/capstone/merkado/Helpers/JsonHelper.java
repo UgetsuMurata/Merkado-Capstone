@@ -7,6 +7,7 @@ import com.capstone.merkado.Application.Merkado.StaticContents;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
+import com.capstone.merkado.Objects.StoryDataObjects.Quiz;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
@@ -67,6 +68,24 @@ public class JsonHelper {
 
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Objectives>>() {
+            }.getType();
+            onParse.parsingComplete(gson.fromJson(json, listType));
+        }).start();
+    }
+
+    public static void getQuizList(Context context, OnParse<List<Quiz>> onParse) {
+        new Thread(() -> {
+            String json = "";
+            try {
+                json = parseJSON(context, "quiz.json");
+            } catch (IOException e) {
+                Log.e("getQuizList",
+                        String.format("Problem with parsing resource data: %s", e));
+                onParse.parsingComplete(null);
+            }
+
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Quiz>>() {
             }.getType();
             onParse.parsingComplete(gson.fromJson(json, listType));
         }).start();

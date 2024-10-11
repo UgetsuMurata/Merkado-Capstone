@@ -5,7 +5,7 @@
     android:id="@+id/scene_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Screens.Game.StoryMode">
+    tools:context=".Screens.Game.Story.StoryMode">
 
     <!-- BLACK SCREEN FOR TRANSITION:FTB; ELEVATION:5 -->
     <ImageView

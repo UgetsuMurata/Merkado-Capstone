@@ -3822,8 +3822,64 @@
                 "scene": "Pagtimbang ng kailangan at luho"
             },
             {
-                "description": "Nagpunta kayo sa tindahan ng baboy at napag-usapan ang tungkol sa kakulangan at kakapusan.",
+                "bgm": "market loop",
+                "description": "Suriin ang iyong kaalaman",
                 "id": 9,
+                "lineGroup": [
+                    {
+                        "background": "market",
+                        "bgm": "market loop",
+                        "defaultNextLine": 1,
+                        "gradedQuiz": 0,
+                        "dialogueLines": [
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Ang husay naman talaga {$USER_NAME}. Natututo ka na sa mga dapat mong malaman patungkol sa Ekonomiks."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Oh siya, sige nga, subukan natin ang mga natutunan mo sa mga nangyari ngayong araw."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "May mga itatanong ako sa iyo patungkol sa kahulugan at kahalagahan ng ekonomiks."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Oh ano, ready ka na ba?"
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Ano pang hinihintay natin, tara na at simulan na natin ito!"
+                            }
+                        ],
+                        "id": 0
+                    },
+                    {
+                        "background": "market",
+                        "dialogueLines": [
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Mahusay! Hindi ako nagkamali na ikaw ay isang magaling na ekonomista."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Siguradong marami ka pang matutunan dito sa ating bayan ng Merkado."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Oh siya, halika na. Bibili pa tayo ng manok sa pamilihan. Mahirap na kung gagabihin tayo."
+                            }
+                        ],
+                        "id": 1
+                    }
+                ],
+                "nextScene": 10,
+                "scene": "Pagsusuri I"
+            },
+            {
+                "description": "Nagpunta kayo sa tindahan ng baboy at napag-usapan ang tungkol sa kakulangan at kakapusan.",
+                "id": 10,
                 "lineGroup": [
                     {
                         "background": "black screen",
@@ -4044,7 +4100,7 @@
                         "transition": "FTB"
                     }
                 ],
-                "nextScene": 10,
+                "nextScene": 11,
                 "rewards": [
                     {
                         "resourceId": 1,
@@ -4055,7 +4111,7 @@
             },
             {
                 "description": "Ang pag-uusap ng mag-ina patungkol sa pamimili",
-                "id": 10,
+                "id": 11,
                 "lineGroup": [
                     {
                         "background": "market",
@@ -4110,7 +4166,7 @@
                         "transition": "FTB"
                     }
                 ],
-                "nextScene": 11,
+                "nextScene": 12,
                 "rewards": [
                     {
                         "resourceId": 1,
@@ -4121,7 +4177,7 @@
             },
             {
                 "description": "Ang pag-uusap patungkol sa pangunahing pangangailangan at tamang pagkonsumo",
-                "id": 11,
+                "id": 12,
                 "lineGroup": [
                     {
                         "background": "market",
@@ -4524,7 +4580,7 @@
                         "transition": "FTB"
                     }
                 ],
-                "nextScene": 12,
+                "nextScene": 13,
                 "rewards": [
                     {
                         "resourceId": 1,
@@ -4535,7 +4591,7 @@
             },
             {
                 "description": "Patuloy ang pag-uusap ng mag-ina sa kanilang kailangan pati na kaligtasan",
-                "id": 12,
+                "id": 13,
                 "lineGroup": [
                     {
                         "background": "market",
@@ -4896,7 +4952,7 @@
                         "transition": "FTB"
                     }
                 ],
-                "nextScene": 13,
+                "nextScene": 14,
                 "rewards": [
                     {
                         "resourceId": 1,
@@ -4907,7 +4963,7 @@
             },
             {
                 "description": "May isa ka pang bagay na gusto mong malaman. Tinanong mo ang iyong ina tungkol dito habang naglalakad kayo pauwi.",
-                "id": 13,
+                "id": 14,
                 "lineGroup": [
                     {
                         "background": "streets",
@@ -5265,7 +5321,7 @@
                         "transition": "FTB"
                     }
                 ],
-                "nextScene": 14,
+                "nextScene": 15,
                 "rewards": [
                     {
                         "resourceId": 1,
@@ -5276,7 +5332,7 @@
             },
             {
                 "description": "Ninais mong malaman ang kahalagahan ng pagmamahal at bakit ito isa sa pangangailangan ng tao",
-                "id": 14,
+                "id": 15,
                 "lineGroup": [
                     {
                         "background": "living_room",
@@ -5889,7 +5945,7 @@
                         "transition": "FTB"
                     }
                 ],
-                "nextScene": 15,
+                "nextScene": 16,
                 "rewards": [
                     {
                         "resourceId": 1,
@@ -5900,7 +5956,7 @@
             },
             {
                 "description": "Muling nagkausap ang pamilya hinggil sa pagiging mas mabuting bersyon ng kanilang sarili",
-                "id": 15,
+                "id": 16,
                 "lineGroup": [
                     {
                         "background": "living_room",
@@ -6304,7 +6360,7 @@
                         "transition": "FTB"
                     }
                 ],
-                "nextScene": 16,
+                "nextScene": 17,
                 "rewards": [
                     {
                         "resourceId": 1,
@@ -6315,7 +6371,7 @@
             },
             {
                 "description": "Oras na nang pagtulog ngunit mayroon paring bumabagabag sa iyong isipan",
-                "id": 16,
+                "id": 17,
                 "lineGroup": [
                     {
                         "background": "black screen",
@@ -6533,7 +6589,6 @@
                         "transition": "FTB"
                     }
                 ],
-                "nextScene": 17,
                 "rewards": [
                     {
                         "resourceId": 1,

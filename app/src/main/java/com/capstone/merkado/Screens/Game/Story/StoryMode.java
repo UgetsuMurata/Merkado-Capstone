@@ -1,5 +1,6 @@
-package com.capstone.merkado.Screens.Game;
+package com.capstone.merkado.Screens.Game.Story;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -85,6 +88,19 @@ public class StoryMode extends AppCompatActivity {
     Runnable runnable;
     Integer quizScore = 0;
     RunnableState runnableState;
+
+    ActivityResultLauncher<Intent> quizLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getData() != null) {
+                        Integer score = result.getData().getIntExtra("SCORE", -1);
+                        Integer quizId = result.getData().getIntExtra("QUIZ_ID", -1);
+                        StoryDataFunctions.setStudentScore(merkado.getPlayerId(), quizId, score);
+                        currentLineEnded();
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,7 +323,10 @@ public class StoryMode extends AppCompatActivity {
                 // check if the index exceeds the size of the line group. return if so.
                 if (currentLineGroupIndex >= lineGroup.getDialogueLines().size()) {
                     // reached the end.
-                    currentLineEnded();
+                    if (lineGroup.getGradedQuiz() != null) {
+                        openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
+                    }
+                    else currentLineEnded();
                     return;
                 }
 
@@ -316,7 +335,11 @@ public class StoryMode extends AppCompatActivity {
                     LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentLineGroupIndex);
                     displayLine(dialogueLine1);
                 } catch (ArrayIndexOutOfBoundsException ignore) {
-                    currentLineEnded(); // reached the end.
+                    // reached the end.
+                    if (lineGroup.getGradedQuiz() != null) {
+                        openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
+                    }
+                    else currentLineEnded();
                 }
             });
         }, skipToggle.isActive() ? 10 : 500);
@@ -691,6 +714,13 @@ public class StoryMode extends AppCompatActivity {
             }
         }
         return nextLine;
+    }
+
+    private void openQuizDisplay(Integer quizId, String background) {
+        Intent intent = new Intent(this, QuizDisplay.class);
+        intent.putExtra("QUIZ_ID", quizId);
+        intent.putExtra("BACKGROUND", background);
+        quizLauncher.launch(intent);
     }
 
     @NonNull

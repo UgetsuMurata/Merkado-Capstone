@@ -3838,22 +3838,63 @@
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Oh siya, sige nga, subukan natin ang mga natutunan mo sa mga nangyari ngayong araw."
+                                "dialogue": "Oh siya, sige nga, subukan natin ang mga natutunan mo sa mga nangyari ngayong araw.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_smile",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+
+                                ]
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "May mga itatanong ako sa iyo patungkol sa kahulugan at kahalagahan ng ekonomiks."
+                                "dialogue": "May mga itatanong ako sa iyo patungkol sa kahulugan at kahalagahan ng ekonomiks.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_talking2",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Oh ano, ready ka na ba?"
+                                "dialogue": "Oh ano, ready ka na ba?",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_laugh",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Ano pang hinihintay natin, tara na at simulan na natin ito!"
+                                "dialogue": "Ano pang hinihintay natin, tara na at simulan na natin ito!",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_smile",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             }
                         ],
-                        "id": 0
+                        "id": 0,
+                        "initialImages": [
+                            {
+                                "image": "nanay1_b_home_arms",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_laugh",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            }
+                        ]
                     },
                     {
                         "background": "market",
@@ -3868,10 +3909,29 @@
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Oh siya, halika na. Bibili pa tayo ng manok sa pamilihan. Mahirap na kung gagabihin tayo."
+                                "dialogue": "Oh siya, halika na. Bibili pa tayo ng manok sa pamilihan. Mahirap na kung gagabihin tayo.",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_smile",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             }
                         ],
-                        "id": 1
+                        "id": 1,
+                        "initialImages": [
+                            {
+                                "image": "nanay1_b_home",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_laugh",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            }
+                        ]
                     }
                 ],
                 "nextScene": 10,

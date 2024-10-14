@@ -389,31 +389,47 @@ public class StoryResourceCaller {
 
     public static int getBGM(String bgmFile) {
         switch (bgmFile) {
-            case "merkado_theme":
-                return R.raw.bgm_merkado;
-            case "morning_wakeup":
-                return R.raw.morning_wakeup;
+            case "market_music":
+                return R.raw.bgm_market_music;
+            case "market_ambience":
+                return R.raw.bgm_market_ambience;
+            case "sunset":
+                return R.raw.bgm_sunset;
+            case "problem_rises":
+                return R.raw.bgm_problem_rises;
+            case "morning":
+                return R.raw.bgm_morning;
+            case "cafeteria_music":
+                return R.raw.bgm_cafeteria;
+            case "cafeteria_ambience":
+                return R.raw.bgm_cafeteria_ambience;
             case "learning":
-                return R.raw.learning;
-            case "cafeteria":
-                return R.raw.school_cafeteria;
-            case "curiosity_strikes":
-                return R.raw.curiosity_strikes;
-            case "warmth":
-                return R.raw.warmth;
-            case "market":
-                return R.raw.tales_of_the_market;
-            case "quiz1":
-                return R.raw.quiz1;
-            case "quiz2":
-                return R.raw.quiz2;
+                return R.raw.bgm_learning;
+            case "nibble_mystery":
+                return R.raw.bgm_nibble_mystery;
+            case "discovery":
+                return R.raw.bgm_discovery;
+            case "taking_quiz":
+                return R.raw.bgm_taking_quiz;
+            case "failed_quiz":
+                return R.raw.bgm_failed_quiz;
+            case "passed_quiz":
+                return R.raw.bgm_passed_quiz;
+            case "idle":
+                return R.raw.bgm_idle;
+            case "factory":
+                return R.raw.bgm_factory;
+            case "selling":
+                return R.raw.bgm_selling;
+            case "menu":
+                return R.raw.bgm_menu;
             default:
                 return -1;
         }
     }
 
     public static int getSFX(String sfxFile) {
-        if ("school_bell".equals(sfxFile)) return R.raw.sfx_bell_ring;
+        if ("school_bell".equals(sfxFile)) return R.raw.sfx_school_bell;
         else return -1;
     }
 }

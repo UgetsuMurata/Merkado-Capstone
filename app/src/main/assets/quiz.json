@@ -123,5 +123,755 @@
         ]
       }
     ]
+  },
+  {
+    "id": 1,
+    "items": [
+      {
+        "question": "Ito ay tumutukoy sa sitwasyon kung saan ang pinagkukunang-yaman ay limitado o hindi sapat upang tugunan ang walang katapusang pangangailangan at kagustuhan ng tao.",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Kakulangan"
+          },
+          {
+            "id": 1,
+            "choice": "Kakapusan "
+          },
+          {
+            "id": 2,
+            "choice": "Kagustuhan"
+          },
+          {
+            "id": 3,
+            "choice": "Pangangailangan"
+          }
+        ]
+      },
+      {
+        "question": "Ito naman ay isang pansamantalang sitwasyon lamang kung saan mayroong kakulangan sa supply ng isang produkto o serbisyo, ngunit maaari itong malutas sa paglipas ng panahon.",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Kakapusan"
+          },
+          {
+            "id": 1,
+            "choice": "Pangangailangan"
+          },
+          {
+            "id": 2,
+            "choice": "Kagustuhan"
+          },
+          {
+            "id": 3,
+            "choice": "Kakulangan"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing sanhi ng kakapusan?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pag-abuso sa mga likas na yaman"
+          },
+          {
+            "id": 1,
+            "choice": "Hindi tamang pamamahala ng pamahalaan"
+          },
+          {
+            "id": 2,
+            "choice": "Patuloy na paglaki ng populasyon at limitadong pinagkukunan ng yaman"
+          },
+          {
+            "id": 3,
+            "choice": "Mabilis na paglaki ng presyo ng mga bilihin"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang isang halimbawa ng kakapusan?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagkakaroon ng krisis sa baboy dahil sa ASF."
+          },
+          {
+            "id": 1,
+            "choice": "Pansamantalang kakulangan ng mga produktong pang-agrikultura."
+          },
+          {
+            "id": 2,
+            "choice": "Maaaring maubos ang mga likas na yaman tulad ng gas at kagubatan."
+          },
+          {
+            "id": 3,
+            "choice": "Pansamantalang pagtaas ng presyo ng manok."
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod ang hindi kabilang sa mga paraan upang mapamahalaan ang kakapusan?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Alin sa mga sumusunod ang hindi kabilang sa mga paraan upang mapamahalaan ang kakapusan?"
+          },
+          {
+            "id": 1,
+            "choice": "Pagpapatupad ng makabagong teknolohiya sa produksyon."
+          },
+          {
+            "id": 2,
+            "choice": "Pagtaas ng presyo ng mga bilihin para mabawasan ang demand."
+          },
+          {
+            "id": 3,
+            "choice": "Pagpapatupad ng mga polisiya ng pamahalaan upang protektahan ang mga pinagkukunang-yaman."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "items": [
+      {
+        "question": "Ano ang pagkakaiba ng pangangailangan at kagustuhan",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Ang pangangailangan ay bagay na kailangan makuha agad samantalang ang kagustuhan ay bagay na kusang dumarating"
+          },
+          {
+            "id": 1,
+            "choice": "Ang pangangailangan ay ang dapat na unahin ng tao samantalang ang kagustuhan naman ang dapat ihuli"
+          },
+          {
+            "id": 2,
+            "choice": "Ang pangangailangan ay mga bagay na kailangan natin araw-araw, habang ang kagustuhan ay mga bagay na gusto lang natin."
+          },
+          {
+            "id": 3,
+            "choice": "Lahat ng nabanggit"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang unang pangunahing pangangailangan ng tao ayon sa hirarkiya ng pangangailangan?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagkain, tubig, at pahinga"
+          },
+          {
+            "id": 1,
+            "choice": "Edukasyon at trabaho"
+          },
+          {
+            "id": 2,
+            "choice": "Kaligtasan at seguridad"
+          },
+          {
+            "id": 3,
+            "choice": "Pamilya at kaibigan"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangangailangan ng tao na tumutukoy sa pagkakaroon ng mga kaibigan at suporta ng pamilya?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Basic Needs"
+          },
+          {
+            "id": 1,
+            "choice": "Kaligtasan"
+          },
+          {
+            "id": 2,
+            "choice": "Pagmamahal at pakikisama sa lipunan"
+          },
+          {
+            "id": 3,
+            "choice": "Pagpapahalaga sa sarili"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang hinahangad ng tao kapag nais niyang respetuhin siya ng iba at magkaroon ng kumpiyansa sa sarili?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Basic Needs"
+          },
+          {
+            "id": 1,
+            "choice": "Pagmamahal at pakikisama"
+          },
+          {
+            "id": 2,
+            "choice": "Pagpapahalaga sa sarili"
+          },
+          {
+            "id": 3,
+            "choice": "Pagiging mas maayos na bersyon ng sarili"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pinakamataas na antas sa hirarkiya ng pangangailangan?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Kaligtasan"
+          },
+          {
+            "id": 1,
+            "choice": "Pagiging mas mahusay na bersyon ng sarili"
+          },
+          {
+            "id": 2,
+            "choice": "Pamilya at kaibigan"
+          },
+          {
+            "id": 3,
+            "choice": "Pagkain at pahinga"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "items": [
+      {
+        "question": "Ano ang tawag sa uri ng negosyo kung saan ang may-ari ay isa lamang at siya ang nagdedesisyon sa lahat ng aspeto ng negosyo?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Partnership"
+          },
+          {
+            "id": 1,
+            "choice": "Cooperative"
+          },
+          {
+            "id": 2,
+            "choice": "Corporation"
+          },
+          {
+            "id": 3,
+            "choice": "Sole proprietorship"
+          }
+        ]
+      },
+      {
+        "question": "Sa uri ng negosyo na partnership, paano ang paghahati ng puhunan at kita?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pantay-pantay ang mga miyembro"
+          },
+          {
+            "id": 1,
+            "choice": "May isa lang na nagdedesisyon"
+          },
+          {
+            "id": 2,
+            "choice": "Dalawa o higit pa ang nag-aambag ng puhunan at kita"
+          },
+          {
+            "id": 3,
+            "choice": "Lahat ng kita ay napupunta sa gobyerno"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang uri ng negosyo na maraming may-ari sa pamamagitan ng shares o stocks?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Sole proprietorship"
+          },
+          {
+            "id": 1,
+            "choice": "Cooperative"
+          },
+          {
+            "id": 2,
+            "choice": "Corporation"
+          },
+          {
+            "id": 3,
+            "choice": "Partnership"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pagkakaiba ng cooperative kumpara sa ibang uri ng negosyo?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Isa lamang ang may-ari"
+          },
+          {
+            "id": 1,
+            "choice": "Pantay-pantay ang ambag at kita ng mga miyembro"
+          },
+          {
+            "id": 2,
+            "choice": "Walang kita ang may-ari"
+          },
+          {
+            "id": 3,
+            "choice": "Lahat ng kita ay napupunta sa may pinakamalaking ambag"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang mahalagang aral na ibinahagi ng nanay sa kanyang anak tungkol sa edukasyon at kahirapan?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Mahirap mag-aral kaya’t dapat magtrabaho na agad"
+          },
+          {
+            "id": 1,
+            "choice": "Edukasyon ang susi para makaahon sa kahirapan"
+          },
+          {
+            "id": 2,
+            "choice": "Kapag mahirap, hindi na dapat mag-aral"
+          },
+          {
+            "id": 3,
+            "choice": "Dapat iwasan ang negosyo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "items": [
+      {
+        "question": "Ano ang ibig sabihin ng alokasyon ayon sa Nanay?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pamamahagi ng mga pera"
+          },
+          {
+            "id": 1,
+            "choice": "Tamang pamamahagi ng mga limitadong bagay"
+          },
+          {
+            "id": 2,
+            "choice": "Paggamit ng pera sa pamilihan"
+          },
+          {
+            "id": 3,
+            "choice": "Pagkolekta ng buwis mula sa mamamayan"
+          }
+        ]
+      },
+      {
+        "question": "Anong uri ng ekonomiya ang mayroon sa isla ng Moana ayon sa Nanay?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Market Economy"
+          },
+          {
+            "id": 1,
+            "choice": "Command Economy"
+          },
+          {
+            "id": 2,
+            "choice": "Mixed Economy"
+          },
+          {
+            "id": 3,
+            "choice": "Tradisyunal na Ekonomiya"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing katangian ng isang tradisyunal na ekonomiya?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Gumagamit ng teknolohiya at modernong kalakaran"
+          },
+          {
+            "id": 1,
+            "choice": "Batay sa tradisyon at kultura ang pamumuhay"
+          },
+          {
+            "id": 2,
+            "choice": "May malawak na kalayaan ang negosyo"
+          },
+          {
+            "id": 3,
+            "choice": "Ang pamahalaan ang kumokontrol sa presyo at supply"
+          }
+        ]
+      },
+      {
+        "question": "Anong uri ng ekonomiya ang mayroon sa Pilipinas ayon sa Nanay?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Tradisyunal na Ekonomiya"
+          },
+          {
+            "id": 1,
+            "choice": "Command Economy"
+          },
+          {
+            "id": 2,
+            "choice": "Market Economy"
+          },
+          {
+            "id": 3,
+            "choice": "Mixed Economy"
+          }
+        ]
+      },
+      {
+        "question": "Sa Mixed Economy, paano pinamamahalaan ang sistema ng ekonomiya?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Lahat ay kontrolado ng pamahalaan"
+          },
+          {
+            "id": 1,
+            "choice": "Lahat ng presyo at supply ay itinakda ng pamilihan"
+          },
+          {
+            "id": 2,
+            "choice": "May kalayaan ang negosyo, ngunit may regulasyon mula sa pamahalaan"
+          },
+          {
+            "id": 3,
+            "choice": "Walang regulasyon mula sa pamahalaan"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "items": [
+      {
+        "question": "Ano ang isang halimbawa ng katangian ng matalinong mamimili na nabanggit ni Nanay?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Hindi nagpapadala sa anunsiyo"
+          },
+          {
+            "id": 1,
+            "choice": "Bumibili ng pinakamahal na produkto"
+          },
+          {
+            "id": 2,
+            "choice": "Nagpapadaya sa mga tindero"
+          },
+          {
+            "id": 3,
+            "choice": "Hindi sumusunod sa badyet"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang isa sa mga salik na nakakaapekto sa pagkonsumo?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Oras ng pagbili"
+          },
+          {
+            "id": 1,
+            "choice": "Presyo ng mga produkto"
+          },
+          {
+            "id": 2,
+            "choice": "Kasarian ng mamimili"
+          },
+          {
+            "id": 3,
+            "choice": "Lokasyon ng tindahan"
+          }
+        ]
+      },
+      {
+        "question": "Kailan masasabi na ikaw ay isang matalinong mamimili?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Dahil bumili siya ng pinakamahal na produkto"
+          },
+          {
+            "id": 1,
+            "choice": "Dahil hindi siya marunong mangatwiran"
+          },
+          {
+            "id": 2,
+            "choice": "Dahil tiningnan niya ang presyo at kalidad ng mga produkto"
+          },
+          {
+            "id": 3,
+            "choice": "Dahil bumili siya ng mga produktong nakikita sa anunsiyo"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang epekto ng mas mababang presyo sa pagkonsumo base sa iyong nabasa?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Mas mataas ang pagkonsumo"
+          },
+          {
+            "id": 1,
+            "choice": "Mas mababa ang pagkonsumo"
+          },
+          {
+            "id": 2,
+            "choice": "Walang epekto"
+          },
+          {
+            "id": 3,
+            "choice": "Depende sa kalidad ng produkto"
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod ang hindi isang katangian ng matalinong mamimili?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Marunong mangatwiran"
+          },
+          {
+            "id": 1,
+            "choice": "Sumusunod sa badyet"
+          },
+          {
+            "id": 2,
+            "choice": "Nagpapanic buying"
+          },
+          {
+            "id": 3,
+            "choice": "Naghahanap ng alternatibo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "items": [
+      {
+        "question": "Ano ang pangunahing salik ng produksiyon na tumutukoy sa mga tao na gumagawa ng produkto?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Kapital"
+          },
+          {
+            "id": 1,
+            "choice": "Lupa"
+          },
+          {
+            "id": 2,
+            "choice": "Lakas-paggawa"
+          },
+          {
+            "id": 3,
+            "choice": "Entrepreneurship"
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod ang halimbawa ng \"kapital\" ayon sa diyalogo?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Hilaw na materyales tulad ng kahoy"
+          },
+          {
+            "id": 1,
+            "choice": "Makina at tools"
+          },
+          {
+            "id": 2,
+            "choice": "Karpintero"
+          },
+          {
+            "id": 3,
+            "choice": "Negosyante"
+          }
+        ]
+      },
+      {
+        "question": "Ito ay proseso ng pagpapalit anyo ng produkto sa pamamagitan ng pagsasama-sama ng mga salik upang makabuo ng output?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "produksiyon"
+          },
+          {
+            "id": 1,
+            "choice": "pagkonsumo"
+          },
+          {
+            "id": 2,
+            "choice": "pangangailangan"
+          },
+          {
+            "id": 3,
+            "choice": "kakapusan"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing layunin ng isang entrepreneur ayon sa diyalogo?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Gumawa ng mga kasangkapan"
+          },
+          {
+            "id": 1,
+            "choice": "Magplano at magdala ng mga ideya at produkto"
+          },
+          {
+            "id": 2,
+            "choice": "Mangasiwa ng produksyon ng mga hilaw na materyales"
+          },
+          {
+            "id": 3,
+            "choice": "Sumama sa mga manggagawa para gumawa ng produkto"
+          }
+        ]
+      },
+      {
+        "question": "Bakit mahalaga ang wastong paggamit ng mga salik ng produksiyon?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Para maging sikat ang mga gumagawa ng produkto"
+          },
+          {
+            "id": 1,
+            "choice": "Para mapabilis ang produksiyon ng produkto"
+          },
+          {
+            "id": 2,
+            "choice": "Para mas mapakinabangan ang mga likas-yaman at matiyak na makikinabang ang lahat"
+          },
+          {
+            "id": 3,
+            "choice": "Para maging kaakit-akit ang produkto sa merkado"
+          }
+        ]
+      }
+    ]
   }
 ]

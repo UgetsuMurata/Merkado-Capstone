@@ -7722,12 +7722,12 @@
         "trigger": 3,
         "scenes": [
             {
-                "description": "Napansin mong tumataas ang bilihin at hindi napigilang ikwento ito sa magulang.",
+                "bgm": "learning",
+                "description": "Napansin mong tumataas ang bilihin at hindi napigilang ikuwento ito sa magulang.",
                 "id": 0,
                 "lineGroup": [
                     {
                         "background": "dining_table",
-                        "bgm": "merkado_theme loop",
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
@@ -7775,10 +7775,10 @@
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Ganun naman talaga ang demand at supply, anak.",
+                                "dialogue": "Ganun nga, anak. Sa ekonomiya, tawag diyan ay batas ng demand at supply. Kapag mataas ang demand—ibig sabihin, maraming gustong bumili—pero kaunti lang ang supply—o kaunti lang ang produktong puwedeng ibenta—tataas ang presyo kasi marami ang nag-aagawan sa kakaunting produkto.",
                                 "imageChanges": [
                                     {
-                                        "image": "nanay1_f_laugh",
+                                        "image": "nanay1_f_laughing",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -7790,11 +7790,22 @@
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Syempre, dahil kaunti lang ang gustong bumili, edi rarami ang supply na magreresulta sa pagbaba ng presyo."
+                                "dialogue": "Pero baliktad naman ang nangyayari kapag mababa ang demand. Kapag kaunti lang ang gustong bumili, edi dadami ang supply kasi walang kumukuha, kaya bumababa ang presyo."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Tama, parang naiintindihan ko na. Kapag kaunti lang ang gustong bumili, bababa ang presyo kasi sobrang dami ng supply.",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_normal",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Kaya, pansin mo, ‘yung mga magsasaka natin tulad ng lolo mo.",
+                                "dialogue": "Tama ka diyan, anak! Halimbawa ganito, noong maraming ani, ang presyo ng bigas ay nasa ₱30 per kilo kasi mataas ang supply, at sapat lang ang demand.",
                                 "imageChanges": [
                                     {
                                         "image": "nanay1_f_compassion",
@@ -7805,11 +7816,11 @@
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Kailangan din nilang ibenta ang bigas nang mas mura kung maraming supply pero kaunti lang ang bumibili."
+                                "dialogue": "Pero ngayong kaunti ang supply dahil sa tagtuyot, kunwari bumaba ang ani ng bigas sa kalahati, pero gusto pa rin ng tao na bumili, tataas ang presyo. Ibig sabihin, kunwari ngayon ang presyo ng bigas ay ₱45 per kilo."
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Okay, nay. Hindi ko to lilimutan.",
+                                "dialogue": "Ah, naiintindihan ko na.",
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_compassion",
@@ -7820,18 +7831,63 @@
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Kapag kaunti lang ang gustong bumili, bababa ang presyo kasi sobra ang supply."
+                                "dialogue": "So, kung dati ₱30 per kilo at ngayon naging ₱45 per kilo dahil sa mababang supply, tumaas ang presyo ng (₱45 - ₱30 = ₱15) kada kilo."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Oo, ₱15 ang itinaas kada kilo. Kung dati ang bigas na binibili ko ay 5 kilo at dati itong nagkakahalaga ng (5 kilo × ₱30 = ₱150), ngayon na tumaas ang presyo ng ₱45 per kilo, ang halaga na ngayon ay (5 kilo × ₱45 = ₱225).",
+                                "imageChanges": [
+                                    {
+                                        "image": "nanay1_f_smile",
+                                        "placement": "2;FACE",
+                                        "toShow": true
+                                    }
+                                ]
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "So, kung dati ₱150 lang, ngayon ₱225 na, kaya kailangan kong maglabas ng dagdag na ₱75 para sa parehong dami ng bigas."
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Pero, kapag naman maraming gustong bumili, tataas ang presyo kasi paubos na ang supply. "
+                                "dialogue": "Wow, ang laki ng itinaas! So, parang ganoon pala talaga ‘yun kapag bumababa ang supply ng isang produkto, tumataas ang presyo.",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_amazed",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "At kapag maraming supply naman, bababa din ang presyo."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Tama! Ganun ang simpleng konsepto ng demand at supply."
+                            },
+                            {
+                                "character": "NANAY",
+                                "dialogue": "Kung sakaling tumaas ulit ang ani, bababa rin ulit ang presyo ng bigas kasi mas marami na ang mabibili."
+                            },
+                            {
+                                "character": "[USER_NAME]",
+                                "dialogue": "Sige, nay. Di ko to lilimutan. ",
+                                "imageChanges": [
+                                    {
+                                        "image": "mc1_f_compassion",
+                                        "placement": "1;FACE",
+                                        "toShow": true
+                                    }
+                                ]
                             },
                             {
                                 "character": "NANAY",
                                 "dialogue": "Ready ka na naman mag-aral haha. Oh, s’ya sige na, sasakay ka ba ngayon sa tricycle, nak?",
                                 "imageChanges": [
                                     {
-                                        "image": "nanay1_f_laugh",
+                                        "image": "nanay1_f_laughing",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -7869,7 +7925,6 @@
                     },
                     {
                         "background": "dining_table",
-                        "bgm": "merkado_theme loop",
                         "defaultNextLine": 3,
                         "dialogueLines": [
                             {
@@ -7878,14 +7933,7 @@
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Salamat, nay. Una na po ako.",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_normal",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
+                                "dialogue": "Salamat, nay. Una na po ako."
                             }
                         ],
                         "id": 1,
@@ -7906,7 +7954,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "nanay1_f_laugh",
+                                "image": "nanay1_f_laughing",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -7914,7 +7962,6 @@
                     },
                     {
                         "background": "dining_table",
-                        "bgm": "merkado_theme loop",
                         "defaultNextLine": 4,
                         "dialogueLines": [
                             {
@@ -7927,14 +7974,7 @@
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Sige po, nay. Salamat po rito. Mauna na po ako.",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_normal",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
+                                "dialogue": "Sige po, nay. Salamat po rito. Mauna na po ako."
                             }
                         ],
                         "id": 2,
@@ -7963,7 +8003,6 @@
                     },
                     {
                         "background": "streets",
-                        "bgm": "merkado_theme loop",
                         "defaultNextLine": 5,
                         "dialogueLines": [
                             {

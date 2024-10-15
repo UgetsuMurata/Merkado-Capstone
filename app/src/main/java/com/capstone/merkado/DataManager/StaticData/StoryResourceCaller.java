@@ -59,9 +59,13 @@ public class StoryResourceCaller {
             if ("eian1_b_uniform".equals(imgResource))
                 return R.drawable.sprite_eian1_b_uniform;
         }
+        else if (imgResource.startsWith("aling_isabel")) {
+            if ("aling_isabel1_b_casual".equals(imgResource))
+                return R.drawable.sprite_aling_isabel1_b_casual;
+        }
         else if (imgResource.startsWith("pork_vendor1")) {
-            if ("pork_vendor1_b_casual".equals(imgResource))
-                return R.drawable.sprite_pork_vendor1_b_casual;
+            if ("pork_vendor1_b_normal".equals(imgResource))
+                return R.drawable.sprite_pork_vendor1_b_normal;
         }
         else if (imgResource.startsWith("nene")) {
             if ("nene_b_normal".equals(imgResource))
@@ -85,15 +89,11 @@ public class StoryResourceCaller {
         }
         else if (imgResource.startsWith("rp1")) {
             if ("rp1_b_normal".equals(imgResource))
-                return R.drawable.sprite_pork_vendor1_b_casual;
+                return R.drawable.sprite_rp1_b_normal;
         }
-        else if (imgResource.startsWith("rp2")) {
-            if ("rp2_b_normal".equals(imgResource))
-                return R.drawable.sprite_pork_vendor1_b_casual;
-        }
-        else if (imgResource.startsWith("rp3")) {
-            if ("rp3_b_normal".equals(imgResource))
-                return R.drawable.sprite_pork_vendor1_b_casual;
+        else if (imgResource.startsWith("rp21")) {
+            if ("rp21_b_normal".equals(imgResource))
+                return R.drawable.sprite_rp21_b_normal;
         }
         else if (imgResource.startsWith("nibble1")) { // change this in .json
             if (imgResource.equals("nibble1_b_normal")) {
@@ -138,6 +138,8 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_mc2_f_thinking;
                 case "mc2_f_thinking2":
                     return R.drawable.sprite_mc2_f_thinking2;
+                case "mc2_f_thinking3":
+                    return R.drawable.sprite_mc2_f_thinking3;
             }
         }
         else if (imgResource.startsWith("nanay1")) {
@@ -171,8 +173,8 @@ public class StoryResourceCaller {
             switch (imgResource) {
                 case "teacher1_f_compassion":
                     return R.drawable.sprite_teacher1_f_compassion;
-                case "teacher1_f_laugh":
-                    return R.drawable.sprite_teacher1_f_laugh;
+                case "teacher1_f_laughing":
+                    return R.drawable.sprite_teacher1_f_laughing;
                 case "teacher1_f_talking1":
                     return R.drawable.sprite_teacher1_f_talking1;
                 case "teacher1_f_talking2":
@@ -203,16 +205,26 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_eian1_f_talking;
             }
         }
+        else if (imgResource.startsWith("aling_isabel")) {
+            switch (imgResource) {
+                case "aling_isabel1_f_normal":
+                    return R.drawable.sprite_aling_isabel1_f_normal;
+                case "aling_isabel1_f_talking":
+                    return R.drawable.sprite_aling_isabel1_f_talking;
+                case "aling_isabel1_f_confused":
+                    return R.drawable.sprite_aling_isabel1_f_confused;
+                case "aling_isabel1_f_compassion":
+                    return R.drawable.sprite_aling_isabel1_f_compassion;
+            }
+        }
         else if (imgResource.startsWith("pork_vendor1")) {
             switch (imgResource) {
                 case "pork_vendor1_f_normal":
                     return R.drawable.sprite_pork_vendor1_f_normal;
                 case "pork_vendor1_f_talking":
                     return R.drawable.sprite_pork_vendor1_f_talking;
-                case "pork_vendor1_f_confused":
-                    return R.drawable.sprite_pork_vendor1_f_confused;
-                case "pork_vendor1_f_compassion":
-                    return R.drawable.sprite_pork_vendor1_f_compassion;
+                case "pork_vendor1_f_disappointed":
+                    return R.drawable.sprite_pork_vendor1_f_disappointed;
             }
         }
         else if (imgResource.startsWith("nene")) {
@@ -275,29 +287,19 @@ public class StoryResourceCaller {
         else if (imgResource.startsWith("rp1")) {
             switch (imgResource) {
                 case "rp1_f_normal":
-                    return R.drawable.sprite_pork_vendor1_f_normal;
+                    return R.drawable.sprite_rp1_f_normal;
                 case "rp1_f_curious":
-                    return R.drawable.sprite_pork_vendor1_f_talking;
+                    return R.drawable.sprite_rp1_f_curious;
                 case "rp1_f_talking":
-                    return R.drawable.sprite_pork_vendor1_f_confused;
+                    return R.drawable.sprite_rp1_f_talking;
             }
         }
-        else if (imgResource.startsWith("rp2")) {
+        else if (imgResource.startsWith("rp21")) {
             switch (imgResource) {
-                case "rp2_f_disappointed":
-                    return R.drawable.sprite_pork_vendor1_f_normal;
-                case "rp2_f_normal":
-                    return R.drawable.sprite_pork_vendor1_f_talking;
-                case "rp2_f_talking":
-                    return R.drawable.sprite_pork_vendor1_f_confused;
-            }
-        }
-        else if (imgResource.startsWith("rp3")) {
-            switch (imgResource) {
-                case "rp3_f_normal":
-                    return R.drawable.sprite_pork_vendor1_f_normal;
-                case "rp3_f_talking":
-                    return R.drawable.sprite_pork_vendor1_f_talking;
+                case "rp21_f_normal":
+                    return R.drawable.sprite_rp21_f_normal;
+                case "rp21_f_talking":
+                    return R.drawable.sprite_rp21_f_talking;
             }
         }
         else if (imgResource.startsWith("nibble1")) {
@@ -337,7 +339,7 @@ public class StoryResourceCaller {
         else if ("classroom".equals(imgResource)) return R.drawable.scene_classroom;
         else if ("school_cafeteria".equals(imgResource)) return R.drawable.scene_school_cafeteria;
         else if ("market".equals(imgResource)) return R.drawable.scene_market;
-        else if ("dining_table".equals(imgResource)) return R.drawable.scene_home;
+        else if ("dining_table".equals(imgResource)) return R.drawable.scene_dining_table;
         else if ("balcon".equals(imgResource)) return R.drawable.scene_home;
         else if ("bedroom".equals(imgResource)) return R.drawable.scene_bedroom;
         else if ("pharmacy".equals(imgResource)) return R.drawable.scene_market;

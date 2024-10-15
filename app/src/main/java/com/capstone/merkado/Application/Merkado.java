@@ -8,11 +8,15 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -22,7 +26,7 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions.
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions.UpdaterPlayerListener;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
-import com.capstone.merkado.Exceptions.Crash;
+import com.capstone.merkado.DataManager.DataFunctionPackage.UtilityDataFunctions;
 import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
@@ -43,7 +47,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unused")
-public class Merkado extends Application {
+public class Merkado extends Application implements Application.ActivityLifecycleCallbacks {
 
     private static Merkado instance;
     private Account account;
@@ -68,6 +72,7 @@ public class Merkado extends Application {
     private Handler serverDataUpdateHandler;
     private Runnable serverDataUpdateRunnable;
     private CompiledData compiledMarketData;
+    private Activity currentActivity;
 
     @Override
     public void onCreate() {
@@ -81,12 +86,15 @@ public class Merkado extends Application {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeReceiver, filter);
 
+        registerActivityLifecycleCallbacks(this);
+
         // initialize variables
         staticContents = new StaticContents();
         playerDataFunctions = new PlayerDataFunctions();
-        Thread.setDefaultUncaughtExceptionHandler(new Crash());
 
         serverDataUpdateHandler = new Handler();
+
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> handleUncaughtException(e));
     }
 
     /**
@@ -635,6 +643,90 @@ public class Merkado extends Application {
 
     public interface PlayerDataListener {
         void onPlayerDataListenerReceived(Player player);
+    }
+
+    @Override
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {}
+
+    @Override
+    public void onActivityStarted(@NonNull Activity activity) {}
+
+    @Override
+    public void onActivityResumed(@NonNull Activity activity) {
+        currentActivity = activity;
+    }
+
+    @Override
+    public void onActivityPaused(@NonNull Activity activity) {
+        currentActivity = null;
+    }
+
+    @Override
+    public void onActivityStopped(@NonNull Activity activity) {}
+
+    @Override
+    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {}
+
+    @Override
+    public void onActivityDestroyed(@NonNull Activity activity) {}
+
+    public Activity getCurrentActivity() {
+        return currentActivity;
+    }
+
+    private void handleUncaughtException(Throwable e) {
+        // Log and report the error
+        String errorLocation = getAppErrorLocation(e);
+        UtilityDataFunctions.reportError(getApplicationContext(), e.getMessage(), errorLocation, String.valueOf(System.currentTimeMillis()));
+        logOutToServer();
+
+        // Show a toast on the UI thread (using a Handler)
+        new Handler(Looper.getMainLooper()).post(() -> {
+            Activity currentActivity = getCurrentActivity();
+            if (currentActivity != null) {
+                Toast.makeText(currentActivity, "An error has occurred and is sent to the developers.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Allow some time for the toast to display
+        try {
+            Thread.sleep(1000);  // Pause briefly to show the toast
+        } catch (InterruptedException interruptedException) {
+            // Handle interruption
+        }
+
+        // Finish the current activity if available
+        Activity currentActivity = getCurrentActivity();
+        if (currentActivity != null) {
+            currentActivity.finishAndRemoveTask();
+        }
+
+        // Kill the process after finishing all activities
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);  // Optional, as killProcess usually handles this
+    }
+
+    private String getAppErrorLocation(Throwable e) {
+        String packageName = "com.capstone.merkado";  // Your app's package name
+        StringBuilder errorLocation = new StringBuilder();
+
+        // Get the stack trace elements
+        StackTraceElement[] stackTrace = e.getStackTrace();
+
+        // Loop through the stack trace elements
+        for (StackTraceElement element : stackTrace) {
+            // Check if the element comes from your app's package
+            if (element.getClassName().startsWith(packageName)) {
+                // Found an element from your app, format the error location
+                errorLocation.append("Exception in class: ").append(element.getClassName())
+                        .append(", method: ").append(element.getMethodName())
+                        .append(", file: ").append(element.getFileName())
+                        .append(", line: ").append(element.getLineNumber());
+                break;  // Stop after finding the first occurrence from your app
+            }
+        }
+
+        return errorLocation.toString();
     }
 
     @Override

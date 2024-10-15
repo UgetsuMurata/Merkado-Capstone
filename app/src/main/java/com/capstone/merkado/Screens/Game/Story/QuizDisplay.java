@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.StoryDataObjects.Quiz;
@@ -28,8 +31,12 @@ public class QuizDisplay extends AppCompatActivity {
     TextView itemNumber, question;
     ChoiceModifier choice1, choice2, choice3, choice4;
     ConstraintLayout root;
+    LinearLayout questionView, resultView;
+    TextView resultExp, resultScore, resultAccuracy;
+    WoodenButton continueButton;
 
     Integer score, currentItem, maxItem;
+    Integer expReward;
     Quiz quiz;
 
     @Override
@@ -38,9 +45,15 @@ public class QuizDisplay extends AppCompatActivity {
         setContentView(R.layout.gam_sto_quiz);
 
         root = findViewById(R.id.quiz_root);
+        questionView = findViewById(R.id.question_display);
+        resultView = findViewById(R.id.result_display);
         progressTracker = findViewById(R.id.progress);
         itemNumber = findViewById(R.id.item_number);
         question = findViewById(R.id.question);
+        resultExp = findViewById(R.id.result_exp);
+        resultScore = findViewById(R.id.result_score);
+        resultAccuracy = findViewById(R.id.result_accuracy);
+        continueButton = findViewById(R.id.result_continue);
 
         choice1 = new ChoiceModifier(this, findViewById(R.id.choice_1), findViewById(R.id.choice_1_bg));
         choice2 = new ChoiceModifier(this, findViewById(R.id.choice_2), findViewById(R.id.choice_2_bg));
@@ -61,6 +74,12 @@ public class QuizDisplay extends AppCompatActivity {
             int bgRes = StoryResourceCaller.retrieveBackgroundResource(bg);
             root.setBackground(ContextCompat.getDrawable(getApplicationContext(), bgRes));
         }
+
+        questionView.setVisibility(View.VISIBLE);
+        resultView.setVisibility(View.GONE);
+
+        expReward = 0;
+        continueButton.setOnClickListener(v -> endQuiz());
 
         getQuestions(id);
     }
@@ -102,10 +121,7 @@ public class QuizDisplay extends AppCompatActivity {
 
     private void nextItem() {
         if (this.currentItem >= this.maxItem) {
-            setResult(Activity.RESULT_OK, new Intent()
-                    .putExtra("SCORE", score)
-                    .putExtra("QUIZ_ID", quiz.getId()));
-            finish();
+            setupResult();
             return;
         }
         this.currentItem++;
@@ -119,9 +135,32 @@ public class QuizDisplay extends AppCompatActivity {
         List<Quiz.Item.Choice> choiceList = item.getChoices();
         Collections.shuffle(choiceList);
         choice1.setChoice(choiceList.get(0), item.getCorrectChoices().contains(choiceList.get(0).getId()));
-        choice2.setChoice(choiceList.get(1), item.getCorrectChoices().contains(choiceList.get(0).getId()));
-        choice3.setChoice(choiceList.get(2), item.getCorrectChoices().contains(choiceList.get(0).getId()));
-        choice4.setChoice(choiceList.get(3), item.getCorrectChoices().contains(choiceList.get(0).getId()));
+        choice2.setChoice(choiceList.get(1), item.getCorrectChoices().contains(choiceList.get(1).getId()));
+        choice3.setChoice(choiceList.get(2), item.getCorrectChoices().contains(choiceList.get(2).getId()));
+        choice4.setChoice(choiceList.get(3), item.getCorrectChoices().contains(choiceList.get(3).getId()));
+    }
+
+    private void setupResult() {
+        questionView.setVisibility(View.GONE);
+        resultView.setVisibility(View.VISIBLE);
+
+        expReward = Math.round(500 * ((float) score / maxItem));
+
+        String resultExpStr = String.valueOf(expReward);
+        String resultAccuracyStr = String.format(Locale.getDefault(), "%d%%", Math.round(((float) score / maxItem) * 100));
+
+        // calculate for result display
+        resultExp.setText(resultExpStr);
+        resultScore.setText(String.format(Locale.getDefault(), "%d/%d", score, maxItem));
+        resultAccuracy.setText(resultAccuracyStr);
+    }
+
+    private void endQuiz() {
+        setResult(Activity.RESULT_OK, new Intent()
+                .putExtra("SCORE", score)
+                .putExtra("EXP_REWARD", expReward)
+                .putExtra("QUIZ_ID", quiz.getId()));
+        finish();
     }
 
     public static class ChoiceModifier {
@@ -158,22 +197,22 @@ public class QuizDisplay extends AppCompatActivity {
             choiceBG.setBackgroundTintList(ContextCompat.getColorStateList(activity.getApplicationContext(),
                     android.R.color.holo_green_light));
             handler.postDelayed(() -> {
-                        activity.runOnUiThread(() ->
-                                choiceBG.setBackgroundTintList(ContextCompat.getColorStateList(activity.getApplicationContext(),
-                                        android.R.color.white)));
-                        statusReturn.statusReturn(Status.CORRECT);
-                    }, 500);
+                activity.runOnUiThread(() ->
+                        choiceBG.setBackgroundTintList(ContextCompat.getColorStateList(activity.getApplicationContext(),
+                                android.R.color.white)));
+                statusReturn.statusReturn(Status.CORRECT);
+            }, 500);
         }
 
         private void wrong() {
             choiceBG.setBackgroundTintList(ContextCompat.getColorStateList(activity.getApplicationContext(),
                     android.R.color.holo_red_light));
             handler.postDelayed(() -> {
-                        activity.runOnUiThread(() ->
-                                choiceBG.setBackgroundTintList(ContextCompat.getColorStateList(activity.getApplicationContext(),
-                                        android.R.color.white)));
-                        statusReturn.statusReturn(Status.WRONG);
-                    }, 500);
+                activity.runOnUiThread(() ->
+                        choiceBG.setBackgroundTintList(ContextCompat.getColorStateList(activity.getApplicationContext(),
+                                android.R.color.white)));
+                statusReturn.statusReturn(Status.WRONG);
+            }, 500);
         }
 
         public void setOnClickListener(StatusReturn statusReturn) {

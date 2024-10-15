@@ -1,10 +1,13 @@
 package com.capstone.merkado.DataManager;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,8 +23,37 @@ public class FirebaseData {
     private final DatabaseReference databaseRef;
     private ValueEventListener valueEventListener;
 
+    /**
+     * Access to main Merkado database.
+     */
     public FirebaseData() {
         databaseRef = FirebaseDatabase.getInstance().getReference();
+    }
+
+    /**
+     * Access to Merkado developers database.
+     * @param context - application context.
+     */
+    public FirebaseData(Context context) {
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setApiKey("AIzaSyDpN3qNxUiM9d61qQazcpJaOxeIAtAS3lM")
+                .setDatabaseUrl("https://merkado-devs-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .setApplicationId("1:1064865953109:android:a2f217b82e213b5f8fabdc")
+                .setProjectId("merkado-devs")
+                .setStorageBucket("merkado-devs.appspot.com")
+                .build();
+
+        FirebaseApp secondApp;
+
+        try {
+            secondApp = FirebaseApp.initializeApp(context, options, "merkado-devs");
+        } catch (IllegalStateException e) {
+            secondApp = FirebaseApp.getInstance("merkado-devs");
+        }
+
+        FirebaseDatabase secondDatabase = FirebaseDatabase.getInstance(secondApp);
+
+        databaseRef = secondDatabase.getReference("");
     }
 
     public interface FirebaseDataCallback {

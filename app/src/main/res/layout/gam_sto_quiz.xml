@@ -11,7 +11,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="100dp"
         android:background="@drawable/bg_quiz">
 
         <androidx.constraintlayout.widget.Guideline
@@ -54,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".85" />
+            app:layout_constraintGuide_percent="0.88" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -71,6 +70,7 @@
             app:layout_constraintTop_toTopOf="@id/progress_bar_top" />
 
         <LinearLayout
+            android:id="@+id/question_display"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -96,19 +96,22 @@
                     android:gravity="center_vertical"
                     android:text="1."
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/question"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/text"
+                    android:layout_margin="4dp"
                     android:gravity="center_vertical"
-                    android:text="Ano ang pagkakaiba ng sambahayan at pamayanan?"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/elements"
+                    android:autoSizeMaxTextSize="24sp"
+                    android:autoSizeMinTextSize="14sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
+                    android:text="Question"
+                    android:textColor="@color/black"/>
             </LinearLayout>
 
 
@@ -136,9 +139,12 @@
                         android:layout_margin="4dp"
                         android:fontFamily="@font/elements"
                         android:gravity="center"
-                        android:text="Ang sambahayan ay nakatuon sa mga desisyon para sa pangangailangan ng pamilya, habang ang pamayanan ay nagdedesisyon para sa kabuuang kapakanan ng komunidad."
-                        android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:autoSizeTextType="uniform"
+                        android:text="Answer 1"
+                        android:textColor="@color/black"/>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
@@ -158,9 +164,12 @@
                         android:layout_margin="4dp"
                         android:fontFamily="@font/elements"
                         android:gravity="center"
-                        android:text="Ang sambahayan ay nakatuon sa mga desisyon para sa pangangailangan ng pamilya, habang ang pamayanan ay nagdedesisyon para sa kabuuang kapakanan ng komunidad."
-                        android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:autoSizeTextType="uniform"
+                        android:text="Answer 2"
+                        android:textColor="@color/black"/>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
@@ -188,9 +197,12 @@
                         android:layout_margin="4dp"
                         android:fontFamily="@font/elements"
                         android:gravity="center"
-                        android:text="Ang sambahayan ay nakatuon sa mga desisyon para sa pangangailangan ng pamilya, habang ang pamayanan ay nagdedesisyon para sa kabuuang kapakanan ng komunidad."
-                        android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:autoSizeTextType="uniform"
+                        android:text="Answer 3"
+                        android:textColor="@color/black"/>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
@@ -210,11 +222,168 @@
                         android:layout_margin="4dp"
                         android:fontFamily="@font/elements"
                         android:gravity="center"
-                        android:text="Ang sambahayan ay nakatuon sa mga desisyon para sa pangangailangan ng pamilya, habang ang pamayanan ay nagdedesisyon para sa kabuuang kapakanan ng komunidad."
-                        android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:autoSizeMaxTextSize="20sp"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:autoSizeTextType="uniform"
+                        android:text="Answer 4"
+                        android:textColor="@color/black"/>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/result_display"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/bottom"
+            app:layout_constraintEnd_toEndOf="@id/end"
+            app:layout_constraintStart_toStartOf="@id/start"
+            app:layout_constraintTop_toTopOf="@id/top">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/header"
+                android:gravity="center"
+                android:text="Binabati kita!"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
+                    app:strokeColor="@color/merkado_orange"
+                    app:strokeWidth="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/text"
+                            android:gravity="center"
+                            android:text="Exp"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/result_exp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:fontFamily="@font/text"
+                            android:gravity="center"
+                            android:text="500"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
+                    app:strokeColor="@color/gray"
+                    app:strokeWidth="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/text"
+                            android:gravity="center"
+                            android:text="Score"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/result_score"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:fontFamily="@font/text"
+                            android:gravity="center"
+                            android:text="5/5"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
+                    app:strokeColor="@color/merkado_blue"
+                    app:strokeWidth="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/text"
+                            android:gravity="center"
+                            android:text="Accuracy"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/result_accuracy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:fontFamily="@font/text"
+                            android:gravity="center"
+                            android:text="100%"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <com.capstone.merkado.CustomViews.WoodenButton
+                android:id="@+id/result_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:buttonText="Continue"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

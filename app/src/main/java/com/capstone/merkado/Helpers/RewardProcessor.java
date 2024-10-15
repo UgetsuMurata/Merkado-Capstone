@@ -1,7 +1,6 @@
 package com.capstone.merkado.Helpers;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;

@@ -1,6 +1,7 @@
 package com.capstone.merkado.DataManager.DataFunctionPackage;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -64,5 +65,12 @@ public class UtilityDataFunctions {
 
         firebaseData.getServerTimeOffset(future::complete);
         return future;
+    }
+
+    public static void reportError(Context context, String error, String errorLocation, String timestamp) {
+        FirebaseData firebaseData = new FirebaseData(context);
+        firebaseData.setValue(
+                String.format("unexpectedErrors/%s/", timestamp),
+                String.format("[ %s ] at [ %s ]", error, errorLocation));
     }
 }

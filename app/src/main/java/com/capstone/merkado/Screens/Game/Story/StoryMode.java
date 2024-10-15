@@ -31,6 +31,7 @@ import com.capstone.merkado.Helpers.StoryTriggers;
 import com.capstone.merkado.Helpers.StoryVariableHelper;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
+import com.capstone.merkado.Objects.StoryDataObjects.Chapter.GameRewards;
 import com.capstone.merkado.Objects.StoryDataObjects.ImagePlacementData;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup;
 import com.capstone.merkado.Objects.StoryDataObjects.LineGroup.QuizChoice;
@@ -95,7 +96,9 @@ public class StoryMode extends AppCompatActivity {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     if (result.getData() != null) {
                         Integer score = result.getData().getIntExtra("SCORE", -1);
+                        Integer expReward = result.getData().getIntExtra("EXP_REWARD", -1);
                         Integer quizId = result.getData().getIntExtra("QUIZ_ID", -1);
+                        processQuizReward(expReward);
                         StoryDataFunctions.setStudentScore(merkado.getPlayerId(), quizId, score);
                         currentLineEnded();
                     }
@@ -325,8 +328,7 @@ public class StoryMode extends AppCompatActivity {
                     // reached the end.
                     if (lineGroup.getGradedQuiz() != null) {
                         openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
-                    }
-                    else currentLineEnded();
+                    } else currentLineEnded();
                     return;
                 }
 
@@ -338,8 +340,7 @@ public class StoryMode extends AppCompatActivity {
                     // reached the end.
                     if (lineGroup.getGradedQuiz() != null) {
                         openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
-                    }
-                    else currentLineEnded();
+                    } else currentLineEnded();
                 }
             });
         }, skipToggle.isActive() ? 10 : 500);
@@ -516,7 +517,10 @@ public class StoryMode extends AppCompatActivity {
         new Thread(() -> {
             LineGroup lineGroup = StoryDataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), playerStory.getCurrentScene().getId(), nextLineGroupId);
             if (lineGroup == null) {
-                Toast.makeText(getApplicationContext(), "The story encountered a problem. Please try again later.", Toast.LENGTH_SHORT).show();
+                runOnUiThread(() ->
+                        Toast.makeText(getApplicationContext(),
+                                "The story encountered a problem. Please try again later.",
+                                Toast.LENGTH_SHORT).show());
                 finish();
                 return;
             }
@@ -569,38 +573,60 @@ public class StoryMode extends AppCompatActivity {
         Collections.shuffle(dialogueChoices);
         pauseAutoplay();
         disableClickArea();
-        choice1Text.setText(dialogueChoices.get(0).getChoice());
-        choice1.setOnClickListener(v -> {
-            movingClick(choice1, 1);
-            continueFromChoices();
-            if (dialogueChoices.get(0).getNextLineGroup() != null) {
-                nextLineGroupId = dialogueChoices.get(0).getNextLineGroup();
-            }
-        });
-        choice2Text.setText(dialogueChoices.get(1).getChoice());
-        choice2.setOnClickListener(v -> {
-            movingClick(choice2, 2);
-            continueFromChoices();
-            if (dialogueChoices.get(1).getNextLineGroup() != null) {
-                nextLineGroupId = dialogueChoices.get(1).getNextLineGroup();
-            }
-        });
-        choice3Text.setText(dialogueChoices.get(2).getChoice());
-        choice3.setOnClickListener(v -> {
-            movingClick(choice3, 3);
-            continueFromChoices();
-            if (dialogueChoices.get(2).getNextLineGroup() != null) {
-                nextLineGroupId = dialogueChoices.get(2).getNextLineGroup();
-            }
-        });
-        choice4Text.setText(dialogueChoices.get(3).getChoice());
-        choice4.setOnClickListener(v -> {
-            movingClick(choice4, 4);
-            continueFromChoices();
-            if (dialogueChoices.get(3).getNextLineGroup() != null) {
-                nextLineGroupId = dialogueChoices.get(3).getNextLineGroup();
-            }
-        });
+        if (!dialogueChoices.isEmpty()) {
+            choice1Text.setText(dialogueChoices.get(0).getChoice());
+            choice1.setOnClickListener(v -> {
+                movingClick(choice1, 1);
+                continueFromChoices();
+                if (dialogueChoices.get(0).getNextLineGroup() != null) {
+                    nextLineGroupId = dialogueChoices.get(0).getNextLineGroup();
+                }
+            });
+        } else {
+            choice1Text.setVisibility(View.GONE);
+            choice1.setVisibility(View.GONE);
+        }
+
+        if (dialogueChoices.size() > 1) {
+            choice2Text.setText(dialogueChoices.get(1).getChoice());
+            choice2.setOnClickListener(v -> {
+                movingClick(choice2, 2);
+                continueFromChoices();
+                if (dialogueChoices.get(1).getNextLineGroup() != null) {
+                    nextLineGroupId = dialogueChoices.get(1).getNextLineGroup();
+                }
+            });
+        } else {
+            choice2Text.setVisibility(View.GONE);
+            choice2.setVisibility(View.GONE);
+        }
+
+        if (dialogueChoices.size() > 2) {
+            choice3Text.setText(dialogueChoices.get(2).getChoice());
+            choice3.setOnClickListener(v -> {
+                movingClick(choice3, 3);
+                continueFromChoices();
+                if (dialogueChoices.get(2).getNextLineGroup() != null) {
+                    nextLineGroupId = dialogueChoices.get(2).getNextLineGroup();
+                }
+            });
+        } else {
+            choice3Text.setVisibility(View.GONE);
+            choice3.setVisibility(View.GONE);
+        }
+        if (dialogueChoices.size() > 3) {
+            choice4Text.setText(dialogueChoices.get(3).getChoice());
+            choice4.setOnClickListener(v -> {
+                movingClick(choice4, 4);
+                continueFromChoices();
+                if (dialogueChoices.get(3).getNextLineGroup() != null) {
+                    nextLineGroupId = dialogueChoices.get(3).getNextLineGroup();
+                }
+            });
+        } else {
+            choice4Text.setVisibility(View.GONE);
+            choice4.setVisibility(View.GONE);
+        }
     }
 
     private void continueFromChoices() {
@@ -787,6 +813,13 @@ public class StoryMode extends AppCompatActivity {
 
     public enum RunnableState {
         SKIP, AUTOPLAY, NULL
+    }
+
+    public void processQuizReward(Integer gameRewards) {
+        GameRewards rewards = new GameRewards();
+        rewards.setResourceId(1L);
+        rewards.setResourceQuantity(Long.valueOf(gameRewards));
+        RewardProcessor.processRewards(this, merkado.getPlayerId(), Collections.singletonList(rewards));
     }
 
     @Override

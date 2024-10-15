@@ -34,11 +34,8 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_nanay1_b_modest;
                 case "nanay1_b_normal2":
                     return R.drawable.sprite_nanay1_b_normal;
-            }
-        }
-        else if (imgResource.startsWith("nanay2")) {
-            if (imgResource.equals("nanay2_b_casual")) {
-                return R.drawable.sprite_nanay2_b_casual;
+                case "nanay1_b_casual_reminiscing":
+                    return R.drawable.sprite_nanay1_b_casual_reminisce;
             }
         }
         else if (imgResource.startsWith("teacher1")) {
@@ -162,11 +159,8 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_nanay1_f_sad;
                 case "nanay1_f_smile": // not used.
                     return R.drawable.sprite_nanay1_f_smile;
-            }
-        }
-        else if (imgResource.startsWith("nanay2")) {
-            if (imgResource.equals("nanay2_f_reminiscing")) {
-                return R.drawable.sprite_nanay2_f_reminiscing;
+                case "nanay1_f_reminiscing":
+                    return R.drawable.sprite_nanay1_f_reminiscing;
             }
         }
         else if (imgResource.startsWith("teacher1")) {

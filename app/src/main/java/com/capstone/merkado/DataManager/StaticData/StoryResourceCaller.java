@@ -40,7 +40,7 @@ public class StoryResourceCaller {
         }
         else if (imgResource.startsWith("teacher1")) {
             switch (imgResource) {
-                case "teacher1_b_uniform":
+                case "teacher1_b_uniform1":
                     return R.drawable.sprite_teacher1_b_uniform1;
                 case "teacher1_b_uniform2":
                     return R.drawable.sprite_teacher1_b_uniform2;
@@ -68,12 +68,12 @@ public class StoryResourceCaller {
             if ("nene_b_normal".equals(imgResource))
                 return R.drawable.sprite_nene1_b_normal;
         }
-        else if (imgResource.startsWith("tito")) {
-            if ("tito_b_normal".equals(imgResource))
+        else if (imgResource.startsWith("tito1")) {
+            if ("tito1_b_normal".equals(imgResource))
                 return R.drawable.sprite_tito1_b_normal;
         }
-        else if (imgResource.startsWith("kapitan")) {
-            if ("kapitan_b_normal".equals(imgResource))
+        else if (imgResource.startsWith("kapitan1")) {
+            if ("kapitan1_b_normal".equals(imgResource))
                 return R.drawable.sprite_kapitan1_b_normal;
         }
         else if (imgResource.startsWith("tatay")) {
@@ -125,7 +125,7 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_mc1_f_nervous;
                 case "mc1_f_curious":
                     return R.drawable.sprite_mc1_f_curious;
-                case "mc1_f_sad":
+                case "mc1_f_smirk":
                     return R.drawable.sprite_mc1_f_smirk;
             }
         }
@@ -133,9 +133,9 @@ public class StoryResourceCaller {
             switch (imgResource) {
                 case "mc2_f_thinking":
                     return R.drawable.sprite_mc2_f_thinking;
-                case "mc2_f_thinking2":
+                case "mc2_f_thinking_closed_eyes":
                     return R.drawable.sprite_mc2_f_thinking2;
-                case "mc2_f_thinking3":
+                case "mc2_f_thinking_open_eyes":
                     return R.drawable.sprite_mc2_f_thinking3;
             }
         }
@@ -183,7 +183,7 @@ public class StoryResourceCaller {
                     return R.drawable.sprite_jaxon1_f_normal;
                 case "jaxon1_f_compassion":
                     return R.drawable.sprite_jaxon1_f_compassion;
-                case "jaxon_f_laugh":
+                case "jaxon1_f_laughing":
                     return R.drawable.sprite_jaxon1_f_laughing;
             }
         }
@@ -236,25 +236,25 @@ public class StoryResourceCaller {
             }
 
         }
-        else if (imgResource.startsWith("tito")) {
+        else if (imgResource.startsWith("tito1")) {
             switch (imgResource) {
-                case "tito_f_smile":
+                case "tito1_f_smile":
                     return R.drawable.sprite_tito1_f_smile;
-                case "tito_f_normal":
+                case "tito1_f_normal":
                     return R.drawable.sprite_tito1_f_normal;
-                case "tito_f_talking":
+                case "tito1_f_talking":
                     return R.drawable.sprite_tito1_f_talking;
             }
         }
-        else if (imgResource.startsWith("kapitan")) {
+        else if (imgResource.startsWith("kapitan1")) {
             switch (imgResource) {
-                case "kapitan_f_normal":
+                case "kapitan1_f_normal":
                     return R.drawable.sprite_kapitan1_f_normal;
-                case "kapitan_f_talking":
+                case "kapitan1_f_talking":
                     return R.drawable.sprite_kapitan1_f_talking;
-                case "kapitan_f_smile":
+                case "kapitan1_f_smile":
                     return R.drawable.sprite_kapitan1_f_smiling;
-                case "kapitan_f_worried":
+                case "kapitan1_f_worried":
                     return R.drawable.sprite_kapitan1_f_worried;
             }
         }

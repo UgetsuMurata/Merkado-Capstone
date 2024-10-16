@@ -260,7 +260,7 @@ public class StoryResourceCaller {
         }
         else if (imgResource.startsWith("tatay")) {
             switch (imgResource) {
-                case "tatay1_f_smile":
+                case "tatay1_f_smiling":
                     return R.drawable.sprite_tatay1_f_smiling;
                 case "tatay1_f_talking":
                     return R.drawable.sprite_tatay1_f_talking;
@@ -298,29 +298,29 @@ public class StoryResourceCaller {
         }
         else if (imgResource.startsWith("nibble1")) {
             switch (imgResource) {
-                case "nibble_f_worried":
+                case "nibble1_f_worried":
                     return R.drawable.sprite_nibble1_f_normal;
-                case "nibble_f_normal":
+                case "nibble1_f_normal":
                     return R.drawable.sprite_nibble1_f_normal;
-                case "nibble_f_angry":
+                case "nibble1_f_angry":
                     return R.drawable.sprite_nibble1_f_normal;
-                case "nibble_f_reminscing":
+                case "nibble1_f_reminscing":
                     return R.drawable.sprite_nibble1_f_normal;
-                case "nibble_f_smile":
+                case "nibble1_f_smile":
                     return R.drawable.sprite_nibble1_f_normal;
             }
         }
         else if (imgResource.startsWith("nibble2")) {
             switch (imgResource) {
-                case "nibble_f_worried":
+                case "nibble1_f_worried":
                     return R.drawable.sprite_nibble2_f_cute;
-                case "nibble_f_cute":
+                case "nibble1_f_cute":
                     return R.drawable.sprite_nibble2_f_cute;
-                case "nibble_f_angry":
+                case "nibble1_f_angry":
                     return R.drawable.sprite_nibble2_f_cute;
-                case "nibble_f_reminscing":
+                case "nibble1_f_reminscing":
                     return R.drawable.sprite_nibble2_f_cute;
-                case "nibble_f_smile":
+                case "nibble1_f_smile":
                     return R.drawable.sprite_nibble2_f_cute;
             }
         }

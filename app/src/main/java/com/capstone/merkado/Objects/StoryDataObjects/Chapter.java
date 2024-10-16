@@ -29,35 +29,14 @@ public class Chapter implements Parcelable {
             id = in.readLong();
         }
         chapter = in.readString();
-        trigger = in.readInt();
-        scenes = new ArrayList<>();
-        if (in.readByte() == 1) in.readList(scenes, Scene.class.getClassLoader());
         category = in.readString();
         shortDescription = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
+        scenes = in.createTypedArrayList(Scene.CREATOR);
+        if (in.readByte() == 0) {
+            trigger = null;
         } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(id);
+            trigger = in.readInt();
         }
-        dest.writeString(chapter);
-        dest.writeInt(trigger);
-        if (scenes == null || scenes.isEmpty()) dest.writeByte((byte) 0);
-        else {
-            dest.writeByte((byte) 1);
-            dest.writeList(scenes);
-        }
-        dest.writeString(category);
-        dest.writeString(shortDescription);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public static final Creator<Chapter> CREATOR = new Creator<Chapter>() {
@@ -118,6 +97,31 @@ public class Chapter implements Parcelable {
 
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeString(chapter);
+        dest.writeString(category);
+        dest.writeString(shortDescription);
+        dest.writeTypedList(scenes);
+        if (trigger == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(trigger);
+        }
     }
 
     public static class Scene implements Parcelable {

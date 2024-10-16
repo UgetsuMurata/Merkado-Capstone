@@ -2063,8 +2063,8 @@
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
-                                "character": "empty",
-                                "dialogue": "Matapos ang klase, ay agad ding umuwi ang magkaibigan patungo sa kanilang bahay. Ngunit, mukhang may mga bagay silang kailangang gawin bago ito mangyari."
+                                "character": "EMPTY",
+                                "dialogue": "<i>Matapos ang klase, ay agad ding umuwi ang magkaibigan patungo sa kanilang bahay. Ngunit, mukhang may mga bagay silang kailangang gawin bago ito mangyari.</i>"
                             }
                         ],
                         "id": 0,
@@ -2699,11 +2699,11 @@
                                 "dialogue": "Ano sa tingin mo ang nararapat na gawin ni kapitan sa nabanggit na situwasyon?",
                                 "dialogueChoices": [
                                     {
-                                        "choice": "Pumili ng mga produktong ready-to-eat tulad ng de lata, noodles, at kape upang mapunan ang pangangailangan ng bawat kasapi ng pamilya. Huwag din kakalimutan ang pagdistribute ng bigas.",
+                                        "choice": "Pumili ng mga produktong ready-to-eat na produkto tulad ng nakasanayan",
                                         "nextLineGroup": 10
                                     },
                                     {
-                                        "choice": "Mag-raise ng social awareness upang mamulat ang mga mamamayan na tumulong ng naaayon sa kanilang kakayahan",
+                                        "choice": "Mag-raise ng social awareness sa ating mga kababayan",
                                         "nextLineGroup": 11
                                     }
                                 ]
@@ -2745,6 +2745,11 @@
                                 "character": "[USER_NAME]",
                                 "dialogue": "Ang mga ganito kasing produkto ay swak na sasakto lamang sa badyet ng barangay. Isa pa, ang mga ito ay mabilis lang ipamahagi sa mga nasalanta, hindi na nila kailangan pa ng ibang gamit para makain ang mga ito. ",
                                 "imageChanges": [
+                                    {
+                                        "image": "mc1_b_uniform",
+                                        "placement": "1;BODY",
+                                        "toShow": true
+                                    },
                                     {
                                         "image": "mc1_f_compassion",
                                         "placement": "1;FACE",
@@ -2801,8 +2806,13 @@
                                 "dialogue": "Paano kung magkaroon tayo ng campaign kung saan i-encourage natin ang mga tao na magdonate ng kahit ano tulad ng pagkain, lumang damit, first aid kit, at iba pa na makakatulong para madagdagan ang ipapamigay natin sa mga nasalanta?",
                                 "imageChanges": [
                                     {
-                                        "image": "mc1_f_compassion",
-                                        "placement": "4;FACE",
+                                        "image": "mc1_b_uniform",
+                                        "placement": "1;BODY",
+                                        "toShow": true
+                                    },
+                                    {
+                                        "image": "mc1_f_amazed",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -2817,7 +2827,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_amazed",
-                                        "placement": "4;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -3795,7 +3805,7 @@
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 0,
                         "dialogueLines": [
@@ -3838,7 +3848,7 @@
                         "id": 0,
                         "initialImages": [
                             {
-                                "image": "nanay1_b_home",
+                                "image": "nanay1_b_casual",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
@@ -3847,7 +3857,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "market",
@@ -3875,7 +3886,7 @@
                         "id": 1,
                         "initialImages": [
                             {
-                                "image": "nanay1_b_home",
+                                "image": "nanay1_b_casual",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
@@ -3884,12 +3895,12 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 10,
-                "scene": "Pagsusuri I",
-                "transition": "FTB"
+                "scene": "Pagsusuri I"
             },
             {
                 "bgm": "market_ambience loop",
@@ -4360,7 +4371,7 @@
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 1,
                         "dialogueLines": [
@@ -4434,7 +4445,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "market",
@@ -4471,7 +4483,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 14,
@@ -5590,7 +5603,7 @@
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 2,
                         "dialogueLines": [
@@ -5675,7 +5688,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "market",
@@ -5716,7 +5730,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 17,
@@ -5945,8 +5960,8 @@
                 "id": 18,
                 "lineGroup": [
                     {
-                        "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "background": "market",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 3,
                         "dialogueLines": [
@@ -6012,7 +6027,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "market",
@@ -6053,7 +6069,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 19,
@@ -6263,7 +6280,7 @@
                 "lineGroup": [
                     {
                         "background": "living_room",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 4,
                         "dialogueLines": [
@@ -6277,7 +6294,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_compassion",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6288,7 +6305,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "nanay1_f_angry",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6299,7 +6316,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "nanay1_f_talking2",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6310,7 +6327,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_confused",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6321,7 +6338,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "nanay1_f_smile",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6343,25 +6360,26 @@
                         "initialImages": [
                             {
                                 "image": "mc1_b_pajamas",
-                                "placement": "1;BODY",
-                                "toShow": true
-                            },
-                            {
-                                "image": "mc1_f_curious",
-                                "placement": "1;FACE",
-                                "toShow": true
-                            },
-                            {
-                                "image": "nanay1_b_home",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "nanay1_f_compassion",
+                                "image": "mc1_f_curious",
                                 "placement": "2;FACE",
                                 "toShow": true
+                            },
+                            {
+                                "image": "nanay1_b_home",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_compassion",
+                                "placement": "1;FACE",
+                                "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "living_room",
@@ -6380,7 +6398,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_normal",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6391,7 +6409,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "nanay1_f_confused",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6402,7 +6420,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_smirk",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6413,7 +6431,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "nanay1_f_talking",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -6427,25 +6445,26 @@
                         "initialImages": [
                             {
                                 "image": "mc1_b_pajamas",
-                                "placement": "1;BODY",
-                                "toShow": true
-                            },
-                            {
-                                "image": "mc1_f_amazed",
-                                "placement": "1;FACE",
-                                "toShow": true
-                            },
-                            {
-                                "image": "nanay1_b_home",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "nanay1_f_compassion",
+                                "image": "mc1_f_amazed",
                                 "placement": "2;FACE",
                                 "toShow": true
+                            },
+                            {
+                                "image": "nanay1_b_home",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nanay1_f_compassion",
+                                "placement": "1;FACE",
+                                "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 21,
@@ -6768,7 +6787,7 @@
                 "lineGroup": [
                     {
                         "background": "dining_table",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 5,
                         "dialogueLines": [
@@ -6834,7 +6853,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "dining_table",
@@ -6887,7 +6907,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 23,
@@ -7153,7 +7174,7 @@
                 "lineGroup": [
                     {
                         "background": "living_room",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 6,
                         "dialogueLines": [
@@ -7216,7 +7237,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "living_room",
@@ -7249,7 +7271,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 25,
@@ -7495,7 +7518,7 @@
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Hays. Good morning loop, Philip…",
+                                "dialogue": "Hays. Good morning, Philip…",
                                 "imageChanges": [
                                     {
                                         "image": "mc1_b_pajamas",
@@ -8310,7 +8333,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 7,
                         "dialogueLines": [
@@ -8357,7 +8380,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -8383,7 +8407,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 2,
@@ -8400,11 +8425,11 @@
                         "dialogueLines": [
                             {
                                 "character": "TEACHER",
-                                "dialogue": "Good morning loop, class!"
+                                "dialogue": "Good morning, class!"
                             },
                             {
                                 "character": "STUDENTS",
-                                "dialogue": "Good morning loop, Ma’am Castro!",
+                                "dialogue": "Good morning, Ma’am Castro!",
                                 "imageChanges": [
                                     {
                                         "image": "empty",
@@ -9068,7 +9093,7 @@
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Dahil dito, naisip niyang bumalik sa tindahan ni Aling Isabel upang makiusap tungkol sa trabaho."
+                                "dialogue": "<i>Dahil dito, naisip niyang bumalik sa tindahan ni Aling Isabel upang makiusap tungkol sa trabaho.</i>"
                             }
                         ],
                         "id": 4,
@@ -9097,7 +9122,7 @@
                 "lineGroup": [
                     {
                         "background": "classroom",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 8,
                         "dialogueLines": [
@@ -9160,7 +9185,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "market",
@@ -9201,7 +9227,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 4,
@@ -9423,7 +9450,7 @@
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "<<<<phone rings>>>>",
+                                "dialogue": "<i><phone rings</i>",
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_curious",
@@ -9809,7 +9836,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 9,
                         "dialogueLines": [
@@ -9872,7 +9899,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -9902,7 +9930,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 6,
@@ -10085,7 +10114,7 @@
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Mabilis na kinuha ni <b>{$USER_NAME}</b> ang pera mula sa wallet ng kanyang Nanay at agad itong pumunta sa botika."
+                                "dialogue": "<i>Mabilis na kinuha ni <b>{$USER_NAME}</b> ang pera mula sa wallet ng kanyang Nanay at agad itong pumunta sa botika.</i>"
                             }
                         ],
                         "id": 0,
@@ -10461,7 +10490,7 @@
                 "lineGroup": [
                     {
                         "background": "pharmacy",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 10,
                         "dialogueLines": [
@@ -10505,7 +10534,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "pharmacy",
@@ -10535,7 +10565,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 10,
@@ -10552,7 +10583,7 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Matapos makapag desisyon ay agad nitong binili ang gamot at diretsong umuwi ng kanilang bahay."
+                                "dialogue": "<i>Matapos makapag desisyon ay agad nitong binili ang gamot at diretsong umuwi ng kanilang bahay.</i>"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -10906,11 +10937,11 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Matapos ang nakakapagod na araw, sa wakas ay nakahanap ng sandaling mapag-isa ang pangunahing tauhan."
+                                "dialogue": "<i>Matapos ang nakakapagod na araw, sa wakas ay nakahanap ng sandaling mapag-isa ang pangunahing tauhan.</i>"
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Umupo siya sa isang tahimik na sulok ng kanilang kwarto, dama ang bigat ng lahat ng nangyari sa kanila."
+                                "dialogue": "<i>Umupo siya sa isang tahimik na sulok ng kanilang kwarto, dama ang bigat ng lahat ng nangyari sa kanila.</i>"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -11474,7 +11505,7 @@
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 11,
                         "dialogueLines": [
@@ -11533,7 +11564,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "market",
@@ -11574,7 +11606,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 2,
@@ -11868,7 +11901,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 12,
                         "dialogueLines": [
@@ -11916,7 +11949,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -11942,7 +11976,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 4,
@@ -11958,7 +11993,7 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Nang matapos ang kanilang klase ay agad silang pumunta ng canteen upang kumain"
+                                "dialogue": "<i>Nang matapos ang kanilang klase ay agad silang pumunta ng canteen upang kumain</i>"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -12302,7 +12337,7 @@
                 "lineGroup": [
                     {
                         "background": "classroom",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 13,
                         "dialogueLines": [
@@ -12361,7 +12396,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "classroom",
@@ -12395,7 +12431,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 6,
@@ -12412,7 +12449,7 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Habang papauwi na ang pangunahing tauhan, narinig niya ang balita mula sa mga tao sa palengke."
+                                "dialogue": "<i>Habang papauwi na ang pangunahing tauhan, narinig niya ang balita mula sa mga tao sa palengke.</i>"
                             }
                         ],
                         "id": 0,
@@ -12696,7 +12733,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 14,
                         "dialogueLines": [
@@ -12744,7 +12781,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -12769,16 +12807,17 @@
                         "id": 1,
                         "initialImages": [
                             {
-                                "image": "mc1_b_uniform",
+                                "image": "rp1_b_normal",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "mc1_f_amazed",
+                                "image": "rp1_f_normal",
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 8,
@@ -12835,12 +12874,12 @@
                                 "imageChanges": [
                                     {
                                         "image": "nibble1_b_normal",
-                                        "placement": "1;BODY",
+                                        "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
                                         "image": "nibble1_f_normal",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -12888,12 +12927,12 @@
                                 "imageChanges": [
                                     {
                                         "image": "nibble2_b_cute",
-                                        "placement": "1;BODY",
+                                        "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
                                         "image": "nibble2_f_cute",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -12904,12 +12943,12 @@
                                 "imageChanges": [
                                     {
                                         "image": "nibble1_b_normal",
-                                        "placement": "1;BODY",
+                                        "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
                                         "image": "nibble1_f_normal",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -12989,12 +13028,12 @@
                                 "imageChanges": [
                                     {
                                         "image": "nibble2_b_cute",
-                                        "placement": "1;BODY",
+                                        "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
                                         "image": "nibble2_f_cute",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -13044,12 +13083,12 @@
                                 "imageChanges": [
                                     {
                                         "image": "nibble1_b_normal",
-                                        "placement": "1;BODY",
+                                        "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
                                         "image": "nibble1_f_normal",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -13462,11 +13501,11 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Pagkatapos mamili sa palengke, pauwi na ang MC habang iniisip ang patuloy na pagtaas ng mga presyo."
+                                "dialogue": "<i>Pagkatapos mamili sa palengke, ikaw ay pauwi na habang iniisip ang patuloy na pagtaas ng mga presyo.</i>"
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Sa kanyang paglalakad, nakita niya si Aling Isabel sa kanyang tindahan at nagdesisyong makipag-usap sa kanya."
+                                "dialogue": "<i>Sa kanyang paglalakad, nakita niya si Aling Isabel sa kanyang tindahan at nagdesisyong makipag-usap sa kanya.</i>"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -13914,11 +13953,11 @@
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Ang pangunahing tauhan ay bumalik sa kanilang tahanan na may mabigat na ekspresyon sa mukha, dala ang isang mabigat na pakiramdam na bumabagabag sa kaniyang isipan"
+                                "dialogue": "<i>Ikaw ay bumalik sa iyong tahanan na may mabigat na ekspresyon sa mukha, dala ang isang mabigat na pakiramdam na bumabagabag sa kaniyang isipan</i>"
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "May gumugulo sa kaniya, ngunit hindi niya matukoy kung ano ito."
+                                "dialogue": "<i>May gumugulo sa iyong isip, ngunit hindi mo matukoy kung ano ito.</i>"
                             }
                         ],
                         "id": 6,
@@ -13958,7 +13997,7 @@
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 15,
                         "dialogueLines": [
@@ -13998,7 +14037,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -14033,7 +14073,8 @@
                                 "toShow": true
                             }
 
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "scene": "Pagsusuri XVI"
@@ -14863,7 +14904,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 16,
                         "dialogueLines": [
@@ -14922,7 +14963,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -14956,7 +14998,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 2,
@@ -15365,7 +15408,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 17,
                         "dialogueLines": [
@@ -15424,7 +15467,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -15454,7 +15498,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 4,
@@ -15470,7 +15515,7 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Habang sila ay pauwi na, patuloy pa rin ang kanilang pag-uusap tungkol sa magandang balita ng kaniyang tatay"
+                                "dialogue": "<i>Habang sila ay pauwi na, patuloy pa rin ang kanilang pag-uusap tungkol sa magandang balita ng kaniyang tatay</i>"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -15619,7 +15664,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 18,
                         "dialogueLines": [
@@ -15659,7 +15704,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -15700,7 +15746,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 6,
@@ -15716,11 +15763,11 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Lumipas ang ilang araw ngunit nariyan parin ang banta ng sakuna."
+                                "dialogue": "<i>Lumipas ang ilang araw ngunit nariyan parin ang banta ng sakuna.</i>"
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Maraming mga tao na ang naghahanda at namimili para sa kanilang pamilya at sarili"
+                                "dialogue": "<i>Maraming mga tao na ang naghahanda at namimili para sa kanilang pamilya at sarili</i>"
                             },
                             {
                                 "character": "TEACHER",
@@ -15940,7 +15987,7 @@
                 "lineGroup": [
                     {
                         "background": "classroom",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 19,
                         "dialogueLines": [
@@ -16007,7 +16054,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "classroom",
@@ -16044,7 +16092,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 8,
@@ -16543,7 +16592,7 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Matapos nilang bumili ng mga kakailanganin bago ang bagyo, ay naglakad na silang muli pabalik ng kanilang tahanan"
+                                "dialogue": "<i>Matapos nilang bumili ng mga kakailanganin bago ang bagyo, ay naglakad na silang muli pabalik ng kanilang tahanan</i>"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -16709,7 +16758,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 20,
                         "dialogueLines": [
@@ -16753,7 +16802,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -16783,7 +16833,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 11,
@@ -16799,19 +16850,19 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Tuluyan na ngang tumama ang bagyo sa bansa na nagdulot ng malawak na kapinsalaan sa iba’t ibang sektor tulad ng agrikultura"
+                                "dialogue": "<i>Tuluyan na ngang tumama ang bagyo sa bansa na nagdulot ng malawak na kapinsalaan sa iba’t ibang sektor tulad ng agrikultura</i>"
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Sa kasamaang palad, kasama ang negosyo ni <b>{$USER_NAME}</b> sa nabiktima nito"
+                                "dialogue": "<i>Sa kasamaang palad, kasama ang negosyo ni <b>{$USER_NAME}</b> sa nabiktima nito</i>"
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Hindi rin muna makapagtatrabaho ang kanyang tatay dahil isa sa mga apektado ng bagyo ang kanyang pinapasukang trabaho"
+                                "dialogue": "<i>Hindi rin muna makapagtatrabaho ang kanyang tatay dahil isa sa mga apektado ng bagyo ang kanyang pinapasukang trabaho</i>"
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Gayunpaman, patuloy parin siyang lumalaban at naghahanap ng paraan upang makatulong muli sa kanyang pamilya"
+                                "dialogue": "<i>Gayunpaman, patuloy parin siyang lumalaban at naghahanap ng paraan upang makatulong muli sa kanyang pamilya</i>"
                             },
                             {
                                 "character": "NIBBLE",
@@ -17214,7 +17265,7 @@
                 "lineGroup": [
                     {
                         "background": "balcon",
-                        "bgm": "taking_quiz loop loop",
+                        "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 21,
                         "dialogueLines": [
@@ -17270,7 +17321,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -17311,7 +17363,8 @@
                                 "placement": "1;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "scene": "Pagsusuri XXII"
@@ -17335,11 +17388,11 @@
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
-                                "dialogue": "Habang naglalakad ang pangunahing tauhan"
+                                "dialogue": "<i>Habang naglalakad ang pangunahing tauhan</i>"
                             },
                             {
                                 "character": "EMPTY",
-                                "dialogue": "nararamdaman pa rin niyang malungkot sa mga nangyari"
+                                "dialogue": "<i>nararamdaman pa rin niyang malungkot sa mga nangyari</i>"
                             },
                             {
                                 "character": "EMPTY",

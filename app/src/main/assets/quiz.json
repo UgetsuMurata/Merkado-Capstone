@@ -777,7 +777,7 @@
         ]
       },
       {
-        "question": "Alin sa mga sumusunod ang halimbawa ng \"kapital\" ayon sa diyalogo?",
+        "question": "Alin sa mga sumusunod ang halimbawa ng kapital ayon sa diyalogo?",
         "correctChoices": [
           1
         ],
@@ -869,6 +869,1929 @@
           {
             "id": 3,
             "choice": "Para maging kaakit-akit ang produkto sa merkado"
+          }
+        ]
+      }
+    ]
+  },
+  {
+        "id": 7,
+        "items": [
+            {
+                "question": "Ano ang nangyayari sa presyo kapag mataas ang demand pero mababa ang supply?",
+                "correctChoices": [
+                    2
+                ],
+                "choices": [
+                    {
+                        "id": 0,
+                        "choice": "Bumaba ang presyo."
+                    },
+                    {
+                        "id": 1,
+                        "choice": "Nanatiling pareho ang presyo."
+                    },
+                    {
+                        "id": 2,
+                        "choice": "Tumaas ang presyo"
+                    },
+                    {
+                        "id": 3,
+                        "choice": "Walang pagbabago sa presyo."
+                    }
+                ]
+            },
+            {
+                "question": "Kapag maraming gustong bumili pero kakaunti lang ang supply ng produkto, ano ang mangyayari sa presyo ayon sa batas ng supply at demand?",
+                "correctChoices": [
+                    1
+                ],
+                "choices": [
+                    {
+                        "id": 0,
+                        "choice": "Bababa ang presyo."
+                    },
+                    {
+                        "id": 1,
+                        "choice": "Tataas ang presyo. "
+                    },
+                    {
+                        "id": 2,
+                        "choice": "Mananatili ang presyo."
+                    },
+                    {
+                        "id": 3,
+                        "choice": "Mawawala ang produkto sa merkado."
+                    }
+                ]
+            },
+            {
+                "question": "Kung ang presyo ng bigas ay ₱30 kada kilo dati at tumaas ito sa ₱45 kada kilo dahil sa tagtuyot, magkano ang itinaas ng presyo kada kilo?",
+                "correctChoices": [
+                    2
+                ],
+                "choices": [
+                    {
+                        "id": 0,
+                        "choice": "₱5"
+                    },
+                    {
+                        "id": 1,
+                        "choice": "₱10"
+                    },
+                    {
+                        "id": 2,
+                        "choice": "₱15"
+                    },
+                    {
+                        "id": 3,
+                        "choice": "₱20"
+                    }
+                ]
+            },
+            {
+                "question": "Kapag tumaas ang pamasahe mula 10 pesos hanggang 15 pesos, at kaunting bilang ng mga estudyante lang ang tumigil sa pagsakay, paano natin ilalarawan ang demand para sa tricycle rides?",
+                "correctChoices": [
+                    1
+                ],
+                "choices": [
+                    {
+                        "id": 0,
+                        "choice": "Elastic"
+                    },
+                    {
+                        "id": 1,
+                        "choice": "Inelastic"
+                    },
+                    {
+                        "id": 2,
+                        "choice": "Perfectly Elastic"
+                    },
+                    {
+                        "id": 3,
+                        "choice": "Perfectly Inelastic"
+                    }
+                ]
+            },
+            {
+                "question": "Sa halimbawa kung saan tumaas ang presyo ng gasolina ng 20% at ang pamasahe ng tricycle ay tumaas ng 15%, ano ang ipinapakita ng pagtaas ng pamasahe sa tricycle?",
+                "correctChoices": [
+                    1
+                ],
+                "choices": [
+                    {
+                        "id": 0,
+                        "choice": "Price Elasticity of Demand"
+                    },
+                    {
+                        "id": 1,
+                        "choice": "Price Elasticity of Supply"
+                    },
+                    {
+                        "id": 2,
+                        "choice": "Income Elasticity of Demand"
+                    },
+                    {
+                        "id": 3,
+                        "choice": "Cross-price Elasticity"
+                    }
+                ]
+            },
+            {
+                "question": "Alin sa mga sumusunod ang nagpapakita ng isang inelastic na demand?",
+                "correctChoices": [
+                    0
+                ],
+                "choices": [
+                    {
+                        "id": 0,
+                        "choice": "Tumaas ang pamasahe ng tricycle ng 50% pero kaunting estudyante lang ang tumigil sa pagsakay."
+                    },
+                    {
+                        "id": 1,
+                        "choice": "Tumaas ang pamasahe ng tricycle ng 50% at maraming estudyante ang tumigil sa pagsakay."
+                    },
+                    {
+                        "id": 2,
+                        "choice": "Hindi nagbago ang pamasahe ng tricycle kahit tumaas ang presyo ng gasolina."
+                    },
+                    {
+                        "id": 3,
+                        "choice": "Tumaas ang demand ng tricycle rides kahit walang pagbabago sa presyo ng pamasahe."
+                    }
+                ]
+            },
+            {
+                "question": "Kung mas mataas ang price elasticity of demand, ano ang posibleng mangyari kapag tumaas ang presyo ng isang produkto o serbisyo?",
+                "correctChoices": [
+                    1
+                ],
+                "choices": [
+                    {
+                        "id": 0,
+                        "choice": "Mas maraming tao ang patuloy na bibili kahit tumaas ang presyo."
+                    },
+                    {
+                        "id": 1,
+                        "choice": "Mas maraming tao ang hindi bibili ng produkto o serbisyo."
+                    },
+                    {
+                        "id": 2,
+                        "choice": "Walang magiging epekto sa bilang ng mamimili."
+                    },
+                    {
+                        "id": 3,
+                        "choice": "Tataas ang demand kahit tumaas ang presyo."
+                    }
+                ]
+            }
+        ]
+    },
+  {
+    "id": 8,
+    "items": [
+      {
+        "question": "Alin sa mga sumusunod ang halimbawa ng ganap na kompetisyon?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Monopolyo"
+          },
+          {
+            "id": 1,
+            "choice": "Oligopolyo"
+          },
+          {
+            "id": 2,
+            "choice": "Monopolistic Competition"
+          },
+          {
+            "id": 3,
+            "choice": "Walang may kontrol sa presyo "
+          }
+        ]
+      },
+      {
+        "question": "Ano ang tawag sa estruktura ng pamilihan kung saan iisa lamang ang prodyuser at may malaking kontrol sa presyo?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Oligopolyo"
+          },
+          {
+            "id": 1,
+            "choice": "Monopolyo"
+          },
+          {
+            "id": 2,
+            "choice": "Monopsonyo"
+          },
+          {
+            "id": 3,
+            "choice": "Monopolistic Competition"
+          }
+        ]
+      },
+      {
+        "question": "Sa anong estruktura ng pamilihan kakaunti ang mga prodyuser ngunit makapangyarihan, kaya matindi ang kumpetisyon?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Monopolyo"
+          },
+          {
+            "id": 1,
+            "choice": "Oligopolyo"
+          },
+          {
+            "id": 2,
+            "choice": "Monopsonyo"
+          },
+          {
+            "id": 3,
+            "choice": "Ganap na Kompetisyon"
+          }
+        ]
+      },
+      {
+        "question": "Kapag iisa lamang ang konsyumer at maraming prodyuser, anong estruktura ng pamilihan ang nabubuo?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Oligopolyo"
+          },
+          {
+            "id": 1,
+            "choice": "Monopolyo"
+          },
+          {
+            "id": 2,
+            "choice": "Monopsonyo"
+          },
+          {
+            "id": 3,
+            "choice": "Monopolistic Competition"
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod na estruktura ng pamilihan ang may maraming prodyuser at konsyumer, ngunit magkakaiba ang kanilang mga produkto?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Monopolyo"
+          },
+          {
+            "id": 1,
+            "choice": "Oligopolyo"
+          },
+          {
+            "id": 2,
+            "choice": "Monopsonyo"
+          },
+          {
+            "id": 3,
+            "choice": "Monopolistic Competition "
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "items": [
+      {
+        "question": "Ano ang nangyari nang ibinaba ang presyo ng yema mula Php5.00 hanggang Php2.00?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Kaunti lang ang bumili ng yema."
+          },
+          {
+            "id": 1,
+            "choice": "Mas marami ang gustong bumili ng yema kaysa sa kaya niyang ibenta"
+          },
+          {
+            "id": 2,
+            "choice": "Kaunti lang ang natirang yema."
+          },
+          {
+            "id": 3,
+            "choice": "Pareho lang ang dami ng gustong bumili at ang dami ng kayang ibenta."
+          }
+        ]
+      },
+      {
+        "question": "Ano ang ibig sabihin ng shortage?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Mas maraming supply kaysa sa demand."
+          },
+          {
+            "id": 1,
+            "choice": "Mas maraming gustong bumili kaysa sa kayang ibenta. "
+          },
+          {
+            "id": 2,
+            "choice": "Pareho ang supply at demand"
+          },
+          {
+            "id": 3,
+            "choice": "Walang gustong bumili ng produkto."
+          }
+        ]
+      },
+      {
+        "question": "Bakit tinaasan ang presyo ng yema mula Php2.00 hanggang Php3.00?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Para mas kumita siya ng mas malaki."
+          },
+          {
+            "id": 1,
+            "choice": "Para mabalanse ang bilang ng gustong bumili at ang kayang ibenta"
+          },
+          {
+            "id": 2,
+            "choice": "Para magkaroon ng surplus ng produkto."
+          },
+          {
+            "id": 3,
+            "choice": "Para mawalan ng interes ang mga mamimili."
+          }
+        ]
+      },
+      {
+        "question": "Ano ang nangyari nang tinaasan ang presyo ng yema sa Php3.00?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Bumaba ang demand at mas marami ang natira."
+          },
+          {
+            "id": 1,
+            "choice": "Naging balanse ang supply at demand."
+          },
+          {
+            "id": 2,
+            "choice": "Mas kaunti ang gustong bumili kaysa sa kayang ibenta."
+          },
+          {
+            "id": 3,
+            "choice": "Tumaas ang demand ng yema."
+          }
+        ]
+      },
+      {
+        "question": "Ano ang posibleng mangyari kapag mas mataas ang presyo ng isang produkto kaysa sa demand nito?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Magkakaroon ng shortage."
+          },
+          {
+            "id": 1,
+            "choice": "Pareho ang dami ng supply at demand."
+          },
+          {
+            "id": 2,
+            "choice": "Tataas ang demand."
+          },
+          {
+            "id": 3,
+            "choice": "Magkakaroon ng surplus"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "items": [
+      {
+        "question": "Ano ang layunin ng price floor na ipinapataw ng gobyerno sa mga produkto?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Upang pababain ang presyo ng mga gamot"
+          },
+          {
+            "id": 1,
+            "choice": "Upang itakda ang pinakamababang presyo na hindi dapat lumampas pababa"
+          },
+          {
+            "id": 2,
+            "choice": "Upang itaas ang demand para sa mga gamot"
+          },
+          {
+            "id": 3,
+            "choice": "Upang alisin ang mga generic na gamot sa merkado"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang mangyayari kapag may price ceiling na ipinatupad sa isang produkto?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Ito ang pinakamataas na presyong puwedeng itakda para sa produkto"
+          },
+          {
+            "id": 1,
+            "choice": "Walang pagbabago sa presyo ng produkto"
+          },
+          {
+            "id": 2,
+            "choice": "Lahat ng produkto ay magiging mas mahal"
+          },
+          {
+            "id": 3,
+            "choice": "Ang presyo ng produkto ay magiging hindi kontrolado"
+          }
+        ]
+      },
+      {
+        "question": "Bakit nagkaroon ng pagtaas sa presyo ng mga gamot ayon sa pharmacist?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Dahil sa pagtaas ng demand"
+          },
+          {
+            "id": 1,
+            "choice": "Dahil sa price floor na ipinataw ng gobyerno"
+          },
+          {
+            "id": 2,
+            "choice": "Dahil sa kakulangan ng suplay"
+          },
+          {
+            "id": 3,
+            "choice": "Dahil sa pagbaba ng produksyon"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang maaaring maging opsyon ng isang mamimili kung hindi sapat ang kanilang pera upang bumili ng branded na gamot?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Kumuha ng mas murang generic na gamot"
+          },
+          {
+            "id": 1,
+            "choice": "Tumulong sa ibang mamimili"
+          },
+          {
+            "id": 2,
+            "choice": "Maghintay na bumaba ang presyo ng branded na gamot"
+          },
+          {
+            "id": 3,
+            "choice": "Huwag nang bumili ng gamot"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang epekto ng price ceiling sa mga pangunahing pangangailangan tulad ng gamot?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Nagiging mas mahal ang mga pangunahing pangangailangan"
+          },
+          {
+            "id": 1,
+            "choice": "Pinipigilan ang mga negosyante na abusuhin ang konsyumer"
+          },
+          {
+            "id": 2,
+            "choice": "Walang epekto sa presyo"
+          },
+          {
+            "id": 3,
+            "choice": "Nagiging mas madali ang pag-access sa mga pangunahing pangangailangan"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "items": [
+      {
+        "question": "Bakit mahalaga ang pagkakaroon ng supplier para sa isang maliit na negosyo?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Para mas malaki ang kita sa pagbebenta ng produkto"
+          },
+          {
+            "id": 1,
+            "choice": "Para mas madali ang pakikipag-ugnayan sa gobyerno"
+          },
+          {
+            "id": 2,
+            "choice": "Para makipagpalitan ng produkto sa ibang bansa"
+          },
+          {
+            "id": 3,
+            "choice": "Para makakuha ng mas murang bilihin na magpapalaki ng kita"
+          }
+        ]
+      },
+      {
+        "question": "Paano nakakatulong ang bangko sa isang negosyo?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pinapautang sila para makabili ng supplies"
+          },
+          {
+            "id": 1,
+            "choice": "Tinutulungan nilang mabayaran ang buwis"
+          },
+          {
+            "id": 2,
+            "choice": "Ginagamit ng bangko ang interes mula sa pautang upang suportahan ang iba pang negosyo"
+          },
+          {
+            "id": 3,
+            "choice": "Pinapayagan silang mag-export ng produkto"
+          }
+        ]
+      },
+      {
+        "question": "Sa paikot na daloy ng ekonomiya, ano ang papel ng gobyerno para sa maliliit na negosyo?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Nagbibigay ng pondo para sa export at import"
+          },
+          {
+            "id": 1,
+            "choice": "Nangongolekta ng buwis na ginagamit para suportahan ang mga programa sa negosyo"
+          },
+          {
+            "id": 2,
+            "choice": "Nagbibigay ng libreng mga supplier para sa negosyo"
+          },
+          {
+            "id": 3,
+            "choice": "Tumatakbo ang mga negosyo nang hindi kasama ang gobyerno"
+          }
+        ]
+      },
+      {
+        "question": "Aling modelo ng ekonomiya ang tinutukoy kapag binanggit ang posibilidad na mag-export ng mga produkto?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Household Production Model"
+          },
+          {
+            "id": 1,
+            "choice": "Firm Production Model"
+          },
+          {
+            "id": 2,
+            "choice": "International Trade Model"
+          },
+          {
+            "id": 3,
+            "choice": "Financial Sector Model"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing aral tungkol sa pag-unlad ng negosyo sa loob ng paikot na daloy ng ekonomiya?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Mag-focus lamang sa kita"
+          },
+          {
+            "id": 1,
+            "choice": "Unawain ang bawat sektor ng ekonomiya at ang kanilang koneksyon sa negosyo"
+          },
+          {
+            "id": 2,
+            "choice": "Huwag makipag-ugnayan sa gobyerno upang maiwasan ang buwis"
+          },
+          {
+            "id": 3,
+            "choice": "Iwasang mangutang sa bangko upang maiwasan ang interes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "items": [
+      {
+        "question": "Ano ang posibleng mangyari sa halaga ng pera kapag iniipon lamang ito sa bahay?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Tataas ang halaga ng pera"
+          },
+          {
+            "id": 1,
+            "choice": "Mababa ang posibilidad na mawala ang pera"
+          },
+          {
+            "id": 2,
+            "choice": "Walang mababago sa halaga ng pera"
+          },
+          {
+            "id": 3,
+            "choice": "Bababa ang halaga ng pera dahil sa inflation"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing dahilan kung bakit nawawalan ng mga barya ang mga tindahan?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Hindi nagagamit ang barya sa mga pagbili"
+          },
+          {
+            "id": 1,
+            "choice": " Naiipon ang mga barya ng maraming tao sa bahay "
+          },
+          {
+            "id": 2,
+            "choice": "Ginagamit ang mga barya sa mga negosyo"
+          },
+          {
+            "id": 3,
+            "choice": "Nagiging papel na pera ang mga barya"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang benepisyo ng paglalagay ng ipon sa bangko kumpara sa pagtatago sa bahay?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Mas ligtas ito at may interes pa "
+          },
+          {
+            "id": 1,
+            "choice": "Mas mabilis makuha ang pera"
+          },
+          {
+            "id": 2,
+            "choice": "Hindi ito apektado ng inflation"
+          },
+          {
+            "id": 3,
+            "choice": "Mas madaling gastusin kapag nasa bangko"
+          }
+        ]
+      },
+      {
+        "question": "Paano makatutulong ang pag-iimpok sa bangko kapag tumaas ang inflation?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Babawasan ng bangko ang halaga ng pera mo"
+          },
+          {
+            "id": 1,
+            "choice": "Patuloy na kikita ang pera sa interes"
+          },
+          {
+            "id": 2,
+            "choice": "Mabagal ang kita ng pera"
+          },
+          {
+            "id": 3,
+            "choice": "Wala itong epekto sa pagtaas ng presyo"
+          }
+        ]
+      },
+      {
+        "question": "Bukod sa pag-iimpok, ano ang maaaring gawin sa pera upang lumago pa ito?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Itago ito sa isang kahon"
+          },
+          {
+            "id": 1,
+            "choice": "Bumili ng maraming produkto"
+          },
+          {
+            "id": 2,
+            "choice": "I-invest sa stocks, bonds, o mutual funds"
+          },
+          {
+            "id": 3,
+            "choice": "Ibahagi sa iba ang pera"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "items": [
+      {
+        "question": "Ano ang tumutukoy sa kabuuang halaga ng mga produkto at serbisyo na nagawa ng mga mamamayan ng isang bansa, kahit sila ay nasa ibang bansa?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Gross Domestic Product (GDP)"
+          },
+          {
+            "id": 1,
+            "choice": "Gross National Product (GNP)"
+          },
+          {
+            "id": 2,
+            "choice": "Real GNP"
+          },
+          {
+            "id": 3,
+            "choice": "Price Index"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pagkakaiba ng GNP at GDP?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "GNP ay tumutukoy sa kita ng mga mamamayan kahit nasa ibang bansa, habang ang GDP ay tumutukoy sa kita sa loob ng bansa kahit sino pa ang gumawa."
+          },
+          {
+            "id": 1,
+            "choice": "GNP ay base sa kasalukuyang presyo, habang ang GDP ay base sa nakaraang taon."
+          },
+          {
+            "id": 2,
+            "choice": "GNP ay tumutukoy sa kita ng bansa sa loob ng isang buwan, habang ang GDP ay para sa isang taon."
+          },
+          {
+            "id": 3,
+            "choice": "GNP ay sumusukat ng presyo, habang ang GDP ay sumusukat ng kita."
+          }
+        ]
+      },
+      {
+        "question": "Ano ang ibig sabihin kapag tumaas ang Price Index?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Bumaba ang real GNP"
+          },
+          {
+            "id": 1,
+            "choice": "Tumaas ang GDP"
+          },
+          {
+            "id": 2,
+            "choice": "Nagkaroon ng inflation"
+          },
+          {
+            "id": 3,
+            "choice": "Walang pagbabago sa pambansang kita"
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod ang tamang formula para makuha ang Price Index?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "(Current Price / Base Price) * 100"
+          },
+          {
+            "id": 1,
+            "choice": "(Base Price / Current Price) * 100"
+          },
+          {
+            "id": 2,
+            "choice": "(Nominal GNP / Real GNP) * 100"
+          },
+          {
+            "id": 3,
+            "choice": "(GDP / GNP) * 100"
+          }
+        ]
+      },
+      {
+        "question": "Bakit mahalaga ang real GNP sa pagsusukat ng pambansang kita?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Para malaman kung gaano kataas ang presyo ng bilihin"
+          },
+          {
+            "id": 1,
+            "choice": "Para makita ang tunay na paglago ng ekonomiya, inaalis ang epekto ng inflation"
+          },
+          {
+            "id": 2,
+            "choice": "Para makita kung sino ang gumagawa ng mga produkto sa loob ng bansa"
+          },
+          {
+            "id": 3,
+            "choice": "Para malaman kung gaano karaming kita ang nagawa ng mga mamamayan sa ibang bansa"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "items": [
+      {
+        "question": "Ano ang pangunahing epekto ng implasyon sa mga mamimili?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagtaas ng halaga ng pera"
+          },
+          {
+            "id": 1,
+            "choice": "Pagbaba ng kakayahan ng pera na makabili ng produkto"
+          },
+          {
+            "id": 2,
+            "choice": "Pagtataas ng sweldo nang walang pagtaas ng presyo"
+          },
+          {
+            "id": 3,
+            "choice": "Pagiging mura ng mga pangunahing bilihin"
+          }
+        ]
+      },
+      {
+        "question": "Kung tumaas ang CPI mula 100 noong base year patungong 110.03, ano ang antas ng implasyon?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "10.03%"
+          },
+          {
+            "id": 1,
+            "choice": "5.5%"
+          },
+          {
+            "id": 2,
+            "choice": "15%"
+          },
+          {
+            "id": 3,
+            "choice": "7.2%"
+          }
+        ]
+      },
+      {
+        "question": "Paano malalaman ang purchasing power ng piso sa isang taon na may CPI na 110.03?",
+        "correctChoices": [
+          3
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "CPI × 100"
+          },
+          {
+            "id": 1,
+            "choice": "CPI / total weighted price"
+          },
+          {
+            "id": 2,
+            "choice": "(CPI / 100) × 100"
+          },
+          {
+            "id": 3,
+            "choice": "100 / CPI"
+          }
+        ]
+      },
+      {
+        "question": "Kung ang CPI noong 2011 ay 1,445 at naging 1,590 noong 2012, ano ang ipinapahiwatig nito?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Bumaba ang presyo ng mga bilihin"
+          },
+          {
+            "id": 1,
+            "choice": "Pareho lang ang presyo ng mga bilihin"
+          },
+          {
+            "id": 2,
+            "choice": "Tumaas ang presyo ng mga bilihin"
+          },
+          {
+            "id": 3,
+            "choice": "Mas malaki ang kita ng bawat pamilya"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang ibig sabihin ng pagbaba ng purchasing power ng piso mula 1 piso noong 2011 patungong 0.91 piso noong 2012?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Bumaba ang halaga ng mga produkto"
+          },
+          {
+            "id": 1,
+            "choice": "Mas marami kang mabibili gamit ang 1 piso"
+          },
+          {
+            "id": 2,
+            "choice": "Mas kaunti ang mabibili ng 1 piso kumpara noong nakaraang taon"
+          },
+          {
+            "id": 3,
+            "choice": "Hindi nagbago ang kakayahan ng piso na bumili ng produkto"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "items": [
+      {
+        "question": "Ano ang pangunahing layunin ng patakarang piskal ng gobyerno?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pamahalaan ang supply ng pera sa ekonomiya"
+          },
+          {
+            "id": 1,
+            "choice": "Kontrolin ang interest rates sa bangko"
+          },
+          {
+            "id": 2,
+            "choice": "Pamahalaan ang buwis at paggasta ng gobyerno para sa mga proyekto"
+          },
+          {
+            "id": 3,
+            "choice": "Mag-imprenta ng pera upang mapanatili ang balanse ng ekonomiya"
+          }
+        ]
+      },
+      {
+        "question": "Paano nakakatulong ang tamang paggamit ng buwis ng gobyerno sa ekonomiya?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Nagdudulot ng mas mababang interest rates para sa mga tao"
+          },
+          {
+            "id": 1,
+            "choice": "Nakakalikha ng mga proyekto na nagpapataas ng employment rate"
+          },
+          {
+            "id": 2,
+            "choice": "Pinapababa ang halaga ng mga produkto"
+          },
+          {
+            "id": 3,
+            "choice": "Nagpapataas ng halaga ng pera sa merkado"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing responsibilidad ng Bangko Sentral sa ilalim ng patakaran sa pananalapi?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pamahalaan ang supply ng pera at interest rates"
+          },
+          {
+            "id": 1,
+            "choice": "Pamahalaan ang buwis ng mga mamamayan"
+          },
+          {
+            "id": 2,
+            "choice": "Itakda ang presyo ng mga pangunahing bilihin"
+          },
+          {
+            "id": 3,
+            "choice": "Pagkontrol sa paggawa ng mga imprastruktura"
+          }
+        ]
+      },
+      {
+        "question": "Paano nakakatulong ang pagtaas ng interest rates ng Bangko Sentral kapag mataas ang inflation?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pinapataas ang paggastos ng mga tao"
+          },
+          {
+            "id": 1,
+            "choice": "Pinapataas ang bilang ng mga proyekto sa imprastruktura"
+          },
+          {
+            "id": 2,
+            "choice": "Binabawasan ang paggastos at pangungutang ng mga tao"
+          },
+          {
+            "id": 3,
+            "choice": "Pinapababa ang buwis ng mga negosyo"
+          }
+        ]
+      },
+      {
+        "question": "Bakit patuloy na tumataas ang presyo ng mga bilihin kahit na may mga polisiyang ipinatutupad?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Dahil sa kakulangan ng mga pondo ng gobyerno"
+          },
+          {
+            "id": 1,
+            "choice": "Dahil hindi lahat ng aspeto ng ekonomiya ay kayang kontrolin ng gobyerno"
+          },
+          {
+            "id": 2,
+            "choice": "Dahil nagiging masyadong mataas ang tax rates"
+          },
+          {
+            "id": 3,
+            "choice": "Dahil sa kakulangan ng supply ng pera sa merkado"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "items": [
+      {
+        "question": "Ano ang pangunahing indikasyon na umuunlad ang isang bansa?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagtaas ng GDP rate"
+          },
+          {
+            "id": 1,
+            "choice": "Pagbaba ng populasyon"
+          },
+          {
+            "id": 2,
+            "choice": "Pagtaas ng presyo ng bilihin"
+          },
+          {
+            "id": 3,
+            "choice": "Pagdami ng mga kalsada"
+          }
+        ]
+      },
+      {
+        "question": "Paano nakakatulong ang pagbaba ng poverty rate sa pambansang kaunlaran?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Ipinapakita nito na maayos na napapamahalaan ang ekonomiya"
+          },
+          {
+            "id": 1,
+            "choice": "Ipinapakita nito na dumadami ang mga negosyo"
+          },
+          {
+            "id": 2,
+            "choice": "Ipinapakita nito na mas maraming tao ang nag-aabroad"
+          },
+          {
+            "id": 3,
+            "choice": "Ipinapakita nito na tumataas ang demand para sa imported goods"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang isa sa mga positibong epekto ng pagkakaroon ng peace and order sa isang bansa?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagtataas ng buwis"
+          },
+          {
+            "id": 1,
+            "choice": "Pagkakaroon ng mas maayos na ugnayan ng mga tao at pamahalaan"
+          },
+          {
+            "id": 2,
+            "choice": "Pagdami ng mga kasong kriminal"
+          },
+          {
+            "id": 3,
+            "choice": "Pagtaas ng presyo ng mga ari-arian"
+          }
+        ]
+      },
+      {
+        "question": "Anong hakbang ang maaaring gawin ng mga mamamayan upang makatulong sa pag-unlad ng bansa?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Hindi pakikialam sa mga programa ng gobyerno"
+          },
+          {
+            "id": 1,
+            "choice": "Pag-volunteer sa mga community activities"
+          },
+          {
+            "id": 2,
+            "choice": "Pag-iwas sa pagbabayad ng buwis"
+          },
+          {
+            "id": 3,
+            "choice": " Pagkalat ng fake news"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang isa sa mga layunin ng pamahalaan sa pagpapatupad ng mga programa para sa barangay?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Para maging kilala sa ibang bansa"
+          },
+          {
+            "id": 1,
+            "choice": "Para magkaroon ng mas maraming turista"
+          },
+          {
+            "id": 2,
+            "choice": "Para mapaunlad ang kalidad ng pamumuhay ng mga tao"
+          },
+          {
+            "id": 3,
+            "choice": "Para kontrolin ang bawat sektor ng Lipunan"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "items": [
+      {
+        "question": "Bakit mahalaga ang impormal na sektor sa ekonomiya ng bansa?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Dahil lahat ng impormal na manggagawa ay hindi nagbabayad ng buwis"
+          },
+          {
+            "id": 1,
+            "choice": "Dahil nagbibigay ito ng trabaho sa mga taong walang ibang mapagkukunan ng kabuhayan"
+          },
+          {
+            "id": 2,
+            "choice": "Dahil ito ang pangunahing pinagmumulan ng kita ng gobyerno"
+          },
+          {
+            "id": 3,
+            "choice": "Dahil hindi kailangan ng gobyerno ang kanilang ambag sa ekonomiya"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing dahilan kung bakit maraming tao ang napipilitang magtrabaho sa impormal na sektor?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Kulang ang oportunidad sa pormal na sektor"
+          },
+          {
+            "id": 1,
+            "choice": "Mas madali ang proseso sa pagparehistro ng negosyo"
+          },
+          {
+            "id": 2,
+            "choice": "Dahil mas mataas ang sahod sa impormal na sektor"
+          },
+          {
+            "id": 3,
+            "choice": "Dahil mas maraming benepisyo sa impormal na sektor"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang kahalagahan ng impormal na sektor sa pambansang kaunlaran?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Hindi ito mahalaga dahil hindi ito rehistrado sa gobyerno"
+          },
+          {
+            "id": 1,
+            "choice": "Hindi ito bahagi ng ekonomiya dahil hindi ito nagbabayad ng buwis"
+          },
+          {
+            "id": 2,
+            "choice": "Nakakatulong ito sa mga taong hirap makakuha ng trabaho sa pormal na sektor"
+          },
+          {
+            "id": 3,
+            "choice": "Nagiging sanhi ito ng pagbaba ng ekonomiya"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang maaaring maging solusyon upang mabawasan ang bilang ng mga manggagawang nasa impormal na sektor?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagpaparami ng mga oportunidad sa pormal na sektor"
+          },
+          {
+            "id": 1,
+            "choice": "Pagtataas ng buwis para sa mga impormal na manggagawa"
+          },
+          {
+            "id": 2,
+            "choice": "Pagbabawas ng sahod sa pormal na sektor"
+          },
+          {
+            "id": 3,
+            "choice": "Pagbawal sa pagtatrabaho sa impormal na sektor"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang isang hadlang para sa mga gustong magparehistro ng kanilang negosyo sa pormal na sektor?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Sobrang dami ng mga kinakailangang proseso"
+          },
+          {
+            "id": 1,
+            "choice": "Walang oportunidad sa pormal na sektor"
+          },
+          {
+            "id": 2,
+            "choice": "Mas mahirap kumita sa pormal na sektor"
+          },
+          {
+            "id": 3,
+            "choice": "Walang pangangailangan para magparehistro"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "items": [
+      {
+        "question": "Alin sa mga sumusunod ang kabilang sa sektor ng industriya?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagsasaka"
+          },
+          {
+            "id": 1,
+            "choice": "Paggawa ng damit sa pabrika"
+          },
+          {
+            "id": 2,
+            "choice": "Pag-aalaga ng isda"
+          },
+          {
+            "id": 3,
+            "choice": "Paglilingkod sa mga ospital"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing layunin ng sektor ng industriya?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Magbigay ng serbisyong pampubliko"
+          },
+          {
+            "id": 1,
+            "choice": "Maglaan ng kalakal at serbisyo sa pamamagitan ng produksiyon"
+          },
+          {
+            "id": 2,
+            "choice": "Maghatid ng edukasyon sa mga kabataan"
+          },
+          {
+            "id": 3,
+            "choice": "Magpanatili ng kaayusan at kapayapaan"
+          }
+        ]
+      },
+      {
+        "question": "Anong batas ang naglalayong suportahan ang maliliit na negosyo sa Pilipinas sa pamamagitan ng sektor ng industriya?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Barangay Micro Business Enterprises (BMBEs) Act"
+          },
+          {
+            "id": 1,
+            "choice": "Comprehensive Agrarian Reform Program (CARP)"
+          },
+          {
+            "id": 2,
+            "choice": "Philippine Fisheries Code"
+          },
+          {
+            "id": 3,
+            "choice": "Magna Carta for Public School Teachers"
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod ang isang halimbawa ng kontribusyon ng sektor ng industriya sa sektor ng agrikultura?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagbenta ng isda sa palengke"
+          },
+          {
+            "id": 1,
+            "choice": "Paggawa ng abono at makinarya para sa mga magsasaka"
+          },
+          {
+            "id": 2,
+            "choice": "Pagtatanim ng palay"
+          },
+          {
+            "id": 3,
+            "choice": "Pag-aani ng prutas sa bukid"
+          }
+        ]
+      },
+      {
+        "question": "Bakit mahalaga ang sektor ng industriya sa ekonomiya?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Ito ay nagbibigay ng libreng edukasyon sa mga bata"
+          },
+          {
+            "id": 1,
+            "choice": "Ito ay nagmumula sa mga serbisyong pampubliko"
+          },
+          {
+            "id": 2,
+            "choice": "Ito ay lumilikha ng mga produktong ginagamit araw-araw at nagbibigay ng trabaho"
+          },
+          {
+            "id": 3,
+            "choice": "Ito ay nag-aalaga ng mga hayop at halaman sa mga bukid"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "items": [
+      {
+        "question": "Ano ang pangunahing hamon na nararanasan ng mga manggagawa sa sektor ng paglilingkod?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Kakulangan sa kasanayan"
+          },
+          {
+            "id": 1,
+            "choice": "Pagod at kalimutan ng ilang gawain"
+          },
+          {
+            "id": 2,
+            "choice": "Masyadong mataas ang sahod"
+          },
+          {
+            "id": 3,
+            "choice": "Walang benepisyong natatanggap"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang isa sa mga benepisyong natatanggap ng mga empleyado sa sektor ng paglilingkod?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Libreng pabahay"
+          },
+          {
+            "id": 1,
+            "choice": "Mataas na kita mula sa komisyon"
+          },
+          {
+            "id": 2,
+            "choice": "Health insurance tulad ng PhilHealth"
+          },
+          {
+            "id": 3,
+            "choice": "Walang benepisyo"
+          }
+        ]
+      },
+      {
+        "question": "Bakit mahalaga ang pagkilala sa serbisyo ng mga nagtatrabaho sa sektor ng paglilingkod, gaano man ito kaliit o kalaki?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Dahil wala silang iba pang trabaho"
+          },
+          {
+            "id": 1,
+            "choice": "Dahil walang ibang makakagawa nito"
+          },
+          {
+            "id": 2,
+            "choice": "Dahil nakakatulong ito sa ekonomiya"
+          },
+          {
+            "id": 3,
+            "choice": "Dahil madali ang kanilang trabaho"
+          }
+        ]
+      },
+      {
+        "question": "Anong sektor ang tinutukoy na nagbibigay ng serbisyo sa komunidad?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Sektor ng agrikultura"
+          },
+          {
+            "id": 1,
+            "choice": "Sektor ng paglilingkod"
+          },
+          {
+            "id": 2,
+            "choice": "Sektor ng industriya"
+          },
+          {
+            "id": 3,
+            "choice": "Sektor ng kalakalan"
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod ang trabahong kinabibilangan ay sa sektor ng paglilingkod?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Doktor"
+          },
+          {
+            "id": 1,
+            "choice": "Magsasaka"
+          },
+          {
+            "id": 2,
+            "choice": "Minero"
+          },
+          {
+            "id": 3,
+            "choice": "Mangingisda"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "items": [
+      {
+        "question": "Bakit nagkakaroon ng hoarding o pag-iipon ng sobra-sobrang supply ng mga produkto?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Dahil hindi marunong mag-budget ang mga tao"
+          },
+          {
+            "id": 1,
+            "choice": "Upang matiyak na may sapat na supply kapag may sakuna"
+          },
+          {
+            "id": 2,
+            "choice": "Para makapagbenta ng mga lumang produkto"
+          },
+          {
+            "id": 3,
+            "choice": "Para mapanatili ang mas mababang presyo ng bilihin"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang epekto ng sabay-sabay na pagbili o hoarding ng mga produkto sa pamilihan?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Dumadami ang produkto sa merkado"
+          },
+          {
+            "id": 1,
+            "choice": "Tumataas ang presyo at nagkukulang ang supply"
+          },
+          {
+            "id": 2,
+            "choice": "Nagiging mas mura ang mga produkto"
+          },
+          {
+            "id": 3,
+            "choice": "Walang epekto sa presyo at supply"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang pangunahing layunin ng gobyerno sa pagpapataw ng tamang presyo sa mga bilihin?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Upang mapalaki ang kita ng mga negosyante"
+          },
+          {
+            "id": 1,
+            "choice": "Para maiwasan ang pananamantala at panatilihin ang balanse ng presyo"
+          },
+          {
+            "id": 2,
+            "choice": "Para mag-imbak ng mas maraming produkto"
+          },
+          {
+            "id": 3,
+            "choice": "Upang masigurong hindi magbabago ang presyo kahit kailan"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang tawag sa proseso ng pagbili ng mga produkto mula sa ibang bansa?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pag-export"
+          },
+          {
+            "id": 1,
+            "choice": "Pag-import"
+          },
+          {
+            "id": 2,
+            "choice": "Pananamantala"
+          },
+          {
+            "id": 3,
+            "choice": "Pagsusupply"
+          }
+        ]
+      },
+      {
+        "question": "Anong organisasyon ang nabanggit na nagtataguyod ng patas na kalakalan sa pagitan ng mga bansa?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "World Trade Organization (WTO)"
+          },
+          {
+            "id": 1,
+            "choice": "World Health Organization (WHO)"
+          },
+          {
+            "id": 2,
+            "choice": "International Monetary Fund (IMF)"
+          },
+          {
+            "id": 3,
+            "choice": "United Nations (UN)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "items": [
+      {
+        "question": "Anong programa ng gobyerno ang nagbibigay ng lupa at suporta sa mga magsasaka?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Philippine Fisheries Code"
+          },
+          {
+            "id": 1,
+            "choice": "Comprehensive Agrarian Reform Program (CARP)"
+          },
+          {
+            "id": 2,
+            "choice": "Community Livelihood Assistance Program (CLASP)"
+          },
+          {
+            "id": 3,
+            "choice": "Diosdado Macapagal Agrarian Reform Scholarship Program"
+          }
+        ]
+      },
+      {
+        "question": "Anong batas ang naglalayong protektahan ang mga yamang-dagat ng Pilipinas?",
+        "correctChoices": [
+          0
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Philippine Fisheries Code"
+          },
+          {
+            "id": 1,
+            "choice": "Community Livelihood Assistance Program"
+          },
+          {
+            "id": 2,
+            "choice": "Agrarian Reform Law"
+          },
+          {
+            "id": 3,
+            "choice": "Food Security Act"
+          }
+        ]
+      },
+      {
+        "question": "Ano ang layunin ng Community Livelihood Assistance Program (CLASP)?",
+        "correctChoices": [
+          1
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Magbigay ng scholarships sa mga anak ng magsasaka"
+          },
+          {
+            "id": 1,
+            "choice": "Magbigay ng alternatibong kabuhayan sa mga lokal na komunidad"
+          },
+          {
+            "id": 2,
+            "choice": "Tumulong sa proteksyon ng yamang-dagat"
+          },
+          {
+            "id": 3,
+            "choice": "Magsagawa ng mga pagtuturo ukol sa modernong agrikultura"
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod ang isang scholarship program para sa mga anak ng magsasaka?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Philippine Fisheries Code"
+          },
+          {
+            "id": 1,
+            "choice": "Comprehensive Agrarian Reform Program"
+          },
+          {
+            "id": 2,
+            "choice": "Diosdado Macapagal Agrarian Reform Scholarship Program"
+          },
+          {
+            "id": 3,
+            "choice": "Community Livelihood Assistance Program"
+          }
+        ]
+      },
+      {
+        "question": "Alin sa mga sumusunod ang hindi kabilang sa sektor ng agrikultura?",
+        "correctChoices": [
+          2
+        ],
+        "choices": [
+          {
+            "id": 0,
+            "choice": "Pagsasaka"
+          },
+          {
+            "id": 1,
+            "choice": "Pangingisda"
+          },
+          {
+            "id": 2,
+            "choice": "Pagmimina"
+          },
+          {
+            "id": 3,
+            "choice": "Paghahayupan"
           }
         ]
       }

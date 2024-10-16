@@ -6,7 +6,7 @@
         "trigger": 1,
         "scenes": [
             {
-                "bgm": "morning",
+                "bgm": "morning loop",
                 "description": "Gumising at maghandang pumasok sa paaralan.",
                 "id": 0,
                 "lineGroup": [
@@ -157,12 +157,12 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "nene_b_normal",
+                                        "image": "nene1_b_normal",
                                         "placement": "3;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "nene_f_disappointed",
+                                        "image": "nene1_f_disappointed",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     }
@@ -177,7 +177,7 @@
                                 "dialogue": "Pasensya na anak, ‘yan lang talga kinayanan natin ngayon eh.",
                                 "imageChanges": [
                                     {
-                                        "image": "nanay_f_sad",
+                                        "image": "nanay1_f_sad",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -188,7 +188,7 @@
                                 "dialogue": "Sya nga pala, nay. May project po kami sa school. Kailangan daw bumili ng art materials.",
                                 "imageChanges": [
                                     {
-                                        "image": "nene_f_relieved",
+                                        "image": "nene1_f_relieved",
                                         "placement": "3;FACE",
                                         "toShow": true
                                     },
@@ -277,7 +277,7 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Ako at ang aking kaibigan",
                 "id": 1,
                 "lineGroup": [
@@ -337,7 +337,7 @@
                                 "dialogue": "Buti naman at naisipan mo pang pumasok hahaha",
                                 "imageChanges": [
                                     {
-                                        "image": "jaxon1_f_Laughing",
+                                        "image": "jaxon1_f_laughing",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -399,7 +399,7 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Makinig sa turo ng guro at sumagot sa kan'yang mga katanungan",
                 "id": 2,
                 "lineGroup": [
@@ -1042,7 +1042,7 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Pag-alala sa mga kabutihang nagawa",
                 "id": 3,
                 "lineGroup": [
@@ -1063,7 +1063,7 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "mc2_f_thinking_closed_eyes",
+                                        "image": "mc2_f_thinking2",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -1116,7 +1116,7 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "cafeteria_music",
+                "bgm": "cafeteria_music loop",
                 "description": "Pumunta kayo ni Jaxon sa cafeteria at nag-usap tungkol sa pagpili sa pagitan ng pagbili ng gusto mo o kailangan mo.",
                 "id": 4,
                 "lineGroup": [
@@ -1129,11 +1129,11 @@
                                 "dialogue": "Anong bibilhin mo?"
                             },
                             {
-                                "character": "EIAN",
+                                "character": "JAXON",
                                 "dialogue": "Ahh, siguro gusto ko nung palamig na tsokolate. Ikaw ba?",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_f_talking",
+                                        "image": "jaxon1_f_normal",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -1154,18 +1154,18 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "eian1_f_normal",
+                                        "image": "jaxon1_f_normal",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "JAXON",
                                 "dialogue": "Ahh, oo. Pero mas mahal kasi ang tubig. Pero at least sure na mapapawi yung uhaw mo.",
                                 "imageChanges": [
-                                    {
-                                        "image": "eian1_f_compassion",
+                                    {   
+                                        "image": "jaxon1_f_compassion",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -1223,12 +1223,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "jaxon1_f_compassion",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1257,12 +1257,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "jaxon1_f_compassion",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1290,12 +1290,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "jaxon1_f_compassion",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1325,7 +1325,7 @@
                                 "dialogue": "At pag nangyari yun, siguradong bibili ulit ako. Masmagastos pa sa huli!"
                             },
                             {
-                                "character": "EIAN",
+                                "character": "JAXON",
                                 "dialogue": "Sige-sige, yan nalang din sakin.",
                                 "imageChanges": [
                                     {
@@ -1354,12 +1354,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "jaxon1_f_compassion",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1387,12 +1387,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "jaxon1_f_compassion",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1420,12 +1420,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "jaxon1_f_compassion",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1452,7 +1452,7 @@
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "JAXON",
                                 "dialogue": "Sige, ako rin!",
                                 "imageChanges": [
                                     {
@@ -1481,12 +1481,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "jaxon1_f_compassion",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1513,7 +1513,7 @@
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "JAXON",
                                 "dialogue": "Mabili ka pa?"
                             },
                             {
@@ -1534,12 +1534,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_compassion",
+                                "image": "jaxon1_f_compassion",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1621,11 +1621,11 @@
                                 ]
                             },
                             {
-                                "character": "EIAN",
+                                "character": "JAXON",
                                 "dialogue": "Opo.",
                                 "imageChanges": [
                                     {
-                                        "image": "eian1_f_talking",
+                                        "image": "jaxon1_f_normal",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -1764,12 +1764,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_b_uniform",
+                                "image": "jaxon1_b_uniform",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "eian1_f_confused",
+                                "image": "jaxon1_f_confused",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -1787,7 +1787,7 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "cafeteria_ambience",
+                "bgm": "cafeteria_ambience loop",
                 "description": "Nag-uusap kayo ng iyong kaibigan patungkol sa mga pagkain na mayroon sa kantina",
                 "id": 5,
                 "lineGroup": [
@@ -1827,7 +1827,7 @@
                                         "toShow": true
                                     },
                                     {
-                                        "image": "mc2_f_thinking_open_eyes",
+                                        "image": "mc2_f_thinking3",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -1890,7 +1890,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "school cafeteria",
+                        "background": "school_cafeteria",
                         "dialogueLines": [
                             {
                                 "character": "JAXON",
@@ -1935,7 +1935,7 @@
                                 "dialogue": "Edi lilibre kita! Basta sabay tayo mag recess bukas.",
                                 "imageChanges": [
                                     {
-                                        "image": "mc1_f_embarassed",
+                                        "image": "mc1_f_embarrassed",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -1957,7 +1957,7 @@
                                 "dialogue": "Ako ang bahala, may budget naman ako.",
                                 "imageChanges": [
                                     {
-                                        "image": "jaxon1_f_Laughing",
+                                        "image": "jaxon1_f_laughing",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -1968,7 +1968,7 @@
                                 "dialogue": "Pero…",
                                 "imageChanges": [
                                     {
-                                        "image": "mc1_f_embarassed",
+                                        "image": "mc1_f_embarrassed",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -2026,7 +2026,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc2_f_thinking_closed_eyes",
+                                "image": "mc2_f_thinking2",
                                 "placement": "1;FACE",
                                 "toShow": true
                             },
@@ -2054,7 +2054,7 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Tumulong sa iba at unawaing mabuti ang kahalagahan ng matalinong pagdedesisyon",
                 "id": 6,
                 "lineGroup": [
@@ -2162,7 +2162,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc2_f_thinking_smile",
+                                "image": "mc2_f_thinking",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -2195,7 +2195,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc2_f_thinking_smile",
+                                "image": "mc2_f_thinking",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -2551,7 +2551,7 @@
                                 "dialogue": "Ano ka ba, basic nalang sa atin ang magdecide haha",
                                 "imageChanges": [
                                     {
-                                        "image": "jaxon1_f_Laughing",
+                                        "image": "jaxon1_f_laughing",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -2747,7 +2747,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_compassion",
-                                        "placement": "4;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -2761,7 +2761,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc2_f_thinking_open_eyes",
+                                "image": "mc2_f_thinking3",
                                 "placement": "1;FACE",
                                 "toShow": true
                             },
@@ -2835,7 +2835,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc2_f_thinking_open_eyes",
+                                "image": "mc2_f_thinking3",
                                 "placement": "1;FACE",
                                 "toShow": true
                             },
@@ -2868,7 +2868,6 @@
                     },
                     {
                         "background": "streets",
-                        "defaultNextLine": 13,
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -2903,7 +2902,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_compassion",
-                                        "placement": "4;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -2925,8 +2924,8 @@
                                 "dialogue": "Problem solved na naman para sa atin partner. Naks, ang galing naman natin magdesisyon!",
                                 "imageChanges": [
                                     {
-                                        "image": "mc1_f_embarassed",
-                                        "placement": "4;FACE",
+                                        "image": "mc1_f_embarrassed",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -2983,7 +2982,7 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "discovery",
+                "bgm": "discovery loop",
                 "description": "Umuwi ka sa inyong bahay at sinalubong ang iyong magulang",
                 "id": 7,
                 "lineGroup": [
@@ -3079,7 +3078,7 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "market_music",
+                "bgm": "market_music loop",
                 "description": "Pumunta ka sa palengke kasama ang iyong ina. Nakakita ka ng damit na matagal mo nang gustong magkaroon.",
                 "id": 8,
                 "lineGroup": [
@@ -3629,7 +3628,6 @@
                     },
                     {
                         "background": "market",
-                        "defaultNextLine": 11,
                         "dialogueLines": [
                             {
                                 "character": "NANAY",
@@ -3640,7 +3638,7 @@
                                 "dialogue": "Nay, huwag dito, nakakahiya.",
                                 "imageChanges": [
                                     {
-                                        "image": "mc1_f_embarassed",
+                                        "image": "mc1_f_embarrassed",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -3748,7 +3746,7 @@
                                 "dialogue": "Hehe, oo nga, Nay. Ngayon na-appreciate ko na ‘yung simpleng bagay na ‘yan.",
                                 "imageChanges": [
                                     {
-                                        "image": "mc1_f_embarassed",
+                                        "image": "mc1_f_embarrassed",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -3791,13 +3789,13 @@
                 "scene": "Kahulugan at Kahalagahan ng Ekonomiks"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 9,
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 0,
                         "dialogueLines": [
@@ -3890,10 +3888,11 @@
                     }
                 ],
                 "nextScene": 10,
-                "scene": "Pagsusuri I"
+                "scene": "Pagsusuri I",
+                "transition": "FTB"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Nagpunta kayo sa tindahan ng baboy at napag-usapan ang tungkol sa kakulangan at kakapusan.",
                 "id": 10,
                 "lineGroup": [
@@ -4126,7 +4125,7 @@
                 "scene": "Kakapusan"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Ang pag-uusap ng mag-ina patungkol sa pamimili",
                 "id": 11,
                 "lineGroup": [
@@ -4197,7 +4196,7 @@
                 "scene": "Kakapusan"
             },
             {
-                "bgm": "problem_rises",
+                "bgm": "problem_rises loop",
                 "description": "Ang pagbanggit ng kakapusan",
                 "id": 12,
                 "lineGroup": [
@@ -4289,7 +4288,7 @@
                     },
                     {
                         "background": "market",
-                        "bgm": "market_ambience",
+                        "bgm": "market_ambience loop",
                         "dialogueLines": [
                             {
                                 "character": "NANAY",
@@ -4355,13 +4354,13 @@
                 "scene": "Kakapusan"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 13,
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 1,
                         "dialogueLines": [
@@ -4479,7 +4478,7 @@
                 "scene": "Pagsusuri II"
             },
             {
-                "bgm": "market_music",
+                "bgm": "market_music loop",
                 "description": "Ang pag-uusap patungkol sa pangunahing pangangailangan at tamang pagkonsumo",
                 "id": 14,
                 "lineGroup": [
@@ -4654,7 +4653,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "bgm": "market_ambience",
+                        "bgm": "market_ambience loop",
                         "background": "market",
                         "dialogueLines": [
                             {
@@ -4798,7 +4797,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "nanay1_b_casual",
+                                "image": "aling_isabel1_b_normal",
                                 "placement": "4;BODY",
                                 "toShow": true
                             },
@@ -4821,7 +4820,7 @@
                 "scene": "Pangangailangan at Kagustuhan"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Patuloy ang pag-uusap ng mag-ina sa kanilang kailangan pati na kaligtasan",
                 "id": 15,
                 "lineGroup": [
@@ -5143,7 +5142,7 @@
                                 "dialogue": "Pero, ano pa po ba ang mga natitirang pangangailangan pa ng mga tao?",
                                 "imageChanges": [
                                     {
-                                        "image": "curious",
+                                        "image": "mc1_f_curious",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -5585,13 +5584,13 @@
                 "scene": "Pangangailangan at Kagustuhan"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 16,
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 2,
                         "dialogueLines": [
@@ -5724,7 +5723,7 @@
                 "scene": "Pagsusuri III"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "May isa ka pang bagay na gusto mong malaman. Tinanong mo ang iyong ina tungkol dito habang naglalakad kayo pauwi.",
                 "id": 17,
                 "lineGroup": [
@@ -5941,13 +5940,13 @@
                 "scene": "Mga Organisasyon ng Negosyo"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 18,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 3,
                         "dialogueLines": [
@@ -6061,7 +6060,7 @@
                 "scene": "Pagsusuri IV"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Ninais mong malaman ang kahalagahan ng pagmamahal at bakit ito isa sa pangangailangan ng tao",
                 "id": 19,
                 "lineGroup": [
@@ -6258,13 +6257,13 @@
                 "scene": "Alokasyon"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 20,
                 "lineGroup": [
                     {
                         "background": "living_room",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 4,
                         "dialogueLines": [
@@ -6453,7 +6452,7 @@
                 "scene": "Pagsusuri V"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Muling nagkausap ang pamilya hinggil sa pagkonsumo at pano maging isang mataling mamimili",
                 "id": 21,
                 "lineGroup": [
@@ -6763,13 +6762,13 @@
                 "scene": "Pagkonsumo"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 22,
                 "lineGroup": [
                     {
                         "background": "dining_table",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 5,
                         "dialogueLines": [
@@ -6895,7 +6894,7 @@
                 "scene": "Pagsusuri VI"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Kinausap mo ang iyong tatay dahil sa hindi maunawaang takdang-aralin",
                 "id": 23,
                 "lineGroup": [
@@ -7148,13 +7147,13 @@
                 "scene": "Produksyon"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 24,
                 "lineGroup": [
                     {
                         "background": "living_room",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 6,
                         "dialogueLines": [
@@ -7257,7 +7256,7 @@
                 "scene": "Pagsusuri VII"
             },
             {
-                "bgm": "problem_rises",
+                "bgm": "problem_rises loop",
                 "description": "Oras na nang pagtulog ngunit mayroon paring bumabagabag sa iyong isipan",
                 "id": 25,
                 "lineGroup": [
@@ -7478,7 +7477,7 @@
         "shortDescription": "Mga Pangunahing Konsepto ng Ekonomiks"
     },
     {
-        "bgm": "nibble_mystery",
+        "bgm": "nibble_mystery loop",
         "category": "Side Quest",
         "chapter": "",
         "id": 1,
@@ -7496,7 +7495,7 @@
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Hays. Good morning, Philip…",
+                                "dialogue": "Hays. Good morning loop, Philip…",
                                 "imageChanges": [
                                     {
                                         "image": "mc1_b_pajamas",
@@ -7508,18 +7507,16 @@
                                         "placement": "1;FACE",
                                         "toShow": true
                                     },
-                                    [
-                                        {
-                                            "image": "nibble2_b_cute",
-                                            "placement": "2;BODY",
-                                            "toShow": true
-                                        },
-                                        {
-                                            "image": "nibble2_f_cute",
-                                            "placement": "2;FACE",
-                                            "toShow": true
-                                        }
-                                    ]
+                                    {
+                                        "image": "nibble2_b_cute",
+                                        "placement": "2;BODY",
+                                        "toShow": true
+                                    },
+                                    {
+                                        "image": "nibble2_f_cute",
+                                        "placement": "2;FACE",
+                                        "toShow": true
+                                    }
                                 ]
                             },
                             {
@@ -7722,7 +7719,7 @@
         "trigger": 3,
         "scenes": [
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Napansin mong tumataas ang bilihin at hindi napigilang ikuwento ito sa magulang.",
                 "id": 0,
                 "lineGroup": [
@@ -8307,13 +8304,13 @@
                 "scene": "Ang Demand, Supply at Elastisidad nito"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 1,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 7,
                         "dialogueLines": [
@@ -8393,7 +8390,7 @@
                 "scene": "Pagsusuri VIII"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Sa pagbabalik sa klase, may bagong aralin na kailangan mong maintindihan at sagutin.",
                 "id": 2,
                 "lineGroup": [
@@ -8403,11 +8400,11 @@
                         "dialogueLines": [
                             {
                                 "character": "TEACHER",
-                                "dialogue": "Good morning, class!"
+                                "dialogue": "Good morning loop, class!"
                             },
                             {
                                 "character": "STUDENTS",
-                                "dialogue": "Good morning, Ma’am Castro!",
+                                "dialogue": "Good morning loop, Ma’am Castro!",
                                 "imageChanges": [
                                     {
                                         "image": "empty",
@@ -8870,7 +8867,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "mc1_f_embarassed",
+                                "image": "mc1_f_embarrassed",
                                 "placement": "3;FACE",
                                 "toShow": true
                             }
@@ -9094,13 +9091,13 @@
                 "scene": "Ang Pamilihan at ang Estruktura nito"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 3,
                 "lineGroup": [
                     {
                         "background": "classroom",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 8,
                         "dialogueLines": [
@@ -9211,7 +9208,7 @@
                 "scene": "Pagsusuri IX"
             },
             {
-                "bgm": "discovery",
+                "bgm": "discovery loop",
                 "description": "Dahil sa iyong kasalukuyang problema, ay muli kang humiling ng tulong kay Aling Isabel",
                 "id": 4,
                 "lineGroup": [
@@ -9806,13 +9803,13 @@
                 "scene": "Ang Interaksyon ng Demand at Supply"
             },
             {
-                "bgm": "discovery",
+                "bgm": "discovery loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 5,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 9,
                         "dialogueLines": [
@@ -9912,7 +9909,7 @@
                 "scene": "Pagsusuri X"
             },
             {
-                "bgm": "problem_rises",
+                "bgm": "problem_rises loop",
                 "description": "Handa ka nang umuwi sa inyong tahanan ng biglang nakatanggap ka ng masamang balita",
                 "id": 6,
                 "lineGroup": [
@@ -10014,7 +10011,7 @@
                 "scene": "Ugnayan ng Pamilihan at Pamahalaan"
             },
             {
-                "bgm": "problem_rises",
+                "bgm": "problem_rises loop",
                 "description": "Agad kang umuwi sa inyong tahanan upang kumustahin ang may sakit na si Nene",
                 "id": 7,
                 "lineGroup": [
@@ -10121,7 +10118,7 @@
                 "scene": "Ugnayan ng Pamilihan at Pamahalaan"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Ikaw nagdesisyon kung ano ang mas magandang bilihin na gamot para sa iyong kapatid",
                 "id": 8,
                 "lineGroup": [
@@ -10458,13 +10455,13 @@
                 "scene": "Ang Ugnayan ng Pamilihan at Pamahalaan"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 9,
                 "lineGroup": [
                     {
                         "background": "pharmacy",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 10,
                         "dialogueLines": [
@@ -10545,7 +10542,7 @@
                 "scene": "Pagsusuri XI"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Agad na bumalik sa kanilang tahanan ang pangunahing karakter upang ibigay ang gamot sa kanyang kapatid",
                 "id": 10,
                 "lineGroup": [
@@ -10900,7 +10897,7 @@
         "id": 3,
         "scenes": [
             {
-                "bgm": "nibble_mystery",
+                "bgm": "nibble_mystery loop",
                 "description": "Muli kang naging mapag-isa at iniisip ang mga maaaring gawin sa buhay",
                 "id": 0,
                 "lineGroup": [
@@ -11059,7 +11056,7 @@
         "id": 4,
         "scenes": [
             {
-                "bgm": "market_music",
+                "bgm": "market_music loop",
                 "description": "Isang malaking pasasalamat ang ipinakita mo kay Aling Isabel dahil sa kanyang naging tulong sa iyong buhay",
                 "id": 0,
                 "lineGroup": [
@@ -11471,13 +11468,13 @@
                 "scene": "Ang Paikot na Daloy ng Ekonomiya"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 1,
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 11,
                         "dialogueLines": [
@@ -11584,7 +11581,7 @@
                 "scene": "Pagsusuri XII"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Muli kayong nag-usap ng iyong matalik na kaibigan at napag-usapan ang patungkol sa pag-iimpok",
                 "id": 2,
                 "lineGroup": [
@@ -11865,13 +11862,13 @@
                 "scene": "Ugnayan ng Kita, Pag-iimpok at Pagkonsumo"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 3,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 12,
                         "dialogueLines": [
@@ -11952,7 +11949,7 @@
                 "scene": "Pagsusuri XIII"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "May nais kang malaman na isang mahalagang aralin na itinuro ng inyong guro. Agad naman itong ipinaliwanag ng iyong kaibigan",
                 "id": 4,
                 "lineGroup": [
@@ -12284,7 +12281,7 @@
                                 "dialogue": "Sana all, malambot.",
                                 "imageChanges": [
                                     {
-                                        "image": "mc1_f_embarassed",
+                                        "image": "mc1_f_embarrassed",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
@@ -12299,13 +12296,13 @@
                 "scene": "Ang Pambansang Kita"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 5,
                 "lineGroup": [
                     {
                         "background": "classroom",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 13,
                         "dialogueLines": [
@@ -12405,7 +12402,7 @@
                 "scene": "Pagsusuri XIV"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Habang pauwi, narinig mo ang usapan ng ilang tao tungkol sa pagtaas ng mga presyo ng bilihin.",
                 "id": 6,
                 "lineGroup": [
@@ -12693,13 +12690,13 @@
                 "scene": "Ang Implasyon"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 7,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 14,
                         "dialogueLines": [
@@ -12788,7 +12785,7 @@
                 "scene": "Pagsusuri XV"
             },
             {
-                "bgm": "discovery",
+                "bgm": "discovery loop",
                 "description": "Nakausap mo ang iyong ina at sinubukan ninyong ayusing ang kasalukuyang problema",
                 "id": 8,
                 "lineGroup": [
@@ -13302,7 +13299,7 @@
                 "scene": "Prayoridad: Pag-aaral Bago Negosyo"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Ngayon mo napagtanto ang naging desisyon mo sa buhay pagdating sa kahalagahan ng maayos na pag-iimpok",
                 "id": 9,
                 "lineGroup": [
@@ -13455,7 +13452,7 @@
                 "scene": "Pag-impok: Pera sa Bangko o Sa Bulsa?"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Dahil sa patuloy na pagtaas ng mga bilihin ay muli kang nagtungo kay Aling Isabel upang linawin ang mga bagay -bagay",
                 "id": 10,
                 "lineGroup": [
@@ -13955,13 +13952,13 @@
                 "scene": "Patakarang Piskal at Pananalapi"
             },
             {
-                "bgm": "market_ambience",
+                "bgm": "market_ambience loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 11,
                 "lineGroup": [
                     {
                         "background": "market",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 15,
                         "dialogueLines": [
@@ -14051,7 +14048,7 @@
         "trigger": 6,
         "scenes": [
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Narinig ninyong magkaibigan na nagsimula nang magbigay ng anunsyo ang inyong kapitan tungkol sa isang napakahalagang usapin.",
                 "id": 0,
                 "lineGroup": [
@@ -14860,13 +14857,13 @@
                 "scene": "Konsepto ng Palatandaan ng Pambansang Kaunlaran"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 1,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 16,
                         "dialogueLines": [
@@ -14966,7 +14963,7 @@
                 "scene": "Pagsusuri XVII"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Nakasalubong mo ang iyong tatay na may dala-dalang magandang balita",
                 "id": 2,
                 "lineGroup": [
@@ -15362,13 +15359,13 @@
                 "scene": "Impormal na sektor"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 3,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 17,
                         "dialogueLines": [
@@ -15464,7 +15461,7 @@
                 "scene": "Pagsusuri XVIII"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Patuloy parin ang pagkukwentuhan ng mag-ama hanggang sila ay umuwi",
                 "id": 4,
                 "lineGroup": [
@@ -15616,13 +15613,13 @@
                 "scene": "Sektor ng Industriya"
             },
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 5,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 18,
                         "dialogueLines": [
@@ -15710,7 +15707,7 @@
                 "scene": "Pagsusuri XIX"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Nagkaroon kayo ng pagkakataon na mag-usap ng iyong guro patungkol sa paglilingkod",
                 "id": 6,
                 "lineGroup": [
@@ -15937,13 +15934,13 @@
                 "scene": "Sektor ng Paglilingkod"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 7,
                 "lineGroup": [
                     {
                         "background": "classroom",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 19,
                         "dialogueLines": [
@@ -16054,7 +16051,7 @@
                 "scene": "Pagsusuri XX"
             },
             {
-                "bgm": "problem_rises",
+                "bgm": "problem_rises loop",
                 "description": "Nakita mo ang iyong nanay sa inyong tindahan na aligaga sa pag-ayos ng mga paninda at gamit.",
                 "id": 8,
                 "lineGroup": [
@@ -16355,7 +16352,7 @@
                 "scene": "Mga Pagsubok at Pangarap: Pagharap sa Kinabukasan"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Agad kayong pumunta sa Grocery Store upang bumili ng mga kinakailangan bago ang sakuna",
                 "id": 9,
                 "lineGroup": [
@@ -16706,13 +16703,13 @@
                 "scene": "Kalakalang Panlabas"
             },
             {
-                "bgm": "learning",
+                "bgm": "learning loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 10,
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 20,
                         "dialogueLines": [
@@ -16793,7 +16790,7 @@
                 "scene": "Pagsusuri XXI"
             },
             {
-                "bgm": "problem_rises",
+                "bgm": "problem_rises loop",
                 "description": "Tuluyan na ngang tumama ang bagyo na sumira sa kabuhayan ng maraming tao at pati narin ng iyong negosyo.",
                 "id": 11,
                 "lineGroup": [
@@ -16989,7 +16986,7 @@
                 "scene": "Ang pinsala ng bagyo"
             },
             {
-                "bgm": "discovery",
+                "bgm": "discovery loop",
                 "description": "Narinig mo ang usapan ng iyong mga kapitbahay patungkol sa pinsala ng bagyong tumama sa inyong lugar",
                 "id": 12,
                 "lineGroup": [
@@ -17211,13 +17208,13 @@
                 "scene": "Sektor ng Agrikultura"
             },
             {
-                "bgm": "discovery",
+                "bgm": "discovery loop",
                 "description": "Suriin ang iyong kaalaman",
                 "id": 13,
                 "lineGroup": [
                     {
                         "background": "balcon",
-                        "bgm": "taking_quiz",
+                        "bgm": "taking_quiz loop loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 21,
                         "dialogueLines": [
@@ -17328,7 +17325,7 @@
         "id": 6,
         "scenes": [
             {
-                "bgm": "sunset",
+                "bgm": "sunset loop",
                 "description": "Napunta ka sa isang mahirap na sitwasyon kung saan ang tanging nais mo ay magsimulang muli.",
                 "id": 6,
                 "lineGroup": [
@@ -17564,7 +17561,7 @@
         "id": 7,
         "scenes": [
             {
-                "bgm": "morning",
+                "bgm": "morning loop",
                 "description": "Sa wakas! Nakamit mo na rin ang tagumpay na iyong inaasam. Muli kang nakabangon at naiahon ang iyong pamilya sa kahirapan",
                 "id": 0,
                 "lineGroup": [

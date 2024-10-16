@@ -57,7 +57,7 @@ public class StoryResourceCaller {
                 return R.drawable.sprite_eian1_b_uniform;
         }
         else if (imgResource.startsWith("aling_isabel")) {
-            if ("aling_isabel1_b_casual".equals(imgResource))
+            if ("aling_isabel1_b_normal".equals(imgResource))
                 return R.drawable.sprite_aling_isabel1_b_casual;
         }
         else if (imgResource.startsWith("pork_vendor1")) {
@@ -65,7 +65,7 @@ public class StoryResourceCaller {
                 return R.drawable.sprite_pork_vendor1_b_normal;
         }
         else if (imgResource.startsWith("nene")) {
-            if ("nene_b_normal".equals(imgResource))
+            if ("nene1_b_normal".equals(imgResource))
                 return R.drawable.sprite_nene1_b_normal;
         }
         else if (imgResource.startsWith("tito1")) {
@@ -77,7 +77,7 @@ public class StoryResourceCaller {
                 return R.drawable.sprite_kapitan1_b_normal;
         }
         else if (imgResource.startsWith("tatay")) {
-            if ("tatay_b_normal".equals(imgResource))
+            if ("tatay1_b_normal".equals(imgResource))
                 return R.drawable.sprite_tatay1_b_normal;
         }
         else if (imgResource.startsWith("pharma")) {
@@ -133,9 +133,9 @@ public class StoryResourceCaller {
             switch (imgResource) {
                 case "mc2_f_thinking":
                     return R.drawable.sprite_mc2_f_thinking;
-                case "mc2_f_thinking_closed_eyes":
+                case "mc2_f_thinking2":
                     return R.drawable.sprite_mc2_f_thinking2;
-                case "mc2_f_thinking_open_eyes":
+                case "mc2_f_thinking3":
                     return R.drawable.sprite_mc2_f_thinking3;
             }
         }
@@ -223,15 +223,15 @@ public class StoryResourceCaller {
         }
         else if (imgResource.startsWith("nene")) {
             switch (imgResource) {
-                case "nene_f_disappointed":
+                case "nene1_f_disappointed":
                     return R.drawable.sprite_nene1_f_disappointed;
-                case "nene_f_relieved":
+                case "nene1_f_relieved":
                     return R.drawable.sprite_nene1_f_relieved;
-                case "nene_f_smile":
+                case "nene1_f_smiling":
                     return R.drawable.sprite_nene1_f_smiling;
-                case "nene_f_sad":
+                case "nene1_f_sad":
                     return R.drawable.sprite_nene1_f_sad;
-                case "nene_f_normal":
+                case "nene1_f_normal":
                     return R.drawable.sprite_nene1_f_normal;
             }
 
@@ -260,13 +260,13 @@ public class StoryResourceCaller {
         }
         else if (imgResource.startsWith("tatay")) {
             switch (imgResource) {
-                case "tatay_f_smile":
+                case "tatay1_f_smile":
                     return R.drawable.sprite_tatay1_f_smiling;
-                case "tatay_f_talking":
+                case "tatay1_f_talking":
                     return R.drawable.sprite_tatay1_f_talking;
-                case "tatay_f_confused":
+                case "tatay1_f_confused":
                     return R.drawable.sprite_tatay1_f_confused;
-                case "tatay_f_normal":
+                case "tatay1_f_normal":
                     return R.drawable.sprite_tatay1_f_normal;
             }
         }

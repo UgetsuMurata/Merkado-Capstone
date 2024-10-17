@@ -17,6 +17,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/gui_back_button"
+            android:contentDescription="Back Button" />
+
+        <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/icon_factory" />
@@ -25,10 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
-            android:fontFamily="@font/text"
+            android:fontFamily="@font/header"
             android:gravity="center"
             android:text="Suppliers"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>

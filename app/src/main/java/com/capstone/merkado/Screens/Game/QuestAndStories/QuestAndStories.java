@@ -35,7 +35,7 @@ public class QuestAndStories extends AppCompatActivity {
     Merkado merkado;
 
     // VIEWS
-    ImageView showAll, showQuests, showStories;
+    ImageView showAll, showQuests, showStories, backButton;
     TextView qasListEmpty, qasName, qasDescription;
     RecyclerView qasList, qasRewards;
     LinearLayout qasRewardsSection;
@@ -59,6 +59,7 @@ public class QuestAndStories extends AppCompatActivity {
         qasRewards = findViewById(R.id.qas_rewards);
         qasRewardsSection = findViewById(R.id.qas_rewards_section);
         qasStartStory = findViewById(R.id.qas_start_story);
+        backButton = findViewById(R.id.back_button);
 
         noSelectedQAS();
 
@@ -66,7 +67,12 @@ public class QuestAndStories extends AppCompatActivity {
         showAll.setOnClickListener(view -> retrieveDataToShow(ShowMode.ALL));
         showQuests.setOnClickListener(view -> retrieveDataToShow(ShowMode.QUEST));
         showStories.setOnClickListener(view -> retrieveDataToShow(ShowMode.STORY));
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void retrieveDataToShow(ShowMode showMode) {

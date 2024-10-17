@@ -6,6 +6,7 @@ import static com.capstone.merkado.Screens.Game.Sectors.Factory.FactoryActivityM
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -47,7 +48,7 @@ public class Factory extends AppCompatActivity {
     TextView factoryHeader;
 
     // SIDE MENU
-    ImageView onProduction;
+    ImageView onProduction, backButton;
     RecyclerView productionChoices;
 
     // PANELS
@@ -97,6 +98,7 @@ public class Factory extends AppCompatActivity {
 
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
+        backButton = findViewById(R.id.back_button);
 
         if (merkado.getPlayerData().getPlayerFactory() == null ||
                 merkado.getPlayerData().getPlayerFactory().getFactoryMarketId() == null) {
@@ -196,6 +198,14 @@ public class Factory extends AppCompatActivity {
         setUpBoosterUpgrades();
         merkado.getPlayerData().setPlayerInventoryListener(inventories -> popupAdapter.setInventoryContents(inventories));
         popupAdapter.setInventoryContents(merkado.getPlayerData().getPlayerInventory());
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
     private Long calculateAddedEnergy() {

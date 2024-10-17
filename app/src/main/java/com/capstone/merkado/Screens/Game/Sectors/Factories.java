@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class Factories extends AppCompatActivity {
     TextView factoryName, factoryType, showNoProducts;
     LinearLayout showProducts;
     WoodenButton goToFactory;
+    ImageView backButton;
 
     List<PlayerFactory> playerFactories;
 
@@ -52,6 +54,7 @@ public class Factories extends AppCompatActivity {
         goToFactory = findViewById(R.id.go_to_supplier);
         showProducts = findViewById(R.id.show_products);
         showNoProducts = findViewById(R.id.show_products_none);
+        backButton = findViewById(R.id.back_button);
 
         playerFactories = new ArrayList<>();
 
@@ -72,6 +75,12 @@ public class Factories extends AppCompatActivity {
                     else Bot.createBotStores();
                     factoriesGridAdapter.notifyDataSetChanged();
                 });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void setUpFactoryDetails(PlayerFactory playerFactory, Integer marketId) {

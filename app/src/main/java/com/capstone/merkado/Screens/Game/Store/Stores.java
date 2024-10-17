@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class Stores extends AppCompatActivity {
     TextView storeName, showNoProducts;
     LinearLayout showProducts;
     CardView goToStore;
+    ImageView backButton;
 
     List<PlayerMarkets> playerMarkets;
 
@@ -50,6 +52,7 @@ public class Stores extends AppCompatActivity {
         goToStore = findViewById(R.id.go_to_store);
         showProducts = findViewById(R.id.show_products);
         showNoProducts = findViewById(R.id.show_products_none);
+        backButton = findViewById(R.id.back_button);
 
         playerMarkets = new ArrayList<>();
 
@@ -68,6 +71,12 @@ public class Stores extends AppCompatActivity {
                     else Bot.createBotStores();
                     storesGridAdapter.notifyDataSetChanged();
                 });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void setUpStoreDetails(PlayerMarkets playerMarket, Integer marketId) {

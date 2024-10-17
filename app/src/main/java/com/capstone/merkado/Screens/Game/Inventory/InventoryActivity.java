@@ -34,7 +34,7 @@ public class InventoryActivity extends AppCompatActivity {
     Merkado merkado;
 
     // SIDEBAR
-    ImageView sbInventoryShowCollectibles, sbInventoryShowEdibles, sbInventoryShowResources;
+    ImageView sbInventoryShowCollectibles, sbInventoryShowEdibles, sbInventoryShowResources, backButton;
 
     // CONTENTS
     ImageView cResourceGroupIcon;
@@ -60,6 +60,7 @@ public class InventoryActivity extends AppCompatActivity {
 
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
+        backButton = findViewById(R.id.back_button);
 
         initializeViews();
 
@@ -69,6 +70,12 @@ public class InventoryActivity extends AppCompatActivity {
             this.inventoryList = inventoryList;
             this.inventoryMap = mapInventoryList(inventoryList);
             filterInventoryAndShow(currentMode);
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
         });
     }
 

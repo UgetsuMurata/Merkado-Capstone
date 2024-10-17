@@ -147,7 +147,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
-        android:src="@drawable/icon_close"
+        android:src="@drawable/gui_close_button"
         app:layout_constraintEnd_toEndOf="@+id/materialview"
         app:layout_constraintTop_toTopOf="@id/materialview" />
 

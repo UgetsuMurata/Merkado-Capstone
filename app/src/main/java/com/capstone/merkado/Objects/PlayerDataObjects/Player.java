@@ -26,6 +26,7 @@ public class Player {
     private Market market;
     private List<PlayerStory> storyHistory;
     private FactoryData factory;
+    private PlayerFBExtractor1.PlayerObjectives objectives;
 
     public Player() {
         this.accountId = "";
@@ -38,6 +39,7 @@ public class Player {
         this.market = null;
         this.storyHistory = null;
         this.factory = null;
+        this.objectives = new PlayerFBExtractor1.PlayerObjectives();
     }
 
     /**
@@ -55,6 +57,7 @@ public class Player {
         this.market = playerFBExtractor.getMarket();
         this.factory = playerFBExtractor.getFactory();
         this.playerStoryList = convertToPlayerStory(playerFBExtractor.getStoryQueue());
+        this.objectives = playerFBExtractor.getObjectives();
     }
 
     public Player(@Nullable PlayerFBExtractor2 playerFBExtractor) {
@@ -68,6 +71,7 @@ public class Player {
         this.market = playerFBExtractor.getMarket();
         this.factory = playerFBExtractor.getFactory();
         this.playerStoryList = convertToPlayerStory(new PlayerFBExtractor1(playerFBExtractor).getStoryQueue());
+        this.objectives = playerFBExtractor.getObjectives();
     }
 
     public String getAccountId() {
@@ -148,6 +152,14 @@ public class Player {
 
     public void setFactory(FactoryData factory) {
         this.factory = factory;
+    }
+
+    public PlayerFBExtractor1.PlayerObjectives getObjectives() {
+        return objectives;
+    }
+
+    public void setObjectives(PlayerFBExtractor1.PlayerObjectives objectives) {
+        this.objectives = objectives;
     }
 
     private List<PlayerStory> convertToPlayerStory(List<PlayerFBExtractor1.StoryQueue> storyQueueList) {

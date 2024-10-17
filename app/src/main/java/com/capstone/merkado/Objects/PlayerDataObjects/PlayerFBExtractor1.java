@@ -24,6 +24,7 @@ public class PlayerFBExtractor1 {
     private Market market;
     private List<PlayerFBExtractor1.StoryQueue> storyHistory;
     private FactoryData factory;
+    private PlayerObjectives objectives;
 
     // No-argument constructor required for Firebase
     public PlayerFBExtractor1() {
@@ -41,6 +42,7 @@ public class PlayerFBExtractor1 {
         this.storyQueue = playerFBExtractor2.getStoryQueue();
         this.storyHistory = playerFBExtractor2.getStoryHistory();
         this.factory = playerFBExtractor2.getFactory();
+        this.objectives = playerFBExtractor2.getObjectives();
     }
 
     // Getters and setters
@@ -122,6 +124,14 @@ public class PlayerFBExtractor1 {
 
     public void setFactory(FactoryData factory) {
         this.factory = factory;
+    }
+
+    public PlayerObjectives getObjectives() {
+        return objectives;
+    }
+
+    public void setObjectives(PlayerObjectives objectives) {
+        this.objectives = objectives;
     }
 
     // Nested classes for complex fields
@@ -209,6 +219,45 @@ public class PlayerFBExtractor1 {
 
         public void setTrigger(Integer trigger) {
             this.trigger = trigger;
+        }
+    }
+
+    public static class PlayerObjectives {
+        Integer id;
+        Integer currentObjectiveId;
+        Boolean done;
+
+        public PlayerObjectives() {
+        }
+
+        public PlayerObjectives(Integer id, Integer currentObjectiveId, Boolean done) {
+            this.id = id;
+            this.currentObjectiveId = currentObjectiveId;
+            this.done = done;
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public Integer getCurrentObjectiveId() {
+            return currentObjectiveId;
+        }
+
+        public void setCurrentObjectiveId(Integer currentObjectiveId) {
+            this.currentObjectiveId = currentObjectiveId;
+        }
+
+        public Boolean getDone() {
+            return done;
+        }
+
+        public void setDone(Boolean done) {
+            this.done = done;
         }
     }
 }

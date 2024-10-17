@@ -24,12 +24,16 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.IconButton;
 import com.capstone.merkado.CustomViews.IconToggle;
 import com.capstone.merkado.CustomViews.IconToggle.ToggleStatus;
+import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
+import com.capstone.merkado.Helpers.NotificationHelper.InAppNotification;
 import com.capstone.merkado.Helpers.RewardProcessor;
 import com.capstone.merkado.Helpers.StoryTriggers;
 import com.capstone.merkado.Helpers.StoryVariableHelper;
 import com.capstone.merkado.Helpers.StringProcessor;
+import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1.PlayerObjectives;
+import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter.GameRewards;
 import com.capstone.merkado.Objects.StoryDataObjects.ImagePlacementData;
@@ -40,10 +44,12 @@ import com.capstone.merkado.R;
 
 import org.jetbrains.annotations.Contract;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -80,7 +86,7 @@ public class StoryMode extends AppCompatActivity {
     // VARIABLES
     PlayerStory playerStory;
     Integer currentQueueIndex;
-    Integer currentLineGroupIndex = 0;
+    Integer currentDialogueIndex = 0;
     Integer nextLineGroupId;
     Integer trigger;
     Boolean temporaryStopAutoPlay = false;
@@ -89,6 +95,19 @@ public class StoryMode extends AppCompatActivity {
     Runnable runnable;
     Integer quizScore = 0;
     RunnableState runnableState;
+
+    Long chapterIndex;
+    Long sceneIndex;
+    Integer lineGroupIndex;
+
+    InAppNotification inAppNotification;
+
+    Boolean waitForNextChapter_start = false;
+    Boolean waitForNextChapter_end = false;
+    Boolean waitForNextScene_start = false;
+    Boolean waitForNextScene_end = false;
+    Boolean waitForNextLineGroup_start = false;
+    Boolean waitForNextLineGroup_end = false;
 
     ActivityResultLauncher<Intent> quizLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -105,14 +124,18 @@ public class StoryMode extends AppCompatActivity {
                 }
             });
 
+    ActivityResultLauncher<Intent> objectiveDisplayLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    checkObjective();
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gam_story_mode);
-
-        if (getIntent().hasExtra("PROLOGUE")) {
-            StoryTriggers.objectives(this, 1);
-        }
 
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
@@ -142,6 +165,13 @@ public class StoryMode extends AppCompatActivity {
         sceneName = findViewById(R.id.scene_name);
         chapterName = findViewById(R.id.chapter_name);
 
+        inAppNotification = new InAppNotification(findViewById(R.id.notification_view));
+
+        merkado.extractObjectives(getApplicationContext());
+        if (getIntent().hasExtra("PROLOGUE")) {
+            StoryTriggers.objectives(this, 1, objectiveDisplayLauncher);
+        }
+
         handler = new Handler();
         runnableState = RunnableState.NULL;
 
@@ -158,8 +188,19 @@ public class StoryMode extends AppCompatActivity {
             return;
         }
 
+        chapterIndex = playerStory.getChapter().getId();
+        sceneIndex = playerStory.getCurrentScene().getId();
+        lineGroupIndex = playerStory.getCurrentLineGroup().getId();
+        waitForNextChapter_start = merkado.getPlayerData().getObjectiveDone() != null && merkado.getPlayerData().getObjectiveDone();
+        waitForNextChapter_end = waitForNextChapter_start;
+
+        if (!getIntent().hasExtra("PROLOGUE")) {
+            checkObjective();
+        }
+
         trigger = playerStory.getTrigger();
 
+        playBGM(playerStory.getCurrentScene().getBgm());
         initializeScreen(playerStory.getCurrentLineGroup());
 
         autoplayToggle.setOnClickListener(v -> clickArea.performClick());
@@ -280,7 +321,7 @@ public class StoryMode extends AppCompatActivity {
      */
     private void setUpScreen(@NonNull LineGroup lineGroup) {
         // reset index
-        currentLineGroupIndex = 0;
+        currentDialogueIndex = 0;
 
         // change chapter/scene details
         sceneName.setText(playerStory.getCurrentScene().getScene());
@@ -299,50 +340,56 @@ public class StoryMode extends AppCompatActivity {
 
         // after half-a-second, start the story.
         new Handler().postDelayed(() -> {
-
+            currentDialogueIndex = 0;
             // display first line
-            LineGroup.DialogueLine dialogueLine = lineGroup.getDialogueLines().get(currentLineGroupIndex);
-            displayLine(dialogueLine);
+            try {
+                LineGroup.DialogueLine dialogueLine = lineGroup.getDialogueLines().get(currentDialogueIndex);
+                displayLine(dialogueLine);
 
-            if (dialogueLine.getVariable() != null)
-                if ("GET".equals(dialogueLine.getVariable().getMethod())) {
-                    try {
-                        playerStory = StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory).get();
-                    } catch (ExecutionException | InterruptedException e) {
-                        Log.e("processVariable",
-                                String.format(
-                                        "StoryVariableHelper.processVariable() received an error: %s",
-                                        e));
+                if (dialogueLine.getVariable() != null)
+                    if ("GET".equals(dialogueLine.getVariable().getMethod())) {
+                        try {
+                            playerStory = StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory).get();
+                        } catch (ExecutionException | InterruptedException e) {
+                            Log.e("processVariable",
+                                    String.format(
+                                            "StoryVariableHelper.processVariable() received an error: %s",
+                                            e));
+                        }
+                    } else {
+                        StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory);
                     }
-                } else {
-                    StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory);
-                }
 
-            // set up onClickListener for the click area.
-            clickArea.setOnClickListener(v -> {
-                // increment the index
-                currentLineGroupIndex++;
+                // set up onClickListener for the click area.
+                clickArea.setOnClickListener(v -> {
+                    // increment the index
+                    currentDialogueIndex++;
+                    if (!waitForNextLineGroup_start || !waitForNextLineGroup_end) checkObjective();
 
-                // check if the index exceeds the size of the line group. return if so.
-                if (currentLineGroupIndex >= lineGroup.getDialogueLines().size()) {
-                    // reached the end.
-                    if (lineGroup.getGradedQuiz() != null) {
-                        openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
-                    } else currentLineEnded();
-                    return;
-                }
+                    // check if the index exceeds the size of the line group. return if so.
+                    if (currentDialogueIndex >= lineGroup.getDialogueLines().size()) {
+                        // reached the end.
+                        if (lineGroup.getGradedQuiz() != null) {
+                            openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
+                        } else currentLineEnded();
+                        return;
+                    }
 
-                // display line
-                try {
-                    LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentLineGroupIndex);
-                    displayLine(dialogueLine1);
-                } catch (ArrayIndexOutOfBoundsException ignore) {
-                    // reached the end.
-                    if (lineGroup.getGradedQuiz() != null) {
-                        openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
-                    } else currentLineEnded();
-                }
-            });
+                    // display line
+                    try {
+                        LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentDialogueIndex);
+                        displayLine(dialogueLine1);
+                    } catch (ArrayIndexOutOfBoundsException ignore) {
+                        // reached the end.
+                        if (lineGroup.getGradedQuiz() != null) {
+                            openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
+                        } else currentLineEnded();
+                    }
+                });
+            } catch (IndexOutOfBoundsException e) {
+                Log.e("Dialogue Line Index Error", String.format("%d;%d;%d;%d;%s", chapterIndex,
+                        sceneIndex, lineGroupIndex, currentDialogueIndex, e.getMessage()));
+            }
         }, skipToggle.isActive() ? 10 : 500);
 
         // hide the choice GUI
@@ -495,7 +542,8 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentLineEnded() {
-        if (!isHistory)
+        if (!isHistory && (playerStory.getCurrentScene().getRewards() != null &&
+                playerStory.getCurrentScene().getRewards().isEmpty()))
             RewardProcessor.processRewards(
                     this,
                     merkado.getPlayerId(),
@@ -524,6 +572,13 @@ public class StoryMode extends AppCompatActivity {
                 finish();
                 return;
             }
+            lineGroupIndex = lineGroup.getId();
+            currentDialogueIndex = 0;
+            if (!waitForNextScene_start || !waitForNextScene_end) {
+                if (!waitForNextLineGroup_start) waitForNextLineGroup_start = false;
+                if (!waitForNextLineGroup_end) waitForNextLineGroup_end = false;
+                checkObjective();
+            }
             if (!isHistory)
                 StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
@@ -542,6 +597,15 @@ public class StoryMode extends AppCompatActivity {
             StoryDataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
             if (trigger != null) StoryTriggers.trigger(merkado.getPlayerId(), trigger);
             return;
+        }
+        sceneIndex = currentScene.getId();
+        lineGroupIndex = 0;
+        currentDialogueIndex = 0;
+        playBGM(currentScene.getBgm());
+        if (!waitForNextChapter_start || !waitForNextChapter_end) {
+            if (!waitForNextChapter_start) waitForNextScene_start = false;
+            if (!waitForNextChapter_end) waitForNextScene_end = false;
+            checkObjective();
         }
         playerStory.setCurrentScene(currentScene);
         if (currentScene.getNextScene() != null) {
@@ -562,6 +626,8 @@ public class StoryMode extends AppCompatActivity {
                 finish();
                 return;
             }
+            lineGroupIndex = lineGroup.getId();
+            currentDialogueIndex = 0;
 
             StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
@@ -815,11 +881,124 @@ public class StoryMode extends AppCompatActivity {
         SKIP, AUTOPLAY, NULL
     }
 
-    public void processQuizReward(Integer gameRewards) {
-        GameRewards rewards = new GameRewards();
-        rewards.setResourceId(1L);
-        rewards.setResourceQuantity(Long.valueOf(gameRewards));
-        RewardProcessor.processRewards(this, merkado.getPlayerId(), Collections.singletonList(rewards));
+    private void processQuizReward(Integer gameRewards) {
+        RewardProcessor.processRewards(this, merkado.getPlayerId(),
+                Collections.singletonList(new GameRewards(1L, Long.valueOf(gameRewards))));
+    }
+
+    private void checkObjective() {
+        if (!waitForNextChapter_start && !waitForNextScene_start && !waitForNextLineGroup_start) {
+            String startTrigger = merkado.getPlayerData().getCurrentObjective().getStartTrigger();
+            List<Integer> startTriggers = splitTriggers(startTrigger);
+            int startResult = processTriggers(startTriggers,
+                    merkado.getPlayerData().getCurrentObjective(),
+                    InAppNotification.NEW_OBJECTIVE);
+            switch (startResult) {
+                case -1:
+                    waitForNextChapter_start = true;
+                    break;
+                case -2:
+                    waitForNextScene_start = true;
+                    break;
+                case -3:
+                    waitForNextLineGroup_start = true;
+                    break;
+            }
+        }
+        if (!waitForNextChapter_end && !waitForNextScene_end && !waitForNextLineGroup_end) {
+            Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] GOT INSIDE.",
+                    chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
+            String endTrigger = merkado.getPlayerData().getCurrentObjective().getEndTrigger();
+            List<Integer> endTriggers = splitTriggers(endTrigger);
+            Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] WITH TRIGGER [%s]",
+                    chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex, endTrigger));
+            int endResult = processTriggers(endTriggers,
+                    merkado.getPlayerData().getCurrentObjective(),
+                    InAppNotification.DONE_OBJECTIVE);
+            Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] WITH END RESULT [%d]",
+                    chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex, endResult));
+            switch (endResult) {
+                case -1:
+                    waitForNextChapter_end = true;
+                    break;
+                case -2:
+                    waitForNextScene_end = true;
+                    break;
+                case -3:
+                    waitForNextLineGroup_end = true;
+                    break;
+            }
+        }
+    }
+
+    private int processTriggers(List<Integer> trigger, Objectives.Objective objective, String mode) {
+        // Convert indexes
+        int chapterIndex = Math.toIntExact(this.chapterIndex);
+        int sceneIndex = Math.toIntExact(this.sceneIndex);
+
+        // Compare chapter index
+        if (trigger.get(0) < chapterIndex) return 0;
+        if (trigger.get(0) > chapterIndex) return -1;
+        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] EQUAL CHAPTER",
+                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));  // next chapter
+
+        // Compare scene index
+        if (trigger.get(1) < sceneIndex) return 0;
+        if (trigger.get(1) > sceneIndex) return -2;  // next scene
+        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] EQUAL SCENE",
+                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
+
+        // Compare line group index
+        if (trigger.get(2) < lineGroupIndex) return 0;
+        if (trigger.get(2) > lineGroupIndex) return -3;  // next line group
+        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] EQUAL LINE GROUP",
+                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
+
+        // Compare dialogue index
+        if (!trigger.get(3).equals(currentDialogueIndex)) return 0;
+        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] EQUAL DIALOGUE INDEX",
+                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
+
+        // If all checks pass, send notification
+        processSendNotification(objective.getObjective(), mode);
+        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] NOTIFICATION PROCESS SENT",
+                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
+        return 0;  // success
+    }
+
+    private void processSendNotification(String objective, String mode) {
+        inAppNotification.sendMessage(objective, mode);
+        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] SENT MESSAGE",
+                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
+        if (InAppNotification.DONE_OBJECTIVE.equals(mode)) {
+            if (merkado.getPlayerData().getObjectives().getObjectives().size() >
+                    merkado.getPlayerData().getCurrentObjective().getId()) {
+                PlayerDataFunctions.setCurrentObjective(merkado.getPlayerId(), new PlayerObjectives(
+                        merkado.getPlayerData().getObjectives().getId(),
+                        merkado.getPlayerData().getCurrentObjective().getId() + 1,
+                        false
+                ));
+                new Handler().postDelayed(this::checkObjective, 500);
+            } else {
+                PlayerDataFunctions.setCurrentObjective(merkado.getPlayerId(), new PlayerObjectives(
+                        merkado.getPlayerData().getObjectives().getId(),
+                        merkado.getPlayerData().getCurrentObjective().getId(),
+                        true // ERROR: this turns "done" to true.
+                ));
+                waitForNextChapter_start = true;
+                waitForNextChapter_end = true;
+                checkObjective();
+            }
+        }
+    }
+
+    private List<Integer> splitTriggers(String trigger) {
+        String[] stringNumbers = trigger.split(",");
+        List<Integer> numbers = new ArrayList<>();
+        for (String num : stringNumbers) {
+            numbers.add(Integer.parseInt(num));
+        }
+        return numbers;
     }
 
     @Override
@@ -827,5 +1006,10 @@ public class StoryMode extends AppCompatActivity {
         super.onPause();
         skipToggle.setStatus(ToggleStatus.IDLE);
         pauseAutoplay();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

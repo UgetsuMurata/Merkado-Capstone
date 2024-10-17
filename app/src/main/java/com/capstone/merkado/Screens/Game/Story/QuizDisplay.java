@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -39,6 +40,8 @@ public class QuizDisplay extends AppCompatActivity {
     Integer expReward;
     Quiz quiz;
 
+    Boolean displayedResults = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,15 +63,6 @@ public class QuizDisplay extends AppCompatActivity {
         choice3 = new ChoiceModifier(this, findViewById(R.id.choice_3), findViewById(R.id.choice_3_bg));
         choice4 = new ChoiceModifier(this, findViewById(R.id.choice_4), findViewById(R.id.choice_4_bg));
 
-        int id = getIntent().getIntExtra("QUIZ_ID", -1);
-        if (id == -1) {
-            finish();
-            Toast.makeText(getApplicationContext(),
-                    "Error occurred when retrieving quiz.",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         String bg = getIntent().getStringExtra("BACKGROUND");
         if (bg != null && bg.isEmpty()) {
             int bgRes = StoryResourceCaller.retrieveBackgroundResource(bg);
@@ -81,11 +75,36 @@ public class QuizDisplay extends AppCompatActivity {
         expReward = 0;
         continueButton.setOnClickListener(v -> endQuiz());
 
-        getQuestions(id);
+        int id = getIntent().getIntExtra("QUIZ_ID", -1);
+        if (id == -1) {
+            finish();
+            Toast.makeText(getApplicationContext(),
+                    "Error occurred when retrieving quiz.",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        } else if (id == -2) {
+            getDiagnosticTool();
+        } else {
+            getQuestions(id);
+        }
+
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (!displayedResults) {
+                    setupResult();
+                }
+                else endQuiz();
+            }
+        });
     }
 
     private void getQuestions(Integer id) {
         JsonHelper.getQuizList(getApplicationContext(), quizzes -> setUp(quizzes.get(id)));
+    }
+
+    private void getDiagnosticTool() {
+        JsonHelper.getDiagnosticTool(getApplicationContext(), this::setUp);
     }
 
     private void setUp(Quiz quiz) {
@@ -141,6 +160,7 @@ public class QuizDisplay extends AppCompatActivity {
     }
 
     private void setupResult() {
+        displayedResults = true;
         questionView.setVisibility(View.GONE);
         resultView.setVisibility(View.VISIBLE);
 
@@ -159,7 +179,8 @@ public class QuizDisplay extends AppCompatActivity {
         setResult(Activity.RESULT_OK, new Intent()
                 .putExtra("SCORE", score)
                 .putExtra("EXP_REWARD", expReward)
-                .putExtra("QUIZ_ID", quiz.getId()));
+                .putExtra("QUIZ_ID", quiz.getId())
+                .putExtras(getIntent()));
         finish();
     }
 

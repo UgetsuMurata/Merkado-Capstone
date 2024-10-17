@@ -2,6 +2,8 @@ package com.capstone.merkado.Helpers;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
+
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RewardProcessor {
-    public static void processRewards(Activity activity, Integer playerId, List<Chapter.GameRewards> rewards) {
+    public static void processRewards(Activity activity, Integer playerId, @NonNull List<Chapter.GameRewards> rewards) {
         List<Chapter.GameRewards> remainingRewards = new ArrayList<>(specialRewards(activity, playerId, rewards));
 
         for (Chapter.GameRewards reward : remainingRewards) {
@@ -35,7 +37,7 @@ public class RewardProcessor {
         }
     }
 
-    private static List<Chapter.GameRewards> specialRewards(Activity activity, Integer playerId, List<Chapter.GameRewards> rewards) {
+    private static List<Chapter.GameRewards> specialRewards(Activity activity, Integer playerId, @NonNull List<Chapter.GameRewards> rewards) {
         List<Chapter.GameRewards> gameRewardsCopy = new ArrayList<>();
         for (Chapter.GameRewards reward : rewards) {
             Long rewardId = reward.getResourceId();
@@ -58,7 +60,7 @@ public class RewardProcessor {
         // check if playerLevel changed.
         if (maxLevel > prevMaxLevel) {
             StoryTriggers.checkForLevelTriggers(playerId, playerLevel);
-            StoryTriggers.objectives(activity, playerLevel);
+            StoryTriggers.objectives(activity, playerLevel, null);
         }
     }
 }

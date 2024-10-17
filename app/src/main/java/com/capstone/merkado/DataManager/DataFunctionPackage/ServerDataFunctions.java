@@ -136,6 +136,44 @@ public class ServerDataFunctions {
         );
     }
 
+    public static void checkPlayerPretest(String serverId, Integer playerId, ValueReturn<Boolean> hasTaken) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(), "server/%s/diagnostic_tests/pre_test_scores/%d", serverId, playerId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null) return;
+                    hasTaken.valueReturn(dataSnapshot.exists()); // if it does not exist, then there is no existing data.
+                }
+        );
+    }
+
+    public static void setPlayerPretest(String serverId, Integer playerId, Integer score) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(), "server/%s/diagnostic_tests/pre_test_scores/%d", serverId, playerId),
+                score
+        );
+    }
+
+    public static void checkPlayerPostTest(String serverId, Integer playerId, ValueReturn<Boolean> hasTaken) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(
+                String.format(Locale.getDefault(), "server/%s/diagnostic_tests/post_test_scores/%d", serverId, playerId),
+                dataSnapshot -> {
+                    if (dataSnapshot == null) return;
+                    hasTaken.valueReturn(dataSnapshot.exists()); // if it does not exist, then there is no existing data.
+                }
+        );
+    }
+
+    public static void setPlayerPostTest(String serverId, Integer playerId, Integer score) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format(Locale.getDefault(), "server/%s/diagnostic_tests/post_test_scores/%d", serverId, playerId),
+                score
+        );
+    }
+
     public static class UpdaterPlayerListener {
         ValueReturn<Integer> returnValue;
         FirebaseData firebaseData;

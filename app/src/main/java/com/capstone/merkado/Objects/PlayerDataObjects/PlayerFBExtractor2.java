@@ -22,6 +22,7 @@ public class PlayerFBExtractor2 {
     private List<PlayerFBExtractor1.StoryQueue> storyHistory;
     private Market market;
     private FactoryData factory;
+    private PlayerFBExtractor1.PlayerObjectives objectives;
 
     // No-argument constructor required for Firebase
     public PlayerFBExtractor2() {
@@ -106,5 +107,13 @@ public class PlayerFBExtractor2 {
 
     public void setFactory(FactoryData factory) {
         this.factory = factory;
+    }
+
+    public PlayerFBExtractor1.PlayerObjectives getObjectives() {
+        return objectives;
+    }
+
+    public void setObjectives(PlayerFBExtractor1.PlayerObjectives objectives) {
+        this.objectives = objectives;
     }
 }

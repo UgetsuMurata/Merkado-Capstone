@@ -1,0 +1,124 @@
+{
+    "items": [
+        {
+            "question": "Ang Ekonomiks ay isang agham panlipunan na nag-aaral sa wastong paggamit ng limitadong yaman upang tugunan ang walang katapusang pangangailangan at kagustuhan ng tao. Hinango ito sa salitang Griyego na “oiko” at “nomos” na nangangahulugang",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Pamamahala ng bansa"
+                },
+                {
+                    "id": 1,
+                    "choice": "Pamamahala ng negosyo"
+                },
+                {
+                    "id": 2,
+                    "choice": "Pamamahala ng tahanan"
+                },
+                {
+                    "id": 3,
+                    "choice": "Pamamahala ng yaman"
+                }
+            ]
+        },
+        {
+            "question": "Ang kakapusan o scarcity sa mga pinagkukunang yaman ay suliranin hindi lang ng mahihirap kundi maging ng maunlad na bansa. Ano ang dahilan at nagkakaroon ng kakapusan?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Dahil sa mga kalamidad na pumipinsala sa pinagkukunanag- yaman."
+                },
+                {
+                    "id": 1,
+                    "choice": "Dahil sa mga mapang-abusong paggamit ng tao sa mga pinagkukunang- yaman."
+                },
+                {
+                    "id": 2,
+                    "choice": "Dahil limitado ang pinagkukunang yaman at walang katapusan ang pangangailangan at kagustuhan ng tao."
+                },
+                {
+                    "id": 3,
+                    "choice": "Dahil sa mapagsamantalang mga negosyante na minanipula ang suplay upang tumaas ang presyo ng mga yamang ito."
+                }
+            ]
+        },
+        {
+            "question": "Ito ay tumutukoy sa mekanismo ng pamamahagi ng pinagkukunang-yaman, produkto at serbisyo upang maayos na maipamahagi at lubos na magamit ang lahat ng pinagkukunang-yaman ng bansa.",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Alokasyon"
+                },
+                {
+                    "id": 1,
+                    "choice": "Distribusyon"
+                },
+                {
+                    "id": 2,
+                    "choice": "Pagkonsumo"
+                },
+                {
+                    "id": 3,
+                    "choice": "Produksiyon"
+                }
+            ]
+        },
+        {
+            "question": "Ito ay tumutukoy sa mekanismo ng pamamahagi ng pinagkukunang-yaman, produkto at serbisyo upang maayos na maipamahagi at lubos na magamit ang lahat ng pinagkukunang-yaman ng bansa.",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Alokasyon"
+                },
+                {
+                    "id": 1,
+                    "choice": "Distribusyon"
+                },
+                {
+                    "id": 2,
+                    "choice": "Produksiyon"
+                },
+                {
+                    "id": 3,
+                    "choice": "Pagkonsumo"
+                }
+            ]
+        },
+        {
+            "question": "Sa ilalim ng Command Economy, ang pagpapasya kung ano, paano, para kanino at gaano karaming produkto ang dapat likhain ay nakasalalay sa kamay ng",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Konsyumer"
+                },
+                {
+                    "id": 1,
+                    "choice": "Prodyuser"
+                },
+                {
+                    "id": 2,
+                    "choice": "Pamilihan"
+                },
+                {
+                    "id": 3,
+                    "choice": "Pamahalaan"
+                }
+            ]
+        }
+    ]
+}

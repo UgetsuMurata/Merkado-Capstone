@@ -323,6 +323,12 @@ public class PlayerDataFunctions {
         });
     }
 
+    public static void setCurrentObjective(Integer playerId, PlayerFBExtractor1.PlayerObjectives objectives) {
+        FirebaseData firebaseData = new FirebaseData();
+        String dataPath = String.format(Locale.getDefault(), "player/%d/objectives", playerId);
+        firebaseData.setValue(dataPath, objectives);
+    }
+
     public static class PlayerDataUpdates {
         FirebaseData firebaseData;
         String childPath;

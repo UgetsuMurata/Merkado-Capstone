@@ -1,10 +1,13 @@
 package com.capstone.merkado.Helpers;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.Nullable;
+
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1.StoryQueue;
@@ -16,11 +19,21 @@ public class StoryTriggers {
         StoryDataFunctions.addStoryToPlayer(playerId, createObject(trigger));
     }
 
-    public static void objectives(Activity activity, Integer trigger) {
+    public static void objectives(Activity activity, Integer trigger, @Nullable ActivityResultLauncher<Intent> objectiveDisplayLauncher) {
         Intent intent = new Intent(activity.getApplicationContext(), ObjectivesDisplay.class);
         intent.putExtra("OBJECTIVE", Merkado.getInstance().getObjectivesList().get(trigger - 1));
-        activity.startActivity(intent);
+        PlayerDataFunctions.setCurrentObjective(Merkado.getInstance().getPlayerId(), setUpPlayerObjectives(trigger - 1));
+        if (objectiveDisplayLauncher != null) objectiveDisplayLauncher.launch(intent);
+        else activity.startActivity(intent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    private static PlayerFBExtractor1.PlayerObjectives setUpPlayerObjectives(Integer id){
+        PlayerFBExtractor1.PlayerObjectives playerObjectives = new PlayerFBExtractor1.PlayerObjectives();
+        playerObjectives.setId(id);
+        playerObjectives.setCurrentObjectiveId(0);
+        playerObjectives.setDone(false);
+        return playerObjectives;
     }
 
     public static void checkForLevelTriggers(Integer playerId, Integer level) {

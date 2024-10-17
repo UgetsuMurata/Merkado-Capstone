@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
@@ -31,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ServerLoadingScreen extends AppCompatActivity {
 
     private Merkado merkado;
-    Integer maxProcesses = 6;
+    Integer maxProcesses = 7;
     BasicServerData basicServerData;
     PlayerFBExtractor1 playerFBExtractor;
     List<PlayerStory> playerStoryList;
@@ -72,16 +75,19 @@ public class ServerLoadingScreen extends AppCompatActivity {
                         process1();
                         break;
                     case 2:
-                        merkado.extractObjectives(getApplicationContext());
-                        break;
-                    case 3:
                         process2();
                         break;
-                    case 4:
+                    case 3:
                         process3();
                         break;
-                    case 5:
+                    case 4:
                         process4();
+                        break;
+                    case 5:
+                        process5();
+                        break;
+                    case 6:
+                        process6();
                     default:
                         break;
                 }
@@ -127,10 +133,27 @@ public class ServerLoadingScreen extends AppCompatActivity {
         future.join();
     }
 
-    /**
-     * Process 2 processes all Story queue
-     */
     private void process2() {
+        long currentTimeMillis = System.currentTimeMillis();
+        merkado.extractObjectives(getApplicationContext());
+        while (System.currentTimeMillis() - currentTimeMillis < 1000);
+    }
+
+    private void process3() {
+        long currentTimeMillis = System.currentTimeMillis();
+        ServerDataFunctions.checkPlayerPretest(basicServerData.getId(),
+                basicServerData.getPlayerId(),
+                hasTaken -> merkado.setHasTakenPretest(hasTaken != null && hasTaken));
+        ServerDataFunctions.checkPlayerPostTest(basicServerData.getId(),
+                basicServerData.getPlayerId(),
+                hasTaken -> merkado.setHasTakenPostTest(hasTaken != null && hasTaken));
+        while (System.currentTimeMillis() - currentTimeMillis < 1000);
+    }
+
+    /**
+     * Process 4 processes all Story queue
+     */
+    private void process4() {
         if (playerFBExtractor != null) {
             playerStoryList = new ArrayList<>();
             if (playerFBExtractor.getStoryQueue() == null) return;
@@ -158,9 +181,9 @@ public class ServerLoadingScreen extends AppCompatActivity {
     }
 
     /**
-     * Process 3 processes Task queue
+     * Process 5 processes Task queue
      */
-    private void process3() {
+    private void process5() {
         if (playerFBExtractor != null) {
             playerTaskList = new ArrayList<>();
             if (playerFBExtractor.getTaskQueue() == null) return;
@@ -177,7 +200,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
     /**
      * Check for prologue.
      */
-    private void process4() {
+    private void process6() {
         Integer index = 0;
         if (merkado.getPlayer().getPlayerStoryList() == null) return;
         for (PlayerStory playerStory : merkado.getPlayer().getPlayerStoryList()) {

@@ -131,6 +131,7 @@ public class Chapter implements Parcelable {
         private Integer nextScene;
         private List<GameRewards> rewards;
         private String description;
+        private String bgm;
 
         public Scene() {
         }
@@ -141,32 +142,27 @@ public class Chapter implements Parcelable {
             } else {
                 id = in.readLong();
             }
-            lineGroup = new ArrayList<>();
-            if (in.readByte() == 1) in.readList(lineGroup, LineGroup.class.getClassLoader());
+            lineGroup = in.createTypedArrayList(LineGroup.CREATOR);
             scene = in.readString();
             if (in.readByte() == 0) {
                 nextScene = null;
             } else {
                 nextScene = in.readInt();
             }
-            rewards = new ArrayList<>();
-            if (in.readByte() == 1) in.readList(rewards, QASReward.class.getClassLoader());
+            rewards = in.createTypedArrayList(GameRewards.CREATOR);
             description = in.readString();
+            bgm = in.readString();
         }
 
         @Override
-        public void writeToParcel(@NonNull Parcel dest, int flags) {
+        public void writeToParcel(Parcel dest, int flags) {
             if (id == null) {
                 dest.writeByte((byte) 0);
             } else {
                 dest.writeByte((byte) 1);
                 dest.writeLong(id);
             }
-            if (lineGroup == null || lineGroup.isEmpty()) dest.writeByte((byte) 0);
-            else {
-                dest.writeByte((byte) 1);
-                dest.writeList(lineGroup);
-            }
+            dest.writeTypedList(lineGroup);
             dest.writeString(scene);
             if (nextScene == null) {
                 dest.writeByte((byte) 0);
@@ -174,12 +170,9 @@ public class Chapter implements Parcelable {
                 dest.writeByte((byte) 1);
                 dest.writeInt(nextScene);
             }
-            if (rewards == null || rewards.isEmpty()) dest.writeByte((byte) 0);
-            else {
-                dest.writeByte((byte) 1);
-                dest.writeList(rewards);
-            }
+            dest.writeTypedList(rewards);
             dest.writeString(description);
+            dest.writeString(bgm);
         }
 
         @Override
@@ -246,6 +239,14 @@ public class Chapter implements Parcelable {
         public void setDescription(String description) {
             this.description = description;
         }
+
+        public String getBgm() {
+            return bgm;
+        }
+
+        public void setBgm(String bgm) {
+            this.bgm = bgm;
+        }
     }
 
     public static class GameRewards implements Parcelable {
@@ -253,6 +254,11 @@ public class Chapter implements Parcelable {
         Long resourceQuantity;
 
         public GameRewards() {
+        }
+
+        public GameRewards(Long resourceId, Long resourceQuantity) {
+            this.resourceId = resourceId;
+            this.resourceQuantity = resourceQuantity;
         }
 
         protected GameRewards(Parcel in) {

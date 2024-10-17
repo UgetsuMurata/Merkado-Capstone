@@ -46,6 +46,14 @@
     <string name="app_update">App Update</string>
     <string name="app_update_contents">There is a pending update to Merkado. Please update the app and restart.</string>
 
+    <!--CREATE ECONOMY-->
+    <string name="change_image"><u>Change Image</u></string>
+    <string name="dot">.</string>
+    <string name="create_economy_agreement">By clicking "Create Server," you agree to the</string>
+    <string name="create_economy_agreement2"><u>Terms and Conditions</u></string>
+    <string name="create_server_header">Create Server</string>
+    <string name="server_settings_header">Server Settings</string>
+
     <!--CONTENT DESCRIPTIONS-->
     <string name="food_factory_bg">FOOD FACTORY BG</string>
     <string name="manufacturing_factory_bg">MANUFACTURING FACTORY BG</string>
@@ -59,5 +67,6 @@
     <string name="image_container">IMAGE CONTAINER</string>
     <string name="lock_icon">LOCK ICON</string>
     <string name="filter_overlay">FILTER OVERLAY</string>
+    <string name="icon">ICON</string>
 
 </resources>

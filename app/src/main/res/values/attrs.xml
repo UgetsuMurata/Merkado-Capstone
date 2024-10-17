@@ -8,45 +8,45 @@
         <attr name="showLimitProgress" format="boolean" />
     </declare-styleable>
     <declare-styleable name="WoodenButton">
-        <attr name="buttonMode" format="enum" >
-            <enum name="shortSign" value="0"/>
-            <enum name="mediumSign" value="1"/>
-            <enum name="longSign" value="2"/>
+        <attr name="buttonMode" format="enum">
+            <enum name="shortSign" value="0" />
+            <enum name="mediumSign" value="1" />
+            <enum name="longSign" value="2" />
         </attr>
         <attr name="buttonText" format="string" />
         <attr name="buttonState" format="enum">
-            <enum name="idle" value="0"/>
-            <enum name="active" value="1"/>
-            <enum name="disabled" value="2"/>
+            <enum name="idle" value="0" />
+            <enum name="active" value="1" />
+            <enum name="disabled" value="2" />
         </attr>
         <attr name="changeSpeed" format="enum">
-            <enum name="slow" value="0"/>
-            <enum name="normal" value="1"/>
-            <enum name="fast" value="2"/>
+            <enum name="slow" value="0" />
+            <enum name="normal" value="1" />
+            <enum name="fast" value="2" />
         </attr>
     </declare-styleable>
     <declare-styleable name="IconToggle">
-        <attr name="drawableIdle" format="reference"/>
-        <attr name="drawableActive" format="reference"/>
-        <attr name="drawableDisabled" format="reference"/>
+        <attr name="drawableIdle" format="reference" />
+        <attr name="drawableActive" format="reference" />
+        <attr name="drawableDisabled" format="reference" />
         <attr name="status" format="enum">
-            <enum name="disabled" value="-1"/>
-            <enum name="idle" value="0"/>
-            <enum name="active" value="1"/>
+            <enum name="disabled" value="-1" />
+            <enum name="idle" value="0" />
+            <enum name="active" value="1" />
         </attr>
     </declare-styleable>
     <declare-styleable name="IconButton">
-        <attr name="buttonIdle" format="reference"/>
-        <attr name="buttonActive" format="reference"/>
-        <attr name="buttonDisabled" format="reference"/>
-        <attr name="buttonEnable" format="boolean"/>
+        <attr name="buttonIdle" format="reference" />
+        <attr name="buttonActive" format="reference" />
+        <attr name="buttonDisabled" format="reference" />
+        <attr name="buttonEnable" format="boolean" />
     </declare-styleable>
     <declare-styleable name="ConstraintClicker">
-        <attr name="clickerStart" format="float"/>
-        <attr name="clickerEnd" format="float"/>
-        <attr name="clickerTop" format="float"/>
-        <attr name="clickerBottom" format="float"/>
+        <attr name="clickerStart" format="float" />
+        <attr name="clickerEnd" format="float" />
+        <attr name="clickerTop" format="float" />
+        <attr name="clickerBottom" format="float" />
         <!--showArea is used for debugging purposes. This must be removed or turned false in production.-->
-        <attr name="showArea" format="boolean"/>
+        <attr name="showArea" format="boolean" />
     </declare-styleable>
 </resources>

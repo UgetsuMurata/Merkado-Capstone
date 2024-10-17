@@ -4,13 +4,48 @@
     "title": "Kabanata I",
     "subtitle": "Mga Pangunahing Konsepto ng Ekonomiks",
     "objectives": [
-      "Unawain ang konsepto ng ekonomiks at halaga nito sa buhay.",
-      "Tukuyin ang sanhi ng kakapusan at magbigay ng solusyon.",
-      "Alamin ang kaibahan ng pangangailangan at kagustuhan.",
-      "Suriin ang iba’t ibang uri ng organisasyon at negosyo sa isang ekonomiya.",
-      "Maunawaan ang alokasyon sa iba’t ibang sistemang pang-ekonomiya",
-      "Maging responsableng mamimili at alamin ang mga pamantayan nito.",
-      "Unawain ang mga salik ng produksiyon at epekto nito sa buhay."
+      {
+        "id": 0,
+        "objective": "Unawain ang konsepto ng ekonomiks at halaga nito sa buhay.",
+        "startTrigger": "0,0,0,0",
+        "endTrigger": "0,10,0,0"
+      },
+      {
+        "id": 1,
+        "objective": "Tukuyin ang sanhi ng kakapusan at magbigay ng solusyon.",
+        "startTrigger": "0,10,0,0",
+        "endTrigger": "0,12,0,0"
+      },
+      {
+        "id": 2,
+        "objective": "Alamin ang kaibahan ng pangangailangan at kagustuhan.",
+        "startTrigger": "0,12,0,0",
+        "endTrigger": "0,14,1,0"
+      },
+      {
+        "id": 3,
+        "objective": "Suriin ang iba’t ibang uri ng organisasyon at negosyo sa isang ekonomiya.",
+        "startTrigger": "0,14,1,0",
+        "endTrigger": "0,17,0,9"
+      },
+      {
+        "id": 4,
+        "objective": "Maunawaan ang alokasyon sa iba’t ibang sistemang pang-ekonomiya.",
+        "startTrigger": "0,17,0,9",
+        "endTrigger": "0,21,0,0"
+      },
+      {
+        "id": 5,
+        "objective": "Maging responsibleng mamimili at ipagtanggol ang karapatan.",
+        "startTrigger": "0,21,0,0",
+        "endTrigger": "0,23,0,0"
+      },
+      {
+        "id": 6,
+        "objective": "Unawain ang mga salik ng produksiyon at epekto nito sa buhay.",
+        "startTrigger": "0,23,0,0",
+        "endTrigger": "0,23,0,25"
+      }
     ]
   },
   {
@@ -18,11 +53,36 @@
     "title": "Kabanata II",
     "subtitle": "Maykroekonomiks",
     "objectives": [
-      "Maipaliwanag ang demand, supply, at epekto nito sa pang-araw-araw na buhay ng pamilya.",
-      "Matutunan ang price elasticity ng demand at supply at ang reaksyon ng mamimili sa pagbabago ng presyo.",
-      "Maipakita ang interaksiyon ng demand at supply at epekto nito sa presyo at pamilihan.",
-      "Maipaliwanag ang estruktura ng pamilihan at epekto nito sa mamimili at supplier.",
-      "Maipaliwanag ang ugnayan ng pamahalaan at pamilihan sa pamamagitan ng price ceiling at price floor."
+      {
+        "id": 0,
+        "objective": "Maipaliwanag ang demand, supply, at epekto nito sa pang-araw-araw na buhay ng pamilya.",
+        "startTrigger": "2,0,0,0",
+        "endTrigger": "2,0,0,0"
+      },
+      {
+        "id": 1,
+        "objective": "Matutunan ang price elasticity ng demand at supply at ang reaksyon ng mamimili sa pagbabago ng presyo.",
+        "startTrigger": "2,0,0,0",
+        "endTrigger": "2,0,0,0"
+      },
+      {
+        "id": 2,
+        "objective": "Maipakita ang interaksiyon ng demand at supply at epekto nito sa presyo at pamilihan.",
+        "startTrigger": "2,0,0,0",
+        "endTrigger": "2,0,0,0"
+      },
+      {
+        "id": 3,
+        "objective": "Maipaliwanag ang estruktura ng pamilihan at epekto nito sa mamimili at supplier.",
+        "startTrigger": "2,0,0,0",
+        "endTrigger": "2,0,0,0"
+      },
+      {
+        "id": 4,
+        "objective": "Maipaliwanag ang ugnayan ng pamahalaan at pamilihan sa pamamagitan ng price ceiling at price floor.",
+        "startTrigger": "2,0,0,0",
+        "endTrigger": "2,0,0,0"
+      }
     ]
   },
   {
@@ -30,11 +90,42 @@
     "title": "Kabanata III",
     "subtitle": "Makroekonomiks",
     "objectives": [
-      "Mailarawan at masuri ang paikot na daloy ng ekonomiya",
-      "Maipaliwanag ang pambansang kita at pambansang produkto, ",
-      "Masuri ang kaugnayan ng kita sa pagkonsumo at pag-iimpok, ",
-      "Maipakita at mataya ang mga konsepto ng implasyon",
-      "Maipaliwanag at konsepto ng patakarang piskal at pananalapi, "
+      {
+        "id": 0,
+        "objective": "Ilarawan at suriin ang paikot na daloy ng ekonomiya at ang ugnayan ng mga sektor.",
+        "startTrigger": "4,0,0,0",
+        "endTrigger": "4,0,0,0"
+      },
+      {
+        "id": 1,
+        "objective": "Suriin ang pambansang kita at produkto, tulad ng GNP at GDP, at ang mga paraan ng pagsukat nito.",
+        "startTrigger": "4,0,0,0",
+        "endTrigger": "4,0,0,0"
+      },
+      {
+        "id": 2,
+        "objective": "Suriin ang ugnayan ng kita, pagkonsumo, at pag-iimpok, at ang kahalagahan ng mga ito sa ekonomiya.",
+        "startTrigger": "4,0,0,0",
+        "endTrigger": "4,0,0,0"
+      },
+      {
+        "id": 3,
+        "objective": "Suriin ang konsepto ng implasyon, mga sanhi at epekto nito, at makilahok sa paglutas ng mga suliranin nito.",
+        "startTrigger": "4,0,0,0",
+        "endTrigger": "4,0,0,0"
+      },
+      {
+        "id": 4,
+        "objective": "Ipaliwanag at suriin ang patakarang piskal, kasama ang papel ng pamahalaan at responsibilidad sa pagbabayad ng buwis.",
+        "startTrigger": "4,0,0,0",
+        "endTrigger": "4,0,0,0"
+      },
+      {
+        "id": 5,
+        "objective": "Ipaliwanag at suriin ang patakarang pananalapi at ang mga hakbang ng BSP para mapanatili ang halaga ng salapi.",
+        "startTrigger": "4,0,0,0",
+        "endTrigger": "4,0,0,0"
+      }
     ]
   },
   {
@@ -42,12 +133,42 @@
     "title": "Kabanata IV",
     "subtitle": "Mga Sektor ng Ekonomiya at mga Patakarang Pang-Ekonomiko nito",
     "objectives": [
-      "Maipaliwanag ang pambansang kaunlaran at mga palatandaan nito",
-      "Magsuri ng papel ng agrikultura, pangingisda, at paggugubat sa ekonomiya",
-      "Magsuri ng papel ng industriya, ugnayan nito sa agrikultura, at mga patakarang sumusuporta sa sektor.",
-      "Magsuri ng papel ng sektor ng paglilingkod at mga patakarang nagbibigay proteksyon sa mga manggagawa.",
-      "Maipaliwanag ang impormal na sektor, mga dahilan at epekto nito",
-      "Magsuri ng ugnayan ng Pilipinas sa kalakalang panlabas at mga patakarang nakakatulong dito."
+      {
+        "id": 0,
+        "objective": "Ipaliwanag ang pambansang kaunlaran, mga palatandaan, at kontribusyon ng mamamayan.",
+        "startTrigger": "5,0,0,0",
+        "endTrigger": "5,0,0,0"
+      },
+      {
+        "id": 1,
+        "objective": "Suriin ang papel ng agrikultura, pangingisda, paggugubat, mga suliranin, at patakaran dito.",
+        "startTrigger": "5,0,0,0",
+        "endTrigger": "5,0,0,0"
+      },
+      {
+        "id": 2,
+        "objective": "Suriin ang papel ng industriya, ugnayan sa agrikultura, at mga patakaran na sumusuporta dito.",
+        "startTrigger": "5,0,0,0",
+        "endTrigger": "5,0,0,0"
+      },
+      {
+        "id": 3,
+        "objective": "Suriin ang papel ng sektor ng paglilingkod at mga patakaran para sa proteksyon ng manggagawa.",
+        "startTrigger": "5,0,0,0",
+        "endTrigger": "5,0,0,0"
+      },
+      {
+        "id": 4,
+        "objective": "Ipaliwanag ang impormal na sektor, mga sanhi at epekto nito, at pagsunod sa patakarang pang-ekonomiya.",
+        "startTrigger": "5,0,0,0",
+        "endTrigger": "5,0,0,0"
+      },
+      {
+        "id": 5,
+        "objective": "Suriin ang ugnayan ng Pilipinas sa kalakalang panlabas at mga patakarang tumutulong dito.",
+        "startTrigger": "5,0,0,0",
+        "endTrigger": "5,0,0,0"
+      }
     ]
   }
 ]

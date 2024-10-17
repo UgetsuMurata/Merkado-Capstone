@@ -367,7 +367,6 @@
                                         "placement": "1;FACE",
                                         "toShow": true
                                     },
-
                                     {
                                         "image": "jaxon1_b_uniform",
                                         "placement": "2;BODY",
@@ -1820,7 +1819,7 @@
                             {
                                 "character": "[USER_NAME]",
                                 "dialogue": "Pero pansin ko, parang kakaunti nalang ang tinda nilang mga niluluto tulad ng turon, bakit kaya?",
-                                "imageChanges":[
+                                "imageChanges": [
                                     {
                                         "image": "mc2_b_uniform",
                                         "placement": "1;BODY",
@@ -1922,7 +1921,7 @@
                             {
                                 "character": "[USER_NAME]",
                                 "dialogue": "Alam mo naman ang sitwasyon namin, diba?",
-                                "imageChanges":[
+                                "imageChanges": [
                                     {
                                         "image": "mc1_f_nervous",
                                         "placement": "1;FACE",
@@ -2060,7 +2059,6 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "defaultNextLine": 1,
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
@@ -2107,7 +2105,6 @@
                                         "nextLineGroup": 3
                                     }
                                 ]
-
                             }
                         ],
                         "id": 1,
@@ -3822,7 +3819,6 @@
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
-
                                 ]
                             },
                             {
@@ -4314,7 +4310,6 @@
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
-
                                 ]
                             },
                             {
@@ -4616,7 +4611,7 @@
                             {
                                 "character": "[USER_NAME]",
                                 "dialogue": "Mabuti nalang mas inuna natin ang pangangailangan natin kaysa sa kagustuhan, Nay. Masarap tuloy ang ulam mamaya.",
-                                "imageChanges":[
+                                "imageChanges": [
                                     {
                                         "image": "mc1_f_amazed",
                                         "placement": "1;FACE",
@@ -4706,7 +4701,7 @@
                             {
                                 "character": "[USER_NAME]",
                                 "dialogue": "Hay nako, chismis na naman...",
-                                "imageChanges":[
+                                "imageChanges": [
                                     {
                                         "image": "mc1_f_sleepy",
                                         "placement": "1;FACE",
@@ -5087,7 +5082,6 @@
                                     }
                                 ]
                             }
-
                         ],
                         "id": 2,
                         "initialImages": [
@@ -6599,7 +6593,6 @@
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
-
                         ],
                         "transition": "FTB"
                     },
@@ -6631,7 +6624,6 @@
                                         "toShow": true
                                     }
                                 ]
-
                             },
                             {
                                 "character": "NANAY",
@@ -6765,11 +6757,9 @@
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
-
                         ],
                         "transition": "FTB"
                     }
-
                 ],
                 "nextScene": 22,
                 "rewards": [
@@ -6893,7 +6883,6 @@
                                     }
                                 ]
                             }
-
                         ],
                         "id": 1,
                         "initialImages": [
@@ -9510,13 +9499,12 @@
                             {
                                 "character": "ALING_ISABEL",
                                 "dialogue": "Ano yun, nak?",
-                                "imageChanges":[
+                                "imageChanges": [
                                     {
                                         "image": "aling_isabel1_f_normal",
                                         "placement": "4;FACE",
                                         "toShow": true
                                     }
-
                                 ]
                             },
                             {
@@ -9579,7 +9567,7 @@
                             {
                                 "character": "ALING_ISABEL",
                                 "dialogue": "Ano nga pala ang sinasabi mo ulit sakin kanina?",
-                                "imageChanges":[
+                                "imageChanges": [
                                     {
                                         "image": "mc1_f_nervous",
                                         "placement": "1;FACE",
@@ -9627,7 +9615,7 @@
                             {
                                 "character": "ALING_ISABEL",
                                 "dialogue": "Aba, oo naman.",
-                                "imageChanges":[
+                                "imageChanges": [
                                     {
                                         "image": "aling_isabel1_f_talking",
                                         "placement": "4;FACE",
@@ -9657,7 +9645,7 @@
                             {
                                 "character": "ALING_ISABEL",
                                 "dialogue": "Ano ka ba, wala ‘yun. ",
-                                "imageChanges":[
+                                "imageChanges": [
                                     {
                                         "image": "aling_isabel1_f_compassion",
                                         "placement": "4;FACE",
@@ -9821,7 +9809,6 @@
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
-
                         ],
                         "transition": "FTB"
                     }
@@ -10823,7 +10810,6 @@
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
-
                                 ]
                             },
                             {
@@ -10846,7 +10832,6 @@
                                         "placement": "1;FACE",
                                         "toShow": true
                                     }
-
                                 ]
                             },
                             {
@@ -12018,7 +12003,8 @@
                                         "image": "jaxon1_f_compassion",
                                         "placement": "2;FACE",
                                         "toShow": true
-                                    }                                ]
+                                    }
+                                ]
                             },
                             {
                                 "character": "JAXON",
@@ -13469,7 +13455,6 @@
                                 "character": "[USER_NAME]",
                                 "dialogue": "Hays, maghahanap nalang siguro muna ako ng ibang brand na mas mura. "
                             }
-
                         ],
                         "id": 3,
                         "initialImages": [
@@ -13591,7 +13576,6 @@
                                     }
                                 ]
                             }
-
                         ],
                         "id": 0,
                         "transition": "FTB"
@@ -13985,7 +13969,6 @@
                         ],
                         "transition": "FTB"
                     }
-
                 ],
                 "nextScene": 11,
                 "scene": "Patakarang Piskal at Pananalapi"
@@ -14889,7 +14872,6 @@
                                 "placement": "4;FACE",
                                 "toShow": true
                             }
-
                         ],
                         "transition": "FTB"
                     }
@@ -15393,7 +15375,6 @@
                                 "placement": "4;FACE",
                                 "toShow": true
                             }
-
                         ],
                         "transition": "FTB"
                     }
@@ -17186,7 +17167,7 @@
                                 ]
                             },
                             {
-                                    "character": "[USER_NAME]",
+                                "character": "[USER_NAME]",
                                 "dialogue": "Grabe pati rin pala ang mga trabaho sa agrikultura, apektado ng bagyo",
                                 "imageChanges": [
                                     {
@@ -17826,14 +17807,12 @@
                                 "placement": "4;FACE",
                                 "toShow": true
                             }
-
                         ],
                         "transition": "FTB"
                     }
                 ],
                 "scene": "Ang muling pagbangon ng ekonomiya - mula sa sarili at tahanan"
             }
-
         ],
         "shortDescription": "Ang Pagwawakas"
     }

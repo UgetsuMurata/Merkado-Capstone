@@ -74,6 +74,9 @@ public class Merkado extends Application implements Application.ActivityLifecycl
     private CompiledData compiledMarketData;
     private Activity currentActivity;
 
+    private Boolean hasTakenPretest = false;
+    private Boolean hasTakenPostTest = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -227,6 +230,22 @@ public class Merkado extends Application implements Application.ActivityLifecycl
      */
     public void setBasicServerList(List<BasicServerData> basicServerData) {
         this.basicServerData = basicServerData;
+    }
+
+    public Boolean getHasTakenPretest() {
+        return hasTakenPretest;
+    }
+
+    public void setHasTakenPretest(Boolean hasTakenPretest) {
+        this.hasTakenPretest = hasTakenPretest;
+    }
+
+    public Boolean getHasTakenPostTest() {
+        return hasTakenPostTest;
+    }
+
+    public void setHasTakenPostTest(Boolean hasTakenPostTest) {
+        this.hasTakenPostTest = hasTakenPostTest;
     }
 
     public Player getPlayer() {
@@ -384,6 +403,7 @@ public class Merkado extends Application implements Application.ActivityLifecycl
         private PlayerDataListener<List<PlayerStory>> playerStoryHistoryListener;
         private PlayerDataListener<Market> marketIdListener;
         private PlayerDataListener<FactoryData> playerFactoryListener;
+        private PlayerDataListener<Objectives> objectiveListener;
         private Player player;
 
         public PlayerDataFunctions() {
@@ -408,6 +428,8 @@ public class Merkado extends Application implements Application.ActivityLifecycl
                 marketIdListener.update(player.getMarket());
             if (this.playerFactoryListener != null)
                 playerFactoryListener.update(player.getFactory());
+            if (this.objectiveListener != null)
+                objectiveListener.update(Merkado.getInstance().getObjectivesList().get(player.getObjectives().getId()));
         }
 
         public void setPlayerMoneyListener(PlayerDataListener<Float> playerMoneyListener) {
@@ -442,6 +464,10 @@ public class Merkado extends Application implements Application.ActivityLifecycl
             this.playerFactoryListener = playerFactoryListener;
         }
 
+        public void setObjectiveListener(PlayerDataListener<Objectives> objectiveListener) {
+            this.objectiveListener = objectiveListener;
+        }
+
         public Long getPlayerExp() {
             return player.getExp();
         }
@@ -472,6 +498,21 @@ public class Merkado extends Application implements Application.ActivityLifecycl
 
         public Market getPlayerMarket() {
             return player.getMarket();
+        }
+
+        public Objectives getObjectives() {
+            return Merkado.getInstance()
+                    .getObjectivesList().get(player.getObjectives().getId());
+        }
+
+        public Objectives.Objective getCurrentObjective() {
+            return Merkado.getInstance()
+                    .getObjectivesList().get(player.getObjectives().getId())
+                    .getObjectives().get(player.getObjectives().getCurrentObjectiveId());
+        }
+
+        public Boolean getObjectiveDone() {
+            return player.getObjectives().getDone();
         }
 
         public Boolean hasStore() {
@@ -516,11 +557,11 @@ public class Merkado extends Application implements Application.ActivityLifecycl
         }
     }
 
-    public void extractObjectives(Context context){
+    public void extractObjectives(Context context) {
         JsonHelper.getObjectivesList(context, this::setObjectivesList);
     }
 
-    public void setObjectivesList(List<Objectives> objectivesList){
+    public void setObjectivesList(List<Objectives> objectivesList) {
         this.objectivesList = objectivesList;
     }
 
@@ -646,10 +687,12 @@ public class Merkado extends Application implements Application.ActivityLifecycl
     }
 
     @Override
-    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {}
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+    }
 
     @Override
-    public void onActivityStarted(@NonNull Activity activity) {}
+    public void onActivityStarted(@NonNull Activity activity) {
+    }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
@@ -662,13 +705,16 @@ public class Merkado extends Application implements Application.ActivityLifecycl
     }
 
     @Override
-    public void onActivityStopped(@NonNull Activity activity) {}
+    public void onActivityStopped(@NonNull Activity activity) {
+    }
 
     @Override
-    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {}
+    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+    }
 
     @Override
-    public void onActivityDestroyed(@NonNull Activity activity) {}
+    public void onActivityDestroyed(@NonNull Activity activity) {
+    }
 
     public Activity getCurrentActivity() {
         return currentActivity;
@@ -701,9 +747,12 @@ public class Merkado extends Application implements Application.ActivityLifecycl
             currentActivity.finishAndRemoveTask();
         }
 
+        if (android.os.Debug.isDebuggerConnected()) {
+            android.os.Debug.waitForDebugger();
+        }
+
         // Kill the process after finishing all activities
         android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);  // Optional, as killProcess usually handles this
     }
 
     private String getAppErrorLocation(Throwable e) {

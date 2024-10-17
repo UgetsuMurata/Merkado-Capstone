@@ -91,6 +91,24 @@ public class JsonHelper {
         }).start();
     }
 
+    public static void getDiagnosticTool(Context context, OnParse<Quiz> onParse) {
+        new Thread(() -> {
+            String json = "";
+            try {
+                json = parseJSON(context, "diagnostic_tool.json");
+            } catch (IOException e) {
+                Log.e("getDiagnosticTool",
+                        String.format("Problem with parsing resource data: %s", e));
+                onParse.parsingComplete(null);
+            }
+
+            Gson gson = new Gson();
+            Type type = new TypeToken<Quiz>() {
+            }.getType();
+            onParse.parsingComplete(gson.fromJson(json, type));
+        }).start();
+    }
+
     public static void getAppData(Context context, OnParse<StaticContents> onParse) {
         new Thread(() -> {
             String json = "";

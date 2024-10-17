@@ -62,11 +62,11 @@
             android:paddingVertical="20dp">
 
             <ImageView
-                android:id="@+id/qas_show_all"
+                android:id="@+id/qas_show_stories"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:padding="10dp"
-                android:src="@drawable/icon_all" />
+                android:src="@drawable/icon_book_open_page" />
 
             <ImageView
                 android:id="@+id/qas_show_quests"
@@ -76,11 +76,11 @@
                 android:src="@drawable/icon_quest" />
 
             <ImageView
-                android:id="@+id/qas_show_stories"
+                android:id="@+id/qas_show_objectives"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:padding="10dp"
-                android:src="@drawable/icon_book_open_page" />
+                android:src="@drawable/icon_objective" />
         </LinearLayout>
 
         <!-- LIST -->
@@ -109,6 +109,42 @@
                 android:text="You have no tasks today!"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp" />
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/qas_display_objectives"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/qas_objective_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Objective Title"
+                    android:fontFamily="@font/elements"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/qas_objective_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Objective Subtitle"
+                    android:fontFamily="@font/text"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/qas_objective_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fadingEdgeLength="20dp"
+                    android:requiresFadingEdge="vertical"
+                    android:layout_marginTop="20dp"
+                    tools:listitem="@layout/item_qas_objective_list" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- DESCRIPTION -->

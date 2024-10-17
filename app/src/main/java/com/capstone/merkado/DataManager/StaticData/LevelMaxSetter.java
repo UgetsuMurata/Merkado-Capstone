@@ -20,21 +20,21 @@ public class LevelMaxSetter {
     }
 
     public static Long getMaxPlayerExperience(Long currentLevel) {
-        List<Long> playerMaxLevel = Arrays.asList(3700L, 5500L, 7300L, 9100L);
-        return process(currentLevel <= 9100L ? currentLevel : 9100L,
+        List<Long> playerMaxLevel = Arrays.asList(6000L, 8300L, 10600L, 12400L);
+        return process(currentLevel <= 12400L ? currentLevel : 12400L,
                 playerMaxLevel,
                 playerMaxLevel.get(playerMaxLevel.size() - 1));
     }
 
     public static Long getPreviousMaxPlayerExperience(Long currentMaxLevel) {
-        List<Long> playerMaxLevel = Arrays.asList(3700L, 5500L, 7300L, 9100L);
+        List<Long> playerMaxLevel = Arrays.asList(6000L, 8300L, 10600L, 12400L);
         int i = playerMaxLevel.indexOf(currentMaxLevel);
         if (i == 0) return 0L;
         return playerMaxLevel.get(i - 1);
     }
 
     public static Integer getPlayerLevel(Long currentMaxLevel) {
-        List<Long> playerMaxLevel = Arrays.asList(3700L, 5500L, 7300L, 9100L);
+        List<Long> playerMaxLevel = Arrays.asList(6000L, 8300L, 10600L, 12400L);
         return playerMaxLevel.indexOf(currentMaxLevel) + 1;
     }
 

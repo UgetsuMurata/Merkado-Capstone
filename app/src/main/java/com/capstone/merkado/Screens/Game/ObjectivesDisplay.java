@@ -1,5 +1,6 @@
 package com.capstone.merkado.Screens.Game;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
+import com.capstone.merkado.Objects.ServerDataObjects.Objectives.Objective;
 import com.capstone.merkado.R;
 
 import java.util.List;
@@ -42,12 +44,12 @@ public class ObjectivesDisplay extends AppCompatActivity implements View.OnClick
         milestoneObjectives.setText(listObjectives(objectives.getObjectives()));
     }
 
-    private String listObjectives(List<String> objectivesList) {
+    private String listObjectives(List<Objective> objectivesList) {
         StringBuilder finalString = new StringBuilder();
 
-        for (String objective : objectivesList) {
+        for (Objective objective : objectivesList) {
             finalString.append("▢ ");
-            finalString.append(objective);
+            finalString.append(objective.getObjective());
             finalString.append("\n");
         }
 
@@ -56,6 +58,7 @@ public class ObjectivesDisplay extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        setResult(Activity.RESULT_OK);
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

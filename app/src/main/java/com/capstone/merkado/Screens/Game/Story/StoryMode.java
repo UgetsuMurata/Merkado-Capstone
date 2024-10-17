@@ -1,6 +1,7 @@
 package com.capstone.merkado.Screens.Game.Story;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -45,7 +47,6 @@ import com.capstone.merkado.R;
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class StoryMode extends AppCompatActivity {
     ConstraintLayout sceneBackground;
 
     // DISPLAYS
-    FrameLayout characterSlot1, characterSlot2, characterSlot3, characterSlot4, characterSlot5;
+    CharacterImage characterSlot1, characterSlot2, characterSlot3, characterSlot4, characterSlot5;
 
     // CHOICE
     ConstraintLayout choiceGui;
@@ -155,11 +156,11 @@ public class StoryMode extends AppCompatActivity {
         choice2Text = findViewById(R.id.choice_2_text);
         choice3Text = findViewById(R.id.choice_3_text);
         choice4Text = findViewById(R.id.choice_4_text);
-        characterSlot1 = findViewById(R.id.character_slot_1);
-        characterSlot2 = findViewById(R.id.character_slot_2);
-        characterSlot3 = findViewById(R.id.character_slot_3);
-        characterSlot4 = findViewById(R.id.character_slot_4);
-        characterSlot5 = findViewById(R.id.character_slot_5);
+        characterSlot1 = new CharacterImage(getApplicationContext(), findViewById(R.id.character_slot_1));
+        characterSlot2 = new CharacterImage(getApplicationContext(), findViewById(R.id.character_slot_2));
+        characterSlot3 = new CharacterImage(getApplicationContext(), findViewById(R.id.character_slot_3));
+        characterSlot4 = new CharacterImage(getApplicationContext(), findViewById(R.id.character_slot_4));
+        characterSlot5 = new CharacterImage(getApplicationContext(), findViewById(R.id.character_slot_5));
         blackScreen = findViewById(R.id.black_screen);
         clickArea = findViewById(R.id.click_area);
         sceneName = findViewById(R.id.scene_name);
@@ -386,7 +387,8 @@ public class StoryMode extends AppCompatActivity {
                         } else currentLineEnded();
                     }
                 });
-            } catch (IndexOutOfBoundsException e) {
+            }
+            catch (IndexOutOfBoundsException e) {
                 Log.e("Dialogue Line Index Error", String.format("%d;%d;%d;%d;%s", chapterIndex,
                         sceneIndex, lineGroupIndex, currentDialogueIndex, e.getMessage()));
             }
@@ -429,79 +431,69 @@ public class StoryMode extends AppCompatActivity {
         String placement = imagePlacementData.getPlacement();
         HashMap<StringProcessor.Placement.Label, StringProcessor.Placement.Value> labelValueHashMap = StringProcessor.extractPlacement(placement);
 
-        FrameLayout frameLayout;
-
         StringProcessor.Placement.Value slotValue = labelValueHashMap.get(StringProcessor.Placement.Label.SLOT);
         StringProcessor.Placement.Value layerValue = labelValueHashMap.get(StringProcessor.Placement.Label.LAYER);
-        if (slotValue == null || layerValue == null) return;
 
+        if (slotValue == null || layerValue == null) return;
+        CharacterImage characterImage;
         switch (slotValue) {
             case SLOT1:
-                frameLayout = characterSlot1;
+                characterImage = characterSlot1;
                 break;
             case SLOT2:
-                frameLayout = characterSlot2;
+                characterImage = characterSlot2;
                 break;
             case SLOT3:
-                frameLayout = characterSlot3;
+                characterImage = characterSlot3;
                 break;
             case SLOT4:
-                frameLayout = characterSlot4;
+                characterImage = characterSlot4;
                 break;
             case SLOT5:
-                frameLayout = characterSlot5;
+                characterImage = characterSlot5;
                 break;
             default:
-                frameLayout = null;
+                characterImage = null;
                 break;
         }
 
-        if (frameLayout == null) return;
+        if (characterImage == null) return;
 
-        ImageView layer;
-        int resource = -1;
-
+        Integer resource;
         switch (layerValue) {
             case BODY:
-                layer = frameLayout.findViewById(R.id.body);
-                resource = StoryResourceCaller.retrieveCharacterBodyResource(imagePlacementData.getImage());
+                if (!imagePlacementData.getToShow()) resource = null;
+                else
+                    resource = StoryResourceCaller.retrieveCharacterBodyResource(imagePlacementData.getImage());
+                characterImage.setBody(resource);
                 break;
             case FACE:
-                layer = frameLayout.findViewById(R.id.face);
-                resource = StoryResourceCaller.retrieveCharacterFaceResource(imagePlacementData.getImage());
+                if (!imagePlacementData.getToShow()) resource = null;
+                else
+                    resource = StoryResourceCaller.retrieveCharacterFaceResource(imagePlacementData.getImage());
+                characterImage.setFace(resource);
                 break;
             case PROP:
-                layer = frameLayout.findViewById(R.id.props);
-                resource = StoryResourceCaller.retrievePropResource(imagePlacementData.getImage());
+                if (!imagePlacementData.getToShow()) resource = null;
+                else
+                    resource = StoryResourceCaller.retrievePropResource(imagePlacementData.getImage());
+                characterImage.setProps(resource);
                 break;
             default:
-                layer = null;
                 break;
         }
-
-        if (!imagePlacementData.getToShow()) {
-            if (layer == null) return;
-            layer.setImageDrawable(null);
-            return;
-        }
-
-        if (layer == null || resource == -1) return;
-
-        layer.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), resource));
     }
 
     /**
      * <b>VISUAL FUNCTION</b>. Removes all characters on screen.
      */
     private void clearCharacters() {
-        for (FrameLayout layout : Arrays.asList(characterSlot1, characterSlot2, characterSlot3, characterSlot4, characterSlot5)) {
-            ImageView body = layout.findViewById(R.id.body);
-            body.setImageDrawable(null);
-            ImageView face = layout.findViewById(R.id.face);
-            face.setImageDrawable(null);
-            ImageView prop = layout.findViewById(R.id.props);
-            prop.setImageDrawable(null);
-        }
+        characterSlot1.clear();
+        characterSlot2.clear();
+        characterSlot3.clear();
+        characterSlot4.clear();
+        characterSlot5.clear();
+        Log.d("CLEAR CHARACTERS", String.format("CLEARED ALL AT [%d,%d,%d,%d]", chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
     }
 
     /**
@@ -542,6 +534,7 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentLineEnded() {
+        clearCharacters();
         if (!isHistory && (playerStory.getCurrentScene().getRewards() != null &&
                 playerStory.getCurrentScene().getRewards().isEmpty()))
             RewardProcessor.processRewards(
@@ -587,6 +580,7 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentSceneEnded() {
+        clearCharacters();
         if (isHistory) {
             finish();
             return;
@@ -999,6 +993,39 @@ public class StoryMode extends AppCompatActivity {
             numbers.add(Integer.parseInt(num));
         }
         return numbers;
+    }
+
+    private static class CharacterImage {
+        Context context;
+        ImageView face, body, props;
+
+        public CharacterImage(Context context, FrameLayout layout) {
+            face = layout.findViewById(R.id.face);
+            body = layout.findViewById(R.id.body);
+            props = layout.findViewById(R.id.props);
+            this.context = context;
+        }
+
+        public void setFace(@Nullable Integer face) {
+            if (face == null) clear();
+            else this.face.setImageDrawable(face != -1 ? ContextCompat.getDrawable(context, face) : null);
+        }
+
+        public void setBody(@Nullable Integer body) {
+            if (body == null) clear();
+            else this.body.setImageDrawable(body != -1 ? ContextCompat.getDrawable(context, body) : null);
+        }
+
+        public void setProps(@Nullable Integer props) {
+            if (props == null) clear();
+            else this.props.setImageDrawable(props != -1 ? ContextCompat.getDrawable(context, props) : null);
+        }
+
+        public void clear() {
+            this.face.setImageDrawable(null);
+            this.body.setImageDrawable(null);
+            this.props.setImageDrawable(null);
+        }
     }
 
     @Override

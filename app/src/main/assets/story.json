@@ -3912,8 +3912,8 @@
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
-                                "character": "empty",
-                                "dialogue": "Matapos ang kanilang pag-uusap ay tuluyan na silang nakarating sa tindahan ng manok at baboy."
+                                "character": "EMPTY",
+                                "dialogue": "<i>Matapos ang kanilang pag-uusap ay tuluyan na silang nakarating sa tindahan ng manok at baboy.</i>"
                             }
                         ],
                         "id": 0,

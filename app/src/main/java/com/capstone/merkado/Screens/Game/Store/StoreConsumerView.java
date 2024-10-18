@@ -41,7 +41,7 @@ public class StoreConsumerView extends AppCompatActivity {
     Merkado merkado;
     TextView storeName;
     RecyclerView itemList;
-    ImageView storeShowCollectibles, storeShowEdibles, storeShowResources;
+    ImageView storeShowCollectibles, storeShowEdibles, storeShowResources, backButton;
     TextView itemName, itemDescription, itemPrice, itemListEmpty, itemDescriptionContainerEmpty;
     ScrollView itemDescriptionContainer;
     ImageView itemImage;
@@ -75,6 +75,7 @@ public class StoreConsumerView extends AppCompatActivity {
 
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
+        backButton = findViewById(R.id.back_button);
 
         if (!getIntent().hasExtra("PLAYER_MARKET") || !getIntent().hasExtra("MARKET_ID")) {
             Toast.makeText(getApplicationContext(), "Problem occurred. Please try again later.", Toast.LENGTH_LONG).show();
@@ -175,6 +176,12 @@ public class StoreConsumerView extends AppCompatActivity {
             }
             clearUpDetails();
         }
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void setUpDetails(OnSale onSale) {

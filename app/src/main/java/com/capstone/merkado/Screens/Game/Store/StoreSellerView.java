@@ -49,7 +49,7 @@ public class StoreSellerView extends AppCompatActivity {
     PlayerBalanceView currentBalance;
 
     // SIDEBAR
-    ImageView sbStoreShowCollectibles, sbStoreShowEdibles, sbStoreShowResources;
+    ImageView sbStoreShowCollectibles, sbStoreShowEdibles, sbStoreShowResources, backButton;
 
     // CONTENTS
     TextView cItemCount, cAddItem, cItemListEmpty;
@@ -87,6 +87,7 @@ public class StoreSellerView extends AppCompatActivity {
 
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
+        backButton = findViewById(R.id.back_button);
 
         storeName = findViewById(R.id.store_name);
         currentBalance = findViewById(R.id.player_current_balance);
@@ -110,6 +111,13 @@ public class StoreSellerView extends AppCompatActivity {
         layoutSellPopup.setVisibility(View.GONE);
         initializePlayerDataListener();
         currentBalance.setBalance(player.getMoney());
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
     private void setPlayerMarkets(PlayerMarkets playerMarkets, ResourceDisplayMode mode) {

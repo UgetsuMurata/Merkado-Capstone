@@ -1845,7 +1845,7 @@
                                 "dialogue": "Eh, ikaw ba. Bukod sa palamig, ano pa 'yung mga gusto mong bilihin sa canteen?",
                                 "dialogueChoices": [
                                     {
-                                        "choice": "TURON",
+                                        "choice": "Turon",
                                         "nextLineGroup": 1
                                     },
                                     {
@@ -1985,7 +1985,7 @@
                                 ]
                             },
                             {
-                                "character": "empty",
+                                "character": "EMPTY",
                                 "dialogue": "<i>Bell rings...</i>",
                                 "imageChanges": [
                                     {
@@ -2692,7 +2692,7 @@
                                 ]
                             },
                             {
-                                "character": "empty",
+                                "character": "EMPTY",
                                 "dialogue": "Ano sa tingin mo ang nararapat na gawin ni kapitan sa nabanggit na situwasyon?",
                                 "dialogueChoices": [
                                     {
@@ -3094,8 +3094,8 @@
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
-                                "character": "empty",
-                                "dialogue": "Nakarating na sa palengke ang mag-ina. Habang namimili, kailangan nilang pag-isipan kung alin ang tunay na pangangailangan at alin ang mga kagustuhan lamang."
+                                "character": "EMPTY",
+                                "dialogue": "<i>Nakarating na sa palengke ang mag-ina. Habang namimili, kailangan nilang pag-isipan kung alin ang tunay na pangangailangan at alin ang mga kagustuhan lamang.</i>"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -3506,11 +3506,11 @@
                                 "dialogue": "Halimbawa, gusto mo nang mag-aral at gumawa ng iyong takdang aralin pero ayaw parin gumalaw ng katawan mo at nais mong matulog muna. Alin sa dalawa ang pipiliin mo?",
                                 "dialogueChoices": [
                                     {
-                                        "choice": "Mas pipiliin kong gumawa ng takdang-aralin sa halip na matulog",
+                                        "choice": "Piliing gumawa ng takdang-aralin bago matulog",
                                         "nextLineGroup": 8
                                     },
                                     {
-                                        "choice": "Mas pipiliin kong matulog muna sa halip na gumawa ng takdang aralin ",
+                                        "choice": "Piliing matulog muna bago ang takdang-aralin",
                                         "nextLineGroup": 9
                                     }
                                 ]
@@ -4324,7 +4324,7 @@
                                 ]
                             }
                         ],
-                        "id": 0,
+                        "id": 1,
                         "initialImages": [
                             {
                                 "image": "nanay1_b_casual",
@@ -4917,7 +4917,7 @@
                         "defaultNextLines": 2,
                         "dialogueLines": [
                             {
-                                "character": "empty",
+                                "character": "EMPTY",
                                 "dialogue": "Base sa iyong natutunan, ano ang una at ikalawang pangangailangan ng isang tao?",
                                 "imageChanges": [
                                     {
@@ -6079,8 +6079,8 @@
                         "background": "living_room",
                         "dialogueLines": [
                             {
-                                "character": "empty",
-                                "dialogue": "Pagkatapos nilang bumili ng kanilang gabihan ay agad silang umuwi at inihanda ito."
+                                "character": "EMPTY",
+                                "dialogue": "<i>Pagkatapos nilang bumili ng kanilang gabihan ay agad silang umuwi at inihanda ito.</i>"
                             },
                             {
                                 "character": "NANAY",
@@ -7277,8 +7277,8 @@
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
-                                "character": "empty",
-                                "dialogue": "Oras na ng pagtulog ngunit tila may malalim parin siyang iniisip"
+                                "character": "EMPTY",
+                                "dialogue": "<i>Oras na ng pagtulog ngunit tila may malalim parin siyang iniisip</i>"
                             }
                         ],
                         "id": 0,
@@ -7313,8 +7313,8 @@
                         "defaultNextLine": 3,
                         "dialogueLines": [
                             {
-                                "character": "empty",
-                                "dialogue": "Babangon ang main character at magmumuni-muni sa labas ng kanilang bahay habang nakatingin sa mga bituin"
+                                "character": "EMPTY",
+                                "dialogue": "<i>Babangon ang main character at magmumuni-muni sa labas ng kanilang bahay habang nakatingin sa mga bituin</i>"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -7427,8 +7427,8 @@
                         "background": "balcon",
                         "dialogueLines": [
                             {
-                                "character": "empty",
-                                "dialogue": "Maiiwan si main character sa labas ng bahay at titingala ito sa langit"
+                                "character": "EMPTY",
+                                "dialogue": "Maiiwan siya sa labas ng bahay at titingala sa langit."
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -8271,7 +8271,7 @@
                         "background": "streets",
                         "dialogueLines": [
                             {
-                                "character": "empty",
+                                "character": "EMPTY",
                                 "dialogue": "<i>Bell rings...</i>",
                                 "imageChanges": [
                                     {
@@ -9035,8 +9035,8 @@
                                 ]
                             },
                             {
-                                "character": "empty",
-                                "dialogue": "Pilit na inaalala ni <b>{$USER_NAME}</b> ang mga gastusin para sa susunod nilang aktibidad.",
+                                "character": "EMPTY",
+                                "dialogue": "<i>Pilit na inaalala ni <b>{$USER_NAME}</b> ang mga gastusin para sa susunod nilang aktibidad.</i>",
                                 "imageChanges": [
                                     {
                                         "image": "teacher1_b_uniform2",

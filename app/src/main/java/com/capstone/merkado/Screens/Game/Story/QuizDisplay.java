@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.JsonHelper;
@@ -28,6 +29,7 @@ import java.util.Locale;
 
 public class QuizDisplay extends AppCompatActivity {
 
+    Merkado merkado;
     ProgressBar progressTracker;
     TextView itemNumber, question;
     ChoiceModifier choice1, choice2, choice3, choice4;
@@ -46,6 +48,9 @@ public class QuizDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gam_sto_quiz);
+
+        merkado = Merkado.getInstance();
+        merkado.initializeScreen(this);
 
         root = findViewById(R.id.quiz_root);
         questionView = findViewById(R.id.question_display);

@@ -20,6 +20,8 @@ import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.R;
 
+import java.util.function.Consumer;
+
 public class AddEconomy extends AppCompatActivity {
 
     Merkado merkado;
@@ -81,24 +83,26 @@ public class AddEconomy extends AppCompatActivity {
             runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "You already joined this economy!"));
         } else {
             String serverCodeStr = serverCodeEditText.getText().toString().trim();
-            Boolean serverExists = ServerDataFunctions.checkServerExistence(serverCodeStr);
-            if (Boolean.TRUE.equals(serverExists)) {
-                Account account = merkado.getAccount();
-                if (account == null) {
-                    runOnUiThread(()->Toast.makeText(getApplicationContext(), "Error retrieving account information. Try again later.", Toast.LENGTH_SHORT).show());
-                    finish();
-                    return;
+            ServerDataFunctions.checkServerExistence(serverCodeStr).thenAccept(serverExists -> {
+                if (Boolean.TRUE.equals(serverExists)) {
+                    Account account = merkado.getAccount();
+                    if (account == null) {
+                        runOnUiThread(()->Toast.makeText(getApplicationContext(), "Error retrieving account information. Try again later.", Toast.LENGTH_SHORT).show());
+                        finish();
+                        return;
+                    }
+                    Boolean results = PlayerDataFunctions.addPlayerToServer(serverCodeStr, account);
+                    runOnUiThread(()-> {
+                        Toast.makeText(getApplicationContext(), results ? "Server added successfully!" : "Failed to join server. Try again later.", Toast.LENGTH_SHORT).show();
+                        setResult(results ? RESULT_OK : RESULT_CANCELED);
+                        finish();
+                    });
                 }
-                Boolean results = PlayerDataFunctions.addPlayerToServer(serverCodeStr, account);
-                runOnUiThread(()-> {
-                    Toast.makeText(getApplicationContext(), results ? "Server added successfully!" : "Failed to join server. Try again later.", Toast.LENGTH_SHORT).show();
-                    setResult(results ? RESULT_OK : RESULT_CANCELED);
+                else {
+                    runOnUiThread(()->Toast.makeText(getApplicationContext(), "Server does not exist.", Toast.LENGTH_SHORT).show());
                     finish();
-                });
-            } else {
-                runOnUiThread(()->Toast.makeText(getApplicationContext(), "Server does not exist.", Toast.LENGTH_SHORT).show());
-                finish();
-            }
+                }
+            });
         }
     }
 }

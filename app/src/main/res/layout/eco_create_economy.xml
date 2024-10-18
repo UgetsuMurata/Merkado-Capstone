@@ -10,42 +10,43 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_quiz">
+        android:background="@drawable/bg_quiz"
+        android:layout_margin="40dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.12" />
+            app:layout_constraintGuide_percent="0.03" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.89" />
+            app:layout_constraintGuide_percent="0.98" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/board_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.11" />
+            app:layout_constraintGuide_percent="0.02" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.21" />
+            app:layout_constraintGuide_percent="0.13" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.88" />
+            app:layout_constraintGuide_percent="0.95" />
 
         <TextView
             android:id="@+id/create_server"
@@ -89,6 +90,7 @@
                         app:cardCornerRadius="10dp">
 
                         <ImageView
+                            android:id="@+id/server_image"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:contentDescription="@string/icon"
@@ -100,8 +102,11 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/elements"
                         android:text="@string/change_image"
+                        android:gravity="center"
                         android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:autoSizeMinTextSize="8sp"
+                        android:autoSizeStepGranularity="2dp"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -312,8 +317,8 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             android:padding="10dp"
-            android:visibility="gone"
             android:weightSum="10"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/bottom"
             app:layout_constraintEnd_toEndOf="@id/end"
             app:layout_constraintStart_toStartOf="@id/start"
@@ -370,6 +375,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/server_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
@@ -379,6 +385,7 @@
                             android:textColor="@color/black" />
 
                         <ImageView
+                            android:id="@+id/server_id_copy"
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
@@ -401,6 +408,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/server_key"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
@@ -410,6 +418,7 @@
                             android:textColor="@color/black" />
 
                         <ImageView
+                            android:id="@+id/server_key_copy"
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
@@ -426,6 +435,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/exit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -438,6 +448,7 @@
                     android:textStyle="bold" />
 
                 <com.capstone.merkado.CustomViews.WoodenButton
+                    android:id="@+id/server_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:buttonMode="shortSign"
@@ -446,4 +457,64 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/change_image_window"
+        android:layout_width="500dp"
+        android:layout_height="250dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/merkado_orange"
+        app:strokeWidth="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/text"
+                android:text="Select Server Image:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/image_selection"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                tools:listitem="@layout/item_image_selection"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/cancel_image_change"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/elements"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <com.capstone.merkado.CustomViews.WoodenButton
+                    android:id="@+id/confirm_image_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:buttonText="@string/confirm" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

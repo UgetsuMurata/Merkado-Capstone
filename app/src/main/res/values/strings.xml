@@ -68,5 +68,6 @@
     <string name="lock_icon">LOCK ICON</string>
     <string name="filter_overlay">FILTER OVERLAY</string>
     <string name="icon">ICON</string>
+    <string name="server_image">SERVER_IMAGE</string>
 
 </resources>

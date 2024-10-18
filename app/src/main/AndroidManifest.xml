@@ -19,6 +19,9 @@
         tools:ignore="DiscouragedApi"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.Economy.SettingsEconomy"
+            android:exported="false" />
+        <activity
             android:name=".Screens.Game.Story.QuizDisplay"
             android:exported="false"
             android:screenOrientation="landscape" />

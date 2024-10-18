@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
+import com.capstone.merkado.Objects.ServerDataObjects.NewServer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 
@@ -17,7 +18,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class ServerDataFunctions {
 
@@ -93,23 +93,39 @@ public class ServerDataFunctions {
         });
     }
 
-    public static Boolean checkServerExistence(String serverCode) {
-        final CompletableFuture<Boolean> future = new CompletableFuture<>();
+    public static CompletableFuture<Boolean> checkServerExistence(String serverCode) {
+        final CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData(String.format("server/%s", serverCode), dataSnapshot -> {
-            if (dataSnapshot == null) {
-                future.complete(false);
-                return;
-            }
-            future.complete(dataSnapshot.exists());
-        });
+        firebaseData.retrieveData(String.format("server/%s", serverCode), future::complete);
 
-        try {
-            return future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            Log.e("checkServerExistence", String.format("Error occurred when getting future: %s", e));
-            return null;
-        }
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) {
+                return CompletableFuture.completedFuture(false);
+            }
+            return CompletableFuture.completedFuture(dataSnapshot.exists());
+        });
+    }
+
+    public static CompletableFuture<Integer> createNewServer(@NonNull String id, @NonNull NewServer newServer) {
+        return checkServerExistence(id).thenCompose(aBoolean -> {
+            if (Boolean.TRUE.equals(aBoolean))
+                return CompletableFuture.completedFuture(-1);
+            FirebaseData firebaseData = new FirebaseData();
+            firebaseData.setValue(String.format("server/%s", id), newServer);
+            return CompletableFuture.completedFuture(0);
+        });
+    }
+
+    public static void setSettings(@NonNull String id, @NonNull String user, @NonNull NewServer.Settings settings) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.retrieveData(String.format("server/%s", id), dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists()) return;
+            String serverOwner = dataSnapshot.child("/serverOwner").getValue(String.class);
+            if (serverOwner == null) return;
+            if (serverOwner.equals(user)) {
+                firebaseData.setValue(String.format("server/%s/settings", id), settings);
+            }
+        });
     }
 
     public static void logOutUpdaterPlayer(String serverId, Integer playerId) {

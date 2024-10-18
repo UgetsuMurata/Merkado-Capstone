@@ -63,4 +63,18 @@ public class GameResourceCaller {
                 return -1;
         }
     }
+
+    public static int getServerImage(Integer image) {
+        switch (image) {
+            case 1:
+                return R.drawable.icon_default_pfp1;
+            case 2:
+                return R.drawable.icon_default_pfp2;
+            case 3:
+                return R.drawable.icon_default_pfp3;
+            case 4:
+                return R.drawable.icon_default_pfp4;
+        }
+        return -1;
+    }
 }

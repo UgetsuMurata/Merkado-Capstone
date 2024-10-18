@@ -387,10 +387,6 @@
                 "nextScene": 2,
                 "rewards": [
                     {
-                        "resourceId": 0,
-                        "resourceQuantity": 1
-                    },
-                    {
                         "resourceId": 1,
                         "resourceQuantity": 200
                     }
@@ -1103,10 +1099,6 @@
                 ],
                 "nextScene": 4,
                 "rewards": [
-                    {
-                        "resourceId": 0,
-                        "resourceQuantity": 1
-                    },
                     {
                         "resourceId": 1,
                         "resourceQuantity": 200
@@ -3896,6 +3888,12 @@
                     }
                 ],
                 "nextScene": 10,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri I"
             },
             {
@@ -4483,6 +4481,12 @@
                     }
                 ],
                 "nextScene": 14,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri II"
             },
             {
@@ -5729,6 +5733,12 @@
                     }
                 ],
                 "nextScene": 17,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri III"
             },
             {
@@ -6068,6 +6078,12 @@
                     }
                 ],
                 "nextScene": 19,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri IV"
             },
             {
@@ -6462,6 +6478,12 @@
                     }
                 ],
                 "nextScene": 21,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri V"
             },
             {
@@ -6901,6 +6923,12 @@
                     }
                 ],
                 "nextScene": 23,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri VI"
             },
             {
@@ -7265,6 +7293,12 @@
                     }
                 ],
                 "nextScene": 25,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri VII"
             },
             {
@@ -8313,6 +8347,12 @@
                     }
                 ],
                 "nextScene": 1,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ang Demand, Supply at Elastisidad nito"
             },
             {
@@ -8401,6 +8441,12 @@
                     }
                 ],
                 "nextScene": 2,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri VIII"
             },
             {
@@ -9102,6 +9148,12 @@
                     }
                 ],
                 "nextScene": 3,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ang Pamilihan at ang Estruktura nito"
             },
             {
@@ -9221,6 +9273,12 @@
                     }
                 ],
                 "nextScene": 4,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri IX"
             },
             {
@@ -9814,6 +9872,12 @@
                     }
                 ],
                 "nextScene": 5,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ang Interaksyon ng Demand at Supply"
             },
             {
@@ -9922,6 +9986,12 @@
                     }
                 ],
                 "nextScene": 6,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri X"
             },
             {
@@ -10024,6 +10094,12 @@
                     }
                 ],
                 "nextScene": 7,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ugnayan ng Pamilihan at Pamahalaan"
             },
             {
@@ -10131,6 +10207,12 @@
                     }
                 ],
                 "nextScene": 8,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ugnayan ng Pamilihan at Pamahalaan"
             },
             {
@@ -10468,6 +10550,12 @@
                     }
                 ],
                 "nextScene": 9,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ang Ugnayan ng Pamilihan at Pamahalaan"
             },
             {
@@ -10557,6 +10645,12 @@
                     }
                 ],
                 "nextScene": 10,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XI"
             },
             {
@@ -10902,6 +10996,12 @@
                         "transition": "FTB"
                     }
                 ],
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Wakas ng Ikalawang Kabanata"
             }
         ],
@@ -11059,6 +11159,12 @@
                         ],
                         "id": 0,
                         "transition": "FTB"
+                    }
+                ],
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
                     }
                 ],
                 "scene": "PAMBILANG NA MISYON: BAHAGI II"
@@ -11481,6 +11587,12 @@
                     }
                 ],
                 "nextScene": 1,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ang Paikot na Daloy ng Ekonomiya"
             },
             {
@@ -11596,6 +11708,12 @@
                     }
                 ],
                 "nextScene": 2,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XII"
             },
             {
@@ -11877,6 +11995,12 @@
                     }
                 ],
                 "nextScene": 3,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ugnayan ng Kita, Pag-iimpok at Pagkonsumo"
             },
             {
@@ -11966,6 +12090,12 @@
                     }
                 ],
                 "nextScene": 4,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XIII"
             },
             {
@@ -12314,6 +12444,12 @@
                     }
                 ],
                 "nextScene": 5,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ang Pambansang Kita"
             },
             {
@@ -12422,6 +12558,12 @@
                     }
                 ],
                 "nextScene": 6,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XIV"
             },
             {
@@ -12710,6 +12852,12 @@
                     }
                 ],
                 "nextScene": 7,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ang Implasyon"
             },
             {
@@ -12807,6 +12955,12 @@
                     }
                 ],
                 "nextScene": 8,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XV"
             },
             {
@@ -13321,6 +13475,12 @@
                     }
                 ],
                 "nextScene": 9,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Prayoridad: Pag-aaral Bago Negosyo"
             },
             {
@@ -13473,6 +13633,12 @@
                     }
                 ],
                 "nextScene": 10,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pag-impok: Pera sa Bangko o Sa Bulsa?"
             },
             {
@@ -13971,6 +14137,12 @@
                     }
                 ],
                 "nextScene": 11,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Patakarang Piskal at Pananalapi"
             },
             {
@@ -14058,6 +14230,12 @@
 
                         ],
                         "transition": "FTB"
+                    }
+                ],
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
                     }
                 ],
                 "scene": "Pagsusuri XVI"
@@ -14877,6 +15055,12 @@
                     }
                 ],
                 "nextScene": 1,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Konsepto ng Palatandaan ng Pambansang Kaunlaran"
             },
             {
@@ -14985,6 +15169,12 @@
                     }
                 ],
                 "nextScene": 2,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XVII"
             },
             {
@@ -15380,6 +15570,12 @@
                     }
                 ],
                 "nextScene": 3,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Impormal na sektor"
             },
             {
@@ -15484,6 +15680,12 @@
                     }
                 ],
                 "nextScene": 4,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XVIII"
             },
             {
@@ -15636,6 +15838,12 @@
                     }
                 ],
                 "nextScene": 5,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Sektor ng Industriya"
             },
             {
@@ -15732,6 +15940,12 @@
                     }
                 ],
                 "nextScene": 6,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XIX"
             },
             {
@@ -15959,6 +16173,12 @@
                     }
                 ],
                 "nextScene": 7,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Sektor ng Paglilingkod"
             },
             {
@@ -16078,6 +16298,12 @@
                     }
                 ],
                 "nextScene": 8,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XX"
             },
             {
@@ -16379,6 +16605,12 @@
                     }
                 ],
                 "nextScene": 9,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Mga Pagsubok at Pangarap: Pagharap sa Kinabukasan"
             },
             {
@@ -16730,6 +16962,12 @@
                     }
                 ],
                 "nextScene": 10,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Kalakalang Panlabas"
             },
             {
@@ -16819,6 +17057,12 @@
                     }
                 ],
                 "nextScene": 11,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XXI"
             },
             {
@@ -17015,6 +17259,12 @@
                     }
                 ],
                 "nextScene": 12,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Ang pinsala ng bagyo"
             },
             {
@@ -17237,6 +17487,12 @@
                     }
                 ],
                 "nextScene": 13,
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Sektor ng Agrikultura"
             },
             {
@@ -17348,6 +17604,12 @@
                         "transition": "FTB"
                     }
                 ],
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
+                    }
+                ],
                 "scene": "Pagsusuri XXII"
             }
         ],
@@ -17361,7 +17623,7 @@
             {
                 "bgm": "sunset loop",
                 "description": "Napunta ka sa isang mahirap na sitwasyon kung saan ang tanging nais mo ay magsimulang muli.",
-                "id": 6,
+                "id": 0,
                 "lineGroup": [
                     {
                         "background": "streets",
@@ -17582,6 +17844,12 @@
                                 "toShow": true
                             }
                         ]
+                    }
+                ],
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
                     }
                 ],
                 "scene": "PAMBILANG NA MISYON: BAHAGI III"
@@ -17809,6 +18077,12 @@
                             }
                         ],
                         "transition": "FTB"
+                    }
+                ],
+                "rewards": [
+                    {
+                        "resourceId": 1,
+                        "resourceQuantity": 200
                     }
                 ],
                 "scene": "Ang muling pagbangon ng ekonomiya - mula sa sarili at tahanan"

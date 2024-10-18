@@ -1,7 +1,12 @@
 package com.capstone.merkado.Screens.Economy;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,24 +14,26 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.Helpers.StringVerifier;
-import com.capstone.merkado.Helpers.WarningTextHelper;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.R;
-
-import java.util.function.Consumer;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class AddEconomy extends AppCompatActivity {
 
     Merkado merkado;
-    private EditText serverCodeEditText;
-    private TextView serverCodeError;
+    EditText serverIdEditText, serverKeyEditText;
+    TextInputLayout serverId, serverKey;
+    WoodenButton joinEconomy;
+
+    Boolean validId = false;
+    Boolean validKey = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +44,13 @@ public class AddEconomy extends AppCompatActivity {
         merkado.initializeScreen(this);
 
         ImageView closeButton = findViewById(R.id.close_button);
-        TextView createServer = findViewById(R.id.cserver);
-        CardView joinEconomy = findViewById(R.id.join);
-        CardView cancelEconomy = findViewById(R.id.cancel);
-        serverCodeEditText = findViewById(R.id.server_code);
-        serverCodeError = findViewById(R.id.server_code_error);
+        TextView createServer = findViewById(R.id.create_server);
+        joinEconomy = findViewById(R.id.join);
+        TextView cancelEconomy = findViewById(R.id.cancel);
+        serverId = findViewById(R.id.server_code);
+        serverIdEditText = findViewById(R.id.server_code_edittext);
+        serverKey = findViewById(R.id.server_key);
+        serverKeyEditText = findViewById(R.id.server_key_edittext);
 
         closeButton.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
         cancelEconomy.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
@@ -51,17 +60,50 @@ public class AddEconomy extends AppCompatActivity {
             finish();
         });
 
-        serverCodeEditText.setOnFocusChangeListener((v, hasFocus) -> {
+        serverId.setErrorEnabled(true);
+        serverId.setError(null);
+        serverKey.setErrorEnabled(true);
+        serverKey.setError(null);
+
+        serverIdEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                WarningTextHelper.hide(serverCodeError);
+                serverId.setError(null);
+                validId = false;
             } else {
-                if (serverCodeEditText.getText() == null || serverCodeEditText.getText().toString().isEmpty())
+                if (serverIdEditText.getText() == null || serverIdEditText.getText().toString().isEmpty()) {
+                    serverId.setError(null);
+                    validId = false;
                     return;
-                if (StringVerifier.isValidServerCode(serverCodeEditText.getText().toString()))
-                    WarningTextHelper.hide(serverCodeError);
-                else
-                    WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "Code must only contain a valid 6-digit number.");
+                }
+                if (StringVerifier.isValidServerId(serverIdEditText.getText().toString())) {
+                    serverId.setError(null);
+                    validId = true;
+                } else {
+                    serverId.setError("Invalid server id.");
+                    validId = false;
+                }
             }
+            checkJoinButton();
+        });
+
+        serverKeyEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                serverKey.setError(null);
+                validKey = false;
+            } else {
+                if (serverKeyEditText.getText() == null || serverKeyEditText.getText().toString().isEmpty()) {
+                    validKey = false;
+                    return;
+                }
+                if (StringVerifier.isValidServerKey(serverKeyEditText.getText().toString())) {
+                    serverKey.setError(null);
+                    validKey = true;
+                } else {
+                    serverKey.setError("Invalid server key.");
+                    validKey = false;
+                }
+            }
+            checkJoinButton();
         });
 
         joinEconomy.setOnClickListener(v -> new Thread(this::joinEconomyFunction).start());
@@ -74,35 +116,70 @@ public class AddEconomy extends AppCompatActivity {
         return false;
     }
 
+    private void checkJoinButton() {
+        if (validId && validKey) joinEconomy.enable();
+        else joinEconomy.disable();
+    }
+
     private void joinEconomyFunction() {
-        if (serverCodeEditText.getText() == null || serverCodeEditText.getText().toString().trim().isEmpty()) {
-            runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "Please input the code."));
-        } else if (!StringVerifier.isValidServerCode(serverCodeEditText.getText().toString().trim())) {
-            runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "Code must only contain a valid 6-digit number."));
-        } else if (economySavedAlready(serverCodeEditText.getText().toString().trim())) {
-            runOnUiThread(() -> WarningTextHelper.showWarning(getApplicationContext(), serverCodeError, "You already joined this economy!"));
+        if (economySavedAlready(serverIdEditText.getText().toString().trim())) {
+            runOnUiThread(() -> Toast.makeText(getApplicationContext(), "You already joined this server.", Toast.LENGTH_SHORT).show());
+            finish();
         } else {
-            String serverCodeStr = serverCodeEditText.getText().toString().trim();
-            ServerDataFunctions.checkServerExistence(serverCodeStr).thenAccept(serverExists -> {
-                if (Boolean.TRUE.equals(serverExists)) {
-                    Account account = merkado.getAccount();
-                    if (account == null) {
-                        runOnUiThread(()->Toast.makeText(getApplicationContext(), "Error retrieving account information. Try again later.", Toast.LENGTH_SHORT).show());
-                        finish();
-                        return;
-                    }
-                    Boolean results = PlayerDataFunctions.addPlayerToServer(serverCodeStr, account);
-                    runOnUiThread(()-> {
-                        Toast.makeText(getApplicationContext(), results ? "Server added successfully!" : "Failed to join server. Try again later.", Toast.LENGTH_SHORT).show();
-                        setResult(results ? RESULT_OK : RESULT_CANCELED);
-                        finish();
+            String serverIdStr = serverIdEditText.getText().toString().trim();
+            String serverKeyStr = serverKeyEditText.getText().toString().trim();
+            ServerDataFunctions.checkServerExistence(serverIdStr)
+                    .thenAccept(serverExists -> {
+                        if (Boolean.TRUE.equals(serverExists)) {
+                            Account account = merkado.getAccount();
+                            if (account == null) {
+                                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Error retrieving account information. Try again later.", Toast.LENGTH_SHORT).show());
+                                finish();
+                                return;
+                            }
+                            PlayerDataFunctions.addPlayerToServer(serverIdStr, serverKeyStr, account).thenAccept(result -> {
+                                switch (result) {
+                                    case 0:
+                                        runOnUiThread(() -> {
+                                            Toast.makeText(getApplicationContext(), "Server added successfully!", Toast.LENGTH_SHORT).show();
+                                            setResult(RESULT_OK);
+                                            finish();
+                                        });
+                                    case -1:
+                                        runOnUiThread(() -> {
+                                            Toast.makeText(getApplicationContext(), "Error has occurred. Please try again later!", Toast.LENGTH_SHORT).show();
+                                            setResult(RESULT_CANCELED);
+                                            finish();
+                                        });
+                                    case -2:
+                                        serverKeyEditText.setText("");
+                                        serverKey.setError("Incorrect key.");
+                                        validKey = false;
+                                }
+                            });
+                        } else {
+                            runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Server does not exist.", Toast.LENGTH_SHORT).show());
+                            finish();
+                        }
                     });
-                }
-                else {
-                    runOnUiThread(()->Toast.makeText(getApplicationContext(), "Server does not exist.", Toast.LENGTH_SHORT).show());
-                    finish();
-                }
-            });
         }
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }

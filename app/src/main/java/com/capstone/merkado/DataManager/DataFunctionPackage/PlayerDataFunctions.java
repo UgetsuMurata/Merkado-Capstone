@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.FirebaseCharacters;
+import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
@@ -183,46 +184,51 @@ public class PlayerDataFunctions {
 
 
     //For adding the player to the server
-    public static Boolean addPlayerToServer(String serverCode, Account account) {
+    public static CompletableFuture<Integer> addPlayerToServer(String serverId, String serverKey, Account account) {
         FirebaseData firebaseData = new FirebaseData();
-        Long playerId = getNextPlayerIndex();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData("server/" + serverId + "/key", future::complete);
 
-        if (playerId == -1L) return false;
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) return CompletableFuture.completedFuture(-1); // general error
 
-        // populate storyQueueList
-        Map<String, Object> playerData = createNewPlayerData(serverCode, account);
+            String savedKey = dataSnapshot.getValue(String.class);
+            if (savedKey == null) return CompletableFuture.completedFuture(-1); // cannot retrieve server credentials
+            if (!savedKey.equals(StringHash.hashPassword(serverKey))) return CompletableFuture.completedFuture(-2); // incorrect key
 
-        // Add player data to Firebase under player/{playerId}
-        Boolean success = firebaseData.setValues(String.format("player/%s", playerId), playerData);
+            return getNextPlayerIndex().thenCompose(playerId -> {
+                if (playerId == -1L) return CompletableFuture.completedFuture(-1); // cannot generate player id
 
-        // return false if not successful.
-        if (success == null || !success) return false;
+                // populate storyQueueList
+                Map<String, Object> playerData = createNewPlayerData(serverId, account);
 
-        // ADD PLAYER ID TO SERVER PLAYERS LIST
-        addPlayerToServer(serverCode, playerId);
+                // Add player data to Firebase under player/{playerId}
+                return firebaseData.setValues(String.format("player/%s", playerId), playerData).thenCompose(success->{
+                    // return false if not successful.
+                    if (success == null || !success) return CompletableFuture.completedFuture(-1);
 
-        // ADD PLAYER ID TO ACCOUNT
-        addPlayerToAccount(account.getEmail(), playerId);
-        return true;
+                    // ADD PLAYER ID TO SERVER PLAYERS LIST
+                    addPlayerToServer(serverId, playerId);
+
+                    // ADD PLAYER ID TO ACCOUNT
+                    addPlayerToAccount(account.getEmail(), playerId);
+                    return CompletableFuture.completedFuture(0);
+                });
+            });
+        });
     }
 
-    private static Long getNextPlayerIndex() {
-        CompletableFuture<Long> future = new CompletableFuture<>();
+    private static CompletableFuture<Long> getNextPlayerIndex() {
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.retrieveData("player", dataSnapshot -> {
-            if (dataSnapshot == null) {
-                future.complete(-1L);
-                return;
-            }
-            future.complete(dataSnapshot.getChildrenCount());
-        });
+        firebaseData.retrieveData("player", future::complete);
 
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            Log.e("getNextPlayerIndex", String.format("Error occurred when getting future: %s", e));
-            return -1L;
-        }
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) {
+                return CompletableFuture.completedFuture(-1L);
+            }
+            return CompletableFuture.completedFuture(dataSnapshot.getChildrenCount());
+        });
     }
 
     private static @NonNull Map<String, Object> createNewPlayerData(String serverCode, Account account) {
@@ -254,25 +260,14 @@ public class PlayerDataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         firebaseData.retrieveData(String.format("server/%s/players", serverCode), dataSnapshot -> {
-            if (dataSnapshot == null) {
-                future.complete(null);
-                return;
-            }
+            if (dataSnapshot == null) return;
             if (dataSnapshot.exists()) {
                 long playerCount = dataSnapshot.getChildrenCount();
                 firebaseData.setValue(String.format("server/%s/players/%s", serverCode, playerCount), playerId);
             } else {
                 firebaseData.setValue(String.format("server/%s/players/0", serverCode), playerId);
             }
-
-            future.complete(null);
         });
-
-        try {
-            future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            Log.e("addPlayerToServer", String.format("Error occurred when getting future: %s", e));
-        }
     }
 
     private static void addPlayerToAccount(String email, Long playerId) {
@@ -289,12 +284,6 @@ public class PlayerDataFunctions {
             firebaseData.setValue(String.format("accounts/%s/player/%s", encodedEmail, index), playerId);
             future.complete(null);
         });
-
-        try {
-            future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            Log.e("addPlayerToAccount", String.format("Error occurred when getting future: %s", e));
-        }
     }
 
     public static void addPlayerExperience(Integer playerId, Long quantity, ValueReturn<Long> longValue) {

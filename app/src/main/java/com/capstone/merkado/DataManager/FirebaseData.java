@@ -16,7 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 
 public class FirebaseData {
@@ -117,18 +116,18 @@ public class FirebaseData {
         childRef.setValue(value);
     }
 
-    public Boolean setValues(String childPath, Map<String, Object> value){
+    public CompletableFuture<Boolean> setValues(String childPath, Map<String, Object> value) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         DatabaseReference childRef = databaseRef.child(childPath);
+
         childRef.updateChildren(value)
                 .addOnSuccessListener(unused -> future.complete(true))
-                .addOnFailureListener(e -> future.complete(false));
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            Log.e("setValues", String.format("%s", e));
-            return null;
-        }
+                .addOnFailureListener(e -> {
+                    Log.e("setValues", String.format("%s", e));
+                    future.complete(false);
+                });
+
+        return future;
     }
 
     public void removeData(String childPath){

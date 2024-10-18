@@ -7,117 +7,154 @@
     android:background="@drawable/bg_mai_main_menu"
     tools:context=".Screens.Economy.AddEconomy">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialview"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:backgroundTint="@color/white_transparent"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/merkado_orange"
-        app:strokeWidth="5dp">
+        android:background="@drawable/bg_quiz">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.98" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/board_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.02" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.13" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/header"
+            android:text="Join a Server"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/top"
+            app:layout_constraintStart_toStartOf="@id/start"
+            app:layout_constraintTop_toTopOf="@id/board_top" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:orientation="vertical"
-            android:paddingHorizontal="40dp"
-            android:paddingVertical="20dp">
+            android:padding="10dp"
+            android:weightSum="10"
+            android:layout_marginHorizontal="30dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/bottom"
+            app:layout_constraintEnd_toEndOf="@id/end"
+            app:layout_constraintStart_toStartOf="@id/start"
+            app:layout_constraintTop_toTopOf="@id/top">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/main"
-                android:text="Join a Server"
-                android:textAlignment="center"
-                android:textSize="30sp" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/server_code"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/edittext_shadow"
-                android:elevation="20dp"
-                android:fontFamily="@font/main"
-                android:hint="Enter Code"
-                android:padding="10dp"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:hint="Server Id"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:hintTextColor="@color/gray">
 
-            <TextView
-                android:id="@+id/server_code_error"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/server_code_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/elements"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/server_key"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:text="Code Error"
-                android:textSize="10sp"
-                android:visibility="gone" />
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Server Key"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:hintTextColor="@color/gray">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/server_key_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/elements"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_height="0dp"
                 android:gravity="center"
+                android:layout_weight="2"
                 android:orientation="horizontal"
                 android:paddingHorizontal="50dp">
 
-                <androidx.cardview.widget.CardView
+
+                <TextView
                     android:id="@+id/cancel"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#DFDFDF"
-                    app:cardCornerRadius="20dp">
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/elements"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:padding="10dp"
+                    android:text="Cancel"
+                    android:textSize="14sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/elements"
-                        android:gravity="center"
-                        android:imeOptions="actionDone"
-                        android:letterSpacing="0.3"
-                        android:padding="10dp"
-                        android:text="Cancel"
-                        android:textSize="14sp" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <com.capstone.merkado.CustomViews.WoodenButton
                     android:id="@+id/join"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/merkado_orange"
-                    app:cardCornerRadius="20dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/elements"
-                        android:gravity="center"
-                        android:imeOptions="actionDone"
-                        android:letterSpacing="0.3"
-                        android:padding="10dp"
-                        android:text="Join"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-                </androidx.cardview.widget.CardView>
+                    app:buttonMode="longSign"
+                    app:buttonText="Join" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:gravity="center"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
@@ -127,7 +164,7 @@
                     android:text="Need to create a server?" />
 
                 <TextView
-                    android:id="@+id/cserver"
+                    android:id="@+id/create_server"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
@@ -138,17 +175,15 @@
 
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Close button -->
     <ImageView
         android:id="@+id/close_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
         android:src="@drawable/gui_close_button"
-        app:layout_constraintEnd_toEndOf="@+id/materialview"
-        app:layout_constraintTop_toTopOf="@id/materialview" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

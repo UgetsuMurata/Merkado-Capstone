@@ -75,7 +75,11 @@ public class StringVerifier {
      * @param code raw string.
      * @return boolean value of validity.
      */
-    public static Boolean isValidServerCode(String code) {
-        return code.matches("^\\d{6}$");
+    public static Boolean isValidServerId(String code) {
+        return code.matches("^[0-9A-Z]{3}-[0-9A-Z]{3}-[0-9A-Z]{3}$");
+    }
+
+    public static Boolean isValidServerKey(String code) {
+        return code.matches("^[0-9]{5}$");
     }
 }

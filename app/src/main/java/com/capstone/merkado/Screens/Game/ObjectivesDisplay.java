@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives.Objective;
 import com.capstone.merkado.R;
@@ -28,6 +29,10 @@ public class ObjectivesDisplay extends AppCompatActivity implements View.OnClick
         milestoneTitle = findViewById(R.id.milestone_title);
         milestoneSubtitle = findViewById(R.id.milestone_subtitle);
         milestoneObjectives = findViewById(R.id.milestone_objectives);
+
+        // initialize this activity's screen.
+        Merkado merkado = Merkado.getInstance();
+        merkado.initializeScreen(this);
 
         Objectives objectives = getIntent().getParcelableExtra("OBJECTIVE");
         if (objectives == null) {

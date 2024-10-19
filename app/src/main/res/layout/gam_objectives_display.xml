@@ -9,83 +9,109 @@
     android:background="@drawable/bg_acc_sign_up"
     tools:context=".Screens.Game.ObjectivesDisplay">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/objectives_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bg_objectives"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_objectives"
+     >
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".18"/>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".83"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="@id/top"
-        app:layout_constraintBottom_toBottomOf="@id/bottom">
-
-        <TextView
-            android:id="@+id/milestone_title"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/header"
-            android:text="dsadas"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".18"/>
 
-        <View
-            android:layout_width="240dp"
-            android:layout_height="3dp"
-            android:background="@color/black" />
-
-        <TextView
-            android:id="@+id/milestone_subtitle"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/elements"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".83"/>
 
-        <TextView
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/text"
-            android:text="Mga Layunin:"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".86"/>
 
-        <TextView
-            android:id="@+id/milestone_objectives"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/elements"
-            android:textColor="@color/black"
-            android:textSize="10sp" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".17"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:fontFamily="@font/elements"
-            android:text="✧ Mag-click sa kahit saan upang magpatuloy ✧"
-            android:textColor="@color/gray"
-            android:textSize="10sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/bottom"
+            app:layout_constraintEnd_toEndOf="@id/left"
+            app:layout_constraintStart_toStartOf="@id/right"
+            app:layout_constraintTop_toTopOf="@id/top">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/milestone_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/header"
+                android:text="dsadas"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <View
+                android:layout_width="240dp"
+                android:layout_height="3dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/milestone_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/elements"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/right"
+                app:layout_constraintStart_toStartOf="@id/left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/text"
+                android:text="Mga Layunin:"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/milestone_objectives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/elements"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/elements"
+                android:gravity="bottom"
+                android:text="✧ Pumindot sa kahit saan upang magpatuloy ✧"
+                android:textColor="@color/gray"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -107,10 +107,10 @@ public class NotificationHelper {
 
         private static int getImage(String mode) {
             if (NEW_OBJECTIVE.equals(mode)) {
-                return R.drawable.icon_objective;
+                return R.drawable.icon_objectives_idle;
             }
             if (DONE_OBJECTIVE.equals(mode)) {
-                return R.drawable.icon_objective;
+                return R.drawable.icon_objectives_idle;
             }
 
             return R.drawable.icon_nibble;

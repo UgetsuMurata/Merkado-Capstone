@@ -14,29 +14,29 @@
         "id": 1,
         "objective": "Tukuyin ang sanhi ng kakapusan at magbigay ng solusyon.",
         "startTrigger": "0,10,0,0",
-        "endTrigger": "0,12,0,0"
+        "endTrigger": "0,14,0,0"
       },
       {
         "id": 2,
         "objective": "Alamin ang kaibahan ng pangangailangan at kagustuhan.",
-        "startTrigger": "0,12,0,0",
-        "endTrigger": "0,14,1,0"
+        "startTrigger": "0,14,0,0",
+        "endTrigger": "0,17,0,0"
       },
       {
         "id": 3,
         "objective": "Suriin ang iba’t ibang uri ng organisasyon at negosyo sa isang ekonomiya.",
-        "startTrigger": "0,14,1,0",
-        "endTrigger": "0,17,0,9"
+        "startTrigger": "0,17,0,0",
+        "endTrigger": "0,19,0,0"
       },
       {
         "id": 4,
         "objective": "Maunawaan ang alokasyon sa iba’t ibang sistemang pang-ekonomiya.",
-        "startTrigger": "0,17,0,9",
+        "startTrigger": "0,19,0,0",
         "endTrigger": "0,21,0,0"
       },
       {
         "id": 5,
-        "objective": "Maging responsibleng mamimili at ipagtanggol ang karapatan.",
+        "objective": "Ipaliwanag ang responsibleng mamimili at ipagtanggol ang karapatan.",
         "startTrigger": "0,21,0,0",
         "endTrigger": "0,23,0,0"
       },
@@ -55,33 +55,34 @@
     "objectives": [
       {
         "id": 0,
-        "objective": "Maipaliwanag ang demand, supply, at epekto nito sa pang-araw-araw na buhay ng pamilya.",
+        "objective": "Maipaliwanag ang demand, supply, at epekto nito sa ekonomiya",
         "startTrigger": "2,0,0,0",
-        "endTrigger": "2,0,0,0"
+        "endTrigger": "2,0,0,21"
       },
       {
         "id": 1,
-        "objective": "Matutunan ang price elasticity ng demand at supply at ang reaksyon ng mamimili sa pagbabago ng presyo.",
-        "startTrigger": "2,0,0,0",
-        "endTrigger": "2,0,0,0"
+        "objective": "Matutunan konsepto ang price elasticity ng demand at supply",
+        "startTrigger": "2,0,0,21",
+        "endTrigger": "2,2,0,0"
       },
       {
         "id": 2,
-        "objective": "Maipakita ang interaksiyon ng demand at supply at epekto nito sa presyo at pamilihan.",
-        "startTrigger": "2,0,0,0",
-        "endTrigger": "2,0,0,0"
+        "objective": "Maipaliwanag ang estruktura ng pamilihan at epekto nito sa mamimili at supplier.",
+        "startTrigger": "2,2,0,0",
+        "endTrigger": "2,4,0,0"
       },
       {
         "id": 3,
-        "objective": "Maipaliwanag ang estruktura ng pamilihan at epekto nito sa mamimili at supplier.",
-        "startTrigger": "2,0,0,0",
-        "endTrigger": "2,0,0,0"
+        "objective": "Maipakita ang interaksiyon ng demand at supply sa pamilihan",
+        "startTrigger": "2,4,0,0",
+        "endTrigger": "2,6,0,0"
       },
+
       {
         "id": 4,
-        "objective": "Maipaliwanag ang ugnayan ng pamahalaan at pamilihan sa pamamagitan ng price ceiling at price floor.",
-        "startTrigger": "2,0,0,0",
-        "endTrigger": "2,0,0,0"
+        "objective": "Maunawaang mabuti ang konsepto ng price ceiling at price floor",
+        "startTrigger": "2,6,0,0",
+        "endTrigger": "2,10,0,0"
       }
     ]
   },
@@ -92,39 +93,34 @@
     "objectives": [
       {
         "id": 0,
-        "objective": "Ilarawan at suriin ang paikot na daloy ng ekonomiya at ang ugnayan ng mga sektor.",
+        "objective": "Mailarawan at masuri ang paikot na daloy ng ekonomiya, ",
         "startTrigger": "4,0,0,0",
-        "endTrigger": "4,0,0,0"
+        "endTrigger": "4,2,0,0"
       },
       {
         "id": 1,
-        "objective": "Suriin ang pambansang kita at produkto, tulad ng GNP at GDP, at ang mga paraan ng pagsukat nito.",
-        "startTrigger": "4,0,0,0",
-        "endTrigger": "4,0,0,0"
+        "objective": "Masuri ang kaugnayan ng kita sa pagkonsumo at pag-iimpok",
+        "startTrigger": "4,2,0,0",
+        "endTrigger": "4,4,0,0"
       },
       {
         "id": 2,
-        "objective": "Suriin ang ugnayan ng kita, pagkonsumo, at pag-iimpok, at ang kahalagahan ng mga ito sa ekonomiya.",
-        "startTrigger": "4,0,0,0",
-        "endTrigger": "4,0,0,0"
+        "objective": "Suriin ang pambansang kita tulad ng GNP at GDP, at ang mga pagsukat nito.",
+        "startTrigger": "4,4,0,0",
+        "endTrigger": "4,6,0,0"
       },
+
       {
         "id": 3,
-        "objective": "Suriin ang konsepto ng implasyon, mga sanhi at epekto nito, at makilahok sa paglutas ng mga suliranin nito.",
-        "startTrigger": "4,0,0,0",
-        "endTrigger": "4,0,0,0"
+        "objective": "Maipakita at mataya ang mga konsepto ng implasyon",
+        "startTrigger": "4,6,0,0",
+        "endTrigger": "4,10,0,0"
       },
       {
         "id": 4,
-        "objective": "Ipaliwanag at suriin ang patakarang piskal, kasama ang papel ng pamahalaan at responsibilidad sa pagbabayad ng buwis.",
-        "startTrigger": "4,0,0,0",
-        "endTrigger": "4,0,0,0"
-      },
-      {
-        "id": 5,
-        "objective": "Ipaliwanag at suriin ang patakarang pananalapi at ang mga hakbang ng BSP para mapanatili ang halaga ng salapi.",
-        "startTrigger": "4,0,0,0",
-        "endTrigger": "4,0,0,0"
+        "objective": "Maipaliwanag at konsepto ng patakarang piskal at pananalapi, ",
+        "startTrigger": "4,10,0,0",
+        "endTrigger": "4,10,6,0"
       }
     ]
   },
@@ -135,39 +131,39 @@
     "objectives": [
       {
         "id": 0,
-        "objective": "Ipaliwanag ang pambansang kaunlaran, mga palatandaan, at kontribusyon ng mamamayan.",
+        "objective": "Ipakita ang mga palatandaan ng pambansang kaunlaran",
         "startTrigger": "5,0,0,0",
-        "endTrigger": "5,0,0,0"
+        "endTrigger": "5,2,0,0"
       },
       {
         "id": 1,
-        "objective": "Suriin ang papel ng agrikultura, pangingisda, paggugubat, mga suliranin, at patakaran dito.",
-        "startTrigger": "5,0,0,0",
-        "endTrigger": "5,0,0,0"
+        "objective": "Ipaliwanag ang impormal na sektor at kahalagahan nito sa ekonomiya",
+        "startTrigger": "5,2,0,0",
+        "endTrigger": "5,4,0,0"
       },
       {
         "id": 2,
-        "objective": "Suriin ang papel ng industriya, ugnayan sa agrikultura, at mga patakaran na sumusuporta dito.",
-        "startTrigger": "5,0,0,0",
-        "endTrigger": "5,0,0,0"
+        "objective": "Suriin ang papel ng sektor ng industriya at ang mga patakaran nito",
+        "startTrigger": "5,4,0,0",
+        "endTrigger": "5,6,0,0"
       },
       {
         "id": 3,
-        "objective": "Suriin ang papel ng sektor ng paglilingkod at mga patakaran para sa proteksyon ng manggagawa.",
-        "startTrigger": "5,0,0,0",
-        "endTrigger": "5,0,0,0"
+        "objective": "Suriin ang papel ng sektor ng paglilingkod at mga benepisyong kaakibat nito",
+        "startTrigger": "5,6,0,0",
+        "endTrigger": "5,9,0,0"
       },
       {
         "id": 4,
-        "objective": "Ipaliwanag ang impormal na sektor, mga sanhi at epekto nito, at pagsunod sa patakarang pang-ekonomiya.",
-        "startTrigger": "5,0,0,0",
-        "endTrigger": "5,0,0,0"
+        "objective": "Suriin ang konsepto ng kalakalang panlabas at mga organisasyon nito",
+        "startTrigger": "5,9,0,0",
+        "endTrigger": "5,12,0,0"
       },
       {
         "id": 5,
-        "objective": "Suriin ang ugnayan ng Pilipinas sa kalakalang panlabas at mga patakarang tumutulong dito.",
-        "startTrigger": "5,0,0,0",
-        "endTrigger": "5,0,0,0"
+        "objective": "Suriin ang papel ng sektor ng agrikultura sa isang ekonomiya",
+        "startTrigger": "5,12,0,0",
+        "endTrigger": "5,12,0,18"
       }
     ]
   }

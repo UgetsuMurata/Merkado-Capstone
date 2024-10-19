@@ -282,7 +282,7 @@
                 "id": 1,
                 "lineGroup": [
                     {
-                        "background": "streets",
+                        "background": "outside_school",
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -2528,7 +2528,7 @@
                         ]
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "defaultNextLine": 10,
                         "dialogueLines": [
                             {
@@ -2723,7 +2723,7 @@
                         ]
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "defaultNextLine": 12,
                         "dialogueLines": [
                             {
@@ -2787,7 +2787,7 @@
                         ]
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "defaultNextLine": 12,
                         "dialogueLines": [
                             {
@@ -2866,7 +2866,7 @@
                         ]
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -5923,7 +5923,7 @@
                                 ]
                             }
                         ],
-                        "id": 1,
+                        "id": 0,
                         "initialImages": [
                             {
                                 "image": "mc1_b_casual",
@@ -7319,7 +7319,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "balcon",
+                        "background": "balcony_night",
                         "defaultNextLine": 2,
                         "dialogueLines": [
                             {
@@ -7343,7 +7343,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "balcon",
+                        "background": "balcony_night",
                         "defaultNextLine": 3,
                         "dialogueLines": [
                             {
@@ -7458,7 +7458,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "balcon",
+                        "background": "balcony_night",
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
@@ -7523,13 +7523,13 @@
         "shortDescription": "Mga Pangunahing Konsepto ng Ekonomiks"
     },
     {
-        "bgm": "nibble_mystery loop",
         "category": "Side Quest",
         "chapter": "",
         "id": 1,
         "scenes": [
             {
                 "description": "Isang malaking daga!",
+                "bgm": "nibble_mystery loop",
                 "id": 0,
                 "lineGroup": [
                     {
@@ -7833,7 +7833,7 @@
                             },
                             {
                                 "character": "NANAY",
-                                "dialogue": "Pero baliktad naman ang nangyayari kapag mababa ang demand. Kapag kaunti lang ang gustong bumili, edi dadami ang supply kasi walang kumukuha, kaya bumababa ang presyo."
+                                "dialogue": "Kapag kaunti lang ang gustong bumili, edi dadami ang supply kasi walang kumukuha, kaya bumababa ang presyo."
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -8131,7 +8131,7 @@
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Oo, pero tandaan mo, kapag mas lalo pang tumaas ang pamasahe, halimbawa maging 20 pesos, mas maraming estudyante na tulad natin ang pipiling maglakad o magbisikleta.",
+                                "dialogue": "Oo, pero tandaan mo, kapag mas lalo pang tumaas ang pamasahe, halimbawa maging 20 pesos, mas maraming estudyante na tulad natin ang pipiliing maglakad o magbisikleta.",
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_compassion",
@@ -8146,7 +8146,7 @@
                             },
                             {
                                 "character": "JAXON",
-                                "dialogue": "Hmm, so kahit 50% ang itinaas ng presyo, konti lang ang hindi sumakay? Sabagay, kapag no choice ka talaga, magbabayad ka pa rin kahit mahal",
+                                "dialogue": "Oo nga no, magandang alternative ‘yan. Sige, susundin ko ‘yan next time. Magba-bike na lang ako.",
                                 "imageChanges": [
                                     {
                                         "image": "jaxon1_f_laughing",
@@ -8239,7 +8239,7 @@
                             },
                             {
                                 "character": "JAXON",
-                                "dialogue": "Kapag naging 60 pesos kada litro ang gasolina, halos automatic na ang pamasahe tataas din ng at least 15%, kaya naging kinse pesos na ngayon."
+                                "dialogue": "Kapag naging 60 pesos kada litro ang gasolina, halos automatic na ang pamasahe ay tataas din ng at least 15%, kaya naging kinse pesos na ngayon."
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -8254,7 +8254,7 @@
                             },
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Pero kapag masyado nang mataas, sigurado akong marami sa atin ang pipili na maglakad o mag-bike, kaya bababa ang demand sa mga tricycle.",
+                                "dialogue": "Pero kapag masyado nang mataas, sigurado akong marami sa atin ang pipiliin na maglakad o mag-bike, kaya bababa ang demand sa mga tricycle.",
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_compassion",
@@ -8307,6 +8307,7 @@
                             {
                                 "character": "EMPTY",
                                 "dialogue": "<i>Bell rings...</i>",
+                                "sfx": "school_bell",
                                 "imageChanges": [
                                     {
                                         "image": "jaxon1_b_uniform",
@@ -8383,7 +8384,7 @@
                             },
                             {
                                 "character": "JAXON",
-                                "dialogue": "Saglit lang to, pramis",
+                                "dialogue": "Saglit lang to, pangako",
                                 "imageChanges": [
                                     {
                                         "image": "jaxon1_f_laughing",
@@ -8638,7 +8639,7 @@
                             },
                             {
                                 "character": "TEACHER",
-                                "dialogue": "Exactly. Sa oligopolyo, matindi ang kumpetisyon kahit kaunti lang ang mga kumpanya.",
+                                "dialogue": "Exactly! Sa oligopolyo, matindi ang kumpetisyon kahit kaunti lang ang mga kumpanya.",
                                 "imageChanges": [
                                     {
                                         "image": "teacher1_f_laughing",
@@ -8837,7 +8838,7 @@
                                 "dialogue": "Jollibee",
                                 "imageChanges": [
                                     {
-                                        "image": "teacher1_f_laugh",
+                                        "image": "teacher1_f_laughing",
                                         "placement": "1;FACE",
                                         "toShow": true
                                     },
@@ -9230,7 +9231,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "market",
+                        "background": "classroom",
                         "dialogueLines": [
                             {
                                 "character": "TEACHER",
@@ -10004,8 +10005,8 @@
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
-                                "character": "null",
-                                "dialogue": "Narinig ni <b>{$USER_NAME}</b> na tila may kumakaluskos sa matataas na mga damo malapit sa kalsada"
+                                "character": "EMPTY",
+                                "dialogue": "<i>Narinig ni <b>{$USER_NAME}</b> na tila may kumakaluskos sa matataas na mga damo malapit sa kalsada</i>"
                             }
                         ],
                         "id": 0,
@@ -10020,12 +10021,12 @@
                                 "imageChanges": [
                                     {
                                         "image": "nibble1_b_normal",
-                                        "placement": "1;BODY",
+                                        "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
                                         "image": "nibble1_f_normal",
-                                        "placement": "1;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -10036,12 +10037,12 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_b_uniform",
-                                        "placement": "2;BODY",
+                                        "placement": "1;BODY",
                                         "toShow": true
                                     },
                                     {
                                         "image": "mc1_f_amazed",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -10064,7 +10065,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_curious",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -10083,7 +10084,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_confused",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -10109,7 +10110,6 @@
                 "lineGroup": [
                     {
                         "background": "living_room",
-                        "defaultNextLine": 1,
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -10193,7 +10193,7 @@
                                 "toShow": true
                             },
                             {
-                                "image": "nanay_b_modest",
+                                "image": "nanay1_b_modest",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
@@ -10310,7 +10310,7 @@
                             },
                             {
                                 "character": "PHARMACIST",
-                                "dialogue": ": Pero nasa maximum price na po kasi kami ngayon dahil sa kasalukuyang sitwasyon ng ekonomiya."
+                                "dialogue": "Pero nasa maximum price na po kasi kami ngayon dahil sa kasalukuyang sitwasyon ng ekonomiya."
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -10387,7 +10387,7 @@
                                         "nextLineGroup": 2
                                     },
                                     {
-                                        "choice": "Bumili ng gamot para sa lagnat lamang (Total: 350 for branded, 250 for generic)",
+                                        "choice": "Bumili para sa lagnat lamang (Total: 350 for branded, 250 for generic)",
                                         "nextLineGroup": 3
                                     }
                                 ]
@@ -10424,7 +10424,7 @@
                             },
                             {
                                 "character": "PHARMACIST",
-                                "dialogue": "Sige pa wait nalang po Ma’am/Sir ha."
+                                "dialogue": "Sige pa wait nalang po."
                             }
                         ],
                         "id": 1,
@@ -10472,7 +10472,7 @@
                             },
                             {
                                 "character": "PHARMACIST",
-                                "dialogue": "Sige pa wait nalang po Ma’am/Sir ha. "
+                                "dialogue": "Sige pa wait nalang po."
                             }
                         ],
                         "id": 2,
@@ -10520,7 +10520,7 @@
                             },
                             {
                                 "character": "PHARMACIST",
-                                "dialogue": "Sige pa wait nalang po, Mamsir, ha. "
+                                "dialogue": "Sige pa wait nalang po."
                             }
                         ],
                         "id": 3,
@@ -11722,7 +11722,7 @@
                 "id": 2,
                 "lineGroup": [
                     {
-                        "background": "streets",
+                        "background": "outside_school",
                         "defaultNextLine": 1,
                         "dialogueLines": [
                             {
@@ -11883,7 +11883,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "streets",
+                        "background": "outside_school",
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -11927,7 +11927,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "streets",
+                        "background": "outside_school",
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -12277,7 +12277,7 @@
                             },
                             {
                                 "character": "JAXON",
-                                "dialogue": ": Pero kapag constant prices naman, sinasala mo ‘yung epekto ng inflation o pagtaas ng presyo gamit ang presyo mula sa nakaraang taon o tinatawag na batayang taon.",
+                                "dialogue": "Pero kapag constant prices naman, sinasala mo ‘yung epekto ng inflation o pagtaas ng presyo gamit ang presyo mula sa nakaraang taon o tinatawag na batayang taon.",
                                 "imageChanges": [
                                     {
                                         "image": "jaxon1_f_laughing",
@@ -12376,7 +12376,7 @@
                             },
                             {
                                 "character": "JAXON",
-                                "dialogue": "Real GNP = Real GNP = (100 / 109.5) * 8,634,132 = 7,885,052"
+                                "dialogue": "Real GNP = (100 / 109.5) * 8,634,132 = 7,885,052"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -13448,7 +13448,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_compassion",
-                                        "placement": "2;FACE",
+                                        "placement": "1;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -13856,7 +13856,6 @@
                     },
                     {
                         "background": "market",
-                        "bgm": "merkado_theme loop",
                         "defaultNextLine": 4,
                         "dialogueLines": [
                             {
@@ -13868,7 +13867,7 @@
                                 "dialogue": "Isa rin ang Bangko Sentral sa nagpapanatili ng balanse pagdating sa pera ng ekonomiya para malutas ang inflation?",
                                 "imageChanges": [
                                     {
-                                        "image": "pork_vendor1_f_talking",
+                                        "image": "aling_isabel1_f_compassion",
                                         "placement": "2;FACE",
                                         "toShow": true
                                     }
@@ -13902,12 +13901,12 @@
                                 "toShow": true
                             },
                             {
-                                "image": "pork_vendor1_b_apron",
+                                "image": "aling_isabel1_b_normal",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
                             {
-                                "image": "pork_vendor1_f_normal",
+                                "image": "aling_isabel1_f_talking",
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
@@ -14255,7 +14254,7 @@
                 "id": 0,
                 "lineGroup": [
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -14365,7 +14364,7 @@
                                 "dialogue": "Sa totoo lang, maraming indikasyon ang magsasabi na umunlad ang isang Lipunan. Tulad ng…",
                                 "dialogueChoices": [
                                     {
-                                        "choice": ". Pagtaas ng GDP Rate",
+                                        "choice": "Pagtaas ng GDP Rate",
                                         "nextLineGroup": 1
                                     },
                                     {
@@ -14405,7 +14404,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "defaultNextLine": 4,
                         "dialogueLines": [
                             {
@@ -14438,7 +14437,7 @@
                         ]
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "defaultNextLine": 4,
                         "dialogueLines": [
                             {
@@ -14475,7 +14474,7 @@
                         ]
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "defaultNextLine": 4,
                         "dialogueLines": [
                             {
@@ -14508,8 +14507,7 @@
                         ]
                     },
                     {
-                        "background": "streets",
-                        "defaultNextLine": 5,
+                        "background": "barangay_hall",
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -14650,408 +14648,6 @@
                                 "toShow": true
                             }
                         ]
-                    },
-                    {
-                        "background": "streets",
-                        "bgm": "merkado_theme loop",
-                        "dialogueLines": [
-                            {
-                                "character": "KAPITAN",
-                                "dialogue": "Kasabay po nito ay nais kopong palalaahanan na maghanda po tayo para sa darating na bagyo dito sa ating bansa."
-                            },
-                            {
-                                "character": "KAPITAN",
-                                "dialogue": "Siguraduhin po natin na tayo ay ligtas at sumunod sa mga announcement na ibibigay ng barangay."
-                            },
-                            {
-                                "character": "KAPITAN",
-                                "dialogue": "Maraming salamat po."
-                            },
-                            {
-                                "character": "JAXON",
-                                "dialogue": "May bagyo pala?",
-                                "imageChanges": [
-                                    {
-                                        "image": "jaxon1_f_confused",
-                                        "placement": "2;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "null",
-                                "dialogue": "...",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_curious",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "jaxon1_f_normal",
-                                        "placement": "2;FACE",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "kapitan_b_normal",
-                                        "placement": "4;BODY",
-                                        "toShow": false
-                                    },
-                                    {
-                                        "image": "kapitan_f_talking",
-                                        "placement": "4;FACE",
-                                        "toShow": false
-                                    },
-                                    {
-                                        "image": "tatay_b_normal",
-                                        "placement": "5;BODY",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "tatay_f_normal",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Uy teka, si Tatay!",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_amazed",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "jaxon1_f_confused",
-                                        "placement": "2;FACE",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "tatay_b_normal",
-                                        "placement": "5;BODY",
-                                        "toShow": false
-                                    },
-                                    {
-                                        "image": "tatay_f_normal",
-                                        "placement": "5;FACE",
-                                        "toShow": false
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Tay!"
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Jaxon, mauna na ako ha! Kitakits bukas",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_normal",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "jaxon1_f_compassion",
-                                        "placement": "2;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "JAXON",
-                                "dialogue": "Sige-sige, ingat par!"
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Oh anak, ba’t andito ka pa?",
-                                "imageChanges": [
-                                    {
-                                        "image": "jaxon1_b_uniform",
-                                        "placement": "2;BODY",
-                                        "toShow": false
-                                    },
-                                    {
-                                        "image": "jaxon1_f_compassion",
-                                        "placement": "2;FACE",
-                                        "toShow": false
-                                    },
-                                    {
-                                        "image": "tatay_b_normal",
-                                        "placement": "5;BODY",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "tatay_f_confused",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "May inaanounce lang po si kap, kayo po, pauwi na ba?",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_compassion",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Oo, anak. S’ya nga pala, may good news ako.",
-                                "imageChanges": [
-                                    {
-                                        "image": "tatay_f_smile",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Ano po iyon, tay?",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_curious",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Magtatrabaho na ako sa construction site, anak."
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Hindi na ako magpe-pedicab."
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Wow, Magandang balita po ‘yan!",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_amazed",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Sa wakas, hindi narin tayo kabilang sa impormal na sektor.",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_normal",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "tatay_f_talking",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Kung hindi lang kulang ang trabaho rito at may sapat lang na pabrika o industriya, hindi tayo susugal sa ganto kaliit na sahod."
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Kaso no choice eh, kailangan natin kumita.",
-                                "imageChanges": [
-                                    {
-                                        "image": "tatay_f_normal",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Okay lang ‘yun tay, hindi naman ibig sabihin na hindi tayo kasama service sectors ay masama na ang ginagawa natin.",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_compassion",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Oo, siguro hindi tayo kasama sa pagbabayad ng buwis pero mahalaga parin ito para umunlad ang ekonomiya. "
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Totoo ‘yan anak.",
-                                "imageChanges": [
-                                    {
-                                        "image": "tatay_f_talking",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Dahil sa impormal na sektor, maraming nabibigyan ng trabaho lalo na sa kapos talaga sa buhay at hindi makasabay sa proseso ng gobyerno"
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Kaya hindi man kasama ang kita naming sa kabuuang pera ng bansa eh, malaki parin ang ambag nito para sa karamihan."
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Kaya sa mga kasama ko sa araw-araw, mga nagtitinda sa bangketa, online sellers, mga karpintero at iba pa na maliit lang ang kita",
-                                "imageChanges": [
-                                    {
-                                        "image": "tatay_f_smile",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Saludong-saludo ako sa kanila."
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Ako rin tay"
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "pero speaking of, ibig sabihin, magbabayad ka na po ngayon ng buwis dahil kasama kana sa sektor ng industriya?",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_curious",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Oo, anak",
-                                "imageChanges": [
-                                    {
-                                        "image": "tatay_f_talking",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Diretso na nila ikakaltas sa sahod ko ang kailangan kong bayaran sa BIR."
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Kahit ano namang trabaho sa ilalim ng sektor na ‘to tulad ng pagmimina, manufacturing o utilities ay ganoon din naman ang nangyayari."
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Nagsubok din po ba kayo maghanap ng trabaho sa ibang sektor like agrikultura?"
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Oo, anak kaso hindi ako nakukuha at mahirap din mag-adjust sa ibang bagay.",
-                                "imageChanges": [
-                                    {
-                                        "image": "tatay_f_normal",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Pero, dito naman sa industriya, makakatulong naman ito sa ibang sektor din, dahil marami tayong magagawang produkto na maaari nilang magamit."
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Halimbawa, sa mga magsasaka, ang mga pabrika ang gumagawa ng kanilang pang-abono, at mga makinaryang ginagamit nila sa pag-ani."
-                            },
-                            {
-                                "character": "TATAY",
-                                "dialogue": "Kaya magkakatulad lang ang mga ‘yan.",
-                                "imageChanges": [
-                                    {
-                                        "image": "tatay_f_smile",
-                                        "placement": "5;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Natutuwa ako para sa iyo tay.",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_compassion",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            },
-                            {
-                                "character": "[USER_NAME]",
-                                "dialogue": "Tara, i-surprise natin si Nanay",
-                                "imageChanges": [
-                                    {
-                                        "image": "mc1_f_amazed",
-                                        "placement": "1;FACE",
-                                        "toShow": true
-                                    }
-                                ]
-                            }
-                        ],
-                        "id": 5,
-                        "initialImages": [
-                            {
-                                "image": "mc1_b_uniform",
-                                "placement": "1;BODY",
-                                "toShow": true
-                            },
-                            {
-                                "image": "mc1_f_normal",
-                                "placement": "1;FACE",
-                                "toShow": true
-                            },
-                            {
-                                "image": "jaxon1_b_uniform",
-                                "placement": "2;BODY",
-                                "toShow": true
-                            },
-                            {
-                                "image": "jaxon1_f_compassion",
-                                "placement": "2;FACE",
-                                "toShow": true
-                            },
-                            {
-                                "image": "empty",
-                                "placement": "3;BODY",
-                                "toShow": true
-                            },
-                            {
-                                "image": "kapitan_b_normal",
-                                "placement": "4;BODY",
-                                "toShow": true
-                            },
-                            {
-                                "image": "kapitan_f_talking",
-                                "placement": "4;FACE",
-                                "toShow": true
-                            }
-                        ],
-                        "transition": "FTB"
                     }
                 ],
                 "nextScene": 1,
@@ -15069,7 +14665,7 @@
                 "id": 1,
                 "lineGroup": [
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 16,
@@ -15133,7 +14729,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "dialogueLines": [
                             {
                                 "character": "KAPITAN",
@@ -15183,11 +14779,11 @@
                 "id": 2,
                 "lineGroup": [
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "dialogueLines": [
                             {
                                 "character": "KAPITAN",
-                                "dialogue": "Kasabay po nito ay nais kopong palalaahanan na maghanda po tayo para sa darating na bagyo dito sa ating bansa."
+                                "dialogue": "Kasabay po nito ay nais kopong palalaahanan na maghanda po tayo para sa darating na bagyo rito sa ating bansa."
                             },
                             {
                                 "character": "KAPITAN",
@@ -15584,7 +15180,7 @@
                 "id": 3,
                 "lineGroup": [
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 17,
@@ -15648,7 +15244,7 @@
                         "transition": "FTB"
                     },
                     {
-                        "background": "streets",
+                        "background": "barangay_hall",
                         "dialogueLines": [
                             {
                                 "character": "TATAY",
@@ -16317,7 +15913,7 @@
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
-                                "dialogue": "Hmm, saan kayang sektor ang magandang mag-work if ever?"
+                                "dialogue": "Hmm, saan kayang sektor ang magandang mag-trabaho kung sakali?"
                             },
                             {
                                 "character": "[USER_NAME]",
@@ -16547,7 +16143,6 @@
                     },
                     {
                         "background": "market",
-                        "defaultNextLine": 7,
                         "dialogueLines": [
                             {
                                 "character": "NANAY",
@@ -16801,7 +16396,6 @@
                     },
                     {
                         "background": "streets",
-                        "defaultNextLine": 2,
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
@@ -17273,7 +16867,7 @@
                 "id": 12,
                 "lineGroup": [
                     {
-                        "background": "balcon",
+                        "background": "balcony_day",
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
@@ -17501,7 +17095,7 @@
                 "id": 13,
                 "lineGroup": [
                     {
-                        "background": "balcon",
+                        "background": "balcony_day",
                         "bgm": "taking_quiz loop",
                         "defaultNextLine": 1,
                         "gradedQuiz": 21,
@@ -17753,7 +17347,17 @@
                         "id": 1,
                         "initialImages": [
                             {
-                                "image": "nibble_b_normal",
+                                "image": "mc1_b_pajamas",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_normal",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
+                                "image": "nibble1_b_normal",
                                 "placement": "2;BODY",
                                 "toShow": true
                             },
@@ -17762,7 +17366,8 @@
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -17788,6 +17393,16 @@
                         "id": 2,
                         "initialImages": [
                             {
+                                "image": "mc1_b_pajamas",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_confused",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
                                 "image": "nibble1_b_normal",
                                 "placement": "2;BODY",
                                 "toShow": true
@@ -17797,7 +17412,8 @@
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     },
                     {
                         "background": "streets",
@@ -17819,11 +17435,6 @@
                                 "dialogue": "Hmmm….",
                                 "imageChanges": [
                                     {
-                                        "image": "mc1_b_pajamas",
-                                        "placement": "1;BODY",
-                                        "toShow": true
-                                    },
-                                    {
                                         "image": "mc1_f_curious",
                                         "placement": "1;FACE",
                                         "toShow": true
@@ -17834,6 +17445,16 @@
                         "id": 3,
                         "initialImages": [
                             {
+                                "image": "mc1_b_pajamas",
+                                "placement": "1;BODY",
+                                "toShow": true
+                            },
+                            {
+                                "image": "mc1_f_normal",
+                                "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
                                 "image": "nibble1_b_normal",
                                 "placement": "2;BODY",
                                 "toShow": true
@@ -17843,7 +17464,8 @@
                                 "placement": "2;FACE",
                                 "toShow": true
                             }
-                        ]
+                        ],
+                        "transition": "FTB"
                     }
                 ],
                 "rewards": [

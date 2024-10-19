@@ -81,7 +81,7 @@ public class StoryResourceCaller {
                 return R.drawable.sprite_tatay1_b_normal;
         }
         else if (imgResource.startsWith("pharma")) {
-            if ("pharma_b_normal".equals(imgResource))
+            if ("pharma1_b_normal".equals(imgResource))
                 return R.drawable.sprite_pharmacist1_b_normal;
         }
         else if (imgResource.startsWith("rp1")) {
@@ -272,9 +272,9 @@ public class StoryResourceCaller {
         }
         else if (imgResource.startsWith("pharma")) {
             switch (imgResource) {
-                case "pharma_f_normal":
+                case "pharma1_f_normal":
                     return R.drawable.sprite_pharmacist1_f_normal;
-                case "pharma_f_talking":
+                case "pharma1_f_talking":
                     return R.drawable.sprite_pharmacist1_f_talking;
             }
         }
@@ -312,15 +312,15 @@ public class StoryResourceCaller {
         }
         else if (imgResource.startsWith("nibble2")) {
             switch (imgResource) {
-                case "nibble1_f_worried":
+                case "nibble2_f_worried":
                     return R.drawable.sprite_nibble2_f_cute;
-                case "nibble1_f_cute":
+                case "nibble2_f_cute":
                     return R.drawable.sprite_nibble2_f_cute;
-                case "nibble1_f_angry":
+                case "nibble2_f_angry":
                     return R.drawable.sprite_nibble2_f_cute;
-                case "nibble1_f_reminscing":
+                case "nibble2_f_reminscing":
                     return R.drawable.sprite_nibble2_f_cute;
-                case "nibble1_f_smile":
+                case "nibble2_f_smile":
                     return R.drawable.sprite_nibble2_f_cute;
             }
         }
@@ -334,11 +334,13 @@ public class StoryResourceCaller {
         else if ("school_cafeteria".equals(imgResource)) return R.drawable.scene_school_cafeteria;
         else if ("market".equals(imgResource)) return R.drawable.scene_market;
         else if ("dining_table".equals(imgResource)) return R.drawable.scene_dining_table;
-        else if ("balcon".equals(imgResource)) return R.drawable.scene_home;
+        else if ("balcony_night".equals(imgResource)) return R.drawable.scene_balcony_night;
+        else if ("balcony_day".equals(imgResource)) return R.drawable.scene_balcony_day;
         else if ("bedroom".equals(imgResource)) return R.drawable.scene_bedroom;
-        else if ("pharmacy".equals(imgResource)) return R.drawable.scene_market;
-        else if ("barangay_hall".equals(imgResource)) return R.drawable.scene_streets;
-        else if ("grocery_store".equals(imgResource)) return R.drawable.scene_market;
+        else if ("pharmacy".equals(imgResource)) return R.drawable.scene_pharmacy;
+        else if ("barangay_hall".equals(imgResource)) return R.drawable.scene_barangay_hall;
+        else if ("grocery_store".equals(imgResource)) return R.drawable.scene_grocery;
+        else if ("outside_school".equals(imgResource)) return R.drawable.scene_outside_school;
         else return R.drawable.scene_black_screen; // this is a default background resource
     }
 

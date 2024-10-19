@@ -51,30 +51,6 @@
         {
             "question": "Ito ay tumutukoy sa mekanismo ng pamamahagi ng pinagkukunang-yaman, produkto at serbisyo upang maayos na maipamahagi at lubos na magamit ang lahat ng pinagkukunang-yaman ng bansa.",
             "correctChoices": [
-                0
-            ],
-            "choices": [
-                {
-                    "id": 0,
-                    "choice": "Alokasyon"
-                },
-                {
-                    "id": 1,
-                    "choice": "Distribusyon"
-                },
-                {
-                    "id": 2,
-                    "choice": "Pagkonsumo"
-                },
-                {
-                    "id": 3,
-                    "choice": "Produksiyon"
-                }
-            ]
-        },
-        {
-            "question": "Ito ay tumutukoy sa mekanismo ng pamamahagi ng pinagkukunang-yaman, produkto at serbisyo upang maayos na maipamahagi at lubos na magamit ang lahat ng pinagkukunang-yaman ng bansa.",
-            "correctChoices": [
                 3
             ],
             "choices": [
@@ -117,6 +93,222 @@
                 {
                     "id": 3,
                     "choice": "Pamahalaan"
+                }
+            ]
+        },
+        {
+            "question": "Sa ekonomiks, ang pagtugon sa suliranin ng scarcity o kakapusan ay tungkulin ng prodyuser. Ano ang tawag sa dami ng produkto na handa at kayang ipagbili ng mga prodyuser?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Demand"
+                },
+                {
+                    "id": 1,
+                    "choice": "Ekwilibriyo"
+                },
+                {
+                    "id": 2,
+                    "choice": "Supply"
+                },
+                {
+                    "id": 3,
+                    "choice": "Surplus"
+                }
+            ]
+        },
+        {
+            "question": "Pinakamahalagang element sa pamilihan na nagtatakda ng dami ng produkto na gusto at kayang bilihin ng konsyumer at dami ng produkto na gusto at kayang ibenta ng prodyuser.",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Kompetisyon"
+                },
+                {
+                    "id": 1,
+                    "choice": "Pamahalaan"
+                },
+                {
+                    "id": 2,
+                    "choice": "Presyo"
+                },
+                {
+                    "id": 3,
+                    "choice": "Regulasyon"
+                }
+            ]
+        },
+        {
+            "question": "Kung ang presyo ng isang pangunahing produkto ay labis na mataas at hindi na makatarungan para sa mga konsyumer, gumagawa ng hakbang ang pamahalaan upang matugunan ito. Ano ang tawag sa patakaran ng pagtatakda ng pinakamataas na presyo ng mga produkto o serbisyo?",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Market clearing price"
+                },
+                {
+                    "id": 1,
+                    "choice": "Price Ceiling"
+                },
+                {
+                    "id": 2,
+                    "choice": "Price floor"
+                },
+                {
+                    "id": 3,
+                    "choice": "Price support"
+                }
+            ]
+        },
+        {
+            "question": "Kung ang presyo ng isang pangunahing produkto ay labis na mataas at hindi na makatarungan para sa mga konsyumer, gumagawa ng hakbang ang pamahalaan upang matugunan ito. Ano ang tawag sa patakaran ng pagtatakda ng pinakamataas na presyo ng mga produkto o serbisyo?",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Market clearing price"
+                },
+                {
+                    "id": 1,
+                    "choice": "Price Ceiling"
+                },
+                {
+                    "id": 2,
+                    "choice": "Price floor"
+                },
+                {
+                    "id": 3,
+                    "choice": "Price support"
+                }
+            ]
+        },
+        {
+            "question": "Ang pamilihan ay sinasabing may ganap na kompetisyon kapag ang sinumang prodyuser ay walang kapangyarihan na palitan o baguhin ang presyo sa pamilihan. Paano nakatutulong ang ganap na kompetisyon sa pamilihan?",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Higit na nakakakuha ng mas malaking kita ang mga prodyuser"
+                },
+                {
+                    "id": 1,
+                    "choice": "Tumataas ang kalidad at napapababa ang presyo ng mga produkto"
+                },
+                {
+                    "id": 2,
+                    "choice": "Napapataas ng prodyuser ang kalidad at presyo ng kanilang produkto"
+                },
+                {
+                    "id": 3,
+                    "choice": "Nahihikayat ang iba pang prodyuser na magnegosyo at sumali sa kompetisyon"
+                }
+            ]
+        },
+        {
+            "question": "Ano ang inilalarawan ng daloy ng ekonomiya?",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Ugnayan ng bawat sektor ng ekonomiya"
+                },
+                {
+                    "id": 1,
+                    "choice": "Kalakalan sa loob at labas ng bansa"
+                },
+                {
+                    "id": 2,
+                    "choice": "Pamumuhunan ng pamilihang pinansyal"
+                },
+                {
+                    "id": 3,
+                    "choice": "Kita at gastusin ng pamahalaan"
+                }
+            ]
+        },
+        {
+            "question": "Ano ang pagkakatulad ng Gross National Income (GNI) at Gross Domestic Product (GDP)",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Ibinibilang maging ang kita ng mamamayan na nasa ibang bansa"
+                },
+                {
+                    "id": 1,
+                    "choice": "Kabilang sa pagkwenta nito ang mga dayuhang kumpanya na nasa loob ng isang bansa"
+                },
+                {
+                    "id": 2,
+                    "choice": "Kapwa ito tumutukoy sa halaga ng tapos na produkto na ginawa sa loob ng bansa"
+                },
+                {
+                    "id": 3,
+                    "choice": "Matibay na batayan sa pangkalahatang kalagayan ng ekonomiya ng bansa."
+                }
+            ]
+        },
+        {
+            "question": "Pangunahing institusyon ng bansa na naglalayong mapanatili ang katatagan ng halaga ng bilihin ng ating pananalapi",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Bangko Sentral ng Pilipinas (BSP)"
+                },
+                {
+                    "id": 1,
+                    "choice": "National Economic Development Authority (NEDA)"
+                },
+                {
+                    "id": 2,
+                    "choice": "Department of Trade and Industry (DTI)"
+                },
+                {
+                    "id": 3,
+                    "choice": "Department of Social Welfare and Development (DSWD)"
+                }
+            ]
+        },
+        {
+            "question": "Bakit mahalagang masukat ang economic performance ng isang bansa?",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Dahil magiging tanyag ang bansa sa mga pandaigdigang institusyong pampinansiyal"
+                },
+                {
+                    "id": 1,
+                    "choice": "Dahil magagamit ito upang makabuo ng mga patakarang magpapaangat sa ekonomiya ng bansa"
+                },
+                {
+                    "id": 2,
+                    "choice": "Dahil repleksiyon ito ng kahusayan ng namumuno na magagamit upang umani ng malaking boto sa eleksiyon"
+                },
+                {
+                    "id": 3,
+                    "choice": "Dahil makikilala ang bansa sa pagkakaroon ng mahusay na pamamalakad ng ekonomiya"
                 }
             ]
         }

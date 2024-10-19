@@ -1,5 +1,6 @@
 package com.capstone.merkado.Objects.ServerDataObjects;
 
+@SuppressWarnings("unused")
 public class NewServer {
     String name;
     String serverOwner;
@@ -53,6 +54,7 @@ public class NewServer {
     public static class Settings {
         Integer playerLimit;
         Float sensitivityFactor;
+        Float requiredPercentage;
 
         public Settings() {
         }
@@ -71,6 +73,14 @@ public class NewServer {
 
         public void setSensitivityFactor(Float sensitivityFactor) {
             this.sensitivityFactor = sensitivityFactor;
+        }
+
+        public Float getRequiredPercentage() {
+            return requiredPercentage;
+        }
+
+        public void setRequiredPercentage(Float requiredPercentage) {
+            this.requiredPercentage = requiredPercentage;
         }
     }
 }

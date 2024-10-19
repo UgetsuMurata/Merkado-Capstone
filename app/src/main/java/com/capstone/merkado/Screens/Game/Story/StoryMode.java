@@ -31,7 +31,7 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.NotificationHelper.InAppNotification;
 import com.capstone.merkado.Helpers.RewardProcessor;
-import com.capstone.merkado.Helpers.StoryTriggers;
+import com.capstone.merkado.Helpers.TriggerProcessor;
 import com.capstone.merkado.Helpers.StoryVariableHelper;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1.PlayerObjectives;
@@ -170,7 +170,7 @@ public class StoryMode extends AppCompatActivity {
 
         merkado.extractObjectives(getApplicationContext());
         if (getIntent().hasExtra("PROLOGUE")) {
-            StoryTriggers.objectives(this, 1, objectiveDisplayLauncher);
+            TriggerProcessor.objectives(this, 1, objectiveDisplayLauncher);
         }
 
         handler = new Handler();
@@ -539,6 +539,7 @@ public class StoryMode extends AppCompatActivity {
                 playerStory.getCurrentScene().getRewards().isEmpty()))
             RewardProcessor.processRewards(
                     this,
+                    merkado.getPlayer().getServer(),
                     merkado.getPlayerId(),
                     playerStory.getCurrentScene().getRewards());
         if (playerStory.getCurrentLineGroup().getIsQuiz() != null && playerStory.getCurrentLineGroup().getIsQuiz()) {
@@ -589,7 +590,7 @@ public class StoryMode extends AppCompatActivity {
         if (currentScene == null) {
             finish();
             StoryDataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
-            if (trigger != null) StoryTriggers.trigger(merkado.getPlayerId(), trigger);
+            if (trigger != null) TriggerProcessor.storyTrigger(merkado.getPlayerId(), trigger);
             return;
         }
         sceneIndex = currentScene.getId();
@@ -876,7 +877,9 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void processQuizReward(Integer gameRewards) {
-        RewardProcessor.processRewards(this, merkado.getPlayerId(),
+        RewardProcessor.processRewards(this,
+                merkado.getPlayer().getServer(),
+                merkado.getPlayerId(),
                 Collections.singletonList(new GameRewards(1L, Long.valueOf(gameRewards))));
     }
 

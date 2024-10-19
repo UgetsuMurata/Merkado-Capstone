@@ -13,11 +13,9 @@ import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1.StoryQueue;
 import com.capstone.merkado.Screens.Game.ObjectivesDisplay;
 
-public class StoryTriggers {
+import java.util.Map;
 
-    public static void trigger(Integer playerId, Integer trigger) {
-        StoryDataFunctions.addStoryToPlayer(playerId, createObject(trigger));
-    }
+public class TriggerProcessor {
 
     public static void objectives(Activity activity, Integer trigger, @Nullable ActivityResultLauncher<Intent> objectiveDisplayLauncher) {
         Intent intent = new Intent(activity.getApplicationContext(), ObjectivesDisplay.class);
@@ -36,14 +34,44 @@ public class StoryTriggers {
         return playerObjectives;
     }
 
-    public static void checkForLevelTriggers(Integer playerId, Integer level) {
+    public static void checkForLevelTriggers(String serverId, Integer playerId, Integer level, Integer totalPlayersInLevel) {
         switch (level) {
             case 2:
-                trigger(playerId, 2);
+                storyTrigger(playerId, 2);
+                botTrigger(serverId, Bot.BotType.STORE, totalPlayersInLevel);
             case 3:
-                trigger(playerId, 4);
+                storyTrigger(playerId, 4);
             case 4:
-                trigger(playerId, 5);
+                storyTrigger(playerId, 5);
+                botTrigger(serverId, Bot.BotType.FACTORY, totalPlayersInLevel);
+        }
+    }
+
+    public static void storyTrigger(Integer playerId, Integer trigger) {
+        StoryDataFunctions.addStoryToPlayer(playerId, createObject(trigger));
+    }
+
+    public static void botTrigger(String serverId, Bot.BotType botType, Integer currentPlayerInLevel) {
+        Map<Bot.BotType, Boolean> hasBotMap = Merkado.getInstance().getHasBotMap();
+        if (hasBotMap != null) {
+            if (Boolean.TRUE.equals(hasBotMap.get(botType)))
+                Bot.checkForBotRemoval(botType, serverId, currentPlayerInLevel).thenAccept(remove -> {
+                    if (remove) {
+                        if (Bot.BotType.STORE.equals(botType)) Bot.removeStoreBot(serverId);
+                        else Bot.removeFactoryBot(serverId);
+                    }
+                });
+        }
+        else {
+            Merkado.getInstance().getHasBotMapFuture().thenAccept(hasBotMapResult -> {
+                if (Boolean.TRUE.equals(hasBotMapResult.get(botType)))
+                    Bot.checkForBotRemoval(botType, serverId, currentPlayerInLevel).thenAccept(remove -> {
+                        if (remove) {
+                            if (Bot.BotType.STORE.equals(botType)) Bot.removeStoreBot(serverId);
+                            else Bot.removeFactoryBot(serverId);
+                        }
+                    });
+            });
         }
     }
 

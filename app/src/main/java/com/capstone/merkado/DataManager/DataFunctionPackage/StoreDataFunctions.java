@@ -51,7 +51,6 @@ public class StoreDataFunctions {
                     store.getValue(PlayerMarkets.class);
                 } catch (Exception e) {
                     createMarket(server, playerId, i, playerMarkets);
-                    return;
                 }
                 i++;
             }
@@ -294,19 +293,20 @@ public class StoreDataFunctions {
         });
 
         // update the inventory for its new quantity.
-        InventoryDataFunctions.getInventoryItem(playerId, onSale.getInventoryResourceReference()).thenAccept(inventory -> {
-            int finalQuantity = inventory.getQuantity() - onSale.getQuantity();
-            if (finalQuantity > 0) {
-                inventory.setQuantity(finalQuantity);
-                firebaseData.setValue(
-                        String.format(Locale.getDefault(), "player/%d/inventory/%d", playerId, onSale.getInventoryResourceReference()),
-                        inventory
-                );
-            } else {
-                firebaseData.removeData(
-                        String.format(Locale.getDefault(), "player/%d/inventory/%d", playerId, onSale.getInventoryResourceReference()));
-            }
-        });
+        if (playerId != -1)
+            InventoryDataFunctions.getInventoryItem(playerId, onSale.getInventoryResourceReference()).thenAccept(inventory -> {
+                int finalQuantity = inventory.getQuantity() - onSale.getQuantity();
+                if (finalQuantity > 0) {
+                    inventory.setQuantity(finalQuantity);
+                    firebaseData.setValue(
+                            String.format(Locale.getDefault(), "player/%d/inventory/%d", playerId, onSale.getInventoryResourceReference()),
+                            inventory
+                    );
+                } else {
+                    firebaseData.removeData(
+                            String.format(Locale.getDefault(), "player/%d/inventory/%d", playerId, onSale.getInventoryResourceReference()));
+                }
+            });
     }
 
     public static void editSale(PlayerMarkets.OnSale onSale, Player player, Integer playerId) {
@@ -431,7 +431,7 @@ public class StoreDataFunctions {
         FirebaseData firebaseData = new FirebaseData();
 
         firebaseData.retrieveData(String.format(Locale.getDefault(),
-                "server/%s/market/marketStandard/%d/marketPrice",
+                "server/%s/market/marketStandard/marketPrice/%d/marketPrice",
                 serverId, resourceId), future::complete);
 
         return future.thenCompose(dataSnapshot -> {

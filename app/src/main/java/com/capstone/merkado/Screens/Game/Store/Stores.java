@@ -17,7 +17,6 @@ import com.capstone.merkado.Adapters.StoreProductAdapter;
 import com.capstone.merkado.Adapters.StoresGridAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
-import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.R;
 
@@ -68,15 +67,9 @@ public class Stores extends AppCompatActivity {
                     playerMarkets.clear();
                     playerMarkets.addAll(playerMarketsList);
                     if (!playerMarkets.isEmpty()) setUpStoreDetails(playerMarkets.get(0), playerMarkets.get(0).getMarketId());
-                    else Bot.createBotStores();
                     storesGridAdapter.notifyDataSetChanged();
                 });
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
     private void setUpStoreDetails(PlayerMarkets playerMarket, Integer marketId) {

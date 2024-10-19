@@ -27,6 +27,7 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions.UpdaterPlayerListener;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.UtilityDataFunctions;
+import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
@@ -43,6 +44,8 @@ import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -76,6 +79,8 @@ public class Merkado extends Application implements Application.ActivityLifecycl
 
     private Boolean hasTakenPretest = false;
     private Boolean hasTakenPostTest = false;
+
+    private Map<Bot.BotType, Boolean> hasBotMap;
 
     @Override
     public void onCreate() {
@@ -134,6 +139,10 @@ public class Merkado extends Application implements Application.ActivityLifecycl
 
     public void setServerTimeOffset(Long serverTimeOffset) {
         this.serverTimeOffset = serverTimeOffset;
+    }
+
+    public Long getServerTimeOffset() {
+        return serverTimeOffset;
     }
 
     /**
@@ -352,6 +361,21 @@ public class Merkado extends Application implements Application.ActivityLifecycl
         });
         StoreDataFunctions.getCompiledMarketData(this.currentServer)
                 .thenAccept(this::setCompiledMarketData);
+
+        if (this.hasBotMap != null) {
+            if (Boolean.TRUE.equals(this.hasBotMap.get(Bot.BotType.STORE)))
+                Bot.Store.checkToRestock(this.currentServer);
+            if (Boolean.TRUE.equals(this.hasBotMap.get(Bot.BotType.FACTORY)))
+                Bot.Factory.checkToRestock(this.currentServer);
+        }
+        else {
+            getHasBotMapFuture().thenAccept(hasBotMap -> {
+                if (Boolean.TRUE.equals(hasBotMap.get(Bot.BotType.STORE)))
+                    Bot.Store.checkToRestock(this.currentServer);
+                if (Boolean.TRUE.equals(hasBotMap.get(Bot.BotType.FACTORY)))
+                    Bot.Factory.checkToRestock(this.currentServer);
+            });
+        }
     }
 
     private void getUpdatedCompiledMarketData() {
@@ -569,6 +593,21 @@ public class Merkado extends Application implements Application.ActivityLifecycl
         return objectivesList;
     }
 
+    public @Nullable Map<Bot.BotType, Boolean> getHasBotMap() {
+        return hasBotMap;
+    }
+
+    public CompletableFuture<Map<Bot.BotType, Boolean>> getHasBotMapFuture() {
+        return Bot.getBotAvailability(this.currentServer).thenCompose(botTypeBooleanMap -> {
+           setHasBotMap(botTypeBooleanMap);
+           return CompletableFuture.completedFuture(botTypeBooleanMap);
+        });
+    }
+
+    public void setHasBotMap(Map<Bot.BotType, Boolean> hasBotMap) {
+        this.hasBotMap = hasBotMap;
+    }
+
     public void setBGM(Context context, int file, boolean loop) {
         if (bgmPlayer != null) {
             releaseBGM();
@@ -697,11 +736,15 @@ public class Merkado extends Application implements Application.ActivityLifecycl
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
         currentActivity = activity;
+        resumeBGM();
+        resumeSFX();
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
         currentActivity = null;
+        pauseBGM();
+        pauseSFX();
     }
 
     @Override

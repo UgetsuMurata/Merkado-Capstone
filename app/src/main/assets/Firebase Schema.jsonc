@@ -219,6 +219,18 @@
                     }
                 ]
             },
+            "otherDetails": {
+                "reachedLevels": {
+                    "lvl1": 10,
+                    "lvl2": 4,
+                    "lvl3": 1,
+                    "lvl4": 0
+                },
+                "bots": {
+                    "store": true,
+                    "factory": false
+                }
+            },
             "onlinePlayers": [
                 0,
                 1

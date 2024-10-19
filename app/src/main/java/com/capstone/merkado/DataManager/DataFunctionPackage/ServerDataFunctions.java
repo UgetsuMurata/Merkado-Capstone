@@ -7,7 +7,9 @@ import androidx.annotation.Nullable;
 
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
+import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Objects.ServerDataObjects.NewServer;
+import com.capstone.merkado.Objects.ServerDataObjects.OtherServerDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 
@@ -112,6 +114,8 @@ public class ServerDataFunctions {
                 return CompletableFuture.completedFuture(-1);
             FirebaseData firebaseData = new FirebaseData();
             firebaseData.setValue(String.format("server/%s", id), newServer);
+            Bot.Store.setUpStore(id);
+            setOtherServerDetails(id, new OtherServerDetails.ReachedLevels(0, 0, 0, 0), new OtherServerDetails.Bots(true, false));
             return CompletableFuture.completedFuture(0);
         });
     }
@@ -126,6 +130,77 @@ public class ServerDataFunctions {
                 firebaseData.setValue(String.format("server/%s/settings", id), settings);
             }
         });
+    }
+
+    public static CompletableFuture<NewServer.Settings> getSettings(@NonNull String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData(
+                String.format("server/%s/settings", serverId),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists())
+                return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(dataSnapshot.getValue(NewServer.Settings.class));
+        });
+    }
+
+    public static void setOtherServerDetails(String serverId, OtherServerDetails.ReachedLevels reachedLevels, OtherServerDetails.Bots bots) {
+        OtherServerDetails otherServerDetails = new OtherServerDetails();
+        otherServerDetails.setReachedLevels(reachedLevels);
+        otherServerDetails.setBots(bots);
+
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format("server/%s/otherDetails", serverId),
+                otherServerDetails
+        );
+    }
+
+    public static CompletableFuture<OtherServerDetails> getOtherServerDetails(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData(
+                String.format("server/%s/otherDetails", serverId),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(dataSnapshot.getValue(OtherServerDetails.class));
+        });
+    }
+
+    public static CompletableFuture<OtherServerDetails.ReachedLevels> getReachedLevels(String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData(
+                String.format("server/%s/otherDetails/reachedLevels", serverId),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null) return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(dataSnapshot.getValue(OtherServerDetails.ReachedLevels.class));
+        });
+    }
+
+    public static void setReachedLevels(String serverId, OtherServerDetails.ReachedLevels reachedLevels) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format("server/%s/otherDetails/ReachedLevels", serverId),
+                reachedLevels
+        );
+    }
+
+    public static void setBots(String serverId, OtherServerDetails.Bots bots) {
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseData.setValue(
+                String.format("server/%s/otherDetails/bots", serverId),
+                bots
+        );
     }
 
     public static void logOutUpdaterPlayer(String serverId, Integer playerId) {

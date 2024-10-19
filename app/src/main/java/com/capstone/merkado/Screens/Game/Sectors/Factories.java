@@ -17,7 +17,6 @@ import com.capstone.merkado.Adapters.StoreProductAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
-import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Objects.FactoryDataObjects.PlayerFactory;
 import com.capstone.merkado.R;
 
@@ -72,15 +71,9 @@ public class Factories extends AppCompatActivity {
                     if (!playerFactories.isEmpty())
                         setUpFactoryDetails(playerFactories.get(0),
                                 playerFactories.get(0).getFactoryId());
-                    else Bot.createBotStores();
                     factoriesGridAdapter.notifyDataSetChanged();
                 });
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
     private void setUpFactoryDetails(PlayerFactory playerFactory, Integer marketId) {

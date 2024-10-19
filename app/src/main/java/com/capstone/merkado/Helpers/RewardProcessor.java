@@ -8,6 +8,7 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
+import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RewardProcessor {
-    public static void processRewards(Activity activity, Integer playerId, @NonNull List<Chapter.GameRewards> rewards) {
-        List<Chapter.GameRewards> remainingRewards = new ArrayList<>(specialRewards(activity, playerId, rewards));
+    public static void processRewards(Activity activity, String serverId, Integer playerId, @NonNull List<Chapter.GameRewards> rewards) {
+        List<Chapter.GameRewards> remainingRewards = new ArrayList<>(specialRewards(activity, serverId, playerId, rewards));
 
         for (Chapter.GameRewards reward : remainingRewards) {
             // get resource data
@@ -37,7 +38,7 @@ public class RewardProcessor {
         }
     }
 
-    private static List<Chapter.GameRewards> specialRewards(Activity activity, Integer playerId, @NonNull List<Chapter.GameRewards> rewards) {
+    private static List<Chapter.GameRewards> specialRewards(Activity activity, String serverId, Integer playerId, @NonNull List<Chapter.GameRewards> rewards) {
         List<Chapter.GameRewards> gameRewardsCopy = new ArrayList<>();
         for (Chapter.GameRewards reward : rewards) {
             Long rewardId = reward.getResourceId();
@@ -45,7 +46,7 @@ public class RewardProcessor {
                 Long quantity = reward.getResourceQuantity();
                 Long currentExp = Merkado.getInstance().getPlayer().getExp();
                 PlayerDataFunctions.addPlayerExperience(playerId, quantity,
-                        totalExp -> playerLevelTriggers(activity, playerId, totalExp, currentExp));
+                        totalExp -> playerLevelTriggers(activity, serverId, playerId, totalExp, currentExp));
             } else {
                 gameRewardsCopy.add(reward);
             }
@@ -53,14 +54,32 @@ public class RewardProcessor {
         return gameRewardsCopy;
     }
 
-    private static void playerLevelTriggers(Activity activity, Integer playerId, Long totalExp, Long currentExp) {
+    private static void playerLevelTriggers(Activity activity, String serverId, Integer playerId, Long totalExp, Long currentExp) {
         Long maxLevel = LevelMaxSetter.getMaxPlayerExperience(totalExp);
         Long prevMaxLevel = LevelMaxSetter.getMaxPlayerExperience(currentExp);
         Integer playerLevel = LevelMaxSetter.getPlayerLevel(maxLevel);
         // check if playerLevel changed.
         if (maxLevel > prevMaxLevel) {
-            StoryTriggers.checkForLevelTriggers(playerId, playerLevel);
-            StoryTriggers.objectives(activity, playerLevel, null);
+            ServerDataFunctions.getReachedLevels(serverId).thenAccept(reachedLevels -> {
+                Integer totalCount = null;
+                switch (playerLevel){
+                    case 2:
+                        totalCount = reachedLevels.getLvl2() + 1;
+                        reachedLevels.setLvl2(totalCount);
+                        break;
+                    case 3:
+                        totalCount = reachedLevels.getLvl3() + 1;
+                        reachedLevels.setLvl3(totalCount);
+                        break;
+                    case 4:
+                        totalCount = reachedLevels.getLvl4() + 1;
+                        reachedLevels.setLvl4(totalCount);
+                        break;
+                }
+                ServerDataFunctions.setReachedLevels(serverId, reachedLevels);
+                TriggerProcessor.checkForLevelTriggers(serverId, playerId, playerLevel, totalCount);
+                TriggerProcessor.objectives(activity, playerLevel, null);
+            });
         }
     }
 }

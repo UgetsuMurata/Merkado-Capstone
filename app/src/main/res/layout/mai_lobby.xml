@@ -33,12 +33,13 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/icon_store"/>
+                    android:src="@drawable/icon_main_lobby"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:layout_marginStart="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -53,15 +54,15 @@
                         android:id="@+id/add_economy"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginHorizontal="20dp"
                         android:backgroundTint="@color/merkado_orange"
-                        app:cardCornerRadius="99dp">
+                        app:cardCornerRadius="5dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/elements"
+                            android:fontFamily="@font/header"
                             android:gravity="center"
+                            android:layout_marginStart="10dp"
                             android:text="+ Add Economy"
                             android:textColor="@color/white"
                             android:textSize="16sp" />

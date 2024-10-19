@@ -61,11 +61,28 @@
         android:id="@+id/account_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/icon_sign_in"
+        android:src="@drawable/icon_sign_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"/>
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/text_sign_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGN OUT"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:fontFamily="@font/header"
+        android:textColor="@color/white"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="3"
+        app:layout_constraintTop_toBottomOf="@id/account_button"
+        app:layout_constraintLeft_toLeftOf="@id/account_button"
+        app:layout_constraintRight_toRightOf="@id/account_button"/>
 
     <ImageView
         android:id="@+id/settings_button"
@@ -74,6 +91,23 @@
         android:src="@drawable/icon_settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/account_button"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"/>
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/text_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SETTINGS"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:fontFamily="@font/header"
+        android:textColor="@color/white"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="3"
+        app:layout_constraintTop_toBottomOf="@id/settings_button"
+        app:layout_constraintLeft_toLeftOf="@id/settings_button"
+        app:layout_constraintRight_toRightOf="@id/settings_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

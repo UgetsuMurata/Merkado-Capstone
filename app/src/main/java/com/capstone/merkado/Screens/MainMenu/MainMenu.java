@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -71,6 +72,7 @@ public class MainMenu extends AppCompatActivity {
         ImageView account = findViewById(R.id.account_button);
         ImageView settings = findViewById(R.id.settings_button);
         CardView play = findViewById(R.id.play);
+        TextView accountText = findViewById(R.id.text_sign_out);
 
         // get current account
         Account currentUser = merkado.getAccount();
@@ -80,14 +82,16 @@ public class MainMenu extends AppCompatActivity {
             Toast.makeText(this, String.format("Welcome, %s", currentUser.getUsername()), Toast.LENGTH_SHORT).show();
         }
 
-        // change icon depending on account status (signed in or not), and set their click listeners.
+        // change icon and text depending on account status (signed in or not), and set their click listeners.
         if (currentUser != null) {
             account.setOnClickListener(v -> doSignOut.launch(new Intent(getApplicationContext(), SignOut.class)));
             account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_sign_out));
+            accountText.setText("SIGN OUT");  // Set text to "SIGN OUT" when the user is signed in
             settings.setVisibility(View.VISIBLE);
         } else {
             account.setOnClickListener(v -> doSignIn.launch(new Intent(getApplicationContext(), SignIn.class)));
             account.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_sign_in));
+            accountText.setText("SIGN IN");  // Set text to "SIGN IN" when the user is not signed in
             settings.setVisibility(View.GONE);
         }
 

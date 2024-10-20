@@ -20,7 +20,8 @@
         tools:targetApi="31">
         <activity
             android:name=".Screens.Economy.SettingsEconomy"
-            android:exported="false" />
+            android:exported="true"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".Screens.Game.Story.PrePostTest"
             android:exported="true"

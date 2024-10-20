@@ -169,30 +169,6 @@
             ]
         },
         {
-            "question": "Kung ang presyo ng isang pangunahing produkto ay labis na mataas at hindi na makatarungan para sa mga konsyumer, gumagawa ng hakbang ang pamahalaan upang matugunan ito. Ano ang tawag sa patakaran ng pagtatakda ng pinakamataas na presyo ng mga produkto o serbisyo?",
-            "correctChoices": [
-                1
-            ],
-            "choices": [
-                {
-                    "id": 0,
-                    "choice": "Market clearing price"
-                },
-                {
-                    "id": 1,
-                    "choice": "Price Ceiling"
-                },
-                {
-                    "id": 2,
-                    "choice": "Price floor"
-                },
-                {
-                    "id": 3,
-                    "choice": "Price support"
-                }
-            ]
-        },
-        {
             "question": "Ang pamilihan ay sinasabing may ganap na kompetisyon kapag ang sinumang prodyuser ay walang kapangyarihan na palitan o baguhin ang presyo sa pamilihan. Paano nakatutulong ang ganap na kompetisyon sa pamilihan?",
             "correctChoices": [
                 1
@@ -309,6 +285,702 @@
                 {
                     "id": 3,
                     "choice": "Dahil makikilala ang bansa sa pagkakaroon ng mahusay na pamamalakad ng ekonomiya"
+                }
+            ]
+        },
+        {
+            "question": "Gawain na may kaugnayan sa pagbili at paggamit ng produkto na magbibigay ng kapakinabangan bilang tugon sa pangangailangan at kagustuhan ng isang tao",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Alokasyon"
+                },
+                {
+                    "id": 1,
+                    "choice": "Distribusyon"
+                },
+                {
+                    "id": 2,
+                    "choice": "Produksiyon"
+                },
+                {
+                    "id": 3,
+                    "choice": "Pagkonsumo"
+                }
+            ]
+        },
+        {
+            "question": "Patakarang ipinapatupad ng pamahalaan katuwang ang Bangko Sentral ng Pilipinas (BSP) upang mapanatiling balanse ang supply ng pera sa ekonomiya",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Patakarang Piskal"
+                },
+                {
+                    "id": 1,
+                    "choice": "Patakarang Pananalapi"
+                },
+                {
+                    "id": 2,
+                    "choice": "Patakaran sa pamumuhunan "
+                },
+                {
+                    "id": 3,
+                    "choice": "Patakaran sa pagluluwas at pag-aangkat"
+                }
+            ]
+        },
+        {
+            "question": "Aling sektor ang itinuturing na “Gulugod ng Ekonomiya” dahil ito ang nagtutustos sa pangunahing pangangailangan ng mga mamayan",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Agrikultura"
+                },
+                {
+                    "id": 1,
+                    "choice": "Industriya"
+                },
+                {
+                    "id": 2,
+                    "choice": "Paglilingkod"
+                },
+                {
+                    "id": 3,
+                    "choice": "Impormal na sektor"
+                }
+            ]
+        },
+        {
+            "question": "Sino sa sumusunod ang kabilang sa impormal na sektor?",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Danny na may puwesto sa fish section sa pamilihang bayan"
+                },
+                {
+                    "id": 1,
+                    "choice": "Janice na rehistradong beauty care specialist sa kanilang lugar"
+                },
+                {
+                    "id": 2,
+                    "choice": "Manny na nagtatrabaho sa isang food delivery company"
+                },
+                {
+                    "id": 3,
+                    "choice": "Alma na nagbebenta ng barbecue sa harap ng kanilang bahay"
+                }
+            ]
+        },
+        {
+            "question": "Ano ang papel na ginagampanan ng sektor ng paglilingkod sa ating ekonomiya?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Sila ang sektor na may pinakamalaking ambag sa pag-unlad ng isang bansa"
+                },
+                {
+                    "id": 1,
+                    "choice": "Sila ang tagatustos ng dolyar sa bansa mula sa kanilang pagtatrabaho sa ibang bansa"
+                },
+                {
+                    "id": 2,
+                    "choice": "Sila ang nagkakaloob ng lakas-paggawa, kasanayan, kaalaman at serbisyo sa mamamayan"
+                },
+                {
+                    "id": 3,
+                    "choice": "Pangunahing katuwang sila sa bahay-kalakal at iba pang sektor ng ekonomiya sa larangan ng pamumuhunan"
+                }
+            ]
+        },
+        {
+            "question": "Sa kalakalang panlabas, sa paanong paraan makikinabang sa isa’t isa ang mga bansa batay sa konsepto ng comparative advantage?",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Sabwatan at kartel "
+                },
+                {
+                    "id": 1,
+                    "choice": "Trade embargo at quota"
+                },
+                {
+                    "id": 2,
+                    "choice": "Kasunduang multilateral"
+                },
+                {
+                    "id": 3,
+                    "choice": "Espesyalisasyon at kalak"
+                }
+            ]
+        },
+        {
+            "question": "Iisa ang paaralang pinapasukan ng magkaibigang Alex at Alden. Sa parehong baon na P50 bawat araw, sinisiguro ni Alex na may matitira dito para sa computer games na madalas niyang ginagawa pagkatapos ng eskwela. Samantalang si Alden naman ay matiyagang iniipon ang anumang matira sa kanyang baon upang magamit sa mga proyekto at di na humingi pa sa kanyang magulang. Ano ang pinakaangkop nap ag-uugnay ng kuwneto ni Alex at Alden sa suliranin ng kakapusan?",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Maaaring masolusyunan ang suliranin ng kakapusan depende kung paano natin papamahalaan ang ating pangangailangan at kagustuhan"
+                },
+                {
+                    "id": 1,
+                    "choice": "Ang kakapusan ay sadyang di maiiwasan dahil lahat ng bagay ay limitado at walang hanggan ang ating mga pangangailangan."
+                },
+                {
+                    "id": 2,
+                    "choice": "Higit na nagbibigay kasiyahan ang ating mga kagustuhan kaya’t nararapat lamang na unahin ito kaysa sa mga pangangailangan"
+                },
+                {
+                    "id": 3,
+                    "choice": "Sariling desisyon ang paggamit ng ating yaman kaya’t hindi tayo maaaring panghimasukan ng ibang tao"
+                }
+            ]
+        },
+        {
+            "question": "“Bumili ang magsasaka ng baka ginatasan niya ito saka ipinagbili ang gatas. Mula sa tinubo, magbabayad siya ng buwis sa pamahalaan”. Anong sistemang pang- ekonomiya ang angkop na naglalarawan sa kuwento sa itaas?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Command Economy"
+                },
+                {
+                    "id": 1,
+                    "choice": "Market Economy"
+                },
+                {
+                    "id": 2,
+                    "choice": "Mixed Economy"
+                },
+                {
+                    "id": 3,
+                    "choice": "Tradtional Economy"
+                }
+            ]
+        },
+        {
+            "question": "Ang sumusunod na pahayag ay nagpapahiwatig ng kahalagahan ng pagkonsumo. Alin ang hindi?",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Magkakaiba ang istilo ng pagkonsumo ng bawat isa"
+                },
+                {
+                    "id": 1,
+                    "choice": "Ang pagkonsumo ang nagbibigay – daan sa produkisyon"
+                },
+                {
+                    "id": 2,
+                    "choice": "Mahalagang bahagi ng siklo ang ekonomiya ang pagkonsumo"
+                },
+                {
+                    "id": 3,
+                    "choice": "Lahat tayo ay kumukonsumo upang tugunan ang ating mga pangangailangan"
+                }
+            ]
+        },
+        {
+            "question": "Upang masabing supply, kailangan may kagustuhan at kakayahan na ipagbili ng prodyuser ang isang produkto. Halimbawa, may 30, 000 lata ng sardinas ang kailangan sa pamilihan. Ayon sa datos, mayroong kompanya ng sardinas ngunit 6 lamang ang nais gumawa ng kabuuang 20, 000 lata ng sardinas kung ipagbibili ito sa presyong Php 10.00. Batay sa pahayag, ilan ang maitatalang supply ng sardinas?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "6"
+                },
+                {
+                    "id": 1,
+                    "choice": "10"
+                },
+                {
+                    "id": 2,
+                    "choice": "20, 000"
+                },
+                {
+                    "id": 3,
+                    "choice": "30, 000"
+                }
+            ]
+        },
+        {
+            "question": "May-ari ng panaderya si Robert, nang tumaas ang presyo ng butter napilitan siyang gumamit ng margarine para sa kanyang tinapay. At dahil hindi bumababa ang presyo nito, margarine na ang kanyang ginagamit sa lahat ng kanyang produkto maliban sa cake na butter pa rin ang sangkap. Ano ang tumpak na paliwanag sa sitwasyong ito?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Higit na mas masarap para sa tinapay ng margarine kaysa butter."
+                },
+                {
+                    "id": 1,
+                    "choice": "May piling produkto lamang na pwede ang butter at margarine"
+                },
+                {
+                    "id": 2,
+                    "choice": "Ang margarine ay murang pamalit o cheaper substitute para sa butter"
+                },
+                {
+                    "id": 3,
+                    "choice": "Maaaring gumamit ng margarine o butter depende sa presyo ng isang produkto"
+                }
+            ]
+        },
+        {
+            "question": "Alin sa sumusunod na sitwasyon ang naglalarawan ng ekwilibriyo sa pamilihan?",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Maraming natira sa ibinebentang isda ni Larry dahil sa napakataas na presyo nito"
+                },
+                {
+                    "id": 1,
+                    "choice": "Dahil sa napakababang presyo, ipinagliban muna ni Cesar ang pagbebeta ng kanyang naaning palay"
+                },
+                {
+                    "id": 2,
+                    "choice": "Bahagyang nairita ang tindera ng gulay kay Mycel dahil sa makulit na paghingi ng tawad sa presyo nito"
+                },
+                {
+                    "id": 3,
+                    "choice": "Matapos makipagtawaran, napapayag ni Juan ang tindera ng karne sa presyong 180 kada kilo kung bibili siya ng sampung kilo nito."
+                }
+            ]
+        },
+        {
+            "question": "Malaki ang papel ng pamahalaan upang mapaniliti ang katatagan ng presyo sa pamilihan. Alin sa sumusunod ang nagpapaliwanag nito?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Panghuhuli sa illegal vendors na nagkalat sa paligid"
+                },
+                {
+                    "id": 1,
+                    "choice": "Pagtataguyod ng mga batas na nangangalaga sa Karapatan ng mga konsyumer"
+                },
+                {
+                    "id": 2,
+                    "choice": "Pagtatakda ng price ceiling at floor price bilang gabay sa presyo ng mga bilihin"
+                },
+                {
+                    "id": 3,
+                    "choice": "Panghihikayat sa maliliit na negosyante na palawakin pa ang negosyo"
+                }
+            ]
+        },
+        {
+            "question": "Alin sa sumusunod na pahayag ang tumpak na naglalarawan sa ugnayan ng sambahayan at bahay-kalakal batay sa modelo ng paikot na daloy ng ekonomiya?",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Ang salapi ay ginagamit ng sambahayan upang ipautang bilang kapital sa bahay-kalakal."
+                },
+                {
+                    "id": 1,
+                    "choice": "Sa sambahayan nagmula ang mga salik ng produksiyon na sumasailalim sa pagproseso ng bahay-kalakal"
+                },
+                {
+                    "id": 2,
+                    "choice": "Nagbukas ng bagong planta ang sambahayan upang magkaroon ng dagdag na trabaho para sa bahay-kalakal"
+                },
+                {
+                    "id": 3,
+                    "choice": "Ginagamit ng sambahayan ang nakokolektang buwis upang makabuo ng produkto na gagamitin ng mga bahay-kalakal"
+                }
+            ]
+        },
+        {
+            "question": "Sa isinagawang survey ng Bangko Sentral ng Pilipinas hinggil sa spending pattern ng mga Pinoy lumalabas na 43.8% ng mga Pilipino ay gumagastos ng higit pa sa kanilang kinikita. 51.5% ang gumagastos ng katumbas ng kanilang kinikita at 4.6% ang gumagastos ng mas maliit sa kanilang kinikita. Ano ang ipinapahiwatig nito hinggil sa gawaing pag-iimpok ng mga Pilipino.",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Napakaliit na bahagdan lamang ng mga Pilipino ang nag-iimpok"
+                },
+                {
+                    "id": 1,
+                    "choice": "Maraming Pilipino ang sagad sa hirap kaya’t hindi makapag-impok"
+                },
+                {
+                    "id": 2,
+                    "choice": "Maluho ang marami sa mga Pilipino kaya’t gastos lamang nang gastos"
+                },
+                {
+                    "id": 3,
+                    "choice": "Maraming Pilipino ang nagkakaroon ng utang dahil higit ang gastos kaysa kita"
+                }
+            ]
+        },
+        {
+            "question": "Bahagi ng patakarang piskal ng pamahalaan ang programang “Build, Build, Build” kung saan naglaan ng daan-daang bilyon piso sa pagtatayo ng mga pampublikong istruktura tulad ng kalsada, tulay, paliparan at iba pa. Ano ang pangunahing layunin ng programang ito?",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Magkaloob ng magandang serbisyo sa mga mamamayan"
+                },
+                {
+                    "id": 1,
+                    "choice": "Maihanay ang Pilipinas sa mauunlad na bansa sa buong mundo"
+                },
+                {
+                    "id": 2,
+                    "choice": "Umakit ng mas maraming turista sa pamamagitan ng magagandang pasilidad"
+                },
+                {
+                    "id": 3,
+                    "choice": "Lumikha ng mas maraming trabaho na higit magpapasigla sa ekonomiya"
+                }
+            ]
+        },
+        {
+            "question": "Alin sa mga sumusunod na pahayag ang nagpapahiwatig ng positibong paglalarawan sa paglaganap ng impormal na sektor sa Pilipinas?",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Sinasalamin nito ang pagiging industriyalisado ng isang bansa"
+                },
+                {
+                    "id": 1,
+                    "choice": "Pinatutunayan lamang nito ang kakulangan ng trabaho sa Pilipinas"
+                },
+                {
+                    "id": 2,
+                    "choice": "Nagpapahiwatig ito ng kawalan ng programa ng pamahalaan para sa mahihirap"
+                },
+                {
+                    "id": 3,
+                    "choice": "Salamin ito ng pagiging mapamaraan ng mga Pilipino sa kabila ng hirap sa buhay"
+                }
+            ]
+        },
+        {
+            "question": "Walang bansa ang kayang bambuhay nang mag-isa. Hindi maiiwasan na siya’y makipag-ugnayan sa ibang bansa lalo’t nasa panahon tayo ng tinatawag na globalisasyon. Alin sa sumusunod na pahayag ang pangunahing dahilan ng pakikipag-ugnayan ng isang bansa lalo sa larangan ng kalakalan?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Maipagmalaki ang sariling produkto sa pandaigdigang pamilihan"
+                },
+                {
+                    "id": 1,
+                    "choice": "Pagkakataon ito upang kumita ng malaki mula sa kalakalang panlabas"
+                },
+                {
+                    "id": 2,
+                    "choice": "Madagdagan ang panustos sa pangangailangan ng local na ekonomiya"
+                },
+                {
+                    "id": 3,
+                    "choice": "Upang dumami ang mga produktong banyaga na maaaring gayahin"
+                }
+            ]
+        },
+        {
+            "question": "Kung ang isang magsasaka ay gumagamit ng traktora sa pagbubungkal ng kanyang bukirin, samantalang ang kanyang katabing bukirin ay gumagamit ng kalabaw at dagdag na tao sa pagsasaka, ito ay sumasagot sa anong pangunahing tanong sa ekonomiks?",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Ano ang produkto o serbisyo na gagawin"
+                },
+                {
+                    "id": 1,
+                    "choice": "Paano gagawin ang produkto o serbisyo"
+                },
+                {
+                    "id": 2,
+                    "choice": "Para kanino ang produkto o serbisyo na gagawin"
+                },
+                {
+                    "id": 3,
+                    "choice": "Gaano karami ang produkto o serbisyo na gagawin"
+                }
+            ]
+        },
+        {
+            "question": "Upang masabing demand, dapat nagtataglay ito ng dalawang element: gusto at kayang bilhin. Sino sa sumusunod na halimbawa ang tumpak na naglalarawan tungkol sa demand?",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Si Mark na bumibili ng mamahaling sapatos matapos makaipon ng malaking halaga mula sa allowance"
+                },
+                {
+                    "id": 1,
+                    "choice": "Si Daniel na isang Grade 9 student na nangangarap makabili ng isang Ferrari Sports Car."
+                },
+                {
+                    "id": 2,
+                    "choice": "Si Lilyn na inilibre ng kanyang kaklase na kumain ng kanyang gustung- gusto na pizza"
+                },
+                {
+                    "id": 3,
+                    "choice": "Si Mayet na nangutang para mapanood ang concert ng kanyang paboritong K-POP na BTS"
+                }
+            ]
+        },
+        {
+            "question": "Ang tindahan ni Aling Nena ay bumibili sa kanyang supplier ng 100 na Gardenia Slice Bread bawat linggo na kanya naman binbenta sa halagang Php 65.00 bawat isa. Matapos ang isang linggo, nakabenta lamang siya ng 60 piraso. Anong sitwasyon ang kinakaharap ni Aling Nena at ano ang dapat gawin sa presyo upang matamo ang estado ng ekwilibriyo?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Shortage; babaan ang presyo"
+                },
+                {
+                    "id": 1,
+                    "choice": "Shortage; taasan ang presyo"
+                },
+                {
+                    "id": 2,
+                    "choice": "Surplus; babaan ang presyo"
+                },
+                {
+                    "id": 3,
+                    "choice": "Surplus; taasan ang presyo"
+                }
+            ]
+        },
+        {
+            "question": "Maituturing na makabagong bayani ang mga OFW kagaya ni Maria na isang nurse sa Italy, dahil nagagawa niyang makapag-ambag sa dalawang ekonomiya. Ang kanyang kinikita bilang OFW sa Italy ay kabilang sa",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Gross Domestic Product (GDP) ng Italy at Pilipinas"
+                },
+                {
+                    "id": 1,
+                    "choice": "Gross National Income (GNI) ng Italy at Pilipinas"
+                },
+                {
+                    "id": 2,
+                    "choice": "Gross Domestic Product ng Pilipinas (GDP) at Gross National Income (GNI) ng Italy"
+                },
+                {
+                    "id": 3,
+                    "choice": "Gross Domestic Product (GDP) ng Italy at Gross National Income (GNI) ng Pilipinas"
+                }
+            ]
+        },
+        {
+            "question": "Maliban sa pagkain, ang kamoteng kahoy ay maaari ring gawin at pangunahing sangkap sa mga produkto tulad ng alcohol, tela, beer, softdrinks, at iba’t ibang uri ng gamot. Anong sektor ang may pinakamahalagang papel sa pagbabagong anyo ng kamoteng kahoy sa iba’t ibang produkto?",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Agrikultura"
+                },
+                {
+                    "id": 1,
+                    "choice": "Industriya"
+                },
+                {
+                    "id": 2,
+                    "choice": "Impormal"
+                },
+                {
+                    "id": 3,
+                    "choice": "Paglilingkod"
+                }
+            ]
+        },
+        {
+            "question": "“Kahit hindi pangulo ng klase, pinapapaalalahanan ni JC ang kanyang kaklase na ilagay sa tamag lalagyan ang kanilang aklat” Anong katangian ng isang aktibong mamamayang ang ipinamalas ni JC?",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Mapanagutan"
+                },
+                {
+                    "id": 1,
+                    "choice": "Maabilidad"
+                },
+                {
+                    "id": 2,
+                    "choice": "Maalam"
+                },
+                {
+                    "id": 3,
+                    "choice": "Makabansa"
+                }
+            ]
+        },
+        {
+            "question": "“Karamihan sa mga bansa sa gitnang Silangan tulad ng UAE, Qatar, Kuwait, at Saudi Arabia ay nagtamo ng mabilis nap ag-unlad sa kanilang ekonomiya dahil sa malaking kita mula sa langis. Sa anong salik ng pagsulong ng ekonomiya ito nabibilang?",
+            "correctChoices": [
+                1
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Kapital"
+                },
+                {
+                    "id": 1,
+                    "choice": "Likas na yaman"
+                },
+                {
+                    "id": 2,
+                    "choice": "Teknolohiya at inobasyon"
+                },
+                {
+                    "id": 3,
+                    "choice": "Yamang tao"
+                }
+            ]
+        },
+        {
+            "question": "Sino sa sumusunod ang nagtataglay ng katangian ng isang huwarang entrepreneur?",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Si John na isinangla ang lahat ng ari-arian upang makapagtayo ng pinapangarap na restaurant"
+                },
+                {
+                    "id": 1,
+                    "choice": "Si Rhea na ginaya ang mga produkto ng katabing kainan at kanya itong mas pinabubuti pa upang maka-engganyo ng kostumer"
+                },
+                {
+                    "id": 2,
+                    "choice": "Si Malou na gumagawa ng mga produktong mababa ang kalidad upang maging abot-kaya ng mahihirap ang presyo nito"
+                },
+                {
+                    "id": 3,
+                    "choice": "Si Edmund na matalas na pinakikiramdaman ang gusto ng tao upang makapagbigay ng bago at naiibang serbisyo sa kanyang kostumer"
+                }
+            ]
+        },
+        {
+            "question": "May-ari ka ng panaderya at sa nakalipas na 2 linggo walang humpay ang pagtaas ng presyo ng harina na pangunahing sangkap saiyong tinapay. Inisip mong magtaas ng presyo pero nangangamba ka na baka mawalan ka ng costumer. Kapag hindi ka naman nagtaas ng presyo, maaaring malugi ang iyong negosyo. Alin sa mga sumusunod ang maituturing na pinakamatalinong pagpapasya sa suliraning ito?",
+            "correctChoices": [
+                2
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Bawasan ang ibang sangkap ng tinapay tulad ng gatas, butter at asukal"
+                },
+                {
+                    "id": 1,
+                    "choice": "Huwag munang magbenta ng tinapay hangga’t hindi bumabalik sa normal ang presyo ng harina"
+                },
+                {
+                    "id": 2,
+                    "choice": "Bahagyang liitan ang laki ng ginagawang tinapay upang maibenta pa rin ito sa dating presyo"
+                },
+                {
+                    "id": 3,
+                    "choice": "Magbukas ng ibang negosyo na patok sa kasalukuyan tulad ng ukay-ukay at milk tea shop."
+                }
+            ]
+        },
+        {
+            "question": "Sa ikaapat na modelo ng paikot na daloy ng ekonomiya, binigyang diin ang papel ng pamahalaan. Bagama’t likas ang kapangyarihan nito na kumolekta ng buwis sa kanyang mamamayan, obligasyon niyang ibalik ito sa pamamagitan ng mga pampublikong paglilingkod gaya ng pagpapagawa ng kalsada, libreng tulong medical at iba pa. Alin sa sumusunod na islogan o linya na madalas makita sa mga proyekto ng pamahalaan, ang angkop na naglalarawan sa gampaning ito?",
+            "correctChoices": [
+                0
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Proyekto para sa tao, mula sa buwis ng mga tao"
+                },
+                {
+                    "id": 1,
+                    "choice": "Tuition mo sagot ko: Scholarship program ni Mayor"
+                },
+                {
+                    "id": 2,
+                    "choice": "Relief Operation sponsored by the office of the Governor"
+                },
+                {
+                    "id": 3,
+                    "choice": "Construction of multi-purpose building: galing sa kabutihang loob ni Congressman"
+                }
+            ]
+        },
+        {
+            "question": "Isa sa mga epekto ng impormal na sektor sa ekonomiya ay ang paglaganap ng mga illegal na Gawain tulad ng pamimirata ng musika, mga palabas at computer software. Ang patuloy na paglaganap ng mga gawaing ito sa bansa ay maaaring iugnay sa mga sumusunod MALIBAN sa",
+            "correctChoices": [
+                3
+            ],
+            "choices": [
+                {
+                    "id": 0,
+                    "choice": "Kakulangan ng mapapasukang trabaho"
+                },
+                {
+                    "id": 1,
+                    "choice": "Kawalan ng mahigpit na implementasyon ng mga batas laban sa pamimirata"
+                },
+                {
+                    "id": 2,
+                    "choice": "Kakulangan ng program at komprehensibong kampanya laban sa pamimirata"
+                },
+                {
+                    "id": 3,
+                    "choice": "Pagnanais ng ilang negosyante na kumita ng malaki kahit sa illegal na pamamaraan"
                 }
             ]
         }

@@ -1,9 +1,11 @@
 package com.capstone.merkado.Screens.MainMenu;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +32,7 @@ public class Lobby extends AppCompatActivity {
     RecyclerView serverList;
     CardView addEconomy;
     TextView noEconomy;
-    ImageView backButton;
+    ImageView backButton,helpGuideIcon;
 
     EconomiesAdapter economiesAdapter;
     List<BasicServerData> basicServerDataList;
@@ -58,8 +60,32 @@ public class Lobby extends AppCompatActivity {
 
         backButton.setOnClickListener(v -> finish());
 
+        helpGuideIcon = findViewById(R.id.help_guide);
+
+
+        helpGuideIcon.setOnClickListener(v -> showHelpGuideDialog());
+
         if (merkado.getAccount() == null) loggedOut();
         else loggedIn();
+    }
+
+    private void showHelpGuideDialog() {
+        // Create a new dialog instance
+        Dialog helpDialog = new Dialog(this);
+        helpDialog.setContentView(R.layout.dialog_help_guide);
+
+        // Find views within the dialog layout
+        TextView helpText = helpDialog.findViewById(R.id.help_text);
+        Button closeButton = helpDialog.findViewById(R.id.close_button);
+
+        // Set any necessary text (optional)
+        helpText.setText("This is some useful information to guide users.");
+
+        // Set the close button listener
+        closeButton.setOnClickListener(v -> helpDialog.dismiss());
+
+        // Show the dialog
+        helpDialog.show();
     }
 
     private void loggedOut() {

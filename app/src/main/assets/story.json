@@ -8459,7 +8459,7 @@
                         "background": "classroom",
                         "defaultNextLine": 1,
                         "dialogueLines": [
-                            {
+                                {
                                 "character": "TEACHER",
                                 "dialogue": "Good morning, class!"
                             },
@@ -8744,18 +8744,102 @@
                                 "quizChoices": [
                                     {
                                         "choice": "Monopolyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Ito po ay Monopolyo!",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_amazed",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_talking",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 1
                                     },
                                     {
                                         "choice": "Oligopolyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Ito po ay Oligopolyo!",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_amazed",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_talking",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Monopsonyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Ito po ay Monopsonyo!",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_amazed",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_talking",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Monopolistic Competition",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Ito po ay Monopolistic Competition!",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_amazed",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_talking",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     }
                                 ]
@@ -8788,18 +8872,102 @@
                                 "quizChoices": [
                                     {
                                         "choice": "Monopolyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Panigurado, ito ang tamang sagot",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_normal",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Oligopolyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Panigurado, ito ang tamang sagot",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_normal",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_normal",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 1
                                     },
                                     {
                                         "choice": "Monopsonyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Panigurado, ito ang tamang sagot",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_normal",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Monopolistic Competition",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Panigurado, ito ang tamang sagot",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_normal",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     }
                                 ]
@@ -8817,18 +8985,102 @@
                                 "quizChoices": [
                                     {
                                         "choice": "Monopolyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Pamilyar ako sa araling ito",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_confused",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_confused",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Oligopolyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Pamilyar ako sa araling ito",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_confused",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_confused",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Monopsonyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Pamilyar ako sa araling ito",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_amazed",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_normal",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_talking",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 1
                                     },
                                     {
                                         "choice": "Monopolistic Competition",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Pamilyar ako sa araling ito",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_confused",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_confused",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     }
                                 ]
@@ -8851,20 +9103,105 @@
                                 "quizChoices": [
                                     {
                                         "choice": "Monopolyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Hindi ako nagkakamali, ito ang tamang sagot",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_amazed",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_confused",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Oligopolyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Hindi ako nagkakamali, ito ang tamang sagot",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_normal",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_confused",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Monopsonyo",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Hindi ako nagkakamali, ito ang tamang sagot",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_amazed",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_confused",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 0
                                     },
                                     {
                                         "choice": "Monopolistic Competition",
+                                        "dialogueLine": {
+                                            "character": "[USER_NAME]",
+                                            "dialogue": "Hindi ako nagkakamali, ito ang tamang sagot",
+                                            "imageChanges": [
+                                                {
+                                                    "image": "mc1_f_normal",
+                                                    "placement": "3;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "jaxon1_f_confused",
+                                                    "placement": "4;FACE",
+                                                    "toShow": true
+                                                },
+                                                {
+                                                    "image": "eian1_f_confused",
+                                                    "placement": "5;FACE",
+                                                    "toShow": true
+                                                }
+                                            ]
+                                        },
                                         "points": 1
                                     }
+
                                 ]
                             },
                             {

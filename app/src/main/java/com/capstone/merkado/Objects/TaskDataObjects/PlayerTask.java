@@ -1,25 +1,34 @@
 package com.capstone.merkado.Objects.TaskDataObjects;
 
 public class PlayerTask {
-    TaskData taskData;
-    String taskStatusCode;
+    Integer taskId;
+    String taskNote;
+    Boolean done;
 
     public PlayerTask() {
     }
 
-    public TaskData getTask() {
-        return taskData;
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setTask(TaskData taskData) {
-        this.taskData = taskData;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
-    public String getTaskStatusCode() {
-        return taskStatusCode;
+    public String getTaskNote() {
+        return taskNote;
     }
 
-    public void setTaskStatusCode(String taskStatusCode) {
-        this.taskStatusCode = taskStatusCode;
+    public void setTaskNote(String taskNote) {
+        this.taskNote = taskNote;
+    }
+
+    public Boolean getDone() {
+        return done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
     }
 }

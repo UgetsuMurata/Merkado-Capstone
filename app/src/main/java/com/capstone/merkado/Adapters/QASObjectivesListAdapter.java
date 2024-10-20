@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,13 +21,16 @@ public class QASObjectivesListAdapter extends RecyclerView.Adapter<QASObjectives
     Context context;
     List<Objective> qasObjectiveList;
     Integer currentObjective;
+    Boolean done;
 
     public QASObjectivesListAdapter(@NonNull Context context,
                                     @NonNull List<Objective> qasObjectiveList,
-                                    @NonNull Integer currentObjective) {
+                                    @Nullable Integer currentObjective,
+                                    @NonNull Boolean done) {
         this.context = context;
         this.qasObjectiveList = qasObjectiveList;
         this.currentObjective = currentObjective;
+        this.done = done;
     }
 
     @NonNull
@@ -39,7 +43,7 @@ public class QASObjectivesListAdapter extends RecyclerView.Adapter<QASObjectives
     @Override
     public void onBindViewHolder(@NonNull QASItemsAdapterViewer holder, int position) {
         Objective qasObjective = qasObjectiveList.get(position);
-        holder.bind(context, qasObjective, currentObjective);
+        holder.bind(context, qasObjective, currentObjective, done);
     }
 
     @Override
@@ -57,12 +61,18 @@ public class QASObjectivesListAdapter extends RecyclerView.Adapter<QASObjectives
             objective = itemView.findViewById(R.id.objective);
         }
 
-        public void bind(@NonNull Context context, @NonNull Objective qasObjective, @NonNull Integer currentObjective) {
+        public void bind(@NonNull Context context, @NonNull Objective qasObjective, @Nullable Integer currentObjective, @NonNull Boolean done) {
             // set the data
-            icon.setImageDrawable(ContextCompat.getDrawable(context,
-                    currentObjective > qasObjective.getId() ?
-                            R.drawable.icon_checkbox_checked :
-                            R.drawable.icon_checkbox));
+            if (currentObjective == null)
+                icon.setImageDrawable(
+                        ContextCompat.getDrawable(context,
+                                done ?
+                                        R.drawable.icon_checkbox_checked :
+                                        R.drawable.icon_checkbox));
+            else icon.setImageDrawable(ContextCompat.getDrawable(context,
+                        currentObjective > qasObjective.getId() ?
+                                R.drawable.icon_checkbox_checked :
+                                R.drawable.icon_checkbox));
             objective.setText(qasObjective.getObjective());
         }
     }

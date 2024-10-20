@@ -89,47 +89,16 @@ public class MainMap extends AppCompatActivity {
                 }
             });
 
-    private final ActivityResultLauncher<Intent> takeDiagnosticTool = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    if (result.getData() != null) {
-                        Integer score = result.getData().getIntExtra("SCORE", -1);
-                        ServerDataFunctions.setPlayerPretest(
-                                Merkado.getInstance().getPlayer().getServer(),
-                                Merkado.getInstance().getPlayerId(),
-                                score);
-                        Merkado.getInstance().setHasTakenPretest(true);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Pre-test results not saved.", Toast.LENGTH_SHORT);
-                    }
-                    Intent i = new Intent(getApplicationContext(), MainMap.class);
-                    overridePendingTransition(0, 0);
-                    startActivity(i);
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-            });
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gam_main_map);
-
-        if (!Merkado.getInstance().getHasTakenPretest()) {
-            Intent intent = new Intent(getApplicationContext(), QuizDisplay.class);
-            intent.putExtras(getIntent());
-            intent.putExtra("QUIZ_ID", -2);
-            takeDiagnosticTool.launch(intent);
-            return;
-        }
 
         // check for an intent that says there's prologue
         if (getIntent().hasExtra("PROLOGUE")) {
             Intent intent = new Intent(getApplicationContext(), StoryMode.class);
             intent.putExtras(getIntent());
             refreshAfterIntent.launch(intent);
-            return;
         }
 
         merkado = Merkado.getInstance();

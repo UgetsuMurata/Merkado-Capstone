@@ -184,8 +184,7 @@ public class QuizDisplay extends AppCompatActivity {
         setResult(Activity.RESULT_OK, new Intent()
                 .putExtra("SCORE", score)
                 .putExtra("EXP_REWARD", expReward)
-                .putExtra("QUIZ_ID", quiz.getId())
-                .putExtras(getIntent()));
+                .putExtra("QUIZ_ID", quiz.getId()));
         finish();
     }
 

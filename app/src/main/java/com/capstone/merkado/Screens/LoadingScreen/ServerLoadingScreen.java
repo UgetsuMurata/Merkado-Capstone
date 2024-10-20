@@ -1,11 +1,16 @@
 package com.capstone.merkado.Screens.LoadingScreen;
 
+import static com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions.getAllQuests;
+import static com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions.saveAllQuests;
+import static com.capstone.merkado.Helpers.OtherProcessors.TimeProcessors.getCurrentDay;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.merkado.Application.Merkado;
@@ -13,15 +18,18 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
-import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
+import com.capstone.merkado.Helpers.JsonHelper;
+import com.capstone.merkado.Helpers.OtherProcessors;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1;
+import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.MainMap;
+import com.capstone.merkado.Screens.Game.Story.QuizDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +39,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@SuppressWarnings("StatementWithEmptyBody")
 public class ServerLoadingScreen extends AppCompatActivity {
 
     private Merkado merkado;
@@ -38,8 +47,10 @@ public class ServerLoadingScreen extends AppCompatActivity {
     BasicServerData basicServerData;
     PlayerFBExtractor1 playerFBExtractor;
     List<PlayerStory> playerStoryList;
-    List<PlayerTask> playerTaskList;
     Intent intent;
+
+    AtomicInteger process_number;
+    long startingTime;
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -66,8 +77,8 @@ public class ServerLoadingScreen extends AppCompatActivity {
         intent = new Intent(getApplicationContext(), MainMap.class);
 
         new Thread(() -> {
-            long startingTime = System.currentTimeMillis();
-            AtomicInteger process_number = new AtomicInteger(0);
+            startingTime = System.currentTimeMillis();
+            process_number = new AtomicInteger(0);
             for (int i = 0; i < maxProcesses; i++) {
                 process_number.getAndIncrement();
                 switch (i) {
@@ -92,15 +103,18 @@ public class ServerLoadingScreen extends AppCompatActivity {
                         break;
                 }
             }
-            runOnUiThread(() -> new Handler().postDelayed(() -> {
-                if (process_number.get() == maxProcesses && playerFBExtractor != null) {
-                    // if this is not triggered, then the processes will naturally go to StoryMode.class
-                    merkado.setServer(basicServerData);
-                    startActivity(intent);
-                    finish();
-                }
-            }, 1000 - System.currentTimeMillis() - startingTime));
         }).start();
+    }
+
+    private void doneLoading() {
+        runOnUiThread(() -> new Handler().postDelayed(() -> {
+            if (process_number.get() == maxProcesses && playerFBExtractor != null) {
+                // if this is not triggered, then the processes will naturally go to StoryMode.class
+                merkado.setServer(basicServerData);
+                startActivity(intent);
+                finish();
+            }
+        }, 1000 - System.currentTimeMillis() - startingTime));
     }
 
     /**
@@ -136,7 +150,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
     private void process2() {
         long currentTimeMillis = System.currentTimeMillis();
         merkado.extractObjectives(getApplicationContext());
-        while (System.currentTimeMillis() - currentTimeMillis < 1000);
+        while (System.currentTimeMillis() - currentTimeMillis < 1000) ;
     }
 
     private void process3() {
@@ -147,7 +161,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
         ServerDataFunctions.checkPlayerPostTest(basicServerData.getId(),
                 basicServerData.getPlayerId(),
                 hasTaken -> merkado.setHasTakenPostTest(hasTaken != null && hasTaken));
-        while (System.currentTimeMillis() - currentTimeMillis < 1000);
+        while (System.currentTimeMillis() - currentTimeMillis < 1000) ;
     }
 
     /**
@@ -185,15 +199,28 @@ public class ServerLoadingScreen extends AppCompatActivity {
      */
     private void process5() {
         if (playerFBExtractor != null) {
-            playerTaskList = new ArrayList<>();
-            if (playerFBExtractor.getTaskQueue() == null) return;
-            for (PlayerFBExtractor1.TaskQueue taskQueue : playerFBExtractor.getTaskQueue()) {
-                PlayerTask playerTask = new PlayerTask();
-                playerTask.setTask(QASDataFunctions.getTaskFromId(taskQueue.getTask()));
-                playerTask.setTaskStatusCode(taskQueue.getTaskStatusCode());
-                playerTaskList.add(playerTask);
-            }
-            merkado.getPlayer().setPlayerTaskList(playerTaskList);
+            JsonHelper.getTaskList(getApplicationContext(), taskDataList -> {
+                Merkado.getInstance().setTaskDataList(taskDataList);
+
+                // CHECK IF PLAYER TASKS QUEUE IS ALREADY GENERATED FOR TODAY.
+                CompletableFuture<Boolean> hasGenerated = QASDataFunctions.getTaskLastUpdate(
+                        basicServerData.getPlayerId()).thenCompose(timestamp ->
+                        CompletableFuture.completedFuture(timestamp != null && timestamp == getCurrentDay()));
+
+                // IF / IF NOT GENERATED
+                CompletableFuture<List<QASItems>> qasItems = hasGenerated.thenCompose(hasGeneratedResult -> {
+                    if (hasGeneratedResult) {
+                        return getAllQuests(basicServerData.getPlayerId());
+                    } else {
+                        List<PlayerTask> playerTaskList = OtherProcessors.TaskProcessors.generate5Tasks(taskDataList);
+                        saveAllQuests(basicServerData.getPlayerId(), playerTaskList);
+                        return OtherProcessors.TaskProcessors.PlayerTaskToQASItems(playerTaskList);
+                    }
+                });
+
+                // SAVE THE GENERATED TASKS ON APPLICATION CLASS.
+                qasItems.thenAccept(qasItems1 -> merkado.setTaskQASList(qasItems1));
+            });
         }
     }
 
@@ -211,7 +238,35 @@ public class ServerLoadingScreen extends AppCompatActivity {
             }
             index++;
         }
+        processEnd();
     }
+
+    private void processEnd() {
+        if (!Merkado.getInstance().getHasTakenPretest()) {
+            Intent intent = new Intent(getApplicationContext(), QuizDisplay.class);
+            intent.putExtras(getIntent());
+            intent.putExtra("QUIZ_ID", -2);
+            takeDiagnosticTool.launch(intent);
+        } else doneLoading();
+    }
+
+    private final ActivityResultLauncher<Intent> takeDiagnosticTool = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        Integer score = result.getData().getIntExtra("SCORE", -1);
+                        ServerDataFunctions.setPlayerPretest(
+                                Merkado.getInstance().getPlayer().getServer(),
+                                Merkado.getInstance().getPlayerId(),
+                                score);
+                        Merkado.getInstance().setHasTakenPretest(true);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Pre-test results not saved.", Toast.LENGTH_SHORT);
+                    }
+                }
+                doneLoading();
+            });
 
     private void onTimeout() {
         // This function is triggered if the CompletableFuture does not complete in time

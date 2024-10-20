@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.StoresDataObjects.Market;
+import com.capstone.merkado.Objects.TaskDataObjects.TaskQueue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class PlayerFBExtractor1 {
     private Float money;
     private Long exp;
     private List<Inventory> inventory;
-    private List<TaskQueue> taskQueue;
+    private TaskQueue taskQueue;
     private List<StoryQueue> storyQueue;
     private Market market;
     private List<PlayerFBExtractor1.StoryQueue> storyHistory;
@@ -86,11 +87,11 @@ public class PlayerFBExtractor1 {
         this.inventory = inventory;
     }
 
-    public List<TaskQueue> getTaskQueue() {
+    public TaskQueue getTaskQueue() {
         return taskQueue;
     }
 
-    public void setTaskQueue(List<TaskQueue> taskQueue) {
+    public void setTaskQueue(TaskQueue taskQueue) {
         this.taskQueue = taskQueue;
     }
 
@@ -132,31 +133,6 @@ public class PlayerFBExtractor1 {
 
     public void setObjectives(PlayerObjectives objectives) {
         this.objectives = objectives;
-    }
-
-    // Nested classes for complex fields
-    public static class TaskQueue {
-        Integer task;
-        String taskStatusCode;
-
-        public TaskQueue() {
-        }
-
-        public Integer getTask() {
-            return task;
-        }
-
-        public void setTask(Integer task) {
-            this.task = task;
-        }
-
-        public String getTaskStatusCode() {
-            return taskStatusCode;
-        }
-
-        public void setTaskStatusCode(String taskStatusCode) {
-            this.taskStatusCode = taskStatusCode;
-        }
     }
 
     public static class StoryQueue {

@@ -1,8 +1,10 @@
 package com.capstone.merkado.Objects.PlayerDataObjects;
 
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
+import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1.StoryQueue;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.StoresDataObjects.Market;
+import com.capstone.merkado.Objects.TaskDataObjects.TaskQueue;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,9 +19,9 @@ public class PlayerFBExtractor2 {
     private Float money;
     private Long exp;
     private HashMap<String, Inventory> inventory;
-    private List<PlayerFBExtractor1.TaskQueue> taskQueue;
-    private List<PlayerFBExtractor1.StoryQueue> storyQueue;
-    private List<PlayerFBExtractor1.StoryQueue> storyHistory;
+    private TaskQueue taskQueue;
+    private List<StoryQueue> storyQueue;
+    private List<StoryQueue> storyHistory;
     private Market market;
     private FactoryData factory;
     private PlayerFBExtractor1.PlayerObjectives objectives;
@@ -69,27 +71,27 @@ public class PlayerFBExtractor2 {
         this.inventory = inventory;
     }
 
-    public List<PlayerFBExtractor1.TaskQueue> getTaskQueue() {
+    public TaskQueue getTaskQueue() {
         return taskQueue;
     }
 
-    public void setTaskQueue(List<PlayerFBExtractor1.TaskQueue> taskQueue) {
+    public void setTaskQueue(TaskQueue taskQueue) {
         this.taskQueue = taskQueue;
     }
 
-    public List<PlayerFBExtractor1.StoryQueue> getStoryQueue() {
+    public List<StoryQueue> getStoryQueue() {
         return storyQueue;
     }
 
-    public void setStoryQueue(List<PlayerFBExtractor1.StoryQueue> storyQueue) {
+    public void setStoryQueue(List<StoryQueue> storyQueue) {
         this.storyQueue = storyQueue;
     }
 
-    public List<PlayerFBExtractor1.StoryQueue> getStoryHistory() {
+    public List<StoryQueue> getStoryHistory() {
         return storyHistory;
     }
 
-    public void setStoryHistory(List<PlayerFBExtractor1.StoryQueue> storyHistory) {
+    public void setStoryHistory(List<StoryQueue> storyHistory) {
         this.storyHistory = storyHistory;
     }
 

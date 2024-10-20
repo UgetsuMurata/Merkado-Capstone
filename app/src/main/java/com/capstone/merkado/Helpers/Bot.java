@@ -1,11 +1,11 @@
 package com.capstone.merkado.Helpers;
 
 import static com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions.getMarketPrice;
+import static com.capstone.merkado.Helpers.OtherProcessors.TimeProcessors.getCurrentDay;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
@@ -17,7 +17,6 @@ import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -356,16 +355,6 @@ public class Bot {
                             BotType.STORE.equals(botType)?"playerMarkets":"playerFactory"),
                     getCurrentDay()
             );
-        }
-
-        private static long getCurrentDay() {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MILLISECOND, Math.toIntExact(Merkado.getInstance().getServerTimeOffset()));
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            return calendar.getTimeInMillis();
         }
     }
 

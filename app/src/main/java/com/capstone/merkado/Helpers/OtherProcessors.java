@@ -1,16 +1,103 @@
 package com.capstone.merkado.Helpers;
 
+import static com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions.processTasksQueue;
+
+import androidx.annotation.Nullable;
+
+import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
-import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
+import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
+import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
+import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
+import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class OtherProcessors {
-    public static class StoreProcessors {
+    public static class TimeProcessors {
+        public static long getCurrentDay() {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MILLISECOND, Math.toIntExact(Merkado.getInstance().getServerTimeOffset()));
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            return calendar.getTimeInMillis();
+        }
+    }
 
+    public static class TaskProcessors {
+        public static List<PlayerTask> generate5Tasks(List<TaskData> taskDataList) {
+            List<PlayerTask> generatedTasks = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                generatedTasks.add(processTaskData(getRandomItem(taskDataList), TaskDifficulty.EASY));
+            }
+            return generatedTasks;
+        }
+
+        public static CompletableFuture<List<QASItems>> PlayerTaskToQASItems(List<PlayerTask> playerTaskList) {
+            Map<Integer, PlayerTask> questsQueueMap = new HashMap<>();
+            Integer currentIndex = 0;
+            for (PlayerTask playerTask : playerTaskList) {
+                questsQueueMap.put(currentIndex, playerTask);
+            }
+            return processTasksQueue(questsQueueMap);
+        }
+
+        private static PlayerTask processTaskData(TaskData taskData, TaskDifficulty difficulty) {
+            PlayerTask playerTask = new PlayerTask();
+            playerTask.setTaskId(taskData.getId());
+            playerTask.setDone(false);
+            playerTask.setTaskNote(generateNote(taskData.getNote(), difficulty));
+
+            return playerTask;
+        }
+
+        private static String generateNote(@Nullable String note, TaskDifficulty difficulty) {
+            if ("{$ITEM_EDIBLE}".equals(note)) {
+                switch (difficulty) {
+                    case EASY:
+                        return "ITEM_EDIBLE=" + getRandomItem(Arrays.asList(2, 3, 4, 5));
+                    case MODERATE:
+                        return "ITEM_EDIBLE=" + getRandomItem(Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 6, 7, 8, 9));
+                    case DIFFICULT:
+                        return "ITEM_EDIBLE=" + getRandomItem(Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 6, 7, 8, 9, 10, 11, 12, 13, 10, 11, 12, 13, 10, 11, 12, 13));
+                }
+            } else if ("{$ITEM_RESOURCE}".equals(note)) {
+                switch (difficulty) {
+                    case EASY:
+                        return "ITEM_RESOURCE=" + getRandomItem(Arrays.asList(14, 15, 16));
+                    case MODERATE:
+                        return "ITEM_RESOURCE=" + getRandomItem(Arrays.asList(14, 15, 16, 17, 18, 19, 17, 18, 19));
+                    case DIFFICULT:
+                        return "ITEM_RESOURCE=" + getRandomItem(Arrays.asList(14, 15, 16, 17, 18, 19, 17, 18, 19, 20, 21, 22, 23, 20, 21, 22, 23, 20, 21, 22, 23));
+                }
+            }
+            return null;
+        }
+
+        private static <T> T getRandomItem(List<T> list) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(list.size());
+            return list.get(randomIndex);
+        }
+
+        public enum TaskDifficulty {
+            EASY, MODERATE, DIFFICULT
+        }
+    }
+
+    public static class StoreProcessors {
         public static List<PlayerMarkets.OnSale> filterSaleList(List<PlayerMarkets.OnSale> onSaleList, ResourceDisplayMode resourceDisplayMode) {
             if (onSaleList == null) return new ArrayList<>();
             switch (resourceDisplayMode) {

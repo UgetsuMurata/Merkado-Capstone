@@ -15,15 +15,16 @@ public class PlayerActions {
             // update demand
             StoreDataFunctions.addDemandToResource(SERVER(), resourceId, quantity);
             StoreDataFunctions.addSupplyToResource(SERVER(), resourceId, quantity * -1);
+
+        }
+
+        public static void selling(Integer resourceId, Integer quantity) {
+
         }
 
         public static void createResource(Integer resourceId, Integer quantity) {
             // update supply
             StoreDataFunctions.addSupplyToResource(SERVER(), resourceId, quantity);
         }
-    }
-
-    public static class Task {
-
     }
 }

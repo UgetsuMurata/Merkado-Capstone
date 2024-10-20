@@ -32,6 +32,7 @@ import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
+import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ServerDataObjects.BasicServerData;
@@ -41,6 +42,7 @@ import com.capstone.merkado.Objects.StoresDataObjects.MarketData.CompiledData;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.PlayerStory;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
+import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +78,8 @@ public class Merkado extends Application implements Application.ActivityLifecycl
     private Runnable serverDataUpdateRunnable;
     private CompiledData compiledMarketData;
     private Activity currentActivity;
+    private List<TaskData> taskDataList;
+    private List<QASItems> taskQASList;
 
     private Boolean hasTakenPretest = false;
     private Boolean hasTakenPostTest = false;
@@ -367,8 +371,7 @@ public class Merkado extends Application implements Application.ActivityLifecycl
                 Bot.Store.checkToRestock(this.currentServer);
             if (Boolean.TRUE.equals(this.hasBotMap.get(Bot.BotType.FACTORY)))
                 Bot.Factory.checkToRestock(this.currentServer);
-        }
-        else {
+        } else {
             getHasBotMapFuture().thenAccept(hasBotMap -> {
                 if (Boolean.TRUE.equals(hasBotMap.get(Bot.BotType.STORE)))
                     Bot.Store.checkToRestock(this.currentServer);
@@ -529,7 +532,11 @@ public class Merkado extends Application implements Application.ActivityLifecycl
                     .getObjectivesList().get(player.getObjectives().getId());
         }
 
-        public Objectives.Objective getCurrentObjective() {
+        public @Nullable Objectives.Objective getCurrentObjective() {
+            Objectives objectives = Merkado.getInstance()
+                    .getObjectivesList().get(player.getObjectives().getId());
+            if (objectives.getObjectives().size() <= player.getObjectives().getCurrentObjectiveId())
+                return null;
             return Merkado.getInstance()
                     .getObjectivesList().get(player.getObjectives().getId())
                     .getObjectives().get(player.getObjectives().getCurrentObjectiveId());
@@ -599,9 +606,25 @@ public class Merkado extends Application implements Application.ActivityLifecycl
 
     public CompletableFuture<Map<Bot.BotType, Boolean>> getHasBotMapFuture() {
         return Bot.getBotAvailability(this.currentServer).thenCompose(botTypeBooleanMap -> {
-           setHasBotMap(botTypeBooleanMap);
-           return CompletableFuture.completedFuture(botTypeBooleanMap);
+            setHasBotMap(botTypeBooleanMap);
+            return CompletableFuture.completedFuture(botTypeBooleanMap);
         });
+    }
+
+    public List<TaskData> getTaskDataList() {
+        return taskDataList;
+    }
+
+    public void setTaskDataList(List<TaskData> taskDataList) {
+        this.taskDataList = taskDataList;
+    }
+
+    public List<QASItems> getTaskQASList() {
+        return taskQASList;
+    }
+
+    public void setTaskQASList(List<QASItems> taskQASList) {
+        this.taskQASList = taskQASList;
     }
 
     public void setHasBotMap(Map<Bot.BotType, Boolean> hasBotMap) {

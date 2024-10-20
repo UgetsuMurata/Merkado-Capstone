@@ -5,9 +5,6 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail.QASReward;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -155,7 +152,7 @@ public class Chapter implements Parcelable {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             if (id == null) {
                 dest.writeByte((byte) 0);
             } else {

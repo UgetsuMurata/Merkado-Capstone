@@ -70,12 +70,16 @@
                     // This is chapter
                 }
             ],
-            "taskQueue": [
-                {
-                    "task": 0
-                    // This is task id. Schema on this might be updated later.
-                }
-            ],
+            "taskQueue": {
+                "lastUpdate": 123456,
+                "tasks": [
+                    {
+                        "taskId": 0,
+                        "taskNote": "",
+                        "done": false
+                    }
+                ]
+            },
             "market": {
                 "id": 0,
                 // market Id connected to the server.
@@ -246,106 +250,5 @@
             }
             // player assigned to update the server data.
         }
-    },
-    "story": [
-        {
-            "id": 0,
-            // Story Id
-            "category": "Main Story | Side Story | Extra Story",
-            // This only has three possible values.
-            "chapter": "Chapter Name",
-            "shortDescription": "Lorem Ipsum",
-            "scenes": [
-                {
-                    "id": 0,
-                    // scene id
-                    "scene": "Scene Name",
-                    "description": "Lorem Ipsum",
-                    "nextScene": 1,
-                    // next scene id
-                    "lineGroup": [
-                        {
-                            "id": 0,
-                            // lineGroup id
-                            "background": "background_resource_code",
-                            "transition": "FTB",
-                            // for now, only FTB (fade to black) is available.
-                            "bgm": "bgm_resource_code [loop]",
-                            // loop is optional. if no "loop", bgm will not loop.
-                            "isQuiz": false,
-                            // this is optional. indicate true if this linegroup contains a quiz.
-                            "nextLineCode": "score=={score integer}:{next line group id};score==3:4",
-                            // this comes with the "isQuiz" if it was true. ";" is the separator between conditions.
-                            "dialogueLines": [
-                                {
-                                    "character": "Character name",
-                                    "dialogue": "Lorem Ipsum",
-                                    "imageChanges": [
-                                        // this is optional for when there are changes with the character's resources.
-                                        {
-                                            "image": "sprite_resource_code",
-                                            "placement": "[1-5];[BODY|FACE]",
-                                            // this is for placement in the screen, relative to other resources.
-                                            "toShow": true
-                                            // this is for indicating if the resource will be hidden or not.
-                                        }
-                                    ],
-                                    "dialogueChoices": [
-                                        {
-                                            // must contain exactly 4 instances of this object.
-                                            "choice": "Lorem Ipsum Short",
-                                            // Short sample of the dialogue.
-                                            "nextLineGroup": 1,
-                                            // indicates what LineGroup must go next after this.
-                                            "variable": {
-                                                "method": "GET",
-                                                // GET, SET, DELETE, UPDATE
-                                                "name": "VARIABLE_NAME",
-                                                // [NAME]
-                                                "value": "VARIABLE_VALUE",
-                                                // [VALUE]
-                                                "code": "CODE_STRING",
-                                                // [CODE STRING OF WHAT TO DO WITH THE NUMBER]
-                                                "valueType": "STRING"
-                                                // NUMERICAL, DECIMAL, STRING, BOOLEAN
-                                            }
-                                        }
-                                    ],
-                                    "quizChoices": [
-                                        {
-                                            // must contain exactly 4 instances of this object.
-                                            "choice": "Lorem Ipsum Short",
-                                            "points": 1,
-                                            // points that the player will get from this choice.
-                                            "dialogueLine": {
-                                                // this will be displayed depending on player's choice.
-                                                "character": "Character name",
-                                                "dialogue": "Lorem Ipsum",
-                                                // continuation of the choice to make the dialogue flow nicely.
-                                                "imageChanges": [
-                                                    {
-                                                        "image": "sprite_resource_code",
-                                                        "placement": "[1-5];[BODY|FACE]",
-                                                        // this is for placement in the screen, relative to other resources.
-                                                        "toShow": true
-                                                        // this is for indicating if the resource will be hidden or not.
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    "rewards": [
-                        {
-                            "resourceId": 0,
-                            "resourceQuantity": 0
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+    }
 }

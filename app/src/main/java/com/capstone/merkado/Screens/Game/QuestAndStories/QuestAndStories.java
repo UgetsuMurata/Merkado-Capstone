@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -23,6 +25,7 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail.QASReward;
+import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Story.StoryMode;
 
@@ -41,6 +44,16 @@ public class QuestAndStories extends AppCompatActivity {
     RecyclerView qasList, qasRewards, qasObjectiveList;
     LinearLayout qasRewardsSection, qasDisplayObjectives;
     CardView qasStartStory;
+
+    private final ActivityResultLauncher<Intent> refreshAfterIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                Intent i = new Intent(getApplicationContext(), QuestAndStories.class);
+                overridePendingTransition(0, 0);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+                finish();
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +108,12 @@ public class QuestAndStories extends AppCompatActivity {
         qasListEmpty.setVisibility(View.GONE);
         qasList.setVisibility(View.GONE);
 
+        Objectives.Objective objective = merkado.getPlayerData().getCurrentObjective();
+        Objectives objectives = merkado.getPlayerData().getObjectives();
         QASObjectivesListAdapter qasAdapter = new QASObjectivesListAdapter(getApplicationContext(),
-                merkado.getPlayerData().getObjectives().getObjectives(),
-                merkado.getPlayerData().getCurrentObjective().getId());
+                objectives.getObjectives(),
+                objective == null ? null : objective.getId(),
+                merkado.getPlayerData().getObjectiveDone());
         qasObjectiveList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         qasObjectiveList.setAdapter(qasAdapter);
     }
@@ -179,7 +195,7 @@ public class QuestAndStories extends AppCompatActivity {
                 merkado.getPlayerData().getPlayerStory().get(qasDetail.getQueueId()));
         intent.putExtra("CURRENT_QUEUE_INDEX", qasDetail.getQueueId());
         intent.putExtra("HISTORY", history);
-        startActivity(intent);
+        refreshAfterIntent.launch(intent);
     }
 
     private enum ShowMode {

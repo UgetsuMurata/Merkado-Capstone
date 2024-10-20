@@ -24,7 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
@@ -53,6 +52,9 @@ public class PlayerDataFunctions {
                 PlayerFBExtractor2 playerFBExtractor2 = dataSnapshot.getValue(PlayerFBExtractor2.class);
                 return CompletableFuture.completedFuture(new PlayerFBExtractor1(playerFBExtractor2));
             }
+        }).exceptionally(ex -> {
+            Log.e("PlayerDataFunctions", "Unexpected error occurred", ex);
+            return null;
         });
     }
 

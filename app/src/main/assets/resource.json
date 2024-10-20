@@ -254,5 +254,12 @@
     "resourceId": 23,
     "sellable": true,
     "type": "RESOURCE"
+  },
+  {
+    "description": "Merkats are the official currency of Merkado, serving as a medium of exchange, unit of account, and store of value within the economy.",
+    "name": "Merkats",
+    "resourceId": 24,
+    "sellable": false,
+    "type": "GAME MECHANICS"
   }
 ]

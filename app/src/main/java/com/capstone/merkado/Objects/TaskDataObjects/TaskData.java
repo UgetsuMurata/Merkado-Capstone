@@ -6,15 +6,31 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class TaskData {
-    String title;
-    String description;
-    String shortDescription;
+    Integer id;
     String category;
-    String taskCode;
-    String triggers;
+    String title;
+    String shortDescription;
+    String description;
+    String note;
     List<GameRewards> rewards;
 
     public TaskData() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getTitle() {
@@ -25,30 +41,6 @@ public class TaskData {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTaskCode() {
-        return taskCode;
-    }
-
-    public void setTaskCode(String taskCode) {
-        this.taskCode = taskCode;
-    }
-
-    public String getTriggers() {
-        return triggers;
-    }
-
-    public void setTriggers(String triggers) {
-        this.triggers = triggers;
-    }
-
     public String getShortDescription() {
         return shortDescription;
     }
@@ -57,12 +49,20 @@ public class TaskData {
         this.shortDescription = shortDescription;
     }
 
-    public String getCategory() {
-        return category;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public List<GameRewards> getRewards() {

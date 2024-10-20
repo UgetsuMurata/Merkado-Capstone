@@ -1,44 +1,91 @@
 [
   {
+    "taskID": 0,
     "category": "Daily Task",
-    "description": "Go to anyone's store and buy three (3) foods.",
+    "title": "Triple Treat: Mini-Mukbang!",
+    "shortDescription": "Bumili ng pagkain.",
+    "description": "Pumunta ka sa tindahan ng kahit sino at bumili ng tatlong (3) {$ITEM_EDIBLE}.",
+    "note": "{$ITEM_EDIBLE}",
     "rewards": [
       {
-        "resourceId": 0,
-        "resourceQuantity": 1
+        "resourceId": 1,
+        "resourceQuantity": 75
+      },
+      {
+        "resourceId": 24,
+        "resourceQuantity": 50
       }
-    ],
-    "shortDescription": "Buy three (3) foods from a store.",
-    "taskCode": "0",
-    "title": "Buy Three Foods",
-    "triggers": "store>buy>food>3"
+    ]
   },
   {
+    "taskID": 1,
     "category": "Daily Task",
-    "description": "Go to anyone's store and buy three (3) tools.",
+    "title": "Coals & Timbers: Kagamitang Kailangan!",
+    "shortDescription": "Bumili ng kagamitan.",
+    "description": "Pumunta ka sa tindahan ng kahit sino at bumili ng tatlong (3) {$ITEM_RESOURCE}.",
+    "note": "{$ITEM_RESOURCE}",
     "rewards": [
       {
-        "resourceId": 0,
-        "resourceQuantity": 1
+        "resourceId": 1,
+        "resourceQuantity": 75
+      },
+      {
+        "resourceId": 24,
+        "resourceQuantity": 50
       }
-    ],
-    "shortDescription": "Buy three (3) tools from a store.",
-    "taskCode": "1",
-    "title": "Buy Three Tools",
-    "triggers": "store>buy>tools>3"
+    ]
   },
   {
+    "taskID": 2,
     "category": "Daily Task",
-    "description": "Obtain one (1) collectible item.",
+    "title": "Mabilisang Pagbenta ng Merienda!",
+    "shortDescription": "Magbenta ng Pagkain.",
+    "description": "Magbenta ng tatlong (3) {$ITEM_EDIBLE} sa iyong tindahan.",
+    "note": "{$ITEM_EDIBLE}",
     "rewards": [
       {
-        "resourceId": 0,
-        "resourceQuantity": 1
+        "resourceId": 1,
+        "resourceQuantity": 100
+      },
+      {
+        "resourceId": 24,
+        "resourceQuantity": 30
       }
-    ],
-    "shortDescription": "Obtain one (1) collectible item.",
-    "taskCode": "2",
-    "title": "Daily collections",
-    "triggers": "store>buy>collectibles>1"
+    ]
+  },
+  {
+    "taskID": 3,
+    "category": "Daily Task",
+    "title": "Kagamitan sa Instant Sale!",
+    "shortDescription": "Magbenta ng kagamitan.",
+    "description": "Magbenta ng tatlong (3) {$ITEM_RESOURCE} sa iyong tindahan.",
+    "note": "{$ITEM_RESOURCE}",
+    "rewards": [
+      {
+        "resourceId": 1,
+        "resourceQuantity": 100
+      },
+      {
+        "resourceId": 24,
+        "resourceQuantity": 30
+      }
+    ]
+  },
+  {
+    "taskID": 4,
+    "category": "Daily Task",
+    "title": "Story Scene Sprint: Isang Eksena Challenge!",
+    "shortDescription": "Magbasa ng kuwento.",
+    "description": "Magbasa ng isang (1) eksena ng kwento.",
+    "rewards": [
+      {
+        "resourceId": 1,
+        "resourceQuantity": 150
+      },
+      {
+        "resourceId": 24,
+        "resourceQuantity": 50
+      }
+    ]
   }
 ]

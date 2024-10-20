@@ -534,14 +534,6 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentLineEnded() {
-        clearCharacters();
-        if (!isHistory && (playerStory.getCurrentScene().getRewards() != null &&
-                playerStory.getCurrentScene().getRewards().isEmpty()))
-            RewardProcessor.processRewards(
-                    this,
-                    merkado.getPlayer().getServer(),
-                    merkado.getPlayerId(),
-                    playerStory.getCurrentScene().getRewards());
         if (playerStory.getCurrentLineGroup().getIsQuiz() != null && playerStory.getCurrentLineGroup().getIsQuiz()) {
             // change nextLineGroupId based on the quizScore.
             nextLineGroupId = processQuizNextLineGroup(quizScore, playerStory.getCurrentLineGroup().getNextLineCode());
@@ -581,12 +573,18 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentSceneEnded() {
-        clearCharacters();
         if (isHistory) {
             finish();
             return;
         }
+        if (playerStory.getCurrentScene().getRewards() != null && !playerStory.getCurrentScene().getRewards().isEmpty())
+            RewardProcessor.processRewards(
+                    this,
+                    merkado.getPlayer().getServer(),
+                    merkado.getPlayerId(),
+                    playerStory.getCurrentScene().getRewards());
         Chapter.Scene currentScene = playerStory.getNextScene();
+
         if (currentScene == null) {
             finish();
             StoryDataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
@@ -728,7 +726,7 @@ public class StoryMode extends AppCompatActivity {
         });
     }
 
-    private void continueFromQuiz(LineGroup.DialogueLine dialogueLine) {
+    private void continueFromQuiz(@NonNull LineGroup.DialogueLine dialogueLine) {
         enableClickArea();
         displayLine(dialogueLine);
         choiceGui.setVisibility(View.GONE);
@@ -884,7 +882,8 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void checkObjective() {
-        if (!waitForNextChapter_start && !waitForNextScene_start && !waitForNextLineGroup_start) {
+        if (!waitForNextChapter_start && !waitForNextScene_start && !waitForNextLineGroup_start
+                && merkado.getPlayerData().getCurrentObjective() != null) {
             String startTrigger = merkado.getPlayerData().getCurrentObjective().getStartTrigger();
             List<Integer> startTriggers = splitTriggers(startTrigger);
             int startResult = processTriggers(startTriggers,
@@ -902,13 +901,10 @@ public class StoryMode extends AppCompatActivity {
                     break;
             }
         }
-        if (!waitForNextChapter_end && !waitForNextScene_end && !waitForNextLineGroup_end) {
-            Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] GOT INSIDE.",
-                    chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
+        if (!waitForNextChapter_end && !waitForNextScene_end && !waitForNextLineGroup_end &&
+                merkado.getPlayerData().getCurrentObjective() != null) {
             String endTrigger = merkado.getPlayerData().getCurrentObjective().getEndTrigger();
             List<Integer> endTriggers = splitTriggers(endTrigger);
-            Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] WITH TRIGGER [%s]",
-                    chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex, endTrigger));
             int endResult = processTriggers(endTriggers,
                     merkado.getPlayerData().getCurrentObjective(),
                     InAppNotification.DONE_OBJECTIVE);
@@ -936,38 +932,26 @@ public class StoryMode extends AppCompatActivity {
         // Compare chapter index
         if (trigger.get(0) < chapterIndex) return 0;
         if (trigger.get(0) > chapterIndex) return -1;
-        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] EQUAL CHAPTER",
-                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));  // next chapter
 
         // Compare scene index
         if (trigger.get(1) < sceneIndex) return 0;
         if (trigger.get(1) > sceneIndex) return -2;  // next scene
-        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] EQUAL SCENE",
-                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
 
         // Compare line group index
         if (trigger.get(2) < lineGroupIndex) return 0;
         if (trigger.get(2) > lineGroupIndex) return -3;  // next line group
-        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] EQUAL LINE GROUP",
-                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
 
         // Compare dialogue index
         if (!trigger.get(3).equals(currentDialogueIndex)) return 0;
-        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] EQUAL DIALOGUE INDEX",
-                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
 
         // If all checks pass, send notification
         processSendNotification(objective.getObjective(), mode);
-        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] NOTIFICATION PROCESS SENT",
-                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
         return 0;  // success
     }
 
     private void processSendNotification(String objective, String mode) {
         inAppNotification.sendMessage(objective, mode);
-        Log.d("DEBUG_NOTIFICATION", String.format(Locale.getDefault(), "[%d,%d,%d,%d] SENT MESSAGE",
-                chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
-        if (InAppNotification.DONE_OBJECTIVE.equals(mode)) {
+        if (InAppNotification.DONE_OBJECTIVE.equals(mode) && merkado.getPlayerData().getCurrentObjective() != null) {
             if (merkado.getPlayerData().getObjectives().getObjectives().size() >
                     merkado.getPlayerData().getCurrentObjective().getId()) {
                 PlayerDataFunctions.setCurrentObjective(merkado.getPlayerId(), new PlayerObjectives(

@@ -79,7 +79,7 @@ public class Lobby extends AppCompatActivity {
         Button closeButton = helpDialog.findViewById(R.id.close_button);
 
         // Set any necessary text (optional)
-        helpText.setText("This is some useful information to guide users.");
+        helpText.setText("You may add or join a server by clicking the button below.This will allow you to join an existing server or create a new one. However, if you're not currently log-in, you won't be able to access the server.");
 
         // Set the close button listener
         closeButton.setOnClickListener(v -> helpDialog.dismiss());

@@ -12,15 +12,18 @@ import com.capstone.merkado.R;
 
 public class About extends AppCompatActivity {
 
+    Merkado merkado;
+    ImageView backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_about);
 
         // get the instance of Merkado Application Java Class and initialize the screen.
-        Merkado merkado = Merkado.getInstance();
+        merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
-        ImageView backButton =findViewById(R.id.back_button);
+        backButton =findViewById(R.id.back_button);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -34,28 +34,40 @@
             android:textSize="100sp" />
     </LinearLayout>
 
-
-    <com.google.android.material.card.MaterialCardView
+    <ImageView
         android:id="@+id/play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/game_title"
+        android:src="@drawable/main_menu_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/elements"
-        app:strokeWidth="3dp"
-        app:strokeColor="@color/white"
-        app:cardCornerRadius="100dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter!"
-            android:textSize="20sp"
-            android:paddingHorizontal="60dp"
-            android:paddingVertical="20dp"
-            android:fontFamily="@font/main"/>
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/game_title"
+        app:layout_constraintVertical_bias="0.32999998" />
+
+
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:id="@+id/play"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/game_title"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:backgroundTint="@color/elements"-->
+<!--        app:strokeWidth="3dp"-->
+<!--        app:strokeColor="@color/white"-->
+<!--        app:cardCornerRadius="100dp">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Enter!"-->
+<!--            android:textSize="20sp"-->
+<!--            android:paddingHorizontal="60dp"-->
+<!--            android:paddingVertical="20dp"-->
+<!--            android:fontFamily="@font/main"/>-->
+<!--    </com.google.android.material.card.MaterialCardView>-->
 
     <ImageView
         android:id="@+id/account_button"

@@ -71,7 +71,7 @@ public class MainMenu extends AppCompatActivity {
         // find views
         ImageView account = findViewById(R.id.account_button);
         ImageView settings = findViewById(R.id.settings_button);
-        CardView play = findViewById(R.id.play);
+        ImageView play = findViewById(R.id.play);
         TextView accountText = findViewById(R.id.text_sign_out);
 
         // get current account

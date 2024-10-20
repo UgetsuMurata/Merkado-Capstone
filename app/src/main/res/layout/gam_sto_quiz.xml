@@ -114,6 +114,7 @@
                     android:autoSizeStepGranularity="2sp"
                     android:autoSizeTextType="uniform"
                     android:text="Question"
+                    android:scrollbars="vertical"
                     android:textColor="@color/black"/>
             </LinearLayout>
 

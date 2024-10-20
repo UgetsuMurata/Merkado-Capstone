@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -67,6 +68,8 @@ public class QuizDisplay extends AppCompatActivity {
         choice2 = new ChoiceModifier(this, findViewById(R.id.choice_2), findViewById(R.id.choice_2_bg));
         choice3 = new ChoiceModifier(this, findViewById(R.id.choice_3), findViewById(R.id.choice_3_bg));
         choice4 = new ChoiceModifier(this, findViewById(R.id.choice_4), findViewById(R.id.choice_4_bg));
+
+        question.setMovementMethod(new ScrollingMovementMethod());
 
         String bg = getIntent().getStringExtra("BACKGROUND");
         if (bg != null && bg.isEmpty()) {

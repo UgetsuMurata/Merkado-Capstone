@@ -273,8 +273,8 @@ public class Bot {
             CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
             FirebaseData firebaseData = new FirebaseData();
             firebaseData.retrieveData(
-                    String.format(Locale.getDefault(), "server/%s/market/%s/-1", serverId,
-                            BotType.STORE.equals(botType)?"playerMarkets":"playerFactory"),
+                    String.format(Locale.getDefault(), "server/%s/market/%s/0", serverId,
+                            BotType.STORE.equals(botType) ? "playerMarkets" : "playerFactory"),
                     future::complete
             );
 
@@ -283,10 +283,12 @@ public class Bot {
                 PlayerMarkets botMarket = dataSnapshot.getValue(PlayerMarkets.class);
                 if (botMarket == null) return CompletableFuture.completedFuture(null);
                 List<Stock> stockList = new ArrayList<>();
-                for (PlayerMarkets.OnSale onSale : botMarket.getOnSale()) {
-                    stockList.add(new Stock(onSale.getResourceId(), onSale.getQuantity()));
-                }
-                return CompletableFuture.completedFuture(stockList);
+                if (botMarket.getOnSale() != null) {
+                    for (PlayerMarkets.OnSale onSale : botMarket.getOnSale()) {
+                        stockList.add(new Stock(onSale.getResourceId(), onSale.getQuantity()));
+                    }
+                    return CompletableFuture.completedFuture(stockList);
+                } else return CompletableFuture.completedFuture(new ArrayList<>());
             });
         }
 
@@ -296,9 +298,10 @@ public class Bot {
 
             for (Stock stock : stockList) {
                 ResourceData resourceData = InternalDataFunctions.getResourceData(stock.getResourceId());
-
-                CompletableFuture<Void> future = getMarketPrice(serverId, resourceData.getResourceId())
-                        .thenAccept(marketPrice -> {
+                CompletableFuture<Void> future = null;
+                if (resourceData != null)
+                    future = getMarketPrice(serverId, resourceData.getResourceId())
+                            .thenAccept(marketPrice -> {
                             synchronized (onSaleList) { // Ensures thread safety when adding to the list
                                 onSaleList.add(new PlayerMarkets.OnSale(
                                         resourceData.getName(),
@@ -318,8 +321,8 @@ public class Bot {
             allDone.thenRun(() -> {
                 FirebaseData firebaseData = new FirebaseData();
                 firebaseData.setValue(
-                        String.format(Locale.getDefault(), "server/%s/market/%s/-1/onSale", serverId,
-                                BotType.STORE.equals(botType)?"playerMarkets":"playerFactory"),
+                        String.format(Locale.getDefault(), "server/%s/market/%s/0/onSale", serverId,
+                                BotType.STORE.equals(botType) ? "playerMarkets" : "playerFactory"),
                         onSaleList);
                 updateStockingTime(serverId, botType);
             });
@@ -329,9 +332,9 @@ public class Bot {
             FirebaseData firebaseData = new FirebaseData();
             CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
             firebaseData.retrieveData(
-                    String.format(Locale.getDefault(), "server/%s/market/%s/-1/opened",
+                    String.format(Locale.getDefault(), "server/%s/market/%s/0/opened",
                             serverId,
-                            BotType.STORE.equals(botType)?"playerMarkets":"playerFactory"),
+                            BotType.STORE.equals(botType) ? "playerMarkets" : "playerFactory"),
                     future::complete
             );
             return future.thenCompose(dataSnapshot -> {
@@ -343,16 +346,16 @@ public class Bot {
 
         public static void removeBotStore(String serverId, BotType botType) {
             FirebaseData firebaseData = new FirebaseData();
-            firebaseData.removeData(String.format(Locale.getDefault(), "server/%s/market/%s/-1", serverId,
-                    BotType.STORE.equals(botType)?"playerMarkets":"playerFactory"));
+            firebaseData.removeData(String.format(Locale.getDefault(), "server/%s/market/%s/0", serverId,
+                    BotType.STORE.equals(botType) ? "playerMarkets" : "playerFactory"));
 
         }
 
         private static void updateStockingTime(String serverId, BotType botType) {
             FirebaseData firebaseData = new FirebaseData();
             firebaseData.setValue(
-                    String.format(Locale.getDefault(), "server/%s/market/%s/-1/opened", serverId,
-                            BotType.STORE.equals(botType)?"playerMarkets":"playerFactory"),
+                    String.format(Locale.getDefault(), "server/%s/market/%s/0/opened", serverId,
+                            BotType.STORE.equals(botType) ? "playerMarkets" : "playerFactory"),
                     getCurrentDay()
             );
         }

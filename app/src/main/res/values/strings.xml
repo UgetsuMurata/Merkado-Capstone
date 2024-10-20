@@ -69,6 +69,7 @@
     <string name="filter_overlay">FILTER OVERLAY</string>
     <string name="icon">ICON</string>
     <string name="server_image">SERVER_IMAGE</string>
+    <string name="qasListNull">Cannot generate list for your %s at the moment. Please try again later.</string>
     <string name="desc_sensiv_fac">Sensitivity Factor affects how much the item prices is affected by inflation. The higher the sensitivity, the higher the variation in prices will be once inflation rate changes.</string>
     <string name="desc_prepo_test">Checking the Pre-test and Post-test feature enables the server to conduct tests in the beginning and end of the game. You, the server owner, can see the test results of each player.</string>
     <string name="desc1_prepo_test">This is enabled during the beta testing in order to test the student’s ability to learn using this app. This can be disabled in the official release.</string>

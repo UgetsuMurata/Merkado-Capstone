@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail.QASReward;
 import com.capstone.merkado.R;
 
@@ -59,7 +60,8 @@ public class QASRewardsAdapter extends RecyclerView.Adapter<QASRewardsAdapter.QA
         public void bind(Context context, QASReward qasReward) {
             // set the data
             resourceQTY.setText(String.format(Locale.getDefault(), "%d", qasReward.getResourceQuantity()));
-            resourceImage.setImageDrawable(ContextCompat.getDrawable(context, qasReward.getResourceImage()));
+            if (qasReward.getResourceImage() != -1)
+                resourceImage.setImageDrawable(ContextCompat.getDrawable(context, qasReward.getResourceImage()));
         }
     }
 }

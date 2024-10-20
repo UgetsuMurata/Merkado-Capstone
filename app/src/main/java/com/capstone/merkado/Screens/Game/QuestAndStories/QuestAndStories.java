@@ -1,5 +1,7 @@
 package com.capstone.merkado.Screens.Game.QuestAndStories;
 
+import static com.capstone.merkado.Helpers.StringProcessor.descriptionResourceProcessor;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail.QASReward;
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
+import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Story.StoryMode;
 
@@ -94,7 +97,8 @@ public class QuestAndStories extends AppCompatActivity {
         else
             getItemsByShowMode(showMode).thenAccept(qasItemsList ->
                     runOnUiThread(() -> {
-                        if (qasItemsList.isEmpty()) nothingToShow(showMode);
+                        if (qasItemsList == null) nothingToShow(showMode, true);
+                        else if (qasItemsList.isEmpty()) nothingToShow(showMode, false);
                         else setUpQASList(qasItemsList);
                     })
             ).exceptionally(throwable -> {
@@ -121,7 +125,7 @@ public class QuestAndStories extends AppCompatActivity {
     private CompletableFuture<List<QASItems>> getItemsByShowMode(ShowMode showMode) {
         switch (showMode) {
             case QUEST:
-                return QASDataFunctions.getAllQuests(merkado.getPlayerId());
+                return CompletableFuture.completedFuture(merkado.getTaskQASList());
             case STORY:
                 return QASDataFunctions.getAllStories(merkado.getPlayerId());
             default:
@@ -136,17 +140,16 @@ public class QuestAndStories extends AppCompatActivity {
         qasStartStory.setVisibility(View.GONE);
     }
 
-    private void nothingToShow(ShowMode showMode) {
+    private void nothingToShow(ShowMode showMode, Boolean isNull) {
         qasListEmpty.setVisibility(View.VISIBLE);
         qasList.setVisibility(View.GONE);
         qasDisplayObjectives.setVisibility(View.GONE);
-
         switch (showMode) {
             case QUEST:
-                qasListEmpty.setText(String.format(getString(R.string.qasListEmpty), "quests"));
+                qasListEmpty.setText(String.format(getString(isNull ? R.string.qasListNull : R.string.qasListEmpty), "quests"));
                 break;
             case STORY:
-                qasListEmpty.setText(String.format(getString(R.string.qasListEmpty), "stories"));
+                qasListEmpty.setText(String.format(getString(isNull ? R.string.qasListNull : R.string.qasListEmpty), "stories"));
                 break;
         }
     }
@@ -165,7 +168,12 @@ public class QuestAndStories extends AppCompatActivity {
 
     private void setUpDetails(@NonNull QASDetail qasDetail, String group, Boolean history) {
         qasName.setText(qasDetail.getQasName());
-        qasDescription.setText(qasDetail.getQasDescription());
+        Object originalObject = qasDetail.getOriginalObject();
+        if (originalObject instanceof PlayerTask) {
+            PlayerTask playerTask = (PlayerTask) originalObject;
+            qasDescription.setText(descriptionResourceProcessor(qasDetail.getQasDescription(),
+                    playerTask.getTaskNote()));
+        } else qasDescription.setText(qasDetail.getQasDescription());
         if ("STORIES".equals(group)) {
             qasStartStory.setVisibility(View.VISIBLE);
             qasStartStory.setOnClickListener(v -> goToStory(qasDetail, history));

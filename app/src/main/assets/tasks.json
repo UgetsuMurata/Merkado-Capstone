@@ -76,7 +76,8 @@
     "category": "Daily Task",
     "title": "Story Scene Sprint: Isang Eksena Challenge!",
     "shortDescription": "Magbasa ng kuwento.",
-    "description": "Magbasa ng isang (1) eksena ng kwento.",
+    "description": "Magbasa ng isang (1) {$STORY_PART} ng kwento.",
+    "note": "{$STORY_PART}",
     "rewards": [
       {
         "resourceId": 1,

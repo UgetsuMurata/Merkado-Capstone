@@ -29,6 +29,7 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.UtilityDataFunctions;
 import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Helpers.JsonHelper;
+import com.capstone.merkado.Helpers.PlayerActions;
 import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.FactoryDataObjects.FactoryData;
 import com.capstone.merkado.Objects.PlayerDataObjects.Player;
@@ -85,6 +86,7 @@ public class Merkado extends Application implements Application.ActivityLifecycl
     private Boolean hasTakenPostTest = false;
 
     private Map<Bot.BotType, Boolean> hasBotMap;
+    private PlayerActions.Task playerActionTask;
 
     @Override
     public void onCreate() {
@@ -625,6 +627,15 @@ public class Merkado extends Application implements Application.ActivityLifecycl
 
     public void setTaskQASList(List<QASItems> taskQASList) {
         this.taskQASList = taskQASList;
+        setPlayerActionTask(new PlayerActions.Task());
+    }
+
+    public PlayerActions.Task getPlayerActionTask() {
+        return playerActionTask;
+    }
+
+    public void setPlayerActionTask(PlayerActions.Task playerActionTask) {
+        this.playerActionTask = playerActionTask;
     }
 
     public void setHasBotMap(Map<Bot.BotType, Boolean> hasBotMap) {

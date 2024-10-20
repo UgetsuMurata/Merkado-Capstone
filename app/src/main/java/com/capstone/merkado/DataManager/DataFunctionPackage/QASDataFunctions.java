@@ -136,6 +136,7 @@ public class QASDataFunctions {
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                 PlayerTask playerTask = ds.getValue(PlayerTask.class);
                 questsQueueMap.put(currentIndex, playerTask);
+                currentIndex++;
             }
             return processTasksQueue(questsQueueMap);
         });
@@ -190,6 +191,7 @@ public class QASDataFunctions {
                 // create the QASDetail
                 QASItems.QASDetail qasDetail = new QASItems.QASDetail();
                 qasDetail.setQasName(taskData.getTitle());
+                qasDetail.setOriginalObject(entry.getValue());
                 qasDetail.setQueueId(entry.getKey());
                 qasDetail.setQasShortDescription(taskData.getShortDescription());
                 qasDetail.setQasDescription(taskData.getDescription());

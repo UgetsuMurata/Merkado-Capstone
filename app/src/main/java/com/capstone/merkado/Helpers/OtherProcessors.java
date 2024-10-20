@@ -11,7 +11,6 @@ import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
 import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
-import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +39,7 @@ public class OtherProcessors {
         public static List<PlayerTask> generate5Tasks(List<TaskData> taskDataList) {
             List<PlayerTask> generatedTasks = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
-                generatedTasks.add(processTaskData(getRandomItem(taskDataList), TaskDifficulty.EASY));
+                generatedTasks.add(processTaskData(getRandomItem(taskDataList), TaskDifficulty.EASY, i));
             }
             return generatedTasks;
         }
@@ -54,9 +53,11 @@ public class OtherProcessors {
             return processTasksQueue(questsQueueMap);
         }
 
-        private static PlayerTask processTaskData(TaskData taskData, TaskDifficulty difficulty) {
+        @SuppressWarnings("SameParameterValue")
+        private static PlayerTask processTaskData(TaskData taskData, TaskDifficulty difficulty, int id) {
             PlayerTask playerTask = new PlayerTask();
-            playerTask.setTaskId(taskData.getId());
+            playerTask.setQueueId(id);
+            playerTask.setTaskId(taskData.getTaskID());
             playerTask.setDone(false);
             playerTask.setTaskNote(generateNote(taskData.getNote(), difficulty));
 
@@ -81,6 +82,15 @@ public class OtherProcessors {
                         return "ITEM_RESOURCE=" + getRandomItem(Arrays.asList(14, 15, 16, 17, 18, 19, 17, 18, 19));
                     case DIFFICULT:
                         return "ITEM_RESOURCE=" + getRandomItem(Arrays.asList(14, 15, 16, 17, 18, 19, 17, 18, 19, 20, 21, 22, 23, 20, 21, 22, 23, 20, 21, 22, 23));
+                }
+            } else if ("{$STORY_PART}".equals(note)) {
+                switch (difficulty) {
+                    case EASY:
+                        return "STORY_PART=" + "LINE_GROUP";
+                    case MODERATE:
+                        return "STORY_PART=" + getRandomItem(Arrays.asList("LINE_GROUP", "SCENE"));
+                    case DIFFICULT:
+                        return "STORY_PART=" + getRandomItem(Arrays.asList("LINE_GROUP", "SCENE", "CHAPTER"));
                 }
             }
             return null;

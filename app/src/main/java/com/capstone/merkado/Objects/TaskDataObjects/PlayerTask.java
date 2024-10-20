@@ -1,11 +1,20 @@
 package com.capstone.merkado.Objects.TaskDataObjects;
 
 public class PlayerTask {
+    Integer queueId;
     Integer taskId;
     String taskNote;
     Boolean done;
 
     public PlayerTask() {
+    }
+
+    public Integer getQueueId() {
+        return queueId;
+    }
+
+    public void setQueueId(Integer queueId) {
+        this.queueId = queueId;
     }
 
     public Integer getTaskId() {

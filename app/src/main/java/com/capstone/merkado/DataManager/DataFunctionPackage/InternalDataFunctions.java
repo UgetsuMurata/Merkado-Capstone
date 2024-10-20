@@ -11,11 +11,13 @@ public class InternalDataFunctions {
 
     public static ResourceData getResourceData(Integer resourceId) {
         Merkado merkado = Merkado.getInstance();
+        if (resourceId == -1) return null;
         return merkado.getResourceDataList().get(resourceId);
     }
 
     public static ResourceData getResourceData(Long resourceId) {
         Merkado merkado = Merkado.getInstance();
+        if (resourceId == -1) return null;
         return merkado.getResourceDataList().get(Math.toIntExact(resourceId));
     }
 

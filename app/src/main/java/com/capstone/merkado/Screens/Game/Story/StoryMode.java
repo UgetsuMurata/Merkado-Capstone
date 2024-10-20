@@ -30,10 +30,11 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.PlayerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.StoryResourceCaller;
 import com.capstone.merkado.Helpers.NotificationHelper.InAppNotification;
+import com.capstone.merkado.Helpers.PlayerActions;
 import com.capstone.merkado.Helpers.RewardProcessor;
-import com.capstone.merkado.Helpers.TriggerProcessor;
 import com.capstone.merkado.Helpers.StoryVariableHelper;
 import com.capstone.merkado.Helpers.StringProcessor;
+import com.capstone.merkado.Helpers.TriggerProcessor;
 import com.capstone.merkado.Objects.PlayerDataObjects.PlayerFBExtractor1.PlayerObjectives;
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
@@ -209,6 +210,12 @@ public class StoryMode extends AppCompatActivity {
         skipToggle.setOnClickListener(v -> {
             if (skipToggle.isActive()) skipDialogues();
         });
+
+        merkado.getPlayerActionTask().setOnTaskSuccess(gameRewards ->
+                RewardProcessor.processRewards(this,
+                        merkado.getPlayer().getServer(),
+                        merkado.getPlayerId(),
+                        gameRewards));
     }
 
     /**
@@ -387,8 +394,7 @@ public class StoryMode extends AppCompatActivity {
                         } else currentLineEnded();
                     }
                 });
-            }
-            catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
                 Log.e("Dialogue Line Index Error", String.format("%d;%d;%d;%d;%s", chapterIndex,
                         sceneIndex, lineGroupIndex, currentDialogueIndex, e.getMessage()));
             }
@@ -534,6 +540,10 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentLineEnded() {
+        new Handler().post(() ->
+                merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.READING,
+                        1,
+                        PlayerActions.Task.generateRequirementCodeFromStory("LINE_GROUP")));
         if (playerStory.getCurrentLineGroup().getIsQuiz() != null && playerStory.getCurrentLineGroup().getIsQuiz()) {
             // change nextLineGroupId based on the quizScore.
             nextLineGroupId = processQuizNextLineGroup(quizScore, playerStory.getCurrentLineGroup().getNextLineCode());
@@ -573,6 +583,10 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentSceneEnded() {
+        new Handler().post(() ->
+                merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.READING,
+                        1,
+                        PlayerActions.Task.generateRequirementCodeFromStory("SCENE")));
         if (isHistory) {
             finish();
             return;
@@ -586,6 +600,10 @@ public class StoryMode extends AppCompatActivity {
         Chapter.Scene currentScene = playerStory.getNextScene();
 
         if (currentScene == null) {
+            new Handler().post(() ->
+                    merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.READING,
+                            1,
+                            PlayerActions.Task.generateRequirementCodeFromStory("CHAPTER")));
             finish();
             StoryDataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
             if (trigger != null) TriggerProcessor.storyTrigger(merkado.getPlayerId(), trigger);
@@ -995,17 +1013,20 @@ public class StoryMode extends AppCompatActivity {
 
         public void setFace(@Nullable Integer face) {
             if (face == null) clear();
-            else this.face.setImageDrawable(face != -1 ? ContextCompat.getDrawable(context, face) : null);
+            else
+                this.face.setImageDrawable(face != -1 ? ContextCompat.getDrawable(context, face) : null);
         }
 
         public void setBody(@Nullable Integer body) {
             if (body == null) clear();
-            else this.body.setImageDrawable(body != -1 ? ContextCompat.getDrawable(context, body) : null);
+            else
+                this.body.setImageDrawable(body != -1 ? ContextCompat.getDrawable(context, body) : null);
         }
 
         public void setProps(@Nullable Integer props) {
             if (props == null) clear();
-            else this.props.setImageDrawable(props != -1 ? ContextCompat.getDrawable(context, props) : null);
+            else
+                this.props.setImageDrawable(props != -1 ? ContextCompat.getDrawable(context, props) : null);
         }
 
         public void clear() {

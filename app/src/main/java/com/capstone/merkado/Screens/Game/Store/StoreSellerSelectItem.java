@@ -25,6 +25,8 @@ import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Helpers.OtherProcessors;
 import com.capstone.merkado.Helpers.OtherProcessors.InventoryProcessors.Disable;
+import com.capstone.merkado.Helpers.PlayerActions;
+import com.capstone.merkado.Helpers.RewardProcessor;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
@@ -107,6 +109,12 @@ public class StoreSellerSelectItem extends AppCompatActivity {
             this.inventoryMap = mapInventoryList(inventoryList);
             filterInventoryAndShow(currentMode);
         });
+
+        merkado.getPlayerActionTask().setOnTaskSuccess(gameRewards ->
+                RewardProcessor.processRewards(this,
+                        merkado.getPlayer().getServer(),
+                        merkado.getPlayerId(),
+                        gameRewards));
     }
 
     /**
@@ -498,6 +506,10 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
         StoreDataFunctions.sell(onSale, merkado.getPlayer(), merkado.getPlayerId());
         layoutSellPopup.setVisibility(View.GONE);
+        new Handler().post(() ->
+                merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.SELLING,
+                        lspItemQuantityCount,
+                        PlayerActions.Task.generateRequirementCodeFromResource(inventory.getResourceId())));
         Toast.makeText(getApplicationContext(), "Item on sale!", Toast.LENGTH_SHORT).show();
     }
 

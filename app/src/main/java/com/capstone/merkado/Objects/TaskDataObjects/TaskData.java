@@ -6,7 +6,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class TaskData {
-    Integer id;
+    Integer taskID;
     String category;
     String title;
     String shortDescription;
@@ -17,12 +17,12 @@ public class TaskData {
     public TaskData() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getTaskID() {
+        return taskID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTaskID(Integer taskID) {
+        this.taskID = taskID;
     }
 
     public String getCategory() {

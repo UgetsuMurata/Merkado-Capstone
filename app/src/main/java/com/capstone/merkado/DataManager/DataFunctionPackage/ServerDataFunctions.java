@@ -190,7 +190,7 @@ public class ServerDataFunctions {
     public static void setReachedLevels(String serverId, OtherServerDetails.ReachedLevels reachedLevels) {
         FirebaseData firebaseData = new FirebaseData();
         firebaseData.setValue(
-                String.format("server/%s/otherDetails/ReachedLevels", serverId),
+                String.format("server/%s/otherDetails/reachedLevels", serverId),
                 reachedLevels
         );
     }

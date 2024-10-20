@@ -1,6 +1,7 @@
 package com.capstone.merkado.Screens.Game.Sectors;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -18,10 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.merkado.Adapters.StoreViewAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
-import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions.PlayerFactoryUpdates;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
+import com.capstone.merkado.Helpers.PlayerActions;
+import com.capstone.merkado.Helpers.RewardProcessor;
 import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.FactoryDataObjects.PlayerFactory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
@@ -126,6 +129,12 @@ public class FactoryConsumerView extends AppCompatActivity {
         purchaseOverlay.setVisibility(View.GONE);
         initializePlayerDataListener();
         playerBalanceView.setBalance(merkado.getPlayer().getMoney());
+
+        merkado.getPlayerActionTask().setOnTaskSuccess(gameRewards ->
+                RewardProcessor.processRewards(this,
+                        merkado.getPlayer().getServer(),
+                        merkado.getPlayerId(),
+                        gameRewards));
     }
 
     private void initializePlayerDataListener() {
@@ -159,7 +168,8 @@ public class FactoryConsumerView extends AppCompatActivity {
         itemDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
         ResourceData resourceData = InternalDataFunctions.getResourceData(onSale.getResourceId());
-        itemDescription.setText(resourceData.getDescription());
+        if (resourceData != null)
+            itemDescription.setText(resourceData.getDescription());
         itemName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         int itemTypeResource = GameResourceCaller.getResourceTypeBackgrounds(onSale.getType());
@@ -247,6 +257,10 @@ public class FactoryConsumerView extends AppCompatActivity {
                         break;
                     case SUCCESS:
                         Toast.makeText(getApplicationContext(), "Purchase success. Thank you for buying!", Toast.LENGTH_SHORT).show();
+                        new Handler().post(() ->
+                                merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.BUYING,
+                                        purchaseOverlayQuantity,
+                                        PlayerActions.Task.generateRequirementCodeFromResource(onSale.getResourceId())));
                         break;
                     case GENERAL_ERROR:
                         Toast.makeText(getApplicationContext(), "Error occurred. Please try again.", Toast.LENGTH_SHORT).show();

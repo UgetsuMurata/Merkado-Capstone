@@ -1,6 +1,8 @@
 package com.capstone.merkado.Helpers;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
+import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringProcessor {
@@ -62,6 +66,18 @@ public class StringProcessor {
             processed = rawDialogue.replaceAll("\\{\\$USER_NAME\\}", Merkado.getInstance().getAccount().getUsername());
         }
         return processed;
+    }
+
+    public static String descriptionResourceProcessor(String rawDescription, String replacement) {
+        String[] parts = replacement.split("=");
+        String key = parts[0];
+        String value = parts[1];
+
+        ResourceData resourceData = InternalDataFunctions.getResourceData(Integer.parseInt(value));
+
+        String placeholder = "{$" + key + "}";
+
+        return rawDescription.replace(placeholder, resourceData != null ? resourceData.getName() : value);
     }
 
     public static String stringProcessor(String rawString) {

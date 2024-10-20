@@ -29,6 +29,7 @@ public class GameResourceCaller {
             case 21: return R.drawable.resource_21_silk;
             case 22: return R.drawable.resource_22_gold_ore;
             case 23: return R.drawable.resource_23_gems;
+            case 24: return R.drawable.icon_coin;
             default: return -1;
         }
     }

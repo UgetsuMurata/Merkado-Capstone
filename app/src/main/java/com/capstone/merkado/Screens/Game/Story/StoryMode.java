@@ -388,7 +388,7 @@ public class StoryMode extends AppCompatActivity {
                     clickArea.setOnClickListener(v -> {
                         clickArea.setEnabled(false);
                         new Handler(Looper.getMainLooper()).postDelayed(() ->
-                                clickArea.setEnabled(true), 300);
+                                clickArea.setEnabled(true), RunnableState.SKIP.equals(runnableState) ? 75L : 205L);
                         // increment the index
                         currentDialogueIndex++;
                         if (!waitForNextLineGroup_start || !waitForNextLineGroup_end)

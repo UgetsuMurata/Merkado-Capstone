@@ -26,6 +26,8 @@ public class RewardProcessor {
             ResourceData resourceData =
                     InternalDataFunctions.getResourceData(reward.getResourceId());
 
+            if (resourceData == null) continue;
+
             // create inventory instance
             Inventory inventory = new Inventory();
             inventory.setResourceId(Math.toIntExact(reward.getResourceId()));
@@ -47,7 +49,12 @@ public class RewardProcessor {
                 Long currentExp = Merkado.getInstance().getPlayer().getExp();
                 PlayerDataFunctions.addPlayerExperience(playerId, quantity,
                         totalExp -> playerLevelTriggers(activity, serverId, playerId, totalExp, currentExp));
-            } else {
+            }
+            else if (rewardId == 24) {
+                Long quantity = reward.getResourceQuantity();
+                PlayerDataFunctions.addPlayerMoney(playerId, quantity);
+            }
+            else {
                 gameRewardsCopy.add(reward);
             }
         }

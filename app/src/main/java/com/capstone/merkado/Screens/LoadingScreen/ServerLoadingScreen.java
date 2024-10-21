@@ -178,6 +178,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
                 if (chapter == null) continue;
 
                 playerStory.setChapter(chapter);
+                playerStory.setTrigger(chapter.getTriggers());
                 playerStory.setCurrentScene(chapter.getScenes().get(storyQueue.getCurrentScene()));
                 if (playerStory.getCurrentScene().getNextScene() != null) {
                     for (Chapter.Scene scene : playerStory.getChapter().getScenes()) {

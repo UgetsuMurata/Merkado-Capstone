@@ -195,17 +195,20 @@ public class PlayerDataFunctions {
             if (dataSnapshot == null) return CompletableFuture.completedFuture(-1); // general error
 
             String savedKey = dataSnapshot.getValue(String.class);
-            if (savedKey == null) return CompletableFuture.completedFuture(-1); // cannot retrieve server credentials
-            if (!savedKey.equals(StringHash.hashPassword(serverKey))) return CompletableFuture.completedFuture(-2); // incorrect key
+            if (savedKey == null)
+                return CompletableFuture.completedFuture(-1); // cannot retrieve server credentials
+            if (!savedKey.equals(StringHash.hashPassword(serverKey)))
+                return CompletableFuture.completedFuture(-2); // incorrect key
 
             return getNextPlayerIndex().thenCompose(playerId -> {
-                if (playerId == -1L) return CompletableFuture.completedFuture(-1); // cannot generate player id
+                if (playerId == -1L)
+                    return CompletableFuture.completedFuture(-1); // cannot generate player id
 
                 // populate storyQueueList
                 Map<String, Object> playerData = createNewPlayerData(serverId, account);
 
                 // Add player data to Firebase under player/{playerId}
-                return firebaseData.setValues(String.format("player/%s", playerId), playerData).thenCompose(success->{
+                return firebaseData.setValues(String.format("player/%s", playerId), playerData).thenCompose(success -> {
                     // return false if not successful.
                     if (success == null || !success) return CompletableFuture.completedFuture(-1);
 
@@ -310,6 +313,24 @@ public class PlayerDataFunctions {
                     firebaseData.setValue(dataPath, totalEXP);
                     longValue.valueReturn(totalEXP);
                 }
+            }
+        });
+    }
+
+    public static void addPlayerMoney(Integer playerId, Long quantity) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        String dataPath = String.format(Locale.getDefault(), "player/%d/money", playerId);
+
+        firebaseData.retrieveData(dataPath, future::complete);
+        future.thenAccept(dataSnapshot -> {
+            if (dataSnapshot == null) return;
+            if (!dataSnapshot.exists()) {
+                firebaseData.setValue(dataPath, quantity);
+            } else {
+                Float currentMoney = dataSnapshot.getValue(Float.class);
+                if (currentMoney == null) firebaseData.setValue(dataPath, quantity);
+                else firebaseData.setValue(dataPath, quantity + currentMoney);
             }
         });
     }

@@ -163,39 +163,47 @@ public class Player {
     }
 
     private List<PlayerStory> convertToPlayerStory(List<PlayerFBExtractor1.StoryQueue> storyQueueList) {
-        List<PlayerStory> playerStories = new ArrayList<>();
         if (storyQueueList == null || storyQueueList.isEmpty()) return null;
+
+        List<PlayerStory> playerStories = new ArrayList<>();
+
         for (PlayerFBExtractor1.StoryQueue storyQueue : storyQueueList) {
             if (storyQueue == null) continue;
+
             PlayerStory playerStory = new PlayerStory();
             Chapter chapter = StoryDataFunctions.getChapterFromId(storyQueue.getChapter());
-            Chapter.Scene currentScene = null;
-            LineGroup currentLineGroup = null;
-            Chapter.Scene nextScene = null;
-            LineGroup nextLineGroup = null;
+            if (chapter == null) continue;
 
-            if (chapter != null &&
-                    storyQueue.getCurrentScene() != null &&
-                    storyQueue.getCurrentScene() < chapter.getScenes().size())
-                currentScene = chapter.getScenes().get(storyQueue.getCurrentScene());
-            if (currentScene != null &&
-                    storyQueue.getCurrentLineGroup() != null &&
-                    storyQueue.getCurrentLineGroup() < currentScene.getLineGroup().size())
-                currentLineGroup = currentScene.getLineGroup().get(storyQueue.getCurrentLineGroup());
-            if (currentScene != null &&
-                    storyQueue.getNextLineGroup() != null &&
-                    storyQueue.getNextLineGroup() < currentScene.getLineGroup().size())
-                nextLineGroup = currentScene.getLineGroup().get(storyQueue.getNextLineGroup());
-            if (chapter != null &&
-                    storyQueue.getNextScene() != null &&
-                    storyQueue.getNextScene() < chapter.getScenes().size())
-                nextScene = chapter.getScenes().get(storyQueue.getNextScene());
-
+            // Set chapter triggers
+            playerStory.setTrigger(chapter.getTriggers());
             playerStory.setChapter(chapter);
-            playerStory.setCurrentScene(currentScene);
-            playerStory.setNextScene(nextScene);
-            playerStory.setCurrentLineGroup(currentLineGroup);
-            playerStory.setNextLineGroup(nextLineGroup);
+
+            List<Chapter.Scene> scenes = chapter.getScenes();
+
+            // Get current scene and line groups
+            Integer currentSceneIndex = storyQueue.getCurrentScene();
+            if (currentSceneIndex != null && currentSceneIndex < scenes.size()) {
+                Chapter.Scene currentScene = scenes.get(currentSceneIndex);
+                playerStory.setCurrentScene(currentScene);
+
+                List<LineGroup> lineGroups = currentScene.getLineGroup();
+
+                Integer currentLineGroupIndex = storyQueue.getCurrentLineGroup();
+                if (currentLineGroupIndex != null && currentLineGroupIndex < lineGroups.size()) {
+                    playerStory.setCurrentLineGroup(lineGroups.get(currentLineGroupIndex));
+                }
+
+                Integer nextLineGroupIndex = storyQueue.getNextLineGroup();
+                if (nextLineGroupIndex != null && nextLineGroupIndex < lineGroups.size()) {
+                    playerStory.setNextLineGroup(lineGroups.get(nextLineGroupIndex));
+                }
+            }
+
+            // Get next scene
+            Integer nextSceneIndex = storyQueue.getNextScene();
+            if (nextSceneIndex != null && nextSceneIndex < scenes.size()) {
+                playerStory.setNextScene(scenes.get(nextSceneIndex));
+            }
 
             playerStories.add(playerStory);
         }

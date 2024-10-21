@@ -80,7 +80,6 @@ public class NotificationHelper {
 
         public void sendMessage(String message, String mode) {
             messagePile.add(new MessageModePair(message, mode));
-            Log.d("DEBUG_NOTIFICATION", String.format("ADDED MESSAGE %s", message));
             if (handler == null) sendInAppNotification(messagePile.get(0));
         }
 
@@ -89,13 +88,12 @@ public class NotificationHelper {
                     messageModePair.getMessage(),
                     messageModePair.getMode());
             messagePile.remove(messageModePair);
-            Log.d("DEBUG_NOTIFICATION", String.format("REMOVED MESSAGE %s", messageModePair.getMessage()));
             notificationView.setVisibility(View.VISIBLE);
-            animateMargin(notificationView, -200, 20);
+            animateMargin(notificationView, -305, 20);
 
             handler = new Handler();
             handler.postDelayed(() -> {
-                animateMargin(notificationView, 20, -200);
+                animateMargin(notificationView, 20, -305);
                 notificationView.setVisibility(View.GONE);
                 handler = null;
 

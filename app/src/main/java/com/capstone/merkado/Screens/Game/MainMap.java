@@ -27,7 +27,6 @@ import com.capstone.merkado.CustomViews.PlayerBalanceView;
 import com.capstone.merkado.CustomViews.PlayerLevelView;
 import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.FactoryDataFunctions;
-import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
 import com.capstone.merkado.Helpers.StringProcessor;
@@ -44,7 +43,6 @@ import com.capstone.merkado.Screens.Game.Sectors.Factories;
 import com.capstone.merkado.Screens.Game.Sectors.Factory;
 import com.capstone.merkado.Screens.Game.Store.StoreSellerView;
 import com.capstone.merkado.Screens.Game.Store.Stores;
-import com.capstone.merkado.Screens.Game.Story.QuizDisplay;
 import com.capstone.merkado.Screens.Game.Story.StoryMode;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 import com.google.android.material.card.MaterialCardView;
@@ -241,7 +239,7 @@ public class MainMap extends AppCompatActivity {
 
     private void accessibleFunctionalityUpdate() {
         disableAll();
-        if (playerLevel >= 2) {
+        if (playerLevel >= 1) {
             storesNav.setOnClickListener(v -> {
                 storesNav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gui_gamemap_stores_active));
                 new Handler().postDelayed(() -> {
@@ -283,7 +281,7 @@ public class MainMap extends AppCompatActivity {
 
     private void updateAccessibleButtons() {
         if (playerLevel == 1) {
-            storesNav.setVisibility(View.GONE);
+            storesNav.setVisibility(View.VISIBLE);
             factoriesNav.setVisibility(View.GONE);
         } else if (playerLevel == 2) {
             storesNav.setVisibility(View.VISIBLE);

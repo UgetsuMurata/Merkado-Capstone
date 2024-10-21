@@ -152,18 +152,13 @@
                                 "dialogue": "Nay, Sampung piso?",
                                 "imageChanges": [
                                     {
-                                        "image": "empty",
+                                        "image": "nene1_b_normal",
                                         "placement": "2;BODY",
                                         "toShow": true
                                     },
                                     {
-                                        "image": "nene1_b_normal",
-                                        "placement": "3;BODY",
-                                        "toShow": true
-                                    },
-                                    {
                                         "image": "nene1_f_disappointed",
-                                        "placement": "3;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -189,7 +184,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "nene1_f_relieved",
-                                        "placement": "3;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     },
                                     {
@@ -231,17 +226,17 @@
                                 "imageChanges": [
                                     {
                                         "image": "nene1_f_smiling",
-                                        "placement": "3;FACE",
+                                        "placement": "2;FACE",
                                         "toShow": true
                                     },
                                     {
                                         "image": "mc1_b_uniform",
-                                        "placement": "4;BODY",
+                                        "placement": "3;BODY",
                                         "toShow": true
                                     },
                                     {
                                         "image": "mc1_f_compassion",
-                                        "placement": "4;FACE",
+                                        "placement": "3;FACE",
                                         "toShow": true
                                     }
                                 ]
@@ -258,6 +253,16 @@
                                 "image": "nanay1_f_smile",
                                 "placement": "1;FACE",
                                 "toShow": true
+                            },
+                            {
+                                "image": "null",
+                                "placement": "2;FACE",
+                                "toShow": false
+                            },
+                            {
+                                "image": "null",
+                                "placement": "2;BODY",
+                                "toShow": false
                             }
                         ],
                         "transition": "FTB"

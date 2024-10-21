@@ -10,11 +10,12 @@
     <!-- NOTIFICATION -->
     <com.capstone.merkado.CustomViews.NotificationView
         android:id="@+id/notification_view"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:elevation="12dp"
+        android:visibility="gone"
         android:layout_marginTop="80dp"
-        android:layout_marginStart="-200dp"
+        android:layout_marginStart="-305dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 

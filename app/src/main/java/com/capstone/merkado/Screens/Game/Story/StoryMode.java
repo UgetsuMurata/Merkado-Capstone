@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -62,6 +63,8 @@ public class StoryMode extends AppCompatActivity {
     // DIALOGUE
     TextView dialogueTextView;
 
+    HandlerThread backgroundThread;
+
     // TOOLS
     IconToggle autoplayToggle, skipToggle;
     IconButton exitButton;
@@ -93,7 +96,9 @@ public class StoryMode extends AppCompatActivity {
     Integer trigger;
     Boolean temporaryStopAutoPlay = false;
     Boolean isHistory = false;
-    Handler handler;
+    Handler backgroundHandler;
+    Handler autoClickHandler;
+
     Runnable runnable;
     Integer quizScore = 0;
     RunnableState runnableState;
@@ -142,6 +147,9 @@ public class StoryMode extends AppCompatActivity {
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
+        backgroundThread = new HandlerThread("MAIN_BACKGROUND_THREAD");
+        backgroundThread.start();
+
         sceneBackground = findViewById(R.id.scene_background);
         dialogueTextView = findViewById(R.id.dialogue);
         dialogueBox = findViewById(R.id.dialogue_box);
@@ -170,11 +178,13 @@ public class StoryMode extends AppCompatActivity {
         inAppNotification = new InAppNotification(findViewById(R.id.notification_view));
 
         merkado.extractObjectives(getApplicationContext());
+        // trigger objective display
         if (getIntent().hasExtra("PROLOGUE")) {
             TriggerProcessor.objectives(this, 1, objectiveDisplayLauncher);
         }
 
-        handler = new Handler();
+        backgroundHandler = new Handler(backgroundThread.getLooper());
+        autoClickHandler = new Handler();
         runnableState = RunnableState.NULL;
 
         // get the lineGroup from the intent
@@ -203,7 +213,7 @@ public class StoryMode extends AppCompatActivity {
         trigger = playerStory.getTrigger();
 
         playBGM(playerStory.getCurrentScene().getBgm());
-        initializeScreen(playerStory.getCurrentLineGroup());
+        backgroundHandler.post(() -> initializeScreen(playerStory.getCurrentLineGroup()));
 
         autoplayToggle.setOnClickListener(v -> clickArea.performClick());
         exitButton.setOnClickListener(v -> goToExit());
@@ -235,7 +245,7 @@ public class StoryMode extends AppCompatActivity {
             // define runnable
             if (!runnableState.equals(RunnableState.NULL))
                 // clear any scheduled autoplay with this handler.
-                handler.removeCallbacks(runnable);
+                autoClickHandler.removeCallbacks(runnable);
             if (!runnableState.equals(RunnableState.AUTOPLAY)) {
                 // define the runnable
                 runnable = () -> {
@@ -251,7 +261,7 @@ public class StoryMode extends AppCompatActivity {
             int seconds = wordCount / 3 + (wordCount % 3 > 0 ? 1 : 0);
 
             // Schedule the runnable
-            handler.postDelayed(runnable, seconds * 1000L);
+            autoClickHandler.postDelayed(runnable, seconds * 1000L);
         }
     }
 
@@ -269,19 +279,19 @@ public class StoryMode extends AppCompatActivity {
         // define runnable
         if (!runnableState.equals(RunnableState.NULL))
             // clear any scheduled autoplay with this handler.
-            handler.removeCallbacks(runnable);
+            autoClickHandler.removeCallbacks(runnable);
         if (!runnableState.equals(RunnableState.SKIP)) {
             // define the runnable if it was null
             runnable = () -> {
                 if (skipToggle.isActive()) {
                     clickArea.performClick();
-                    handler.postDelayed(runnable, 100L);
+                    autoClickHandler.postDelayed(runnable, 100L);
                 }
             };
             runnableState = RunnableState.SKIP;
         }
         // schedule runnable
-        handler.postDelayed(runnable, 100L);
+        autoClickHandler.postDelayed(runnable, 100L);
     }
 
     /**
@@ -291,9 +301,10 @@ public class StoryMode extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             if (runnable != null) {
                 // clear any scheduled autoplay with this handler.
-                handler.removeCallbacks(runnable);
+                backgroundHandler.removeCallbacks(runnable);
                 runnableState = RunnableState.NULL;
             }
+            backgroundThread.quit();
             runOnUiThread(this::finish);
         }, 500);
     }
@@ -306,6 +317,7 @@ public class StoryMode extends AppCompatActivity {
      * @param lineGroup LineGroup instance.
      */
     private void initializeScreen(LineGroup lineGroup) {
+        backgroundHandler.removeCallbacksAndMessages(null);
         // Clear the screen
         clearCharacters();
         clearDialogueBox();
@@ -315,11 +327,14 @@ public class StoryMode extends AppCompatActivity {
 
         // check for transition
         if ("FTB".equals(lineGroup.getTransition())) {
-            new Thread(this::fadeToBlack).start();
+            backgroundHandler.post(this::fadeToBlack);
         }
 
         // call the function for setting up screen
+        // after half-a-second, start the story.
+        backgroundHandler.postDelayed(() -> {
         setUpScreen(lineGroup);
+        }, skipToggle.isActive() ? 10 : 200);
     }
 
     /**
@@ -328,26 +343,24 @@ public class StoryMode extends AppCompatActivity {
      * @param lineGroup LineGroup instance.
      */
     private void setUpScreen(@NonNull LineGroup lineGroup) {
-        // reset index
-        currentDialogueIndex = 0;
+            // reset index
+            currentDialogueIndex = 0;
 
-        // change chapter/scene details
-        sceneName.setText(playerStory.getCurrentScene().getScene());
-        chapterName.setText(playerStory.getChapter().getChapter());
+            // change chapter/scene details
+            sceneName.setText(playerStory.getCurrentScene().getScene());
+            chapterName.setText(playerStory.getChapter().getChapter());
 
-        // display initial images
-        if (lineGroup.getInitialImages() != null) {
-            for (ImagePlacementData imagePlacementData : lineGroup.getInitialImages()) {
-                showCharacter(imagePlacementData);
+            // display initial images
+            if (lineGroup.getInitialImages() != null) {
+                for (ImagePlacementData imagePlacementData : lineGroup.getInitialImages()) {
+                    showCharacter(imagePlacementData);
+                }
             }
-        }
 
-        // display initial background
-        changeBackground(StoryResourceCaller.retrieveBackgroundResource(lineGroup.getBackground()));
-        playBGM(lineGroup.getBgm());
+            // display initial background
+            changeBackground(StoryResourceCaller.retrieveBackgroundResource(lineGroup.getBackground()));
+            playBGM(lineGroup.getBgm());
 
-        // after half-a-second, start the story.
-        new Handler().postDelayed(() -> {
             currentDialogueIndex = 0;
             // display first line
             try {
@@ -369,36 +382,37 @@ public class StoryMode extends AppCompatActivity {
                     }
 
                 // set up onClickListener for the click area.
-                clickArea.setOnClickListener(v -> {
-                    // increment the index
-                    currentDialogueIndex++;
-                    if (!waitForNextLineGroup_start || !waitForNextLineGroup_end) checkObjective();
+                runOnUiThread(() ->
+                        clickArea.setOnClickListener(v -> {
+                            // increment the index
+                            currentDialogueIndex++;
+                            if (!waitForNextLineGroup_start || !waitForNextLineGroup_end)
+                                checkObjective();
 
-                    // check if the index exceeds the size of the line group. return if so.
-                    if (currentDialogueIndex >= lineGroup.getDialogueLines().size()) {
-                        // reached the end.
-                        if (lineGroup.getGradedQuiz() != null) {
-                            openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
-                        } else currentLineEnded();
-                        return;
-                    }
+                            // check if the index exceeds the size of the line group. return if so.
+                            if (currentDialogueIndex >= lineGroup.getDialogueLines().size()) {
+                                // reached the end.
+                                if (lineGroup.getGradedQuiz() != null) {
+                                    openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
+                                } else currentLineEnded();
+                                return;
+                            }
 
-                    // display line
-                    try {
-                        LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentDialogueIndex);
-                        displayLine(dialogueLine1);
-                    } catch (ArrayIndexOutOfBoundsException ignore) {
-                        // reached the end.
-                        if (lineGroup.getGradedQuiz() != null) {
-                            openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
-                        } else currentLineEnded();
-                    }
-                });
+                            // display line
+                            try {
+                                LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentDialogueIndex);
+                                displayLine(dialogueLine1);
+                            } catch (ArrayIndexOutOfBoundsException ignore) {
+                                // reached the end.
+                                if (lineGroup.getGradedQuiz() != null) {
+                                    openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
+                                } else currentLineEnded();
+                            }
+                        }));
             } catch (IndexOutOfBoundsException e) {
                 Log.e("Dialogue Line Index Error", String.format("%d;%d;%d;%d;%s", chapterIndex,
                         sceneIndex, lineGroupIndex, currentDialogueIndex, e.getMessage()));
             }
-        }, skipToggle.isActive() ? 10 : 500);
 
         // hide the choice GUI
         choiceGui.setVisibility(View.GONE);
@@ -423,7 +437,7 @@ public class StoryMode extends AppCompatActivity {
         }
         if (dialogueLine.getImageChanges() != null) {
             for (ImagePlacementData imagePlacementData : dialogueLine.getImageChanges()) {
-                showCharacter(imagePlacementData);
+                runOnUiThread(() -> showCharacter(imagePlacementData));
             }
         }
     }
@@ -494,12 +508,13 @@ public class StoryMode extends AppCompatActivity {
      * <b>VISUAL FUNCTION</b>. Removes all characters on screen.
      */
     private void clearCharacters() {
-        characterSlot1.clear();
-        characterSlot2.clear();
-        characterSlot3.clear();
-        characterSlot4.clear();
-        characterSlot5.clear();
-        Log.d("CLEAR CHARACTERS", String.format("CLEARED ALL AT [%d,%d,%d,%d]", chapterIndex, sceneIndex, lineGroupIndex, currentDialogueIndex));
+        runOnUiThread(() -> {
+            characterSlot1.clear();
+            characterSlot2.clear();
+            characterSlot3.clear();
+            characterSlot4.clear();
+            characterSlot5.clear();
+        });
     }
 
     /**
@@ -540,7 +555,7 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void currentLineEnded() {
-        new Handler().post(() ->
+        backgroundHandler.post(() ->
                 merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.READING,
                         1,
                         PlayerActions.Task.generateRequirementCodeFromStory("LINE_GROUP")));
@@ -558,7 +573,7 @@ public class StoryMode extends AppCompatActivity {
         if (!isHistory)
             StoryDataFunctions.changeCurrentLineGroup(nextLineGroupId, merkado.getPlayerId(), currentQueueIndex);
 
-        new Thread(() -> {
+        backgroundHandler.post(() -> {
             LineGroup lineGroup = StoryDataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), playerStory.getCurrentScene().getId(), nextLineGroupId);
             if (lineGroup == null) {
                 runOnUiThread(() ->
@@ -578,12 +593,12 @@ public class StoryMode extends AppCompatActivity {
             if (!isHistory)
                 StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
-            runOnUiThread(() -> initializeScreen(lineGroup));
-        }).start();
+            backgroundHandler.post(() -> initializeScreen(lineGroup));
+        });
     }
 
     private void currentSceneEnded() {
-        new Handler().post(() ->
+        backgroundHandler.post(() ->
                 merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.READING,
                         1,
                         PlayerActions.Task.generateRequirementCodeFromStory("SCENE")));
@@ -600,10 +615,11 @@ public class StoryMode extends AppCompatActivity {
         Chapter.Scene currentScene = playerStory.getNextScene();
 
         if (currentScene == null) {
-            new Handler().post(() ->
+            backgroundHandler.post(() ->
                     merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.READING,
                             1,
                             PlayerActions.Task.generateRequirementCodeFromStory("CHAPTER")));
+            checkObjective();
             finish();
             StoryDataFunctions.removeStoryQueueId(merkado.getPlayerId(), currentQueueIndex);
             if (trigger != null) TriggerProcessor.storyTrigger(merkado.getPlayerId(), trigger);
@@ -629,7 +645,7 @@ public class StoryMode extends AppCompatActivity {
         } else playerStory.setNextScene(null);
         StoryDataFunctions.changeCurrentScene(Math.toIntExact(currentScene.getId()), merkado.getPlayerId(), currentQueueIndex);
         StoryDataFunctions.changeNextScene(currentScene.getNextScene() == null ? null : Math.toIntExact(currentScene.getNextScene()), merkado.getPlayerId(), currentQueueIndex);
-        new Thread(() -> {
+        backgroundHandler.post(() -> {
             StoryDataFunctions.changeCurrentLineGroup(0, merkado.getPlayerId(), currentQueueIndex);
             LineGroup lineGroup = StoryDataFunctions.getLineGroupFromId(playerStory.getChapter().getId(), currentScene.getId(), 0);
             if (lineGroup == null) {
@@ -642,8 +658,8 @@ public class StoryMode extends AppCompatActivity {
 
             StoryDataFunctions.changeNextLineGroup(lineGroup.getDefaultNextLine(), merkado.getPlayerId(), currentQueueIndex);
             nextLineGroupId = lineGroup.getDefaultNextLine();
-            runOnUiThread(() -> initializeScreen(lineGroup));
-        }).start();
+            initializeScreen(lineGroup);
+        });
     }
 
     private void setChoices(List<LineGroup.DialogueChoice> dialogueChoices) {
@@ -707,11 +723,12 @@ public class StoryMode extends AppCompatActivity {
     }
 
     private void continueFromChoices() {
-        new Handler().postDelayed(() -> {
-            enableClickArea();
-            choiceGui.setVisibility(View.GONE);
-            continueDialogues();
-        }, 400);
+        backgroundHandler.postDelayed(() ->
+                runOnUiThread(() -> {
+                    enableClickArea();
+                    choiceGui.setVisibility(View.GONE);
+                    continueDialogues();
+                }), 400);
     }
 
     private void setQuizChoices(List<QuizChoice> quizChoices) {
@@ -722,31 +739,31 @@ public class StoryMode extends AppCompatActivity {
         choice1.setOnClickListener(v -> {
             movingClick(choice1, 1);
             quizScore += quizChoices.get(0).getPoints();
-            continueFromQuiz(quizChoices.get(0).getDialogueLine());
+            runOnUiThread(() -> continueFromQuiz(quizChoices.get(0).getDialogueLine()));
         });
         choice2Text.setText(quizChoices.get(1).getChoice());
         choice2.setOnClickListener(v -> {
             movingClick(choice2, 2);
             quizScore += quizChoices.get(1).getPoints();
-            continueFromQuiz(quizChoices.get(1).getDialogueLine());
+            runOnUiThread(() -> continueFromQuiz(quizChoices.get(1).getDialogueLine()));
         });
         choice3Text.setText(quizChoices.get(2).getChoice());
         choice3.setOnClickListener(v -> {
             movingClick(choice3, 3);
             quizScore += quizChoices.get(2).getPoints();
-            continueFromQuiz(quizChoices.get(2).getDialogueLine());
+            runOnUiThread(() -> continueFromQuiz(quizChoices.get(2).getDialogueLine()));
         });
         choice4Text.setText(quizChoices.get(3).getChoice());
         choice4.setOnClickListener(v -> {
             movingClick(choice4, 4);
             quizScore += quizChoices.get(3).getPoints();
-            continueFromQuiz(quizChoices.get(3).getDialogueLine());
+            runOnUiThread(() -> continueFromQuiz(quizChoices.get(3).getDialogueLine()));
         });
     }
 
     private void continueFromQuiz(@NonNull LineGroup.DialogueLine dialogueLine) {
         enableClickArea();
-        displayLine(dialogueLine);
+        backgroundHandler.post(() -> displayLine(dialogueLine));
         choiceGui.setVisibility(View.GONE);
         temporaryStopAutoPlay = false;
     }
@@ -863,8 +880,9 @@ public class StoryMode extends AppCompatActivity {
         imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), hover));
 
         int finalIdle = idle;
-        new Handler().postDelayed(() ->
-                        imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), finalIdle))
+        backgroundHandler.postDelayed(() ->
+                        runOnUiThread(() ->
+                                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), finalIdle)))
                 , 250);
     }
 
@@ -971,7 +989,7 @@ public class StoryMode extends AppCompatActivity {
         inAppNotification.sendMessage(objective, mode);
         if (InAppNotification.DONE_OBJECTIVE.equals(mode) && merkado.getPlayerData().getCurrentObjective() != null) {
             if (merkado.getPlayerData().getObjectives().getObjectives().size() >
-                    merkado.getPlayerData().getCurrentObjective().getId()) {
+                    merkado.getPlayerData().getCurrentObjective().getId() + 1) {
                 PlayerDataFunctions.setCurrentObjective(merkado.getPlayerId(), new PlayerObjectives(
                         merkado.getPlayerData().getObjectives().getId(),
                         merkado.getPlayerData().getCurrentObjective().getId() + 1,
@@ -982,7 +1000,7 @@ public class StoryMode extends AppCompatActivity {
                 PlayerDataFunctions.setCurrentObjective(merkado.getPlayerId(), new PlayerObjectives(
                         merkado.getPlayerData().getObjectives().getId(),
                         merkado.getPlayerData().getCurrentObjective().getId(),
-                        true // ERROR: this turns "done" to true.
+                        true
                 ));
                 waitForNextChapter_start = true;
                 waitForNextChapter_end = true;
@@ -1046,5 +1064,11 @@ public class StoryMode extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        backgroundHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 }

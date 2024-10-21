@@ -172,6 +172,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
             playerStoryList = new ArrayList<>();
             if (playerFBExtractor.getStoryQueue() == null) return;
             for (PlayerFBExtractor1.StoryQueue storyQueue : playerFBExtractor.getStoryQueue()) {
+                if (storyQueue == null) continue;
                 PlayerStory playerStory = new PlayerStory();
                 Chapter chapter = StoryDataFunctions.getChapterFromId(storyQueue.getChapter());
                 if (chapter == null) continue;
@@ -229,7 +230,10 @@ public class ServerLoadingScreen extends AppCompatActivity {
      */
     private void process6() {
         Integer index = 0;
-        if (merkado.getPlayer().getPlayerStoryList() == null) return;
+        if (merkado.getPlayer().getPlayerStoryList() == null) {
+            processEnd();
+            return;
+        }
         for (PlayerStory playerStory : merkado.getPlayer().getPlayerStoryList()) {
             if (playerStory.getChapter().getChapter().equals("Prologue") && playerStory.getCurrentScene().getId() == 0) {
                 intent.putExtra("PROLOGUE", true);

@@ -166,6 +166,7 @@ public class Player {
         List<PlayerStory> playerStories = new ArrayList<>();
         if (storyQueueList == null || storyQueueList.isEmpty()) return null;
         for (PlayerFBExtractor1.StoryQueue storyQueue : storyQueueList) {
+            if (storyQueue == null) continue;
             PlayerStory playerStory = new PlayerStory();
             Chapter chapter = StoryDataFunctions.getChapterFromId(storyQueue.getChapter());
             Chapter.Scene currentScene = null;

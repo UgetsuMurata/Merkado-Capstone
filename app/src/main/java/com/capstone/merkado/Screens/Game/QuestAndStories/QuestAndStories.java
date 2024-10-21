@@ -114,6 +114,8 @@ public class QuestAndStories extends AppCompatActivity {
 
         Objectives.Objective objective = merkado.getPlayerData().getCurrentObjective();
         Objectives objectives = merkado.getPlayerData().getObjectives();
+        qasObjectiveTitle.setText(objectives.getTitle());
+        qasObjectiveSubtitle.setText(objectives.getSubtitle());
         QASObjectivesListAdapter qasAdapter = new QASObjectivesListAdapter(getApplicationContext(),
                 objectives.getObjectives(),
                 objective == null ? null : objective.getId(),

@@ -1,0 +1,92 @@
+[
+    null,
+    null,
+    {
+        "marketPrice": 10,
+        "resourceId": 2
+    },
+    {
+        "marketPrice": 10,
+        "resourceId": 3
+    },
+    {
+        "marketPrice": 10,
+        "resourceId": 4
+    },
+    {
+        "marketPrice": 25,
+        "resourceId": 5
+    },
+    {
+        "marketPrice": 20,
+        "resourceId": 6
+    },
+    {
+        "marketPrice": 35,
+        "resourceId": 7
+    },
+    {
+        "marketPrice": 40,
+        "resourceId": 8
+    },
+    {
+        "marketPrice": 50,
+        "resourceId": 9
+    },
+    {
+        "marketPrice": 60,
+        "resourceId": 10
+    },
+    {
+        "marketPrice": 60,
+        "resourceId": 11
+    },
+    {
+        "marketPrice": 75,
+        "resourceId": 12
+    },
+    {
+        "marketPrice": 200,
+        "resourceId": 13
+    },
+    {
+        "marketPrice": 20,
+        "resourceId": 14
+    },
+    {
+        "marketPrice": 20,
+        "resourceId": 15
+    },
+    {
+        "marketPrice": 25,
+        "resourceId": 16
+    },
+    {
+        "marketPrice": 60,
+        "resourceId": 17
+    },
+    {
+        "marketPrice": 70,
+        "resourceId": 18
+    },
+    {
+        "marketPrice": 90,
+        "resourceId": 19
+    },
+    {
+        "marketPrice": 200,
+        "resourceId": 20
+    },
+    {
+        "marketPrice": 400,
+        "resourceId": 21
+    },
+    {
+        "marketPrice": 1000,
+        "resourceId": 22
+    },
+    {
+        "marketPrice": 5000,
+        "resourceId": 23
+    }
+]

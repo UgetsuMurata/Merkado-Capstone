@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,7 +23,9 @@ import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.ServerDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
+import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.Generator;
+import com.capstone.merkado.Helpers.JsonHelper;
 import com.capstone.merkado.Helpers.StringHash;
 import com.capstone.merkado.Objects.ServerDataObjects.NewServer;
 import com.capstone.merkado.R;
@@ -163,33 +166,45 @@ public class CreateEconomy extends AppCompatActivity {
     }
 
     private void saveToDatabase() {
-        ServerDataFunctions.createNewServer(generatedId, generateServerObject()).thenAccept(returnCode -> {
-            switch (returnCode) {
-                case -1:
-                    generatedId = Generator.generateID();
-                    generatedKey = Generator.generateKey();
-                    saveToDatabase();
-                case 0:
-                    setUpPage2();
-            }
+        generateServerObject(newServer -> {
+            if (newServer == null) return;
+            ServerDataFunctions.createNewServer(generatedId, newServer).thenAccept(returnCode -> {
+                switch (returnCode) {
+                    case -1:
+                        generatedId = Generator.generateID();
+                        generatedKey = Generator.generateKey();
+                        saveToDatabase();
+                    case 0:
+                        setUpPage2();
+                }
+            });
         });
     }
 
-    private NewServer generateServerObject() {
-        NewServer newServer = new NewServer();
-        NewServer.Settings settings = new NewServer.Settings();
+    private void generateServerObject(ValueReturn<NewServer> newServerValueReturn) {
+        JsonHelper.getMarketPriceList(this, marketPrices -> {
 
-        newServer.setServerOwner(Merkado.getInstance().getAccount().getEmail());
-        newServer.setName(serverName.getText().toString());
-        newServer.setKey(StringHash.hashPassword(generatedKey));
-        newServer.setServerImage(imageChosen);
+            NewServer newServer = new NewServer();
+            NewServer.Settings settings = new NewServer.Settings();
+            NewServer.Market.MarketStandard marketStandard = new NewServer.Market.MarketStandard();
+            NewServer.Market market = new NewServer.Market();
 
-        settings.setPlayerLimit(playerLimitFinal);
-        settings.setSensitivityFactor(0.1f);
+            newServer.setServerOwner(Merkado.getInstance().getAccount().getEmail());
+            newServer.setName(serverName.getText().toString());
+            newServer.setKey(StringHash.hashPassword(generatedKey));
+            newServer.setServerImage(imageChosen);
 
-        newServer.setSettings(settings);
+            settings.setPlayerLimit(playerLimitFinal);
+            settings.setSensitivityFactor(0.1f);
 
-        return newServer;
+            marketStandard.setMarketPrice(marketPrices);
+            market.setMarketStandard(marketStandard);
+
+            newServer.setSettings(settings);
+            newServer.setMarket(market);
+            
+            newServerValueReturn.valueReturn(newServer);
+        });
     }
 
     public static class ImageIdPair {

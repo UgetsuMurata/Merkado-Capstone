@@ -70,7 +70,7 @@ public class QASObjectivesListAdapter extends RecyclerView.Adapter<QASObjectives
                                         R.drawable.icon_checkbox_checked :
                                         R.drawable.icon_checkbox));
             else icon.setImageDrawable(ContextCompat.getDrawable(context,
-                        currentObjective > qasObjective.getId() ?
+                        currentObjective > qasObjective.getId() || done ?
                                 R.drawable.icon_checkbox_checked :
                                 R.drawable.icon_checkbox));
             objective.setText(qasObjective.getObjective());

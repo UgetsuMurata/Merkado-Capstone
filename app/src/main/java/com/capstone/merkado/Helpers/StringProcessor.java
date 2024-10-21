@@ -73,11 +73,17 @@ public class StringProcessor {
         String key = parts[0];
         String value = parts[1];
 
-        ResourceData resourceData = InternalDataFunctions.getResourceData(Integer.parseInt(value));
-
-        String placeholder = "{$" + key + "}";
-
-        return rawDescription.replace(placeholder, resourceData != null ? resourceData.getName() : value);
+        try {
+            ResourceData resourceData = InternalDataFunctions.getResourceData(Integer.parseInt(value));
+            String placeholder = "{$" + key + "}";
+            return rawDescription.replace(placeholder, resourceData != null ? resourceData.getName() : value);
+        } catch (NumberFormatException ignore) {
+            if ("LINE_GROUP".equals(value)) value = "line group/s";
+            else if ("SCENE".equals(value)) value = "scene/s";
+            else if ("CHAPTER".equals(value)) value = "chapter/s";
+            String placeholder = "{$" + key + "}";
+            return rawDescription.replace(placeholder, value);
+        }
     }
 
     public static String stringProcessor(String rawString) {

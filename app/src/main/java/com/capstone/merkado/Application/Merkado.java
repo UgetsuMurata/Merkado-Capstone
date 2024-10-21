@@ -545,7 +545,7 @@ public class Merkado extends Application implements Application.ActivityLifecycl
         }
 
         public Boolean getObjectiveDone() {
-            return player.getObjectives().getDone();
+            return player.getObjectives() != null && player.getObjectives().getDone();
         }
 
         public Boolean hasStore() {

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.capstone.merkado.Application.Merkado.StaticContents;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceData;
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
+import com.capstone.merkado.Objects.StoresDataObjects.MarketPrice;
 import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
 import com.capstone.merkado.Objects.StoryDataObjects.Quiz;
 import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
@@ -33,6 +34,24 @@ public class JsonHelper {
 
             Gson gson = new Gson();
             Type listType = new TypeToken<List<ResourceData>>() {
+            }.getType();
+            onParse.parsingComplete(gson.fromJson(json, listType));
+        }).start();
+    }
+
+    public static void getMarketPriceList(Context context, OnParse<List<MarketPrice>> onParse) {
+        new Thread(() -> {
+            String json = "";
+            try {
+                json = parseJSON(context, "market_prices.json");
+            } catch (IOException e) {
+                Log.e("getMarketPriceList",
+                        String.format("Problem with parsing resource data: %s", e));
+                onParse.parsingComplete(null);
+            }
+
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<MarketPrice>>() {
             }.getType();
             onParse.parsingComplete(gson.fromJson(json, listType));
         }).start();

@@ -12,6 +12,7 @@ public class TaskData {
     String shortDescription;
     String description;
     String note;
+    Integer levelRequirement;
     List<GameRewards> rewards;
 
     public TaskData() {
@@ -63,6 +64,14 @@ public class TaskData {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Integer getLevelRequirement() {
+        return levelRequirement;
+    }
+
+    public void setLevelRequirement(Integer levelRequirement) {
+        this.levelRequirement = levelRequirement;
     }
 
     public List<GameRewards> getRewards() {

@@ -5,6 +5,7 @@ import static com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFuncti
 import androidx.annotation.Nullable;
 
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
@@ -36,10 +37,12 @@ public class OtherProcessors {
     }
 
     public static class TaskProcessors {
-        public static List<PlayerTask> generate5Tasks(List<TaskData> taskDataList) {
+        public static List<PlayerTask> generate5Tasks(List<TaskData> taskDataList, Long exp) {
+            Integer playerLevel = LevelMaxSetter.getPlayerLevel(exp) + 1;
+            List<TaskData> taskData = filterByLevel(taskDataList, playerLevel);
             List<PlayerTask> generatedTasks = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
-                generatedTasks.add(processTaskData(getRandomItem(taskDataList), TaskDifficulty.EASY, i));
+                generatedTasks.add(processTaskData(getRandomItem(taskData), TaskDifficulty.EASY, i));
             }
             return generatedTasks;
         }
@@ -51,6 +54,12 @@ public class OtherProcessors {
                 questsQueueMap.put(currentIndex, playerTask);
             }
             return processTasksQueue(questsQueueMap);
+        }
+
+        private static List<TaskData> filterByLevel(List<TaskData> taskDataList, Integer level) {
+            return taskDataList.stream()
+                    .filter(task -> task.getLevelRequirement() != null && task.getLevelRequirement() <= level)
+                    .collect(Collectors.toList());
         }
 
         @SuppressWarnings("SameParameterValue")
@@ -86,11 +95,11 @@ public class OtherProcessors {
             } else if ("{$STORY_PART}".equals(note)) {
                 switch (difficulty) {
                     case EASY:
-                        return "STORY_PART=" + "LINE_GROUP";
+                        return "STORY_PART=SCENE";
                     case MODERATE:
-                        return "STORY_PART=" + getRandomItem(Arrays.asList("LINE_GROUP", "SCENE"));
+                        return String.format("STORY_PART=%s", getRandomItem(Arrays.asList("CHAPTER", "SCENE")));
                     case DIFFICULT:
-                        return "STORY_PART=" + getRandomItem(Arrays.asList("LINE_GROUP", "SCENE", "CHAPTER"));
+                        return "STORY_PART=CHAPTER";
                 }
             }
             return null;

@@ -214,7 +214,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
                     if (hasGeneratedResult) {
                         return getAllQuests(basicServerData.getPlayerId());
                     } else {
-                        List<PlayerTask> playerTaskList = OtherProcessors.TaskProcessors.generate5Tasks(taskDataList);
+                        List<PlayerTask> playerTaskList = OtherProcessors.TaskProcessors.generate5Tasks(taskDataList, playerFBExtractor.getExp());
                         saveAllQuests(basicServerData.getPlayerId(), playerTaskList);
                         return OtherProcessors.TaskProcessors.PlayerTaskToQASItems(playerTaskList);
                     }

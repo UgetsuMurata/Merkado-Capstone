@@ -274,7 +274,7 @@ public class StoreConsumerView extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Purchase success. Thank you for buying!", Toast.LENGTH_SHORT).show();
                         new Handler().post(() ->
                                 merkado.getPlayerActionTask().taskActivity(PlayerActions.Task.PlayerActivity.BUYING,
-                                        purchaseOverlayQuantity,
+                                        storeBuyingData.getQuantity(),
                                         PlayerActions.Task.generateRequirementCodeFromResource(onSale.getResourceId())));
                         break;
                     case GENERAL_ERROR:

@@ -39,11 +39,14 @@ public class TriggerProcessor {
             case 2:
                 storyTrigger(playerId, 2);
                 botTrigger(serverId, Bot.BotType.STORE, totalPlayersInLevel);
+                break;
             case 3:
                 storyTrigger(playerId, 4);
+                break;
             case 4:
                 storyTrigger(playerId, 5);
                 botTrigger(serverId, Bot.BotType.FACTORY, totalPlayersInLevel);
+                break;
         }
     }
 

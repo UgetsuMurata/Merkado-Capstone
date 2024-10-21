@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class contains the methods necessary for making the bot (computer-mode) work.
@@ -296,6 +297,7 @@ public class Bot {
             List<PlayerMarkets.OnSale> onSaleList = new ArrayList<>();
             List<CompletableFuture<Void>> futures = new ArrayList<>();
 
+            AtomicInteger onSaleId = new AtomicInteger();
             for (Stock stock : stockList) {
                 ResourceData resourceData = InternalDataFunctions.getResourceData(stock.getResourceId());
                 CompletableFuture<Void> future = null;
@@ -303,13 +305,16 @@ public class Bot {
                     future = getMarketPrice(serverId, resourceData.getResourceId())
                             .thenAccept(marketPrice -> {
                             synchronized (onSaleList) { // Ensures thread safety when adding to the list
-                                onSaleList.add(new PlayerMarkets.OnSale(
+                                PlayerMarkets.OnSale onSale = new PlayerMarkets.OnSale(
                                         resourceData.getName(),
                                         resourceData.getResourceId(),
                                         resourceData.getType(),
                                         marketPrice,
                                         stock.getStock()
-                                ));
+                                );
+                                onSale.setOnSaleId(onSaleId.get());
+                                onSaleList.add(onSale);
+                                onSaleId.set(onSaleId.get() + 1);
                             }
                         });
 

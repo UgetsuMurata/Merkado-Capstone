@@ -6,10 +6,11 @@
     "shortDescription": "Bumili ng pagkain.",
     "description": "Pumunta ka sa tindahan ng kahit sino at bumili ng tatlong (3) {$ITEM_EDIBLE}.",
     "note": "{$ITEM_EDIBLE}",
+    "levelRequirement": 1,
     "rewards": [
       {
         "resourceId": 1,
-        "resourceQuantity": 75
+        "resourceQuantity": 200
       },
       {
         "resourceId": 24,
@@ -24,10 +25,11 @@
     "shortDescription": "Bumili ng kagamitan.",
     "description": "Pumunta ka sa tindahan ng kahit sino at bumili ng tatlong (3) {$ITEM_RESOURCE}.",
     "note": "{$ITEM_RESOURCE}",
+    "levelRequirement": 1,
     "rewards": [
       {
         "resourceId": 1,
-        "resourceQuantity": 75
+        "resourceQuantity": 200
       },
       {
         "resourceId": 24,
@@ -42,10 +44,11 @@
     "shortDescription": "Magbenta ng Pagkain.",
     "description": "Magbenta ng tatlong (3) {$ITEM_EDIBLE} sa iyong tindahan.",
     "note": "{$ITEM_EDIBLE}",
+    "levelRequirement": 2,
     "rewards": [
       {
         "resourceId": 1,
-        "resourceQuantity": 100
+        "resourceQuantity": 200
       },
       {
         "resourceId": 24,
@@ -60,10 +63,11 @@
     "shortDescription": "Magbenta ng kagamitan.",
     "description": "Magbenta ng tatlong (3) {$ITEM_RESOURCE} sa iyong tindahan.",
     "note": "{$ITEM_RESOURCE}",
+    "levelRequirement": 2,
     "rewards": [
       {
         "resourceId": 1,
-        "resourceQuantity": 100
+        "resourceQuantity": 200
       },
       {
         "resourceId": 24,
@@ -78,10 +82,11 @@
     "shortDescription": "Magbasa ng kuwento.",
     "description": "Magbasa ng isang (1) {$STORY_PART} ng kwento.",
     "note": "{$STORY_PART}",
+    "levelRequirement": 1,
     "rewards": [
       {
         "resourceId": 1,
-        "resourceQuantity": 150
+        "resourceQuantity": 200
       },
       {
         "resourceId": 24,

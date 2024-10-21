@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -385,6 +386,9 @@ public class StoryMode extends AppCompatActivity {
             // set up onClickListener for the click area.
             runOnUiThread(() ->
                     clickArea.setOnClickListener(v -> {
+                        clickArea.setEnabled(false);
+                        new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                clickArea.setEnabled(true), 300);
                         // increment the index
                         currentDialogueIndex++;
                         if (!waitForNextLineGroup_start || !waitForNextLineGroup_end)

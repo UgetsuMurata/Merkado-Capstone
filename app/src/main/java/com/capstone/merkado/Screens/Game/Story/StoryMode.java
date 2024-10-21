@@ -389,6 +389,11 @@ public class StoryMode extends AppCompatActivity {
                         clickArea.setEnabled(false);
                         new Handler(Looper.getMainLooper()).postDelayed(() ->
                                 clickArea.setEnabled(true), RunnableState.SKIP.equals(runnableState) ? 75L : 205L);
+
+                        if (sceneIndex == 15 && lineGroupIndex == 0) {
+                            Log.d("PREPARE", "QUIZ PREPARE");
+                        }
+
                         // increment the index
                         currentDialogueIndex++;
                         if (!waitForNextLineGroup_start || !waitForNextLineGroup_end)
@@ -433,12 +438,16 @@ public class StoryMode extends AppCompatActivity {
         showLine(StoryResourceCaller.retrieveDialogueBoxResource(dialogueLine.getCharacter()), dialogueLine.getDialogue());
         playSFX(dialogueLine.getSfx());
         if (dialogueLine.getDialogueChoices() != null) {
-            choiceGui.setVisibility(View.VISIBLE);
-            setChoices(dialogueLine.getDialogueChoices());
+            runOnUiThread(() -> {
+                choiceGui.setVisibility(View.VISIBLE);
+                setChoices(dialogueLine.getDialogueChoices());
+            });
         }
         if (dialogueLine.getQuizChoices() != null) {
-            choiceGui.setVisibility(View.VISIBLE);
-            setQuizChoices(dialogueLine.getQuizChoices());
+            runOnUiThread(() -> {
+                choiceGui.setVisibility(View.VISIBLE);
+                setQuizChoices(dialogueLine.getQuizChoices());
+            });
         }
         if (dialogueLine.getImageChanges() != null) {
             for (ImagePlacementData imagePlacementData : dialogueLine.getImageChanges()) {
@@ -684,7 +693,6 @@ public class StoryMode extends AppCompatActivity {
             choice1Text.setVisibility(View.GONE);
             choice1.setVisibility(View.GONE);
         }
-
         if (dialogueChoices.size() > 1) {
             choice2Text.setText(dialogueChoices.get(1).getChoice());
             choice2.setOnClickListener(v -> {
@@ -698,7 +706,6 @@ public class StoryMode extends AppCompatActivity {
             choice2Text.setVisibility(View.GONE);
             choice2.setVisibility(View.GONE);
         }
-
         if (dialogueChoices.size() > 2) {
             choice3Text.setText(dialogueChoices.get(2).getChoice());
             choice3.setOnClickListener(v -> {

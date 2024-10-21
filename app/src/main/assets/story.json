@@ -4843,7 +4843,7 @@
                 "lineGroup": [
                     {
                         "background": "market",
-                        "defaultNextLines": 1,
+                        "defaultNextLine": 1,
                         "dialogueLines": [
                             {
                                 "character": "[USER_NAME]",
@@ -4923,7 +4923,7 @@
                     },
                     {
                         "background": "market",
-                        "defaultNextLines": 2,
+                        "defaultNextLine": 2,
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",
@@ -5067,7 +5067,7 @@
                     },
                     {
                         "background": "market",
-                        "defaultNextLines": 4,
+                        "defaultNextLine": 4,
                         "dialogueLines": [
                             {
                                 "character": "NANAY",
@@ -5118,7 +5118,7 @@
                     },
                     {
                         "background": "market",
-                        "defaultNextLines": 4,
+                        "defaultNextLine": 4,
                         "dialogueLines": [
                             {
                                 "character": "NANAY",
@@ -17563,7 +17563,7 @@
                 "lineGroup": [
                     {
                         "background": "streets",
-                        "defaultNextLines": 1,
+                        "defaultNextLine": 1,
                         "dialogueLines": [
                             {
                                 "character": "EMPTY",

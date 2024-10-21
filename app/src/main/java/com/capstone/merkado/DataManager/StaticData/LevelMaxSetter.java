@@ -21,7 +21,7 @@ public class LevelMaxSetter {
 
     public static Long getMaxPlayerExperience(Long currentLevel) {
         List<Long> playerMaxLevel = Arrays.asList(8900L, 12600L, 16800L, 21500L);
-        return process(currentLevel <= 12400L ? currentLevel : 12400L,
+        return process(currentLevel <= 21500L ? currentLevel : 21500L,
                 playerMaxLevel,
                 playerMaxLevel.get(playerMaxLevel.size() - 1));
     }

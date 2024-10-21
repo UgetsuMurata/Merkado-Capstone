@@ -98,6 +98,7 @@ public class StoryMode extends AppCompatActivity {
     Boolean isHistory = false;
     Handler backgroundHandler;
     Handler autoClickHandler;
+    Runnable setupScreenRunnable;
 
     Runnable runnable;
     Integer quizScore = 0;
@@ -317,6 +318,7 @@ public class StoryMode extends AppCompatActivity {
      * @param lineGroup LineGroup instance.
      */
     private void initializeScreen(LineGroup lineGroup) {
+        backgroundHandler.removeCallbacks(setupScreenRunnable);
         backgroundHandler.removeCallbacksAndMessages(null);
         // Clear the screen
         clearCharacters();
@@ -332,9 +334,9 @@ public class StoryMode extends AppCompatActivity {
 
         // call the function for setting up screen
         // after half-a-second, start the story.
-        backgroundHandler.postDelayed(() -> {
-        setUpScreen(lineGroup);
-        }, skipToggle.isActive() ? 10 : 200);
+        setupScreenRunnable = () -> setUpScreen(lineGroup);
+        backgroundHandler.postDelayed(setupScreenRunnable,
+                skipToggle.isActive() ? 10 : 200);
     }
 
     /**
@@ -343,76 +345,75 @@ public class StoryMode extends AppCompatActivity {
      * @param lineGroup LineGroup instance.
      */
     private void setUpScreen(@NonNull LineGroup lineGroup) {
-            // reset index
-            currentDialogueIndex = 0;
+        // reset index
+        currentDialogueIndex = 0;
 
-            // change chapter/scene details
+        // change chapter/scene details
+        runOnUiThread(() -> {
             sceneName.setText(playerStory.getCurrentScene().getScene());
             chapterName.setText(playerStory.getChapter().getChapter());
-
             // display initial images
             if (lineGroup.getInitialImages() != null) {
                 for (ImagePlacementData imagePlacementData : lineGroup.getInitialImages()) {
                     showCharacter(imagePlacementData);
                 }
             }
-
             // display initial background
             changeBackground(StoryResourceCaller.retrieveBackgroundResource(lineGroup.getBackground()));
             playBGM(lineGroup.getBgm());
+        });
 
-            currentDialogueIndex = 0;
-            // display first line
-            try {
-                LineGroup.DialogueLine dialogueLine = lineGroup.getDialogueLines().get(currentDialogueIndex);
-                displayLine(dialogueLine);
+        // display first line
+        try {
+            LineGroup.DialogueLine dialogueLine = lineGroup.getDialogueLines().get(currentDialogueIndex);
+            displayLine(dialogueLine);
 
-                if (dialogueLine.getVariable() != null)
-                    if ("GET".equals(dialogueLine.getVariable().getMethod())) {
-                        try {
-                            playerStory = StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory).get();
-                        } catch (ExecutionException | InterruptedException e) {
-                            Log.e("processVariable",
-                                    String.format(
-                                            "StoryVariableHelper.processVariable() received an error: %s",
-                                            e));
-                        }
-                    } else {
-                        StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory);
+            if (dialogueLine.getVariable() != null)
+                if ("GET".equals(dialogueLine.getVariable().getMethod())) {
+                    try {
+                        playerStory = StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory).get();
+                    } catch (ExecutionException | InterruptedException e) {
+                        Log.e("processVariable",
+                                String.format(
+                                        "StoryVariableHelper.processVariable() received an error: %s",
+                                        e));
                     }
+                } else {
+                    StoryVariableHelper.processVariable(merkado.getPlayerId(), currentQueueIndex, dialogueLine.getVariable(), playerStory);
+                }
 
-                // set up onClickListener for the click area.
-                runOnUiThread(() ->
-                        clickArea.setOnClickListener(v -> {
-                            // increment the index
-                            currentDialogueIndex++;
-                            if (!waitForNextLineGroup_start || !waitForNextLineGroup_end)
-                                checkObjective();
+            // set up onClickListener for the click area.
+            runOnUiThread(() ->
+                    clickArea.setOnClickListener(v -> {
+                        // increment the index
+                        currentDialogueIndex++;
+                        if (!waitForNextLineGroup_start || !waitForNextLineGroup_end)
+                            checkObjective();
 
-                            // check if the index exceeds the size of the line group. return if so.
-                            if (currentDialogueIndex >= lineGroup.getDialogueLines().size()) {
-                                // reached the end.
-                                if (lineGroup.getGradedQuiz() != null) {
-                                    openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
-                                } else currentLineEnded();
-                                return;
-                            }
+                        // check if the index exceeds the size of the line group. return if so.
+                        if (currentDialogueIndex >= lineGroup.getDialogueLines().size()) {
+                            // reached the end.
+                            if (lineGroup.getGradedQuiz() != null) {
+                                openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
+                            } else currentLineEnded();
+                            return;
+                        }
 
-                            // display line
-                            try {
-                                LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentDialogueIndex);
-                                displayLine(dialogueLine1);
-                            } catch (ArrayIndexOutOfBoundsException ignore) {
-                                // reached the end.
-                                if (lineGroup.getGradedQuiz() != null) {
-                                    openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
-                                } else currentLineEnded();
-                            }
-                        }));
-            } catch (IndexOutOfBoundsException e) {
-                Log.e("Dialogue Line Index Error", String.format("%d;%d;%d;%d;%s", chapterIndex,
-                        sceneIndex, lineGroupIndex, currentDialogueIndex, e.getMessage()));
-            }
+                        // display line
+                        try {
+                            LineGroup.DialogueLine dialogueLine1 = lineGroup.getDialogueLines().get(currentDialogueIndex);
+                            displayLine(dialogueLine1);
+                        } catch (ArrayIndexOutOfBoundsException ignore) {
+                            // reached the end.
+                            if (lineGroup.getGradedQuiz() != null) {
+                                openQuizDisplay(lineGroup.getGradedQuiz(), lineGroup.getBackground());
+                            } else currentLineEnded();
+                        }
+                    }));
+        } catch (IndexOutOfBoundsException e) {
+            Log.e("Dialogue Line Index Error", String.format("%d;%d;%d;%d;%s", chapterIndex,
+                    sceneIndex, lineGroupIndex, currentDialogueIndex, e.getMessage()));
+        }
 
         // hide the choice GUI
         choiceGui.setVisibility(View.GONE);

@@ -174,21 +174,21 @@ public class WoodenButton extends ConstraintLayout {
         HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> primaryMapping = new HashMap<>();
 
         primaryMapping.put(SHORT, createStateMapping(
-                R.drawable.gui_general_button_primary_long_active,
-                R.drawable.gui_general_button_primary_long_active,
-                R.drawable.gui_general_button_primary_long_active
+                R.drawable.gui_general_button_primary_short_idle,
+                R.drawable.gui_general_button_primary_short_active,
+                R.drawable.gui_general_button_primary_short_disabled
         ));
 
         primaryMapping.put(MEDIUM, createStateMapping(
-                R.drawable.gui_general_button_primary_long_active,
-                R.drawable.gui_general_button_primary_long_active,
-                R.drawable.gui_general_button_primary_long_active
+                R.drawable.gui_general_button_primary_medium_idle,
+                R.drawable.gui_general_button_primary_medium_active,
+                R.drawable.gui_general_button_primary_medium_disabled
         ));
 
         primaryMapping.put(LONG, createStateMapping(
+                R.drawable.gui_general_button_primary_long_idle,
                 R.drawable.gui_general_button_primary_long_active,
-                R.drawable.gui_general_button_primary_long_active,
-                R.drawable.gui_general_button_primary_long_active
+                R.drawable.gui_general_button_primary_long_disabled
         ));
 
         styleMapping.put(PRIMARY, primaryMapping);

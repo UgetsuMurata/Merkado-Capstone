@@ -30,7 +30,7 @@ public class AddEconomy extends AppCompatActivity {
     Merkado merkado;
     EditText serverIdEditText, serverKeyEditText;
     TextInputLayout serverId, serverKey;
-    WoodenButton joinEconomy;
+    WoodenButton joinEconomy, cancelEconomy;
 
     Boolean validId = false;
     Boolean validKey = false;
@@ -46,7 +46,7 @@ public class AddEconomy extends AppCompatActivity {
         ImageView closeButton = findViewById(R.id.close_button);
         TextView createServer = findViewById(R.id.create_server);
         joinEconomy = findViewById(R.id.join);
-        TextView cancelEconomy = findViewById(R.id.cancel);
+        cancelEconomy = findViewById(R.id.cancel);
         serverId = findViewById(R.id.server_code);
         serverIdEditText = findViewById(R.id.server_code_edittext);
         serverKey = findViewById(R.id.server_key);

@@ -5363,7 +5363,7 @@
                         "id": 4,
                         "initialImages": [
                             {
-                                "image": "mc1_b_pajamas",
+                                "image": "mc1_b_casual",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
@@ -5397,7 +5397,7 @@
                         "id": 5,
                         "initialImages": [
                             {
-                                "image": "mc1_b_pajamas",
+                                "image": "mc1_b_casual",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
@@ -5441,7 +5441,7 @@
                         "id": 6,
                         "initialImages": [
                             {
-                                "image": "mc1_b_pajamas",
+                                "image": "mc1_b_casual",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
@@ -5474,7 +5474,7 @@
                         "id": 7,
                         "initialImages": [
                             {
-                                "image": "mc1_b_pajamas",
+                                "image": "mc1_b_casual",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
@@ -5567,7 +5567,7 @@
                         "id": 8,
                         "initialImages": [
                             {
-                                "image": "mc1_b_pajamas",
+                                "image": "mc1_b_casual",
                                 "placement": "1;BODY",
                                 "toShow": true
                             },
@@ -5867,7 +5867,7 @@
                             {
                                 "character": "NANAY",
                                 "dialogue": "Masaya ako pero, hindi tama na nagbukod agad kami nang hindi pinag-isipang mabuti.",
-                                "changeImages": [
+                                "imageChanges": [
                                     {
                                         "image": "nanay1_f_normal",
                                         "placement": "2;FACE",
@@ -5882,7 +5882,7 @@
                             {
                                 "character": "NANAY",
                                 "dialogue": "Gawin mo iyon para sa sarili mo, para hindi ka matulad sa amin.",
-                                "changeImages": [
+                                "imageChanges": [
                                     {
                                         "image": "nanay1_f_smile",
                                         "placement": "2;FACE",
@@ -5893,7 +5893,7 @@
                             {
                                 "character": "[USER_NAME]",
                                 "dialogue": "Opo, nay. Balang araw tutulungan ko ang pamilya natin makaahon sa kahirapan. Isa po 'yan sa mga goals ko.",
-                                "changeImages": [
+                                "imageChanges": [
                                     {
                                         "image": "mc1_f_normal",
                                         "placement": "1;FACE",
@@ -5904,7 +5904,7 @@
                             {
                                 "character": "NANAY",
                                 "dialogue": "Tama na 'yan, baka magdrama pa tayo dito. Umuwi na tayo, naghihintay na mga kapatid mo.",
-                                "changeImages": [
+                                "imageChanges": [
                                     {
                                         "image": "nanay1_f_talking",
                                         "placement": "2;FACE",
@@ -9344,12 +9344,8 @@
                             {
                                 "character": "[USER_NAME]",
                                 "dialogue": "Ma’am?",
-                                "changeImages": [
-                                    {
-                                        "image": "empty",
-                                        "placement": "2;BODY",
-                                        "toShow": true
-                                    },
+                                "imageChanges": [
+
                                     {
                                         "image": "mc1_b_uniform",
                                         "placement": "3;BODY",
@@ -9369,7 +9365,7 @@
                             {
                                 "character": "[USER_NAME]",
                                 "dialogue": "Mga magkano po kaya ang aabutin ng posters and printed materials",
-                                "changeImages": [
+                                "imageChanges": [
                                     {
                                         "image": "mc1_f_curious",
                                         "placement": "3;FACE",
@@ -9398,7 +9394,7 @@
                                 "imageChanges": [
                                     {
                                         "image": "mc1_f_normal",
-                                        "placement": "1;FACE",
+                                        "placement": "3;FACE",
                                         "toShow": true
                                     },
                                     {
@@ -9435,11 +9431,6 @@
                                     {
                                         "image": "teacher1_f_compassion",
                                         "placement": "1;FACE",
-                                        "toShow": true
-                                    },
-                                    {
-                                        "image": "empty",
-                                        "placement": "2;BODY",
                                         "toShow": false
                                     },
                                     {
@@ -9460,12 +9451,12 @@
                                     {
                                         "image": "eian1_b_uniform",
                                         "placement": "5;BODY",
-                                        "toShow": true
+                                        "toShow": false
                                     },
                                     {
                                         "image": "eian1_f_compassion",
                                         "placement": "5;FACE",
-                                        "toShow": true
+                                        "toShow": false
                                     }
                                 ]
                             },
@@ -9484,6 +9475,11 @@
                             {
                                 "image": "teacher1_f_talking2",
                                 "placement": "1;FACE",
+                                "toShow": true
+                            },
+                            {
+                                "image": "empty",
+                                "placement": "2;BODY",
                                 "toShow": true
                             }
                         ],
@@ -13000,7 +12996,7 @@
                             {
                                 "character": "EMPTY",
                                 "dialogue": "Iniisip ko lang din ang mga anak ko, ang rami kong pinapakain at pinapaaral.",
-                                "changeImages": [
+                                "imageChanges": [
                                     {
                                         "image": "rp21_f_normal",
                                         "placement": "2;FACE",
@@ -13015,7 +13011,7 @@
                             {
                                 "character": "EMPTY",
                                 "dialogue": "Siguro, kailangan din nating magtulungan habang inaayos ito ng gobyerno.",
-                                "changeImages": [
+                                "imageChanges": [
                                     {
                                         "image": "rp1_f_curious",
                                         "placement": "1;FACE",

@@ -163,19 +163,19 @@ public class WoodenButton extends ConstraintLayout {
     private HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> populateDrawableMapping() {
         HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> drawableMapping = new HashMap<>();
         HashMap<WoodenButtonState, Integer> stateMapping = new HashMap<>();
-        stateMapping.put(IDLE, R.drawable.gui_general_short_idle);
-        stateMapping.put(ACTIVE, R.drawable.gui_general_short_active);
-        stateMapping.put(DISABLED, R.drawable.gui_general_short_disabled);
+        stateMapping.put(IDLE, R.drawable.gui_general_long_idle);
+        stateMapping.put(ACTIVE, R.drawable.gui_general_long_idle);
+        stateMapping.put(DISABLED, R.drawable.gui_general_long_idle);
         drawableMapping.put(SHORT, stateMapping);
         stateMapping.clear();
-        stateMapping.put(IDLE, R.drawable.gui_general_medium_idle);
-        stateMapping.put(ACTIVE, R.drawable.gui_general_medium_active);
-        stateMapping.put(DISABLED, R.drawable.gui_general_medium_disabled);
+        stateMapping.put(IDLE, R.drawable.gui_general_long_idle);
+        stateMapping.put(ACTIVE, R.drawable.gui_general_long_idle);
+        stateMapping.put(DISABLED, R.drawable.gui_general_long_idle);
         drawableMapping.put(MEDIUM, stateMapping);
         stateMapping.clear();
         stateMapping.put(IDLE, R.drawable.gui_general_long_idle);
-        stateMapping.put(ACTIVE, R.drawable.gui_general_long_active);
-        stateMapping.put(DISABLED, R.drawable.gui_general_long_disabled);
+        stateMapping.put(ACTIVE, R.drawable.gui_general_long_idle);
+        stateMapping.put(DISABLED, R.drawable.gui_general_long_idle);
         drawableMapping.put(LONG, stateMapping);
         return drawableMapping;
     }

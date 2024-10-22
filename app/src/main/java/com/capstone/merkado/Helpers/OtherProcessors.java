@@ -1,12 +1,9 @@
 package com.capstone.merkado.Helpers;
 
-import static com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions.processTasksQueue;
-
 import androidx.annotation.Nullable;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.StaticData.LevelMaxSetter;
-import com.capstone.merkado.Objects.QASDataObjects.QASItems;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.Objects.ResourceDataObjects.ResourceDisplayMode;
 import com.capstone.merkado.Objects.StoresDataObjects.PlayerMarkets;
@@ -16,11 +13,8 @@ import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class OtherProcessors {
@@ -45,15 +39,6 @@ public class OtherProcessors {
                 generatedTasks.add(processTaskData(getRandomItem(taskData), TaskDifficulty.EASY, i));
             }
             return generatedTasks;
-        }
-
-        public static CompletableFuture<List<QASItems>> PlayerTaskToQASItems(List<PlayerTask> playerTaskList) {
-            Map<Integer, PlayerTask> questsQueueMap = new HashMap<>();
-            Integer currentIndex = 0;
-            for (PlayerTask playerTask : playerTaskList) {
-                questsQueueMap.put(currentIndex, playerTask);
-            }
-            return processTasksQueue(questsQueueMap);
         }
 
         private static List<TaskData> filterByLevel(List<TaskData> taskDataList, Integer level) {

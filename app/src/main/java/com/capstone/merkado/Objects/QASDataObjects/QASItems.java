@@ -1,5 +1,8 @@
 package com.capstone.merkado.Objects.QASDataObjects;
 
+import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
+import com.capstone.merkado.Objects.StoryDataObjects.Chapter;
+
 import java.util.List;
 
 public class QASItems {
@@ -99,6 +102,12 @@ public class QASItems {
             Long resourceQuantity;
 
             public QASReward() {
+            }
+
+            public QASReward(Chapter.GameRewards gameRewards) {
+                setResourceId(gameRewards.getResourceId());
+                setResourceImage(GameResourceCaller.getResourcesImage(gameRewards.getResourceId()));
+                setResourceQuantity(gameRewards.getResourceQuantity());
             }
 
             public Long getResourceId() {

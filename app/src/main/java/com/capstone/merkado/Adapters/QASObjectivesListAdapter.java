@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,27 +51,25 @@ public class QASObjectivesListAdapter extends RecyclerView.Adapter<QASObjectives
     }
 
     public static class QASItemsAdapterViewer extends RecyclerView.ViewHolder {
-        ImageView icon;
         TextView objective;
 
         public QASItemsAdapterViewer(@NonNull View itemView) {
             super(itemView);
-            icon = itemView.findViewById(R.id.icon);
             objective = itemView.findViewById(R.id.objective);
         }
 
         public void bind(@NonNull Context context, @NonNull Objective qasObjective, @Nullable Integer currentObjective, @NonNull Boolean done) {
             // set the data
             if (currentObjective == null)
-                icon.setImageDrawable(
+                objective.setCompoundDrawables(
                         ContextCompat.getDrawable(context,
                                 done ?
                                         R.drawable.icon_checkbox_checked :
-                                        R.drawable.icon_checkbox));
-            else icon.setImageDrawable(ContextCompat.getDrawable(context,
-                        currentObjective > qasObjective.getId() || done ?
-                                R.drawable.icon_checkbox_checked :
-                                R.drawable.icon_checkbox));
+                                        R.drawable.icon_checkbox), null, null, null);
+            else objective.setCompoundDrawables(ContextCompat.getDrawable(context,
+                    currentObjective > qasObjective.getId() || done ?
+                            R.drawable.icon_checkbox_checked :
+                            R.drawable.icon_checkbox), null, null, null);
             objective.setText(qasObjective.getObjective());
         }
     }

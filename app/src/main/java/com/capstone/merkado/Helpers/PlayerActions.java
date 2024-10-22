@@ -52,7 +52,7 @@ public class PlayerActions {
             counterTask3 = 0;
             counterTask4 = 0;
             merkado = Merkado.getInstance();
-            playerTaskList = extractPlayerTasks(merkado.getTaskQASList());
+            playerTaskList = merkado.getTaskPlayerList();
             taskDataList = merkado.getTaskDataList();
             sortList();
         }
@@ -61,19 +61,6 @@ public class PlayerActions {
             this.playerTaskList = this.playerTaskList.stream()
                     .sorted(Comparator.comparing(PlayerTask::getQueueId))
                     .collect(Collectors.toList());
-        }
-
-        private List<PlayerTask> extractPlayerTasks(List<QASItems> items) {
-            List<PlayerTask> playerTask = new ArrayList<>();
-            for (QASItems qasItems : items) {
-                for (QASItems.QASDetail detail : qasItems.getQasDetails()) {
-                    Object obj = detail.getOriginalObject();
-                    if (obj instanceof PlayerTask) {
-                        playerTask.add((PlayerTask) obj);
-                    }
-                }
-            }
-            return playerTask;
         }
 
         /**
@@ -122,8 +109,10 @@ public class PlayerActions {
                     case 2:
                     case 3:
                         Integer counter = getCounter(playerTask.getQueueId());
-                        if (counter != null && counter >= 3)
+                        if (counter != null && counter >= 3) {
                             doneQueue(playerTask.getQueueId());
+                            return;
+                        }
                 }
             }
         }
@@ -140,8 +129,10 @@ public class PlayerActions {
                     case 0:
                     case 1:
                         Integer counter = getCounter(playerTask.getQueueId());
-                        if (counter != null && counter >= 3)
+                        if (counter != null && counter >= 3) {
                             doneQueue(playerTask.getQueueId());
+                            return;
+                        }
                 }
             }
         }
@@ -158,8 +149,10 @@ public class PlayerActions {
                 switch (playerTask.getTaskId()) {
                     case 4:
                         Integer counter = getCounter(playerTask.getQueueId());
-                        if (counter != null && counter >= 1)
+                        if (counter != null && counter >= 1) {
                             doneQueue(playerTask.getQueueId());
+                            return;
+                        }
                 }
             }
         }

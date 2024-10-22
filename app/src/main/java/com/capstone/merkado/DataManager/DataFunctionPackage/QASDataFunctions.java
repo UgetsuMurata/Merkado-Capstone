@@ -103,7 +103,7 @@ public class QASDataFunctions {
 
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                 .thenApply(v -> {
-                    Map<String, QASItems> qasItemsMapping = groupQASDetailsToQASItems("STORIES", qasDetailsMapping);
+                    Map<String, QASItems> qasItemsMapping = groupQASDetailsToQASItems(qasDetailsMapping);
                     return new ArrayList<>(qasItemsMapping.values());
                 });
     }
@@ -119,9 +119,9 @@ public class QASDataFunctions {
         return taskDataList.get(taskId);
     }
 
-    public static CompletableFuture<List<QASItems>> getAllQuests(Integer playerId) {
-        if (Merkado.getInstance().getTaskQASList() != null) {
-            return CompletableFuture.completedFuture(Merkado.getInstance().getTaskQASList());
+    public static CompletableFuture<List<PlayerTask>> getAllQuests(Integer playerId) {
+        if (Merkado.getInstance().getTaskPlayerList() != null) {
+            return CompletableFuture.completedFuture(Merkado.getInstance().getTaskPlayerList());
         }
         FirebaseData firebaseData = new FirebaseData();
         CompletableFuture<DataSnapshot> dataSnapshotFuture = new CompletableFuture<>();
@@ -131,14 +131,12 @@ public class QASDataFunctions {
                 dataSnapshotFuture::complete);
 
         return dataSnapshotFuture.thenCompose(dataSnapshot -> {
-            Map<Integer, PlayerTask> questsQueueMap = new HashMap<>();
-            Integer currentIndex = 0;
+            List<PlayerTask> playerTaskList = new ArrayList<>();
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                 PlayerTask playerTask = ds.getValue(PlayerTask.class);
-                questsQueueMap.put(currentIndex, playerTask);
-                currentIndex++;
+                playerTaskList.add(playerTask);
             }
-            return processTasksQueue(questsQueueMap);
+            return CompletableFuture.completedFuture(playerTaskList);
         });
     }
 
@@ -174,52 +172,7 @@ public class QASDataFunctions {
         );
     }
 
-    public static CompletableFuture<List<QASItems>> processTasksQueue(Map<Integer, PlayerTask> storyQueueMap) {
-        Map<String, List<QASItems.QASDetail>> qasDetailsMapping = new HashMap<>();
-        List<CompletableFuture<Void>> futures = new ArrayList<>();
-
-        for (Map.Entry<Integer, PlayerTask> entry : storyQueueMap.entrySet()) {
-            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-                // retrieve the TaskData.
-                TaskData taskData = getTaskFromId(entry.getValue().getTaskId());
-                if (taskData == null)
-                    return;
-
-                // process the rewards
-                List<QASItems.QASDetail.QASReward> qasRewards = getQasRewards(taskData.getRewards());
-
-                // create the QASDetail
-                QASItems.QASDetail qasDetail = new QASItems.QASDetail();
-                qasDetail.setQasName(taskData.getTitle());
-                qasDetail.setOriginalObject(entry.getValue());
-                qasDetail.setQueueId(entry.getKey());
-                qasDetail.setQasShortDescription(taskData.getShortDescription());
-                qasDetail.setQasDescription(taskData.getDescription());
-                qasDetail.setQasRewards(qasRewards);
-
-                // add the detail inside the map.
-                List<QASItems.QASDetail> detail;
-                if (qasDetailsMapping.containsKey(taskData.getCategory())) {
-                    detail = qasDetailsMapping.get(taskData.getCategory());
-                    if (detail == null) detail = new ArrayList<>();
-                } else {
-                    detail = new ArrayList<>();
-                }
-                detail.add(qasDetail);
-                qasDetailsMapping.put(taskData.getCategory(), detail);
-            });
-            futures.add(future);
-        }
-
-        // group the QASDetails into its bigger list, QASItems.
-        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                .thenApply(v -> {
-                    Map<String, QASItems> qasItemsMapping = groupQASDetailsToQASItems("QUESTS", qasDetailsMapping);
-                    return new ArrayList<>(qasItemsMapping.values());
-                });
-    }
-
-    private static Map<String, QASItems> groupQASDetailsToQASItems(String group, Map<String, List<QASItems.QASDetail>> qasDetailMap) {
+    private static Map<String, QASItems> groupQASDetailsToQASItems(Map<String, List<QASItems.QASDetail>> qasDetailMap) {
         Map<String, QASItems> qasItemsMapping = new HashMap<>();
 
         for (Map.Entry<String, List<QASItems.QASDetail>> qasDetailEntry : qasDetailMap.entrySet()) {
@@ -229,7 +182,7 @@ public class QASDataFunctions {
             if (qasItems == null) {
                 qasItems = new QASItems();
                 qasItems.setQasCategory(qasDetailEntry.getKey());
-                qasItems.setQasGroup(group);
+                qasItems.setQasGroup("STORIES");
                 qasItems.setQasDetails(new ArrayList<>());
                 isNew = true;
             }

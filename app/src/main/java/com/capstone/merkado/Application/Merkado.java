@@ -80,7 +80,7 @@ public class Merkado extends Application implements Application.ActivityLifecycl
     private CompiledData compiledMarketData;
     private Activity currentActivity;
     private List<TaskData> taskDataList;
-    private List<QASItems> taskQASList;
+    private List<PlayerTask> taskPlayerList;
 
     private Boolean hasTakenPretest = false;
     private Boolean hasTakenPostTest = false;
@@ -621,12 +621,12 @@ public class Merkado extends Application implements Application.ActivityLifecycl
         this.taskDataList = taskDataList;
     }
 
-    public List<QASItems> getTaskQASList() {
-        return taskQASList;
+    public List<PlayerTask> getTaskPlayerList() {
+        return taskPlayerList;
     }
 
-    public void setTaskQASList(List<QASItems> taskQASList) {
-        this.taskQASList = taskQASList;
+    public void setTaskPlayerList(List<PlayerTask> taskPlayerList) {
+        this.taskPlayerList = taskPlayerList;
         setPlayerActionTask(new PlayerActions.Task());
     }
 

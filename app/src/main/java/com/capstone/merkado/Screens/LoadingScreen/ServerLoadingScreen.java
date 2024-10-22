@@ -210,18 +210,18 @@ public class ServerLoadingScreen extends AppCompatActivity {
                         CompletableFuture.completedFuture(timestamp != null && timestamp == getCurrentDay()));
 
                 // IF / IF NOT GENERATED
-                CompletableFuture<List<QASItems>> qasItems = hasGenerated.thenCompose(hasGeneratedResult -> {
+                CompletableFuture<List<PlayerTask>> qasItems = hasGenerated.thenCompose(hasGeneratedResult -> {
                     if (hasGeneratedResult) {
                         return getAllQuests(basicServerData.getPlayerId());
                     } else {
                         List<PlayerTask> playerTaskList = OtherProcessors.TaskProcessors.generate5Tasks(taskDataList, playerFBExtractor.getExp());
                         saveAllQuests(basicServerData.getPlayerId(), playerTaskList);
-                        return OtherProcessors.TaskProcessors.PlayerTaskToQASItems(playerTaskList);
+                        return CompletableFuture.completedFuture(playerTaskList);
                     }
                 });
 
                 // SAVE THE GENERATED TASKS ON APPLICATION CLASS.
-                qasItems.thenAccept(qasItems1 -> merkado.setTaskQASList(qasItems1));
+                qasItems.thenAccept(qasItems1 -> merkado.setTaskPlayerList(qasItems1));
             });
         }
     }

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.merkado.Adapters.QASAdapter;
 import com.capstone.merkado.Adapters.QASObjectivesListAdapter;
 import com.capstone.merkado.Adapters.QASRewardsAdapter;
+import com.capstone.merkado.Adapters.QASTasksListAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.DataManager.DataFunctionPackage.QASDataFunctions;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems;
@@ -29,11 +30,13 @@ import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail;
 import com.capstone.merkado.Objects.QASDataObjects.QASItems.QASDetail.QASReward;
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives;
 import com.capstone.merkado.Objects.TaskDataObjects.PlayerTask;
+import com.capstone.merkado.Objects.TaskDataObjects.TaskData;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.Game.Story.StoryMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @SuppressLint("NotifyDataSetChanged")
@@ -94,6 +97,7 @@ public class QuestAndStories extends AppCompatActivity {
     private void retrieveDataToShow(ShowMode showMode) {
         noSelectedQAS();
         if (ShowMode.OBJECTIVES.equals(showMode)) displayObjectives();
+        if (ShowMode.QUEST.equals(showMode)) displayTasks();
         else
             getItemsByShowMode(showMode).thenAccept(qasItemsList ->
                     runOnUiThread(() -> {
@@ -124,15 +128,38 @@ public class QuestAndStories extends AppCompatActivity {
         qasObjectiveList.setAdapter(qasAdapter);
     }
 
+    private void displayTasks() {
+        qasDisplayObjectives.setVisibility(View.GONE);
+        qasListEmpty.setVisibility(View.GONE);
+        qasList.setVisibility(View.VISIBLE);
+
+        List<PlayerTask> playerTaskList = merkado.getTaskPlayerList();
+        List<TaskData> taskDataList = merkado.getTaskDataList();
+        QASTasksListAdapter qasAdapter = new QASTasksListAdapter(getApplicationContext(),
+                playerTaskList,
+                taskDataList);
+        qasList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        qasList.setAdapter(qasAdapter);
+
+        qasAdapter.setOnCLickListener(this::setUpTaskDetails);
+    }
+
+    private void setUpTaskDetails(@NonNull TaskData taskData, PlayerTask playerTask) {
+        qasName.setText(taskData.getTitle());
+        qasDescription.setText(descriptionResourceProcessor(taskData.getDescription(),
+                playerTask.getTaskNote()));
+        qasStartStory.setVisibility(View.GONE);
+        qasRewardsSection.setVisibility(View.VISIBLE);
+        List<QASReward> qasRewardList = new ArrayList<>();
+        taskData.getRewards().forEach(gameRewards -> qasRewardList.add(new QASReward(gameRewards)));
+        showRewards(qasRewardList);
+    }
+
     private CompletableFuture<List<QASItems>> getItemsByShowMode(ShowMode showMode) {
-        switch (showMode) {
-            case QUEST:
-                return CompletableFuture.completedFuture(merkado.getTaskQASList());
-            case STORY:
-                return QASDataFunctions.getAllStories(merkado.getPlayerId());
-            default:
-                return CompletableFuture.completedFuture(new ArrayList<>());
+        if (Objects.requireNonNull(showMode) == ShowMode.STORY) {
+            return QASDataFunctions.getAllStories(merkado.getPlayerId());
         }
+        return CompletableFuture.completedFuture(new ArrayList<>());
     }
 
     private void noSelectedQAS() {
@@ -164,11 +191,11 @@ public class QuestAndStories extends AppCompatActivity {
         qasList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         qasList.setAdapter(qasAdapter);
         qasAdapter.setOnClickListener((qasDetail, qasGroup, history) ->
-                runOnUiThread(() -> setUpDetails(qasDetail, qasGroup, history)));
+                runOnUiThread(() -> setUpStoryDetails(qasDetail, qasGroup, history)));
         qasAdapter.notifyDataSetChanged();
     }
 
-    private void setUpDetails(@NonNull QASDetail qasDetail, String group, Boolean history) {
+    private void setUpStoryDetails(@NonNull QASDetail qasDetail, String group, Boolean history) {
         qasName.setText(qasDetail.getQasName());
         Object originalObject = qasDetail.getOriginalObject();
         if (originalObject instanceof PlayerTask) {

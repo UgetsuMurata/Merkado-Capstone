@@ -454,7 +454,7 @@
                     android:layout_height="wrap_content"
                     app:primaryOrSecondary="primary"
                     app:buttonMode="shortSign"
-                    app:buttonText="Next" />
+                    app:buttonText="Go To Settings" />
             </LinearLayout>
         </LinearLayout>
 

@@ -7,6 +7,7 @@ import static com.capstone.merkado.Helpers.OtherProcessors.TimeProcessors.getCur
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Pair;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -32,17 +33,19 @@ import com.capstone.merkado.Screens.Game.Story.QuizDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 @SuppressWarnings("StatementWithEmptyBody")
 public class ServerLoadingScreen extends AppCompatActivity {
 
     private Merkado merkado;
-    Integer maxProcesses = 7;
+    Integer maxProcesses = 8;
     BasicServerData basicServerData;
     PlayerFBExtractor1 playerFBExtractor;
     List<PlayerStory> playerStoryList;
@@ -98,6 +101,8 @@ public class ServerLoadingScreen extends AppCompatActivity {
                         break;
                     case 6:
                         process6();
+                    case 7:
+                        process7();
                     default:
                         break;
                 }
@@ -245,6 +250,13 @@ public class ServerLoadingScreen extends AppCompatActivity {
         processEnd();
     }
 
+    private void process7() {
+        if (Objects.equals(merkado.getAccount().getEmail(), basicServerData.getServerOwner())) {
+            ServerDataFunctions.getServerKey(basicServerData.getId()).thenAccept(key ->
+                    merkado.setServerIdKeyPair(new Pair<>(basicServerData.getId(), key)));
+        }
+    }
+
     private void processEnd() {
         if (!Merkado.getInstance().getHasTakenPretest()) {
             Intent intent = new Intent(getApplicationContext(), QuizDisplay.class);
@@ -253,6 +265,7 @@ public class ServerLoadingScreen extends AppCompatActivity {
             takeDiagnosticTool.launch(intent);
         } else doneLoading();
     }
+
 
     private final ActivityResultLauncher<Intent> takeDiagnosticTool = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),

@@ -3,7 +3,6 @@ package com.capstone.merkado.Objects.ServerDataObjects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ public class BasicServerData implements Parcelable {
     private String id;
     private String image;
     private String name;
+    private String serverOwner;
     private List<Integer> onlinePlayers;
     private Integer playerId = -1;
 
@@ -26,11 +26,44 @@ public class BasicServerData implements Parcelable {
         id = in.readString();
         image = in.readString();
         name = in.readString();
-        onlinePlayers = new ArrayList<>();
-        if (in.readByte() == 1) in.readList(onlinePlayers, Integer.class.getClassLoader());
-        if (in.readByte() == 1) playerId = in.readInt();
-        else playerId = -1;
+        serverOwner = in.readString();
+        if (in.readByte() == 0) {
+            playerId = null;
+        } else {
+            playerId = in.readInt();
+        }
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(image);
+        dest.writeString(name);
+        dest.writeString(serverOwner);
+        if (playerId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(playerId);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<BasicServerData> CREATOR = new Creator<BasicServerData>() {
+        @Override
+        public BasicServerData createFromParcel(Parcel in) {
+            return new BasicServerData(in);
+        }
+
+        @Override
+        public BasicServerData[] newArray(int size) {
+            return new BasicServerData[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -76,39 +109,13 @@ public class BasicServerData implements Parcelable {
         this.playerId = playerId;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getServerOwner() {
+        return serverOwner;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(image);
-        dest.writeString(name);
-        if (onlinePlayers == null || onlinePlayers.isEmpty()) dest.writeByte((byte) 0);
-        else {
-            dest.writeByte((byte) 1);
-            dest.writeList(onlinePlayers);
-        }
-        if (playerId == null) dest.writeByte((byte) 0);
-        else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(playerId);
-        }
+    public void setServerOwner(String serverOwner) {
+        this.serverOwner = serverOwner;
     }
-
-    public static final Creator<BasicServerData> CREATOR = new Creator<BasicServerData>() {
-        @Override
-        public BasicServerData createFromParcel(Parcel in) {
-            return new BasicServerData(in);
-        }
-
-        @Override
-        public BasicServerData[] newArray(int size) {
-            return new BasicServerData[size];
-        }
-    };
 
     @Override
     public boolean equals(@Nullable Object obj) {

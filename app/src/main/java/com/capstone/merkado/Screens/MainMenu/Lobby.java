@@ -1,5 +1,6 @@
 package com.capstone.merkado.Screens.MainMenu;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -69,6 +70,7 @@ public class Lobby extends AppCompatActivity {
         else loggedIn();
     }
 
+    @SuppressLint("SetTextI18n")
     private void showHelpGuideDialog() {
         // Create a new dialog instance
         Dialog helpDialog = new Dialog(this);

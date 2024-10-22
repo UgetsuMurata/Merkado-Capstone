@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -155,7 +154,9 @@ public class CreateEconomy extends AppCompatActivity {
         serverKeyCopy.setOnClickListener(v -> copyText("*".repeat(generatedKey.length()), generatedKey));
         exitSuccess.setOnClickListener(v -> finish());
         nextSettings.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), SettingsEconomy.class));
+            startActivity(new Intent(getApplicationContext(), SettingsEconomy.class)
+                    .putExtra("SERVER_ID", generatedId)
+                    .putExtra("SERVER_KEY", generatedKey));
             finish();
         });
     }
@@ -191,7 +192,7 @@ public class CreateEconomy extends AppCompatActivity {
 
             newServer.setServerOwner(Merkado.getInstance().getAccount().getEmail());
             newServer.setName(serverName.getText().toString());
-            newServer.setKey(StringHash.hashPassword(generatedKey));
+            newServer.setKey(StringHash.encodeString(generatedKey));
             newServer.setServerImage(imageChosen);
 
             settings.setPlayerLimit(playerLimitFinal);
@@ -202,7 +203,7 @@ public class CreateEconomy extends AppCompatActivity {
 
             newServer.setSettings(settings);
             newServer.setMarket(market);
-            
+
             newServerValueReturn.valueReturn(newServer);
         });
     }

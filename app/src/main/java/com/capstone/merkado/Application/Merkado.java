@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -80,6 +81,7 @@ public class Merkado extends Application implements Application.ActivityLifecycl
     private Activity currentActivity;
     private List<TaskData> taskDataList;
     private List<PlayerTask> taskPlayerList;
+    private Pair<String, String> serverIdKeyPair;
 
     private Boolean hasTakenPretest = false;
     private Boolean hasTakenPostTest = false;
@@ -639,6 +641,14 @@ public class Merkado extends Application implements Application.ActivityLifecycl
 
     public void setHasBotMap(Map<Bot.BotType, Boolean> hasBotMap) {
         this.hasBotMap = hasBotMap;
+    }
+
+    public Pair<String, String> getServerIdKeyPair() {
+        return serverIdKeyPair;
+    }
+
+    public void setServerIdKeyPair(Pair<String, String> serverIdKeyPair) {
+        this.serverIdKeyPair = serverIdKeyPair;
     }
 
     public void setBGM(Context context, int file, boolean loop) {

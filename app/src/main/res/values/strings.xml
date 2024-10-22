@@ -85,5 +85,21 @@
     <string name="resource">RESOURCE</string>
     <string name="products">Products:</string>
     <string name="gui">GUI</string>
+    <string name="server_settings">Server Settings</string>
+    <string name="sensitivity_factor">Sensitivity Factor:</string>
+    <string name="range0_1">0.01</string>
+    <string name="range0_9">0.9</string>
+    <string name="bot_removal">Bot Removal:</string>
+    <string name="percentage">%</string>
+    <string name="pre_test_and_post_test">Pre-Test and Post-Test</string>
+    <string name="percent_10">10%</string>
+    <string name="percent_20">20%</string>
+    <string name="percent_30">30%</string>
+    <string name="percent_40">40%</string>
+    <string name="percent_50">50%</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="read">Read</string>
+    <string name="server_id">Server ID:</string>
+    <string name="server_key">Server Key:</string>
 
 </resources>

@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.Bot;
+import com.capstone.merkado.Helpers.StringHash;
+import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.ServerDataObjects.NewServer;
 import com.capstone.merkado.Objects.ServerDataObjects.OtherServerDetails;
 import com.google.firebase.database.DataSnapshot;
@@ -144,6 +146,21 @@ public class ServerDataFunctions {
             if (dataSnapshot == null || !dataSnapshot.exists())
                 return CompletableFuture.completedFuture(null);
             return CompletableFuture.completedFuture(dataSnapshot.getValue(NewServer.Settings.class));
+        });
+    }
+
+    public static CompletableFuture<String> getServerKey(@NonNull String serverId) {
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+        firebaseData.retrieveData(
+                String.format("server/%s/key", serverId),
+                future::complete
+        );
+
+        return future.thenCompose(dataSnapshot -> {
+            if (dataSnapshot == null || !dataSnapshot.exists())
+                return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(StringHash.decodeString(dataSnapshot.getValue(String.class)));
         });
     }
 

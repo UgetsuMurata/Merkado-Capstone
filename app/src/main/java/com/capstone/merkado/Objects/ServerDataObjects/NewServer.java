@@ -69,6 +69,7 @@ public class NewServer {
         Integer playerLimit;
         Float sensitivityFactor;
         Float requiredPercentage;
+        Boolean testCheck;
 
         public Settings() {
         }
@@ -95,6 +96,14 @@ public class NewServer {
 
         public void setRequiredPercentage(Float requiredPercentage) {
             this.requiredPercentage = requiredPercentage;
+        }
+
+        public Boolean getTestCheck() {
+            return testCheck;
+        }
+
+        public void setTestCheck(Boolean testCheck) {
+            this.testCheck = testCheck;
         }
     }
 

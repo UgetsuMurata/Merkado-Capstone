@@ -42,7 +42,6 @@ public class QASItems {
         String qasShortDescription;
         String qasDescription;
         List<QASReward> qasRewards;
-        Object originalObject;
         int queueId;
 
         public QASDetail() {
@@ -86,14 +85,6 @@ public class QASItems {
 
         public void setQueueId(int queueId) {
             this.queueId = queueId;
-        }
-
-        public Object getOriginalObject() {
-            return originalObject;
-        }
-
-        public void setOriginalObject(Object originalObject) {
-            this.originalObject = originalObject;
         }
 
         public static class QASReward {

@@ -190,23 +190,16 @@ public class QuestAndStories extends AppCompatActivity {
         QASAdapter qasAdapter = new QASAdapter(getApplicationContext(), qasItemsList);
         qasList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         qasList.setAdapter(qasAdapter);
-        qasAdapter.setOnClickListener((qasDetail, qasGroup, history) ->
-                runOnUiThread(() -> setUpStoryDetails(qasDetail, qasGroup, history)));
+        qasAdapter.setOnClickListener((qasDetail, history) ->
+                runOnUiThread(() -> setUpStoryDetails(qasDetail, history)));
         qasAdapter.notifyDataSetChanged();
     }
 
-    private void setUpStoryDetails(@NonNull QASDetail qasDetail, String group, Boolean history) {
+    private void setUpStoryDetails(@NonNull QASDetail qasDetail, Boolean history) {
         qasName.setText(qasDetail.getQasName());
-        Object originalObject = qasDetail.getOriginalObject();
-        if (originalObject instanceof PlayerTask) {
-            PlayerTask playerTask = (PlayerTask) originalObject;
-            qasDescription.setText(descriptionResourceProcessor(qasDetail.getQasDescription(),
-                    playerTask.getTaskNote()));
-        } else qasDescription.setText(qasDetail.getQasDescription());
-        if ("STORIES".equals(group)) {
-            qasStartStory.setVisibility(View.VISIBLE);
-            qasStartStory.setOnClickListener(v -> goToStory(qasDetail, history));
-        } else qasStartStory.setVisibility(View.GONE);
+        qasDescription.setText(qasDetail.getQasDescription());
+        qasStartStory.setVisibility(View.VISIBLE);
+        qasStartStory.setOnClickListener(v -> goToStory(qasDetail, history));
         if (qasDetail.getQasRewards().isEmpty() || history)
             qasRewardsSection.setVisibility(View.GONE);
         else {

@@ -67,7 +67,7 @@ public class QASAdapter extends RecyclerView.Adapter<QASAdapter.QASAdapterViewer
             QASItemsAdapter qasItemsAdapter = new QASItemsAdapter(context, qasItems.getQasDetails(), qasItems.getQasGroup());
             qasListIndividual.setLayoutManager(new LinearLayoutManager(context));
             qasListIndividual.setAdapter(qasItemsAdapter);
-            qasItemsAdapter.setOnClickListener((qasDetail, qasGroup) -> onClick.onClick(qasDetail, qasGroup, history));
+            qasItemsAdapter.setOnClickListener((qasDetail, qasGroup) -> onClick.onClick(qasDetail, history));
         }
     }
 
@@ -76,6 +76,6 @@ public class QASAdapter extends RecyclerView.Adapter<QASAdapter.QASAdapterViewer
     }
 
     public interface OnClickListener {
-        void onClick(QASDetail qasDetail, String qasGroup, Boolean history);
+        void onClick(QASDetail qasDetail, Boolean history);
     }
 }

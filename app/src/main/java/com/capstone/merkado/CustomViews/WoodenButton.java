@@ -9,6 +9,8 @@ import static com.capstone.merkado.CustomViews.WoodenButton.WoodenButtonState.ID
 import static com.capstone.merkado.CustomViews.WoodenButton.WoodenButtonStateChangeSpeed.FAST;
 import static com.capstone.merkado.CustomViews.WoodenButton.WoodenButtonStateChangeSpeed.NORMAL;
 import static com.capstone.merkado.CustomViews.WoodenButton.WoodenButtonStateChangeSpeed.SLOW;
+import static com.capstone.merkado.CustomViews.WoodenButton.WoodenButtonStyle.PRIMARY;
+import static com.capstone.merkado.CustomViews.WoodenButton.WoodenButtonStyle.SECONDARY;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -37,10 +39,11 @@ public class WoodenButton extends ConstraintLayout {
     ConstraintLayout itemView;
     WoodenButtonMode mode;
     WoodenButtonState state;
+    WoodenButtonStyle style;
     WoodenButtonStateChangeSpeed changeSpeed;
     Context context;
 
-    HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> drawableMapping;
+    HashMap<WoodenButtonStyle, HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>>> styleMapping;
     View.OnClickListener onClickListener;
     Boolean showToast = false;
     String toastMessage = "This button is disabled.";
@@ -70,7 +73,7 @@ public class WoodenButton extends ConstraintLayout {
         background = findViewById(R.id.background);
         itemView = findViewById(R.id.item_view);
 
-        drawableMapping = populateDrawableMapping();
+        styleMapping = populateDrawableMapping();
 
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.WoodenButton, 0, 0);
@@ -79,9 +82,11 @@ public class WoodenButton extends ConstraintLayout {
                 String text = a.getString(R.styleable.WoodenButton_buttonText);
                 int state = a.getInt(R.styleable.WoodenButton_buttonState, 0);
                 int speed = a.getInt(R.styleable.WoodenButton_changeSpeed, 1);
+                int style = a.getInt(R.styleable.WoodenButton_primaryOrSecondary, 0);
 
                 this.mode = mode == 0 ? SHORT : mode == 1 ? MEDIUM : LONG;
                 this.state = state == 0 ? IDLE : state == 1 ? ACTIVE : DISABLED;
+                this.style = style == 0 ? PRIMARY : SECONDARY;
                 updateState();
 
                 this.text.setText(text);
@@ -135,7 +140,7 @@ public class WoodenButton extends ConstraintLayout {
     }
 
     private void updateState() {
-        Integer backgroundRes = getDrawable(this.mode, this.state);
+        Integer backgroundRes = getDrawable(this.style, this.mode, this.state);
         if (backgroundRes != null)
             background.setImageDrawable(ContextCompat.getDrawable(context, backgroundRes));
     }
@@ -150,8 +155,10 @@ public class WoodenButton extends ConstraintLayout {
     }
 
     @Nullable
-    private Integer getDrawable(@NonNull WoodenButtonMode mode, @NonNull WoodenButtonState state) {
-        HashMap<WoodenButtonState, Integer> stateMapping = drawableMapping.get(mode);
+    private Integer getDrawable(@NonNull WoodenButtonStyle style, @NonNull WoodenButtonMode mode, @NonNull WoodenButtonState state) {
+        HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> modeMapping = styleMapping.get(style);
+        if (modeMapping == null) return null;
+        HashMap<WoodenButtonState, Integer> stateMapping = modeMapping.get(mode);
         if (stateMapping == null) return null;
         return stateMapping.get(state);
     }
@@ -160,24 +167,65 @@ public class WoodenButton extends ConstraintLayout {
         return changeSpeed == SLOW ? 500L : changeSpeed == NORMAL ? 100L : 50L;
     }
 
-    private HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> populateDrawableMapping() {
-        HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> drawableMapping = new HashMap<>();
+    private HashMap<WoodenButtonStyle, HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>>> populateDrawableMapping() {
+        HashMap<WoodenButtonStyle, HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>>> styleMapping = new HashMap<>();
+
+        // Populate PRIMARY style mappings
+        HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> primaryMapping = new HashMap<>();
+
+        primaryMapping.put(SHORT, createStateMapping(
+                R.drawable.gui_general_button_primary_long_active,
+                R.drawable.gui_general_button_primary_long_active,
+                R.drawable.gui_general_button_primary_long_active
+        ));
+
+        primaryMapping.put(MEDIUM, createStateMapping(
+                R.drawable.gui_general_button_primary_long_active,
+                R.drawable.gui_general_button_primary_long_active,
+                R.drawable.gui_general_button_primary_long_active
+        ));
+
+        primaryMapping.put(LONG, createStateMapping(
+                R.drawable.gui_general_button_primary_long_active,
+                R.drawable.gui_general_button_primary_long_active,
+                R.drawable.gui_general_button_primary_long_active
+        ));
+
+        styleMapping.put(PRIMARY, primaryMapping);
+
+        // Populate SECONDARY style mappings
+        HashMap<WoodenButtonMode, HashMap<WoodenButtonState, Integer>> secondaryMapping = new HashMap<>();
+
+        secondaryMapping.put(SHORT, createStateMapping(
+                R.drawable.gui_general_button_secondary_long_idle,
+                R.drawable.gui_general_button_secondary_long_idle,
+                R.drawable.gui_general_button_secondary_long_idle
+        ));
+
+        secondaryMapping.put(MEDIUM, createStateMapping(
+                R.drawable.gui_general_button_secondary_long_idle,
+                R.drawable.gui_general_button_secondary_long_idle,
+                R.drawable.gui_general_button_secondary_long_idle
+        ));
+
+        secondaryMapping.put(LONG, createStateMapping(
+                R.drawable.gui_general_button_secondary_long_idle,
+                R.drawable.gui_general_button_secondary_long_idle,
+                R.drawable.gui_general_button_secondary_long_idle
+        ));
+
+        styleMapping.put(SECONDARY, secondaryMapping);
+
+        return styleMapping;
+    }
+
+    // Helper method to create the state mappings
+    private HashMap<WoodenButtonState, Integer> createStateMapping(int idleDrawable, int activeDrawable, int disabledDrawable) {
         HashMap<WoodenButtonState, Integer> stateMapping = new HashMap<>();
-        stateMapping.put(IDLE, R.drawable.gui_general_long_idle);
-        stateMapping.put(ACTIVE, R.drawable.gui_general_long_idle);
-        stateMapping.put(DISABLED, R.drawable.gui_general_long_idle);
-        drawableMapping.put(SHORT, stateMapping);
-        stateMapping.clear();
-        stateMapping.put(IDLE, R.drawable.gui_general_long_idle);
-        stateMapping.put(ACTIVE, R.drawable.gui_general_long_idle);
-        stateMapping.put(DISABLED, R.drawable.gui_general_long_idle);
-        drawableMapping.put(MEDIUM, stateMapping);
-        stateMapping.clear();
-        stateMapping.put(IDLE, R.drawable.gui_general_long_idle);
-        stateMapping.put(ACTIVE, R.drawable.gui_general_long_idle);
-        stateMapping.put(DISABLED, R.drawable.gui_general_long_idle);
-        drawableMapping.put(LONG, stateMapping);
-        return drawableMapping;
+        stateMapping.put(IDLE, idleDrawable);
+        stateMapping.put(ACTIVE, activeDrawable);
+        stateMapping.put(DISABLED, disabledDrawable);
+        return stateMapping;
     }
 
     public enum WoodenButtonMode {
@@ -190,6 +238,10 @@ public class WoodenButton extends ConstraintLayout {
 
     public enum WoodenButtonStateChangeSpeed {
         SLOW, NORMAL, FAST
+    }
+
+    public enum WoodenButtonStyle {
+        PRIMARY, SECONDARY
     }
 
     @Override

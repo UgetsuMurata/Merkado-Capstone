@@ -198,6 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             app:buttonMode="longSign"
+            app:primaryOrSecondary="secondary"
             android:imeOptions="actionDone"
             app:buttonText="CANCEL" />
 
@@ -205,6 +206,7 @@
             android:id="@+id/join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:primaryOrSecondary="primary"
             app:buttonMode="longSign"
             app:buttonText="JOIN" />
     </LinearLayout>

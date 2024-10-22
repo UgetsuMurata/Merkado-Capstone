@@ -140,6 +140,7 @@
                     android:id="@+id/go_to_supplier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:primaryOrSecondary="primary"
                     app:buttonText="Go to Supplier" />
             </LinearLayout>
         </LinearLayout>

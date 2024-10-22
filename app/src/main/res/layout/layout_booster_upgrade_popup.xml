@@ -19,9 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/header"
-            android:text="Booster Name"
+            android:text="@string/booster_name"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,9 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/text"
-                android:text="1 ppt"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -45,18 +44,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:fontFamily="@font/text"
-                android:text=">>"
+                android:text="@string/to_symbol"
                 android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/next_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/text"
-                android:text="2 ppt"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -70,9 +68,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/text"
-                android:text="Level "
+                android:text="@string/level"
                 android:textColor="@color/black"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -80,9 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/text"
-                android:text="0"
                 android:textColor="@color/black"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -90,17 +87,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:fontFamily="@font/text"
-                android:text=">>"
+                android:text="@string/to_symbol"
                 android:textColor="@color/black"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/text"
-                android:text="Level "
+                android:text="@string/level"
                 android:textColor="@color/black"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -108,9 +105,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/text"
-                android:text="1"
                 android:textColor="@color/black"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -119,9 +115,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/elements"
-            android:text="Requirements:"
+            android:text="@string/requirements"
             android:textColor="@color/black"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/requirements_list"
@@ -144,13 +140,14 @@
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/text"
                 android:gravity="center"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <com.capstone.merkado.CustomViews.WoodenButton
                 android:id="@+id/confirm_upgrade"
                 android:layout_width="100dp"
+                app:primaryOrSecondary="primary"
                 android:layout_height="wrap_content"
                 app:buttonText="Upgrade" />
         </LinearLayout>

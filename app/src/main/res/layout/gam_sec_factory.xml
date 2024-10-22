@@ -22,11 +22,12 @@
             android:layout_height="50dp"
             android:layout_marginEnd="15dp"
             android:src="@drawable/gui_back_button"
-            android:contentDescription="Back Button" />
+            android:contentDescription="@string/back" />
 
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/icon"
             android:src="@drawable/icon_factory" />
 
         <TextView
@@ -36,7 +37,7 @@
             android:layout_marginStart="5dp"
             android:fontFamily="@font/header"
             android:gravity="center"
-            android:text="Food Factory"
+            android:text="@string/food_factory"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -45,6 +46,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:weightSum="100"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/elements"
-                    android:text="On Production:"
+                    android:text="@string/on_production"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -84,6 +86,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
+                        android:contentDescription="@string/resource"
                         android:padding="5dp"
                         android:src="@drawable/resource_4_turon_sample" />
                 </androidx.cardview.widget.CardView>
@@ -94,9 +97,10 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/elements"
                 android:paddingHorizontal="10dp"
-                android:text="Products:"
+                android:text="@string/products"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="SmallSp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/production_choices"
@@ -183,6 +187,7 @@
                 android:id="@+id/clicker"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:contentDescription="@string/gui"
                 android:elevation="2dp"
                 android:src="@drawable/gui_manufacturing_lever_idle"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -194,6 +199,7 @@
                 android:id="@+id/booster_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:primaryOrSecondary="primary"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:elevation="4dp"
@@ -209,6 +215,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/background"
                 android:elevation="0dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/bg_manufacturing_factory" />
@@ -308,6 +315,7 @@
                     <com.capstone.merkado.CustomViews.WoodenButton
                         android:id="@+id/ppt_upgrade"
                         android:layout_width="wrap_content"
+                        app:primaryOrSecondary="primary"
                         android:layout_height="16dp"
                         app:buttonMode="longSign"
                         app:buttonText="Upgrade" />
@@ -381,6 +389,7 @@
                     <com.capstone.merkado.CustomViews.WoodenButton
                         android:id="@+id/me_upgrade"
                         android:layout_width="wrap_content"
+                        app:primaryOrSecondary="primary"
                         android:layout_height="16dp"
                         app:buttonMode="longSign"
                         app:buttonText="Upgrade" />
@@ -445,6 +454,7 @@
                     <com.capstone.merkado.CustomViews.WoodenButton
                         android:id="@+id/er_upgrade"
                         android:layout_width="wrap_content"
+                        app:primaryOrSecondary="primary"
                         android:layout_height="16dp"
                         app:buttonMode="longSign"
                         app:buttonText="Upgrade" />

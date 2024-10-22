@@ -13,6 +13,10 @@
             <enum name="mediumSign" value="1" />
             <enum name="longSign" value="2" />
         </attr>
+        <attr name="primaryOrSecondary" format="enum">
+            <enum name="primary" value="0" />
+            <enum name="secondary" value="1" />
+        </attr>
         <attr name="buttonText" format="string" />
         <attr name="buttonState" format="enum">
             <enum name="idle" value="0" />

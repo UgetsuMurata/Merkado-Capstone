@@ -57,6 +57,7 @@
                     android:layout_marginTop="12dp"
                     android:visibility="gone"
                     app:buttonMode="mediumSign"
+                    app:primaryOrSecondary="primary"
                     app:buttonState="idle"
                     app:buttonText="Confirm" />
             </LinearLayout>
@@ -111,6 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    app:primaryOrSecondary="primary"
                     android:visibility="gone"
                     app:buttonMode="mediumSign"
                     app:buttonState="idle"

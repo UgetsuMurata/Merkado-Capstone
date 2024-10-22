@@ -507,6 +507,7 @@
                 android:id="@+id/create_server_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                app:primaryOrSecondary="primary"
                 android:layout_marginStart="20dp"
                 app:buttonText="@string/create_server_header" />
         </LinearLayout>

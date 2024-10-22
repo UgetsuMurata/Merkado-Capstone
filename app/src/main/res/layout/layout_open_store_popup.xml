@@ -66,6 +66,7 @@
                 android:layout_height="wrap_content"
                 app:buttonMode="shortSign"
                 app:buttonState="idle"
+                app:primaryOrSecondary="primary"
                 app:buttonText="Confirm"
                 app:changeSpeed="fast" />
         </LinearLayout>

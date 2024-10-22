@@ -56,6 +56,7 @@
                     android:id="@+id/app_update_confirmation"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    app:primaryOrSecondary="primary"
                     app:buttonMode="shortSign"
                     app:buttonState="idle"
                     app:buttonText="Update" />

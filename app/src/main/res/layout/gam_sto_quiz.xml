@@ -388,6 +388,7 @@
                 android:id="@+id/result_continue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:primaryOrSecondary="primary"
                 android:layout_marginTop="32dp"
                 app:buttonText="Continue"/>
         </LinearLayout>

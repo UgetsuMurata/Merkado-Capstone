@@ -75,5 +75,15 @@
     <string name="desc1_prepo_test">This is enabled during the beta testing in order to test the student’s ability to learn using this app. This can be disabled in the official release.</string>
     <string name="desc_bot_removal">Bot Removal affects when the bot is removed from the store or factory, based on a percentage of players needed to manage it. This percentage is applied to the maximum number of players allowed on the server.</string>
     <string name="objective">Objective</string>
+    <string name="background">BACKGROUND</string>
+    <string name="booster_name">Booster Name</string>
+    <string name="to_symbol"><![CDATA[>>]]></string>
+    <string name="level">Level</string>
+    <string name="requirements">Requirements:</string>
+    <string name="back">BACK</string>
+    <string name="on_production">On Production:</string>
+    <string name="resource">RESOURCE</string>
+    <string name="products">Products:</string>
+    <string name="gui">GUI</string>
 
 </resources>

@@ -117,7 +117,7 @@
                 android:layout_height="match_parent"
                 android:fadingEdgeLength="20dp"
                 android:requiresFadingEdge="vertical"
-                tools:listitem="@layout/item_store_view_comsumer" />
+                tools:listitem="@layout/item_store_view_consumer" />
 
             <TextView
                 android:id="@+id/item_list_empty"

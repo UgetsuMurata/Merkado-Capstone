@@ -11,13 +11,13 @@
         android:id="@+id/app_update_notification"
         android:layout_width="300dp"
         android:layout_height="120dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/simpleProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/merkado_orange"
-        app:strokeWidth="4dp"
-        android:visibility="gone">
+        app:strokeWidth="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/app_update_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/text"
@@ -56,10 +57,10 @@
                     android:id="@+id/app_update_confirmation"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    app:primaryOrSecondary="primary"
                     app:buttonMode="shortSign"
                     app:buttonState="idle"
-                    app:buttonText="Update" />
+                    app:buttonText="Update"
+                    app:primaryOrSecondary="primary" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

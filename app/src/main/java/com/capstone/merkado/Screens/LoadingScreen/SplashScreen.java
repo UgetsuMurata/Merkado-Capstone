@@ -1,13 +1,18 @@
 package com.capstone.merkado.Screens.LoadingScreen;
 
+import static com.capstone.merkado.CustomViews.WoodenButton.WoodenButtonMode.MEDIUM;
+import static com.capstone.merkado.CustomViews.WoodenButton.WoodenButtonMode.SHORT;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.WoodenButton;
@@ -29,10 +34,12 @@ public class SplashScreen extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private MaterialCardView updateNotification;
+    private TextView appUpdateMessage;
     private WoodenButton updateConfirmation;
     private Activity activity;
 
     private String updateLink = "";
+    private Boolean updating = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +55,10 @@ public class SplashScreen extends AppCompatActivity {
 
         updateNotification = findViewById(R.id.app_update_notification);
         updateConfirmation = findViewById(R.id.app_update_confirmation);
+        appUpdateMessage = findViewById(R.id.app_update_message);
         activity = this;
+
+        updateNotification.setVisibility(View.GONE);
 
         checkForUpdatesAndStartLoading();
     }
@@ -83,7 +93,13 @@ public class SplashScreen extends AppCompatActivity {
     private void checkForUpdatesAndStartLoading() {
         UtilityDataFunctions.hasNewUpdate(this).thenAccept(hasNewUpdate -> {
             if (hasNewUpdate) {
-                runOnUiThread(() -> updateNotification.setVisibility(View.VISIBLE));
+                runOnUiThread(() -> {
+                    updateNotification.setVisibility(View.VISIBLE);
+                    appUpdateMessage.setText(ContextCompat.getString(getApplicationContext(),
+                            R.string.app_update_contents));
+                    updateConfirmation.setText("Update");
+                    updateConfirmation.setMode(SHORT);
+                });
                 updateConfirmation.setOnClickListener(v ->
                         UtilityDataFunctions.getUpdateLink(getApplicationContext())
                                 .thenAccept(updateLink -> {
@@ -137,7 +153,13 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!updateLink.isEmpty())
+        if (!updateLink.isEmpty() && !updating) {
             Updater.updateApp(getApplicationContext(), updateLink);
+            appUpdateMessage.setText(ContextCompat.getString(getApplicationContext(),
+                    R.string.app_update_contents_2));
+            updateConfirmation.setText("Close App");
+            updateConfirmation.setMode(MEDIUM);
+            updating = true;
+        }
     }
 }

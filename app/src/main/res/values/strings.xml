@@ -118,5 +118,6 @@
     <string name="about">About</string>
     <string name="mga_layunin">Mga Layunin:</string>
     <string name="click_anywhere_to_continue">✧ Pumindot sa kahit saan upang magpatuloy ✧</string>
+    <string name="app_update_contents_2">The updated version of Merkado is currently being downloaded. Please be patient until the download is complete. Once finished, install the new APK to update the app. After the update, restart Merkado to enjoy the latest features and improvements.</string>
 
 </resources>

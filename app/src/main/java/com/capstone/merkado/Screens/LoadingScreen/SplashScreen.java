@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -20,6 +19,7 @@ import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressLint("CustomSplashScreen")
@@ -27,7 +27,6 @@ public class SplashScreen extends AppCompatActivity {
 
     private Merkado merkado;
     private ProgressBar progressBar;
-    private final int maxProcesses = 3;
 
     private MaterialCardView updateNotification;
     private WoodenButton updateConfirmation;
@@ -45,7 +44,7 @@ public class SplashScreen extends AppCompatActivity {
         merkado.initializeScreen(this);
 
         progressBar = findViewById(R.id.simpleProgressBar);
-        progressBar.setMax(maxProcesses);
+        progressBar.setMax(3);
 
         updateNotification = findViewById(R.id.app_update_notification);
         updateConfirmation = findViewById(R.id.app_update_confirmation);
@@ -55,32 +54,30 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void startLoading() {
-        new Thread(() -> {
-            long startingTime = System.currentTimeMillis();
-            AtomicInteger process_number = new AtomicInteger(0);
-            for (int i = 0; i < maxProcesses; i++) {
-                process_number.getAndIncrement();
-                switch (process_number.get()) {
-                    case 1:
-                        getServerTimeOffset();
-                        break;
-                    case 2:
-                        process1();
-                        break;
-                    case 3:
-                        process2();
-                    default:
-                        break;
-                }
-                progressBar.setProgress(process_number.get());
-            }
-            runOnUiThread(() -> new Handler().postDelayed(() -> {
-                if (process_number.get() == maxProcesses) {
-                    startActivity(new Intent(SplashScreen.this, MainMenu.class));
-                    finish();
-                }
-            }, 1000 - System.currentTimeMillis() - startingTime));
-        }).start();
+        AtomicInteger processNumber = new AtomicInteger(0);
+
+        long startingTime = System.currentTimeMillis();
+
+        // Sequentially execute each process and update the progress bar after each completes
+        getServerTimeOffset()
+                .thenCompose(result -> {
+                    updateProgressBar(processNumber.incrementAndGet());  // Increment progress after process 1 completes
+                    return process1();
+                })
+                .thenCompose(result -> {
+                    updateProgressBar(processNumber.incrementAndGet());  // Increment progress after process 2 completes
+                    return process2();
+                })
+                .thenRun(() -> {
+                    updateProgressBar(processNumber.incrementAndGet());  // Final increment after all processes are done
+                    runOnUiThread(() -> {
+                        // Delay the transition to MainMenu for 1 second (subtracting the time already taken by the processes)
+                        new android.os.Handler().postDelayed(() -> {
+                            startActivity(new Intent(SplashScreen.this, MainMenu.class));
+                            finish();
+                        }, Math.max(0, 1000 - (System.currentTimeMillis() - startingTime)));
+                    });
+                });
     }
 
     private void checkForUpdatesAndStartLoading() {
@@ -101,37 +98,46 @@ public class SplashScreen extends AppCompatActivity {
         });
     }
 
-    private void getServerTimeOffset() {
-        UtilityDataFunctions.getServerTimeOffset().thenAccept(serverTimeOffset -> merkado.setServerTimeOffset(serverTimeOffset));
+    private CompletableFuture<Long> getServerTimeOffset() {
+        return UtilityDataFunctions.getServerTimeOffset().thenCompose(serverTimeOffset -> {
+            merkado.setServerTimeOffset(serverTimeOffset);
+            return CompletableFuture.completedFuture(serverTimeOffset);
+        });
     }
 
     /**
      * 1st process of loading screen. This retrieves the account logged in from the SharedPref.
      */
-    private void process1() {
+    private CompletableFuture<Void> process1() {
         // get the signed in from sharedpref.
         Account account = AccountDataFunctions.getSignedIn(getApplicationContext());
-        if (account == null) return; // stop the function here if sign in is required.
+        if (account == null) return CompletableFuture.completedFuture(null); // stop the function here if sign in is required.
 
         // update the account in the application class.
         merkado.setAccount(account);
 
         // update the account logged in from the SharedPref
         AccountDataFunctions.signInAccount(getApplicationContext(), account);
+        return CompletableFuture.completedFuture(null);
     }
 
     /**
      * 2nd process of the loading screen. This retrieves all internal data saved in json file.
      */
-    private void process2() {
+    private CompletableFuture<Void> process2() {
         // load internal data
         merkado.loadJSONResources(getApplicationContext());
+        return CompletableFuture.completedFuture(null);
+    }
+
+    private void updateProgressBar(int progress) {
+        runOnUiThread(() -> progressBar.setProgress(progress));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!"".equals(updateLink))
+        if (!updateLink.isEmpty())
             Updater.updateApp(getApplicationContext(), updateLink);
     }
 }

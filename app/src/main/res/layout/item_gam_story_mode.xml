@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/character_slot"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -9,19 +8,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:contentDescription="Character Body"/>
+        android:contentDescription="@string/image_container"/>
 
     <ImageView
         android:id="@+id/face"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:contentDescription="Character Facial Expression"/>
+        android:contentDescription="@string/image_container"/>
 
     <ImageView
         android:id="@+id/props"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:contentDescription="Character Props" />
+        android:contentDescription="@string/image_container" />
 </FrameLayout>

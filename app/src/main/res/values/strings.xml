@@ -52,7 +52,6 @@
     <string name="create_economy_agreement">By clicking "Create Server," you agree to the</string>
     <string name="create_economy_agreement2"><u>Terms and Conditions</u></string>
     <string name="create_server_header">Create Server</string>
-    <string name="server_settings_header">Server Settings</string>
 
     <!--CONTENT DESCRIPTIONS-->
     <string name="food_factory_bg">FOOD FACTORY BG</string>
@@ -60,9 +59,6 @@
     <string name="map_house">MAP HOUSE</string>
     <string name="map_factory">MAP FACTORY</string>
     <string name="map_store">MAP STORE</string>
-    <string name="inventory_icon">INVENTORY ICON</string>
-    <string name="qas_icon">QAS ICON</string>
-    <string name="factory_icon">FACTORY ICON</string>
     <string name="store_icon">STORE ICON</string>
     <string name="image_container">IMAGE CONTAINER</string>
     <string name="lock_icon">LOCK ICON</string>
@@ -101,5 +97,26 @@
     <string name="read">Read</string>
     <string name="server_id">Server ID:</string>
     <string name="server_key">Server Key:</string>
+    <string name="join_a_server">Join a Server</string>
+    <string name="server_id_2">Server Id</string>
+    <string name="server_key_2">Server Key</string>
+    <string name="need_to_create_a_server">Need to create a server?</string>
+    <string name="create_server">Create Server</string>
+    <string name="quantity">Quantity:</string>
+    <string name="image_button">IMAGE BUTTON</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="settings">SETTINGS</string>
+    <string name="stores">Stores</string>
+    <string name="preview">Preview</string>
+    <string name="store_is_closed">Store is closed.</string>
+    <string name="go_to_store">Go to Store</string>
+    <string name="purchase">Purchase</string>
+    <string name="choose_a_product_to_view_its_details">Choose a product to view its details.</string>
+    <string name="cost">"Cost: "</string>
+    <string name="change_username">Change Username</string>
+    <string name="change_password">Change Password</string>
+    <string name="about">About</string>
+    <string name="mga_layunin">Mga Layunin:</string>
+    <string name="click_anywhere_to_continue">✧ Pumindot sa kahit saan upang magpatuloy ✧</string>
 
 </resources>

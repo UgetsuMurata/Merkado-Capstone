@@ -22,11 +22,12 @@
             android:layout_height="50dp"
             android:layout_marginEnd="15dp"
             android:src="@drawable/gui_back_button"
-            android:contentDescription="Back Button" />
+            android:contentDescription="@string/icon" />
 
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/icon"
             android:src="@drawable/icon_store" />
 
         <TextView
@@ -35,7 +36,7 @@
             android:layout_marginStart="5dp"
             android:fontFamily="@font/header"
             android:gravity="center"
-            android:text="Stores"
+            android:text="@string/stores"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -45,6 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/white_transparent"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:weightSum="10"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -82,7 +84,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/header"
-                android:text="Store Name"
                 android:textSize="24sp" />
 
             <LinearLayout
@@ -91,14 +92,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:ignore="NestedWeights">
 
                 <TextView
-                    android:id="@+id/store_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/text"
-                    android:text="Preview"
+                    android:text="@string/preview"
                     android:textSize="16sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -116,7 +117,7 @@
                 android:id="@+id/show_products_none"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:text="Store is closed."
+                android:text="@string/store_is_closed"
                 android:fontFamily="@font/text"
                 android:textColor="@color/light_gray"
                 android:gravity="center"
@@ -136,7 +137,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginVertical="5dp"
                     android:fontFamily="@font/elements"
-                    android:text="Go to Store"
+                    android:text="@string/go_to_store"
                     android:textColor="@color/white" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>

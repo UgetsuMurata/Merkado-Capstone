@@ -10,7 +10,6 @@
     tools:context=".Screens.Game.ObjectivesDisplay">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/objectives_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
@@ -60,7 +59,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/header"
-                android:text="dsadas"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -85,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/text"
-                android:text="Mga Layunin:"
+                android:text="@string/mga_layunin"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -97,7 +95,8 @@
                 android:fontFamily="@font/elements"
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"
-                android:textSize="10sp"/>
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -105,9 +104,10 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/elements"
                 android:gravity="bottom"
-                android:text="✧ Pumindot sa kahit saan upang magpatuloy ✧"
+                android:text="@string/click_anywhere_to_continue"
                 android:textColor="@color/gray"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
 
         </LinearLayout>
 

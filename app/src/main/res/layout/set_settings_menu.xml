@@ -8,7 +8,6 @@
     tools:context=".Screens.Settings.SettingsMenu">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -36,7 +35,7 @@
                 android:paddingHorizontal="60dp"
                 android:paddingVertical="20dp"
                 android:textColor="@color/white"
-                android:text="Change Username"
+                android:text="@string/change_username"
                 android:textSize="16sp" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -62,7 +61,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="60dp"
                 android:paddingVertical="20dp"
-                android:text="Change Password"
+                android:text="@string/change_password"
                 android:textSize="16sp" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -88,7 +87,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="60dp"
                 android:paddingVertical="20dp"
-                android:text="About"
+                android:text="@string/about"
                 android:textSize="16sp" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -114,7 +113,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="60dp"
                 android:paddingVertical="20dp"
-                android:text="Terms and Conditions"
+                android:text="@string/terms_and_conditions"
                 android:textSize="16sp" />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
@@ -127,6 +126,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/gui_back_button"
+        android:contentDescription="@string/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

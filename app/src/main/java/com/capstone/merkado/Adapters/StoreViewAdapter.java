@@ -37,7 +37,7 @@ public class StoreViewAdapter extends RecyclerView.Adapter<StoreViewAdapter.Stor
     @NonNull
     @Override
     public StoreViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_store_view_comsumer, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_store_view_consumer, parent, false);
         return new StoreViewHolder(view);
     }
 
@@ -68,7 +68,8 @@ public class StoreViewAdapter extends RecyclerView.Adapter<StoreViewAdapter.Stor
 
         public void bind(Activity activity, OnSale onSale, OnClickListener onClickListener) {
             ResourceData resourceData = InternalDataFunctions.getResourceData(onSale.getResourceId());
-            itemName.setText(resourceData.getName());
+            if (resourceData != null)
+                itemName.setText(resourceData.getName());
             int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
             itemImage.setImageDrawable(ContextCompat.getDrawable(activity.getApplicationContext(), itemImageResource));
             itemPrice.setText(String.format(Locale.getDefault(), "P %.2f", onSale.getPrice()));

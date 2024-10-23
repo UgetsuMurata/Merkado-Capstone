@@ -18,11 +18,11 @@
 
         <!-- Left side: store icon and name -->
         <LinearLayout
-            android:id="@+id/left_side"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="RelativeOverlap">
 
             <ImageView
                 android:id="@+id/back_button"
@@ -30,12 +30,13 @@
                 android:layout_height="50dp"
                 android:layout_marginEnd="15dp"
                 android:src="@drawable/gui_back_button"
-                android:contentDescription="Back Button" />
+                android:contentDescription="@string/back" />
 
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="50dp"
-                android:src="@drawable/icon_factory" />
+                android:src="@drawable/icon_factory"
+                android:contentDescription="@string/icon"/>
 
             <TextView
                 android:id="@+id/store_name"
@@ -44,7 +45,6 @@
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/header"
                 android:gravity="center_vertical"
-                android:text="Factory Name"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -74,6 +74,7 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:contentDescription="@string/background"
             android:layout_weight="1"
             android:background="@drawable/bg_solid_color_with_shadow"/>
 
@@ -92,7 +93,7 @@
                 android:layout_height="match_parent"
                 android:fadingEdgeLength="20dp"
                 android:requiresFadingEdge="vertical"
-                tools:listitem="@layout/item_store_view_comsumer" />
+                tools:listitem="@layout/item_store_view_consumer" />
 
             <TextView
                 android:id="@+id/item_list_empty"
@@ -100,7 +101,6 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/elements"
                 android:gravity="center"
-                android:text="There are no supplies at the moment!"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -132,7 +132,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/header"
-                        android:text="Item Name"
                         android:textColor="@color/black"
                         android:textSize="24sp" />
 
@@ -142,7 +141,6 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/elements"
                         android:gravity="center_vertical|end"
-                        android:text="P2000.00"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -158,10 +156,9 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/resource_4_turon_sample"
                         app:layout_constraintDimensionRatio="2:1"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
+                        android:contentDescription="@string/image_container"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -171,7 +168,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/elements"
-                    android:text="Description"
                     android:textColor="@color/light_gray"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -191,7 +187,7 @@
                         android:layout_marginHorizontal="10dp"
                         android:layout_marginVertical="5dp"
                         android:fontFamily="@font/elements"
-                        android:text="Purchase"
+                        android:text="@string/purchase"
                         android:textColor="@color/white" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -206,7 +202,7 @@
             android:background="@drawable/bg_solid_color_with_shadow"
             android:fontFamily="@font/elements"
             android:gravity="center"
-            android:text="Choose a product to view its details."
+            android:text="@string/choose_a_product_to_view_its_details"
             android:textColor="@color/light_gray"
             android:textSize="12sp"
             android:visibility="gone" />
@@ -220,7 +216,6 @@
         android:background="@color/gray_transparent"
         android:elevation="2dp"
         android:orientation="horizontal"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header">
 
@@ -251,7 +246,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/header"
-                    android:text="Item Name"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -270,8 +264,8 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:adjustViewBounds="true"
+                            android:contentDescription="@string/image_container"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/resource_0_joining_badge"
                             app:layout_constraintDimensionRatio="2:1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -284,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/elements"
                     android:gravity="center"
-                    android:text="Quantity"
+                    android:text="@string/quantity"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -293,7 +287,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/logo"
                     android:gravity="center"
-                    android:text="0"
                     android:textColor="@color/black" />
 
                 <LinearLayout
@@ -306,6 +299,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/icon_minus_filled"
+                        android:contentDescription="@string/icon"
                         app:tint="@color/gray" />
 
                     <SeekBar
@@ -320,6 +314,7 @@
                         android:id="@+id/purchase_overlay_add_quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/icon"
                         android:src="@drawable/icon_add_filled" />
                 </LinearLayout>
 
@@ -334,7 +329,7 @@
                         android:layout_marginEnd="5dp"
                         android:fontFamily="@font/elements"
                         android:gravity="center_vertical"
-                        android:text="Cost:"
+                        android:text="@string/cost"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -346,13 +341,15 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            tools:ignore="UseCompoundDrawables">
 
                             <ImageView
                                 android:layout_width="16dp"
                                 android:layout_height="match_parent"
                                 android:layout_margin="2dp"
                                 android:adjustViewBounds="true"
+                                android:contentDescription="@string/icon"
                                 android:src="@drawable/icon_coin" />
 
                             <TextView
@@ -361,9 +358,9 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="4dp"
                                 android:gravity="center_vertical"
-                                android:text="400.00"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="10sp"
+                                tools:ignore="SmallSp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
@@ -391,7 +388,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="8dp"
                             android:layout_marginVertical="4dp"
-                            android:text="Cancel"
+                            android:text="@string/cancel"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
                     </androidx.cardview.widget.CardView>
@@ -409,7 +406,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="8dp"
                             android:layout_marginVertical="4dp"
-                            android:text="Purchase"
+                            android:text="@string/purchase"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
                     </androidx.cardview.widget.CardView>

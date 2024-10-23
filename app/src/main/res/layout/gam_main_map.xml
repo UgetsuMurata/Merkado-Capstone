@@ -9,7 +9,6 @@
 
     <!--TOP UI-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_ui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -112,7 +111,6 @@
 
     <!--BOTTOM NAVIGATION BUTTONS-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottom_navigation_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"

@@ -88,10 +88,11 @@ public class SplashScreen extends AppCompatActivity {
             if (hasNewUpdate) {
                 runOnUiThread(() -> updateNotification.setVisibility(View.VISIBLE));
                 updateConfirmation.setOnClickListener(v ->
-                    UtilityDataFunctions.getUpdateLink().thenAccept(updateLink -> {
-                        Updater.allowDownload(activity);
-                        this.updateLink = updateLink;
-                    })
+                        UtilityDataFunctions.getUpdateLink(getApplicationContext())
+                                .thenAccept(updateLink -> {
+                                    Updater.allowDownload(activity);
+                                    this.updateLink = updateLink;
+                                })
                 );
             } else startLoading();
         }).exceptionally(throwable -> {

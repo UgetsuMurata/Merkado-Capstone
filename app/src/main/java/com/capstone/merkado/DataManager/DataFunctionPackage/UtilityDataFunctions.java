@@ -16,12 +16,12 @@ public class UtilityDataFunctions {
         String currentVersionName = getCurrentVersionName(activity);
         if (currentVersionName == null)
             return CompletableFuture.completedFuture(false); // assume that there is no new update.
-        return getVersionNameFromDB().thenCompose(versionNameFromDB ->
+        return getVersionNameFromDB(activity).thenCompose(versionNameFromDB ->
                 CompletableFuture.completedFuture(!currentVersionName.equals(versionNameFromDB)));
     }
 
-    public static CompletableFuture<String> getUpdateLink() {
-        FirebaseData firebaseData = new FirebaseData();
+    public static CompletableFuture<String> getUpdateLink(Context context) {
+        FirebaseData firebaseData = new FirebaseData(context);
         CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
 
         firebaseData.retrieveData("updates/url", future::complete);
@@ -45,8 +45,8 @@ public class UtilityDataFunctions {
         }
     }
 
-    private static CompletableFuture<String> getVersionNameFromDB() {
-        FirebaseData firebaseData = new FirebaseData();
+    private static CompletableFuture<String> getVersionNameFromDB(Context context) {
+        FirebaseData firebaseData = new FirebaseData(context);
         CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
 
         firebaseData.retrieveData("updates/version", future::complete);

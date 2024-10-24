@@ -14,10 +14,12 @@ import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.Objects.AccountData;
 import com.capstone.merkado.Objects.VerificationCode;
 import com.google.common.reflect.TypeToken;
+import com.google.firebase.database.DataSnapshot;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 public class AccountDataFunctions {
 
@@ -145,12 +147,12 @@ public class AccountDataFunctions {
         firebaseData.setValue(String.format("accounts/%s/lastOnline", FirebaseCharacters.encode(email)), currentTimeMillis());
     }
 
-    public static Account getSignedIn(Context context) {
+    public static CompletableFuture<Account> getSignedIn(Context context) {
         // get the string from shared preferences
         String encodedStringValue = SharedPref.readString(context, SharedPref.KEEP_SIGNED_IN, "");
 
         // return null if there is no string.
-        if (encodedStringValue.isEmpty()) return null;
+        if (encodedStringValue.isEmpty()) return CompletableFuture.completedFuture(null);
 
         // decode from Base64
         String sharedPrefValue = StringHash.decodeString(encodedStringValue);
@@ -171,7 +173,7 @@ public class AccountDataFunctions {
         // return null if one of the data is null or empty. this means the user must log in again.
         if (lastLoggedInString == null || lastLoggedInString.isEmpty() ||
                 email == null || email.isEmpty() ||
-                username == null || username.isEmpty()) return null;
+                username == null || username.isEmpty()) return CompletableFuture.completedFuture(null);
 
         /*
          * GET THE TIME THE USER LAST LOGGED IN
@@ -182,17 +184,34 @@ public class AccountDataFunctions {
             lastLoggedIn = Long.parseLong(lastLoggedInString);
         } catch (Exception ignore) {
             // return null if the lastLoggedIn data is not a valid Long. this means the user must log in again.
-            return null;
+            return CompletableFuture.completedFuture(null);
         }
 
         // check if the user's log in is within the past 7 days. Note that lastLoggedIn is millis. 604800000 millis is 7 days.
         if (System.currentTimeMillis() - lastLoggedIn < 604800000) {
-            // if the user logged in within the past 7 days, return account. No log in required.
-            return new Account(email, username);
+            // if the user logged in within the past 7 days, cross-check if the account still exists in the database.
+            return checkEmailExistsFuture(email).thenCompose(exists -> {
+                if (exists) return CompletableFuture.completedFuture(new Account(email, username));
+                else return CompletableFuture.completedFuture(null);
+            });
         }
 
         // if the user did not log in within the past 7 days, require log in.
-        return null;
+        return CompletableFuture.completedFuture(null);
+    }
+
+    public static CompletableFuture<Boolean> checkEmailExistsFuture(String email) {
+        // create FirebaseData object
+        FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+
+        // encode the email for Firebase
+        String encodedEmail = FirebaseCharacters.encode(email);
+
+        firebaseData.retrieveData(String.format("accounts/%s/username", encodedEmail), future::complete);
+
+        return future.thenCompose(dataSnapshot ->
+                CompletableFuture.completedFuture(dataSnapshot != null && dataSnapshot.exists()));
     }
 
     /**
@@ -277,10 +296,11 @@ public class AccountDataFunctions {
         // save the new password to accounts/{encoded email}/username.
         firebaseData.setValue(String.format("accounts/%s/username", FirebaseCharacters.encode(email)), username);
 
-        Account account = getSignedIn(context);
-        if (account != null) {
-            signInAccountInSharedPref(context, account.getEmail(), username);
-        }
+        getSignedIn(context).thenAccept(account -> {
+            if (account != null) {
+                signInAccountInSharedPref(context, account.getEmail(), username);
+            }
+        });
     }
 
     private static Long currentTimeMillis() {

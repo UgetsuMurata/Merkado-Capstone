@@ -9,7 +9,6 @@ import com.capstone.merkado.DataManager.FirebaseData;
 import com.capstone.merkado.DataManager.ValueReturn.ValueReturn;
 import com.capstone.merkado.Helpers.Bot;
 import com.capstone.merkado.Helpers.StringHash;
-import com.capstone.merkado.Helpers.StringProcessor;
 import com.capstone.merkado.Objects.ServerDataObjects.NewServer;
 import com.capstone.merkado.Objects.ServerDataObjects.OtherServerDetails;
 import com.google.firebase.database.DataSnapshot;
@@ -244,15 +243,15 @@ public class ServerDataFunctions {
         );
     }
 
-    public static void checkPlayerPretest(String serverId, Integer playerId, ValueReturn<Boolean> hasTaken) {
+    public static CompletableFuture<Boolean> checkPlayerPretest(String serverId, Integer playerId) {
         FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
         firebaseData.retrieveData(
                 String.format(Locale.getDefault(), "server/%s/diagnostic_tests/pre_test_scores/%d", serverId, playerId),
-                dataSnapshot -> {
-                    if (dataSnapshot == null) return;
-                    hasTaken.valueReturn(dataSnapshot.exists()); // if it does not exist, then there is no existing data.
-                }
+                future::complete
         );
+        return future.thenCompose(dataSnapshot ->
+                CompletableFuture.completedFuture(dataSnapshot != null && dataSnapshot.exists()));
     }
 
     public static void setPlayerPretest(String serverId, Integer playerId, Integer score) {
@@ -263,15 +262,15 @@ public class ServerDataFunctions {
         );
     }
 
-    public static void checkPlayerPostTest(String serverId, Integer playerId, ValueReturn<Boolean> hasTaken) {
+    public static CompletableFuture<Boolean> checkPlayerPostTest(String serverId, Integer playerId) {
         FirebaseData firebaseData = new FirebaseData();
+        CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
         firebaseData.retrieveData(
                 String.format(Locale.getDefault(), "server/%s/diagnostic_tests/post_test_scores/%d", serverId, playerId),
-                dataSnapshot -> {
-                    if (dataSnapshot == null) return;
-                    hasTaken.valueReturn(dataSnapshot.exists()); // if it does not exist, then there is no existing data.
-                }
+                future::complete
         );
+        return future.thenCompose(dataSnapshot ->
+                CompletableFuture.completedFuture(dataSnapshot != null && dataSnapshot.exists()));
     }
 
     public static void setPlayerPostTest(String serverId, Integer playerId, Integer score) {

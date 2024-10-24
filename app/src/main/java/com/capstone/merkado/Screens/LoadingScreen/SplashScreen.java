@@ -19,7 +19,6 @@ import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.AccountDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.UtilityDataFunctions;
 import com.capstone.merkado.Helpers.Updater;
-import com.capstone.merkado.Objects.Account;
 import com.capstone.merkado.R;
 import com.capstone.merkado.Screens.MainMenu.MainMenu;
 import com.google.android.material.card.MaterialCardView;
@@ -126,15 +125,15 @@ public class SplashScreen extends AppCompatActivity {
      */
     private CompletableFuture<Void> process1() {
         // get the signed in from sharedpref.
-        Account account = AccountDataFunctions.getSignedIn(getApplicationContext());
-        if (account == null) return CompletableFuture.completedFuture(null); // stop the function here if sign in is required.
+        return AccountDataFunctions.getSignedIn(getApplicationContext()).thenCompose(account -> {
+            if (account == null) return CompletableFuture.completedFuture(null); // stop the function here if sign in is required.
+            // update the account in the application class.
+            merkado.setAccount(account);
 
-        // update the account in the application class.
-        merkado.setAccount(account);
-
-        // update the account logged in from the SharedPref
-        AccountDataFunctions.signInAccount(getApplicationContext(), account);
-        return CompletableFuture.completedFuture(null);
+            // update the account logged in from the SharedPref
+            AccountDataFunctions.signInAccount(getApplicationContext(), account);
+            return CompletableFuture.completedFuture(null);
+        });
     }
 
     /**

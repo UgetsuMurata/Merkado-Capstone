@@ -197,7 +197,8 @@ public class PlayerDataFunctions {
             String savedKey = dataSnapshot.getValue(String.class);
             if (savedKey == null)
                 return CompletableFuture.completedFuture(-1); // cannot retrieve server credentials
-            if (!savedKey.equals(StringHash.hashPassword(serverKey)))
+
+            if (!savedKey.equals(StringHash.encodeString(serverKey)))
                 return CompletableFuture.completedFuture(-2); // incorrect key
 
             return getNextPlayerIndex().thenCompose(playerId -> {

@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class JsonHelper {
 
@@ -75,40 +77,40 @@ public class JsonHelper {
         }).start();
     }
 
-    public static void getTaskList(Context context, OnParse<List<TaskData>> onParse) {
-        new Thread(() -> {
-            String json = "";
+    public static CompletableFuture<List<TaskData>> getTaskList(Context context) {
+        return CompletableFuture.supplyAsync(() -> {
+            String json;
             try {
                 json = parseJSON(context, "tasks.json");
             } catch (IOException e) {
                 Log.e("getStoryList",
                         String.format("Problem with parsing resource data: %s", e));
-                onParse.parsingComplete(null);
+                return null;
             }
 
             Gson gson = new Gson();
             Type listType = new TypeToken<List<TaskData>>() {
             }.getType();
-            onParse.parsingComplete(gson.fromJson(json, listType));
-        }).start();
+            return gson.fromJson(json, listType);
+        });
     }
 
-    public static void getObjectivesList(Context context, OnParse<List<Objectives>> onParse) {
-        new Thread(() -> {
-            String json = "";
+    public static CompletableFuture<List<Objectives>> getObjectivesList(Context context) {
+        return CompletableFuture.supplyAsync(() -> {
+            String json;
             try {
                 json = parseJSON(context, "objectives.json");
             } catch (IOException e) {
                 Log.e("getObjectivesList",
                         String.format("Problem with parsing resource data: %s", e));
-                onParse.parsingComplete(null);
+                return null;
             }
 
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Objectives>>() {
             }.getType();
-            onParse.parsingComplete(gson.fromJson(json, listType));
-        }).start();
+            return Collections.unmodifiableList(gson.fromJson(json, listType));
+        });
     }
 
     public static void getQuizList(Context context, OnParse<List<Quiz>> onParse) {

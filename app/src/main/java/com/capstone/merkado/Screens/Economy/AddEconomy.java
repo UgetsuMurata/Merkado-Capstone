@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.merkado.Application.Merkado;
@@ -31,10 +31,10 @@ public class AddEconomy extends AppCompatActivity {
     EditText serverIdEditText, serverKeyEditText;
     TextInputLayout serverId, serverKey;
     WoodenButton joinEconomy, cancelEconomy;
+    ImageView closeButton;
 
     Boolean validId = false;
     Boolean validKey = false;
-    ImageView closeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,8 @@ public class AddEconomy extends AppCompatActivity {
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
-        closeButton = findViewById(R.id.close_button);
         TextView createServer = findViewById(R.id.create_server);
+        closeButton = findViewById(R.id.close_button);
         joinEconomy = findViewById(R.id.join);
         cancelEconomy = findViewById(R.id.cancel);
         serverId = findViewById(R.id.server_code);
@@ -54,14 +54,8 @@ public class AddEconomy extends AppCompatActivity {
         serverKeyEditText = findViewById(R.id.server_key_edittext);
 
 
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getOnBackPressedDispatcher().onBackPressed();
-            }
-        });
-
-        cancelEconomy.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
+        closeButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        cancelEconomy.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         createServer.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CreateEconomy.class));
@@ -114,7 +108,7 @@ public class AddEconomy extends AppCompatActivity {
             checkJoinButton();
         });
 
-        joinEconomy.setOnClickListener(v -> new Thread(this::joinEconomyFunction).start());
+        joinEconomy.setOnClickListener(v -> new Handler().post(this::joinEconomyFunction));
     }
 
     private Boolean economySavedAlready(String id) {
@@ -178,16 +172,16 @@ public class AddEconomy extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 }

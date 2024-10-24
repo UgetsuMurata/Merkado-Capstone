@@ -87,10 +87,12 @@ public class QuestAndStories extends AppCompatActivity {
 
         noSelectedQAS();
 
-        showStories.setOnClickListener(view -> retrieveDataToShow(ShowMode.STORY));
         backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+
+        showStories.setOnClickListener(view -> retrieveDataToShow(ShowMode.STORY));
         showQuests.setOnClickListener(view -> retrieveDataToShow(ShowMode.QUEST));
         showObjectives.setOnClickListener(view -> retrieveDataToShow(ShowMode.OBJECTIVES));
+
         retrieveDataToShow(ShowMode.STORY);
     }
 

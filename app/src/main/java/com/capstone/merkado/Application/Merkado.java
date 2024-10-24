@@ -591,8 +591,11 @@ public class Merkado extends Application implements Application.ActivityLifecycl
         }
     }
 
-    public void extractObjectives(Context context) {
-        JsonHelper.getObjectivesList(context, this::setObjectivesList);
+    public CompletableFuture<Void> extractObjectives(Context context) {
+        return JsonHelper.getObjectivesList(context).thenCompose(objectives -> {
+            setObjectivesList(objectives);
+            return CompletableFuture.completedFuture(null);
+        });
     }
 
     public void setObjectivesList(List<Objectives> objectivesList) {

@@ -179,7 +179,6 @@ public class StoryMode extends AppCompatActivity {
 
         inAppNotification = new InAppNotification(findViewById(R.id.notification_view));
 
-        merkado.extractObjectives(getApplicationContext());
         // trigger objective display
         if (getIntent().hasExtra("PROLOGUE")) {
             TriggerProcessor.objectives(this, 1, objectiveDisplayLauncher);

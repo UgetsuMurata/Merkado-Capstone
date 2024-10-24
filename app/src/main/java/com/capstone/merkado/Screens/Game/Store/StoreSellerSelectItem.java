@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Adapters.InventoryAdapter;
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
@@ -59,12 +60,14 @@ public class StoreSellerSelectItem extends AppCompatActivity {
 
     // DESCRIPTION
     ScrollView dDescriptionContainer;
-    TextView dResourceName, dResourceDescription, dSellButton, dDescriptionContainerEmpty;
+    TextView dResourceName, dResourceDescription, dDescriptionContainerEmpty;
+    WoodenButton dSellButton;
     ImageView dResourceImage, dResourceImageBG;
 
     // LAYOUT SELL POPUP
     ConstraintLayout layoutSellPopup;
-    TextView lspItemName, lspItemQuantity, lspItemMarketPrice, lspItemCancel, lspItemSell;
+    TextView lspItemName, lspItemQuantity, lspItemMarketPrice;
+    WoodenButton lspItemCancel, lspItemSell;
     ImageView lspItemImage, lspItemImageBG, lspItemQuantitySubtract, lspItemQuantityAdd;
     SeekBar lspItemQuantitySlider;
     EditText lspItemCost;
@@ -200,7 +203,7 @@ public class StoreSellerSelectItem extends AppCompatActivity {
         lspItemCancel = layoutSellPopup.findViewById(R.id.item_cancel);
         lspItemSell = layoutSellPopup.findViewById(R.id.item_confirm);
 
-        lspItemSell.setText(R.string.sell);
+        lspItemSell.setText(ContextCompat.getString(getApplicationContext(), R.string.sell));
     }
 
     /**
@@ -344,8 +347,9 @@ public class StoreSellerSelectItem extends AppCompatActivity {
             else
                 Toast.makeText(getApplicationContext(), "This item cannot be sold!", Toast.LENGTH_SHORT).show();
         });
-        if (disabled) dSellButton.setText(R.string.warning_this_item_cannot_be_sold);
-        else dSellButton.setText(R.string.sell);
+        if (disabled)
+            dSellButton.setText(ContextCompat.getString(getApplicationContext(), R.string.warning_this_item_cannot_be_sold));
+        else dSellButton.setText(ContextCompat.getString(getApplicationContext(), R.string.sell));
     }
 
     /**

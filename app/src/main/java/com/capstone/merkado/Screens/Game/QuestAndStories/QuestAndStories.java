@@ -98,8 +98,10 @@ public class QuestAndStories extends AppCompatActivity {
 
     private void retrieveDataToShow(ShowMode showMode) {
         noSelectedQAS();
-        if (ShowMode.OBJECTIVES.equals(showMode)) displayObjectives();
-        if (ShowMode.QUEST.equals(showMode)) displayTasks();
+        if (ShowMode.OBJECTIVES.equals(showMode))
+            displayObjectives();
+        else if (ShowMode.QUEST.equals(showMode))
+            displayTasks();
         else
             getItemsByShowMode(showMode).thenAccept(qasItemsList ->
                     runOnUiThread(() -> {

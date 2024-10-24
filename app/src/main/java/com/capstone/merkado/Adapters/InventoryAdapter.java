@@ -15,18 +15,20 @@ import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
 import com.capstone.merkado.Objects.ResourceDataObjects.Inventory;
 import com.capstone.merkado.R;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InventoryViewHolder> {
 
     Context context;
-    LinkedHashMap<Integer, Inventory> inventoryLinkedHashMap;
+    List<Map.Entry<Integer, Inventory>> inventoryEntryList;
     OnClickListener onClickListener;
 
     public InventoryAdapter(Context context, LinkedHashMap<Integer, Inventory> inventoryLinkedHashMap) {
         this.context = context;
-        this.inventoryLinkedHashMap = inventoryLinkedHashMap;
+        this.inventoryEntryList = new ArrayList<>(inventoryLinkedHashMap.entrySet());
     }
 
     @NonNull
@@ -38,13 +40,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
     @Override
     public void onBindViewHolder(@NonNull InventoryViewHolder holder, int position) {
-        Map.Entry<Integer, Inventory> entry = inventoryLinkedHashMap.entrySet().iterator().next();
+        Map.Entry<Integer, Inventory> entry = inventoryEntryList.get(position);
         holder.bind(context, entry.getValue(), entry.getKey(), onClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return inventoryLinkedHashMap.size();
+        return inventoryEntryList.size();
     }
 
 
@@ -62,9 +64,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         public void bind(Context context, Inventory inventory, Integer index, OnClickListener onClickListener) {
             resourceImage.setImageDrawable(ContextCompat.getDrawable(context, GameResourceCaller.getResourcesImage(inventory.getResourceId())));
             resourceQuantity.setText(String.valueOf(inventory.getQuantity()));
-            itemView.setOnClickListener(v -> {
-                onClickListener.onClick(inventory, index);
-            });
+            itemView.setOnClickListener(v -> onClickListener.onClick(inventory, index));
         }
 
     }

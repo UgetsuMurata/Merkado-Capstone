@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.merkado.Adapters.StoreViewAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions.PlayerMarketUpdates;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
@@ -52,18 +53,20 @@ public class StoreSellerView extends AppCompatActivity {
     ImageView sbStoreShowCollectibles, sbStoreShowEdibles, sbStoreShowResources, backButton;
 
     // CONTENTS
-    TextView cItemCount, cAddItem, cItemListEmpty;
+    TextView cItemCount, cItemListEmpty;
+    WoodenButton cAddItem;
     RecyclerView cItemList;
 
     // DESCRIPTION
     ScrollView dDescriptionContainer;
-    TextView dResourceName, dItemPrice, dResourceDescription,
-            dItemRemove, dItemEdit, dDescriptionContainerEmpty;
+    TextView dResourceName, dItemPrice, dResourceDescription, dDescriptionContainerEmpty;
+    WoodenButton dItemRemove, dItemEdit;
     ImageView dResourceImage, dResourceImageBG;
 
     // LAYOUT SELL POPUP
     ConstraintLayout layoutSellPopup;
-    TextView lspItemName, lspItemQuantity, lspItemMarketPrice, lspItemCancel, lspItemUpdate;
+    TextView lspItemName, lspItemQuantity, lspItemMarketPrice;
+    WoodenButton lspItemCancel, lspItemUpdate;
     ImageView lspItemImage, lspItemImageBG, lspItemQuantitySubtract, lspItemQuantityAdd;
     SeekBar lspItemQuantitySlider;
     EditText lspItemCost;
@@ -111,12 +114,7 @@ public class StoreSellerView extends AppCompatActivity {
         layoutSellPopup.setVisibility(View.GONE);
         initializePlayerDataListener();
         currentBalance.setBalance(player.getMoney());
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
     }
 
@@ -196,7 +194,7 @@ public class StoreSellerView extends AppCompatActivity {
         lspItemCancel = layoutSellPopup.findViewById(R.id.item_cancel);
         lspItemUpdate = layoutSellPopup.findViewById(R.id.item_confirm);
 
-        lspItemUpdate.setText(R.string.update);
+        lspItemUpdate.setText(ContextCompat.getString(getApplicationContext(), R.string.update));
     }
 
     private void initializePlayerDataListener() {
@@ -249,7 +247,8 @@ public class StoreSellerView extends AppCompatActivity {
         dDescriptionContainerEmpty.setVisibility(View.GONE);
         currentOnSale = onSale;
         ResourceData resourceData = InternalDataFunctions.getResourceData(onSale.getResourceId());
-        dResourceDescription.setText(resourceData.getDescription());
+        if (resourceData != null)
+            dResourceDescription.setText(resourceData.getDescription());
         dResourceName.setText(onSale.getItemName());
         int itemImageResource = GameResourceCaller.getResourcesImage(onSale.getResourceId());
         int itemTypeResource = GameResourceCaller.getResourceTypeBackgrounds(onSale.getType());
@@ -298,7 +297,7 @@ public class StoreSellerView extends AppCompatActivity {
         InventoryDataFunctions.getInventoryItem(merkado.getPlayerId(), onSale.getResourceId()).thenAccept(inventory -> {
             lspItemMaxQuantity = onSale.getQuantity() + inventory.getQuantity();
             lspItemQuantitySlider.setMax(lspItemMaxQuantity);
-            lspItemQuantitySlider.setMin(0);
+            lspItemQuantitySlider.setMin(1);
             setLSPItemQuantity(onSale.getQuantity());
 
             // edit button drawables depending on the max and current quantity.
@@ -324,7 +323,10 @@ public class StoreSellerView extends AppCompatActivity {
 
 
         lspItemQuantityCount = onSale.getQuantity();
+        lspItemMaxQuantity = onSale.getQuantity();
         lspItemQuantitySlider.setProgress(lspItemQuantityCount);
+        lspItemQuantity.setText(StringProcessor.numberToSpacedString(lspItemQuantityCount));
+        lspItemQuantitySlider.setMax(lspItemMaxQuantity);
 
         // CONTROLLERS
         Handler addSubtractHandler = new Handler();
@@ -387,6 +389,16 @@ public class StoreSellerView extends AppCompatActivity {
         // BUTTONS
         lspItemCancel.setOnClickListener(v -> layoutSellPopup.setVisibility(View.GONE));
         lspItemUpdate.setOnClickListener(v -> {
+            // get the latest input price
+            String rawText = lspItemCost.getText().toString();
+            try {
+                LSPItemSetPrice = Float.parseFloat(rawText);
+                lspItemCost.setText(String.format(Locale.getDefault(), "%.2f", Float.parseFloat(rawText)));
+            } catch (NumberFormatException e) {
+                lspItemCost.setText(String.format(Locale.getDefault(), "%.2f", LSPItemSetPrice));
+            }
+
+            // update the sale
             updateSale(onSale);
             Toast.makeText(getApplicationContext(), "Product updated successfully!", Toast.LENGTH_SHORT).show();
         });

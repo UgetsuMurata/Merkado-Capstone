@@ -5,7 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,7 +39,7 @@ public class CreateEconomy extends AppCompatActivity {
     LinearLayout createServerPage1, createServerPage2, changeImage;
     MaterialCardView changeImageWindow;
     EditText serverName;
-    TextView playerLimitValue, cancelImageChange, exitSuccess, readTAC, serverId, serverKey;
+    TextView playerLimitValue, cancelImageChange, readTAC, serverId, serverKey;
     SeekBar playerLimitSeekbar;
     WoodenButton createServer, nextSettings, confirmImageChange, cancelServer;
     ImageView serverImage, serverIdCopy, serverKeyCopy, closeButton;
@@ -87,13 +86,7 @@ public class CreateEconomy extends AppCompatActivity {
         changeImageWindow.setVisibility(View.GONE);
 
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getOnBackPressedDispatcher().onBackPressed();
-            }
-        });
-
+        closeButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         setUpPage1();
 

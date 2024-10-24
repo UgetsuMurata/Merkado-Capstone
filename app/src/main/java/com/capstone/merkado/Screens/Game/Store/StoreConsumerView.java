@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.merkado.Adapters.StoreViewAdapter;
 import com.capstone.merkado.Application.Merkado;
 import com.capstone.merkado.CustomViews.PlayerBalanceView;
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.StoreDataFunctions.PlayerMarketUpdates;
@@ -49,14 +49,14 @@ public class StoreConsumerView extends AppCompatActivity {
     ScrollView itemDescriptionContainer;
     ImageView itemImage;
     ConstraintLayout itemBackground;
-    CardView itemPurchaseButton;
+    WoodenButton itemPurchaseButton;
 
     // purchase overlay
     ConstraintLayout purchaseOverlay;
     TextView purchaseOverlayItemName, purchaseOverlayItemQuantity, purchaseOverlayCost;
     ImageView purchaseOverlayImage, purchaseOverlayAddQTY, purchaseOverlaySubtractQTY;
     SeekBar purchaseOverlayQTYSlider;
-    CardView purchaseOverlayCancel, purchaseOverlayConfirm;
+    WoodenButton purchaseOverlayCancel, purchaseOverlayConfirm;
 
     // variables
     PlayerBalanceView playerBalanceView;

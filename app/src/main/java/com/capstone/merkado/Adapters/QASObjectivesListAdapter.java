@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Objects.ServerDataObjects.Objectives.Objective;
@@ -42,7 +41,7 @@ public class QASObjectivesListAdapter extends RecyclerView.Adapter<QASObjectives
     @Override
     public void onBindViewHolder(@NonNull QASItemsAdapterViewer holder, int position) {
         Objective qasObjective = qasObjectiveList.get(position);
-        holder.bind(context, qasObjective, currentObjective, done);
+        holder.bind(qasObjective, currentObjective, done);
     }
 
     @Override
@@ -58,18 +57,14 @@ public class QASObjectivesListAdapter extends RecyclerView.Adapter<QASObjectives
             objective = itemView.findViewById(R.id.objective);
         }
 
-        public void bind(@NonNull Context context, @NonNull Objective qasObjective, @Nullable Integer currentObjective, @NonNull Boolean done) {
+        public void bind(@NonNull Objective qasObjective, @Nullable Integer currentObjective, @NonNull Boolean done) {
             // set the data
-            if (currentObjective == null)
-                objective.setCompoundDrawables(
-                        ContextCompat.getDrawable(context,
-                                done ?
-                                        R.drawable.icon_checkbox_checked :
-                                        R.drawable.icon_checkbox), null, null, null);
-            else objective.setCompoundDrawables(ContextCompat.getDrawable(context,
-                    currentObjective > qasObjective.getId() || done ?
-                            R.drawable.icon_checkbox_checked :
-                            R.drawable.icon_checkbox), null, null, null);
+            objective.setCompoundDrawablesWithIntrinsicBounds(
+                    currentObjective == null ?
+                            (done ? R.drawable.icon_checkbox_checked : R.drawable.icon_checkbox) :
+                            (currentObjective > qasObjective.getId() || done ?
+                                    R.drawable.icon_checkbox_checked : R.drawable.icon_checkbox),
+                    0, 0, 0);
             objective.setText(qasObjective.getObjective());
         }
     }

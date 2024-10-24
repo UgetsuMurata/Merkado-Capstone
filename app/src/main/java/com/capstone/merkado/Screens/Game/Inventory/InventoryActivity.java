@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capstone.merkado.Adapters.InventoryAdapter;
 import com.capstone.merkado.Application.Merkado;
+import com.capstone.merkado.CustomViews.WoodenButton;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InternalDataFunctions;
 import com.capstone.merkado.DataManager.DataFunctionPackage.InventoryDataFunctions;
 import com.capstone.merkado.DataManager.StaticData.GameResourceCaller;
@@ -43,7 +44,8 @@ public class InventoryActivity extends AppCompatActivity {
 
     // DESCRIPTION
     ScrollView dDescriptionContainer;
-    TextView dResourceName, dResourceDescription, dUseButton, dDescriptionContainerEmpty;
+    TextView dResourceName, dResourceDescription, dDescriptionContainerEmpty;
+    WoodenButton dUseButton;
     ImageView dResourceImage, dResourceImageBG;
 
     // VARIABLES
@@ -71,12 +73,10 @@ public class InventoryActivity extends AppCompatActivity {
             this.inventoryMap = mapInventoryList(inventoryList);
             filterInventoryAndShow(currentMode);
         });
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+
+        // HIDE USE BUTTON FOR NOW.
+        dUseButton.setVisibility(View.GONE);
     }
 
     /**
@@ -274,7 +274,7 @@ public class InventoryActivity extends AppCompatActivity {
         dResourceImageBG.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
                 GameResourceCaller.getResourceTypeBackgrounds(resourceData.getType())));
         dUseButton.setOnClickListener(v -> {
-            // TODO: this. HAHAHA.
+            // TODO: this.
         });
     }
 

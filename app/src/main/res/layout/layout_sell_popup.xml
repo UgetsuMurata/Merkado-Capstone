@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/purchase_overlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_transparent">
+    android:background="@color/gray_transparent"
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginVertical="16dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_max="200dp"
+        app:layout_constraintHeight_max="220dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_max="680dp"
@@ -25,6 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="true"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -33,13 +36,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/header"
-                android:text="Item Name"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -65,9 +68,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
+                                android:contentDescription="@string/image_container"
                                 android:elevation="2dp"
-                                android:src="@drawable/resource_0_joining_badge"
+                                android:scaleType="fitCenter"
                                 app:layout_constraintDimensionRatio="2:1"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +82,8 @@
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:adjustViewBounds="true"
+                                android:contentDescription="@string/background"
+                                android:focusable="true"
                                 android:scaleType="fitCenter"
                                 android:src="@drawable/resource_collectible_bg"
                                 app:layout_constraintDimensionRatio="2:1"
@@ -106,7 +111,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/elements"
                             android:gravity="center"
-                            android:text="Quantity: "
+                            android:text="@string/quantity"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -117,7 +122,6 @@
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/logo"
                             android:gravity="center"
-                            android:text="0"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -131,8 +135,9 @@
                             android:id="@+id/quantity_subtract"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
+                            android:contentDescription="@string/gui"
                             android:padding="4dp"
-                            android:src="@drawable/gui_general_subtract_disabled"/>
+                            android:src="@drawable/gui_general_subtract_disabled" />
 
                         <SeekBar
                             android:id="@+id/quantity_slider"
@@ -146,8 +151,10 @@
                             android:id="@+id/quantity_add"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
+                            android:contentDescription="@string/gui"
                             android:padding="4dp"
-                            android:src="@drawable/gui_general_plus_idle" />
+                            android:src="@drawable/gui_general_plus_idle"
+                            tools:ignore="ImageContrastCheck" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -161,7 +168,7 @@
                             android:layout_marginEnd="5dp"
                             android:fontFamily="@font/elements"
                             android:gravity="center_vertical"
-                            android:text="Market Price:"
+                            android:text="@string/market_price"
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
@@ -173,13 +180,15 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                tools:ignore="UseCompoundDrawables">
 
                                 <ImageView
                                     android:layout_width="16dp"
                                     android:layout_height="match_parent"
                                     android:layout_margin="2dp"
                                     android:adjustViewBounds="true"
+                                    android:contentDescription="@string/icon"
                                     android:src="@drawable/icon_coin" />
 
                                 <TextView
@@ -188,9 +197,9 @@
                                     android:layout_height="match_parent"
                                     android:layout_marginEnd="4dp"
                                     android:gravity="center_vertical"
-                                    android:text="400.00"
                                     android:textColor="@color/black"
-                                    android:textSize="10sp" />
+                                    android:textSize="10sp"
+                                    tools:ignore="SmallSp" />
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
@@ -206,7 +215,7 @@
                             android:layout_height="match_parent"
                             android:fontFamily="@font/elements"
                             android:gravity="center_vertical"
-                            android:text="Item Cost: "
+                            android:text="@string/cost"
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
@@ -221,57 +230,48 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="30dp"
                                 android:background="@color/white"
-                                android:hint="P400.00"
+                                android:hint="@string/initial_price"
+                                android:importantForAutofill="no"
                                 android:inputType="numberDecimal"
                                 android:padding="0dp"
                                 android:paddingStart="10dp"
-                                android:text="400.00"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="10sp"
+                                tools:ignore="RtlSymmetry,SmallSp,TouchTargetSizeCheck,TextContrastCheck" />
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        tools:ignore="NestedWeights" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        tools:ignore="VisualLintBounds">
 
-                        <TextView
+                        <com.capstone.merkado.CustomViews.WoodenButton
                             android:id="@+id/item_cancel"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="@string/cancel"
-                            android:textColor="@color/black"
-                            android:textSize="12sp" />
+                            android:layout_height="28dp"
+                            android:focusable="true"
+                            app:buttonText="@string/cancel"
+                            app:primaryOrSecondary="secondary"
+                            tools:ignore="VisualLintBounds" />
 
-                        <androidx.cardview.widget.CardView
+                        <com.capstone.merkado.CustomViews.WoodenButton
+                            android:id="@+id/item_confirm"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:backgroundTint="@color/merkado_orange"
-                            app:cardCornerRadius="999dp">
-
-                            <TextView
-                                android:id="@+id/item_confirm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="4dp"
-                                android:text="@string/update"
-                                android:textColor="@color/white"
-                                android:textSize="12sp" />
-                        </androidx.cardview.widget.CardView>
+                            android:layout_height="28dp"
+                            android:layout_marginStart="12dp"
+                            android:focusable="true"
+                            app:buttonText="@string/update" />
                     </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -21,13 +21,16 @@
             android:layout_width="30dp"
             android:layout_height="50dp"
             android:layout_marginEnd="15dp"
+            android:contentDescription="@string/back"
             android:src="@drawable/gui_back_button"
-            android:contentDescription="Back Button" />
+            tools:ignore="ImageContrastCheck" />
 
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:src="@drawable/icon_inventory" />
+            android:contentDescription="@string/icon"
+            android:src="@drawable/icon_inventory"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/header_title"
@@ -36,10 +39,11 @@
             android:layout_marginStart="5dp"
             android:fontFamily="@font/header"
             android:gravity="center"
-            android:text="Inventory"
+            android:text="@string/inventory"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,6 +69,7 @@
                 android:id="@+id/inventory_show_collectibles"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:contentDescription="@string/gui"
                 android:padding="10dp"
                 android:src="@drawable/icon_collectibles" />
 
@@ -72,6 +77,7 @@
                 android:id="@+id/inventory_show_edibles"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:contentDescription="@string/gui"
                 android:padding="10dp"
                 android:src="@drawable/icon_edibles" />
 
@@ -79,6 +85,7 @@
                 android:id="@+id/inventory_show_resources"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:contentDescription="@string/gui"
                 android:padding="10dp"
                 android:src="@drawable/icon_resources" />
         </LinearLayout>
@@ -96,14 +103,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/resource_group_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
+                    android:contentDescription="@string/icon"
                     android:src="@drawable/icon_collectibles"
-                    app:tint="@color/merkado_orange" />
+                    app:tint="@color/merkado_orange"
+                    tools:ignore="ImageContrastCheck" />
 
                 <TextView
                     android:id="@+id/resource_group"
@@ -112,7 +122,6 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/header"
                     android:gravity="center_vertical"
-                    android:text="Collectibles"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -131,7 +140,6 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/elements"
                 android:gravity="center"
-                android:text="No collectibles found!"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp"
                 android:visibility="gone" />
@@ -157,7 +165,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/header"
-                    android:text="Resource Name"
                     android:textSize="24sp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -170,19 +177,21 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:adjustViewBounds="true"
+                        android:contentDescription="@string/image_container"
                         android:elevation="2dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/resource_0_joining_badge"
                         app:layout_constraintDimensionRatio="2:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ImageContrastCheck" />
 
                     <ImageView
                         android:id="@+id/resource_image_bg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
+                        android:contentDescription="@string/background"
                         android:scaleType="centerCrop"
                         android:src="@drawable/resource_collectible_bg" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -193,27 +202,13 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/text"
-                    android:text="Resource Description"
                     android:textSize="12sp" />
 
-                <androidx.cardview.widget.CardView
+                <com.capstone.merkado.CustomViews.WoodenButton
+                    android:id="@+id/use_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/merkado_blue"
-                    app:cardCornerRadius="999dp"
-                    app:cardElevation="4dp">
-
-                    <TextView
-                        android:id="@+id/use_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/elements"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="5dp"
-                        android:text="Use"
-                        android:textColor="@color/white" />
-                </androidx.cardview.widget.CardView>
+                    app:buttonText="@string/use" />
             </LinearLayout>
         </ScrollView>
 
@@ -225,18 +220,8 @@
             android:background="@drawable/bg_solid_color_with_shadow"
             android:fontFamily="@font/text"
             android:gravity="center"
-            android:text="No chosen item."
+            android:text="@string/no_chosen_item"
             android:textColor="@color/light_gray"
             android:visibility="gone" />
     </LinearLayout>
-
-    <!--OVERLAY SCREEN-->
-    <include
-        android:id="@+id/layout_sell_popup"
-        layout="@layout/layout_sell_popup"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,6 +34,7 @@ public class AddEconomy extends AppCompatActivity {
 
     Boolean validId = false;
     Boolean validKey = false;
+    ImageView closeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class AddEconomy extends AppCompatActivity {
         merkado = Merkado.getInstance();
         merkado.initializeScreen(this);
 
-        ImageView closeButton = findViewById(R.id.close_button);
+        closeButton = findViewById(R.id.close_button);
         TextView createServer = findViewById(R.id.create_server);
         joinEconomy = findViewById(R.id.join);
         cancelEconomy = findViewById(R.id.cancel);
@@ -52,7 +53,14 @@ public class AddEconomy extends AppCompatActivity {
         serverKey = findViewById(R.id.server_key);
         serverKeyEditText = findViewById(R.id.server_key_edittext);
 
-        closeButton.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
         cancelEconomy.setOnClickListener(v -> new OnBackPressedDispatcher().onBackPressed());
 
         createServer.setOnClickListener(v -> {

@@ -7,6 +7,41 @@
     android:background="@drawable/bg_mai_main_menu"
     tools:context=".Screens.Economy.CreateEconomy">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.08" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.93" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_board_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.83" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:padding="25dp"
             app:layout_constraintBottom_toBottomOf="@id/bottom"
             app:layout_constraintEnd_toEndOf="@id/end"
             app:layout_constraintStart_toStartOf="@id/start"
@@ -242,74 +277,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/cancel_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/elements"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="10dp"
-                    android:text="@string/cancel"
-                    android:textColor="@color/black" />
-
-                <com.capstone.merkado.CustomViews.WoodenButton
-                    android:id="@+id/create_server_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:primaryOrSecondary="primary"
-                    android:layout_marginStart="20dp"
-                    app:buttonText="@string/create_server_header" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/elements"
-                    android:gravity="center"
-                    android:paddingVertical="2dp"
-                    android:text="@string/create_economy_agreement"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/read_terms_and_conditions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:fontFamily="@font/elements"
-                    android:gravity="center"
-                    android:paddingVertical="2dp"
-                    android:text="@string/create_economy_agreement2"
-                    android:textColor="@color/merkado_orange_light"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/elements"
-                    android:gravity="center"
-                    android:paddingVertical="2dp"
-                    android:text="@string/dot"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -319,7 +286,6 @@
             android:orientation="vertical"
             android:padding="10dp"
             android:weightSum="10"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/bottom"
             app:layout_constraintEnd_toEndOf="@id/end"
             app:layout_constraintStart_toStartOf="@id/start"
@@ -428,43 +394,109 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/exit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="@font/text"
-                    android:gravity="center"
-                    android:paddingHorizontal="32dp"
-                    android:paddingVertical="8dp"
-                    android:text="Exit"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
-
-                <com.capstone.merkado.CustomViews.WoodenButton
-                    android:id="@+id/server_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:primaryOrSecondary="primary"
-                    app:buttonMode="shortSign"
-                    app:buttonText="Go To Settings" />
-            </LinearLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@id/outer_end"
+        app:layout_constraintStart_toStartOf="@id/outer_start"
+        app:layout_constraintBottom_toTopOf="@id/confirm_buttons">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="@string/create_economy_agreement"
+            android:textColor="@color/gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/read_terms_and_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="@string/create_economy_agreement2"
+            android:textColor="@color/merkado_orange_light"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/elements"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:text="@string/dot"
+            android:textColor="@color/gray"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/confirm_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/outer_end"
+        app:layout_constraintStart_toStartOf="@id/outer_start"
+        app:layout_constraintTop_toBottomOf="@id/outer_bottom">
+
+        <com.capstone.merkado.CustomViews.WoodenButton
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:buttonMode="longSign"
+            app:buttonText="CANCEL"
+            app:primaryOrSecondary="secondary" />
+
+        <com.capstone.merkado.CustomViews.WoodenButton
+            android:id="@+id/create_server_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:primaryOrSecondary="primary"
+            app:buttonMode="longSign"
+            android:layout_marginStart="20dp"
+            app:buttonText="CREATE" />
+
+        <com.capstone.merkado.CustomViews.WoodenButton
+            android:id="@+id/server_next"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:primaryOrSecondary="primary"
+            app:buttonMode="longSign"
+            android:layout_marginStart="20dp"
+            app:buttonText="SETTINGS"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="32dp"
+        android:contentDescription="@string/icon"
+        android:src="@drawable/gui_close_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/outer_top"
+        tools:ignore="ImageContrastCheck" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/change_image_window"
         android:layout_width="500dp"
         android:layout_height="250dp"
         app:cardCornerRadius="20dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -508,14 +540,14 @@
                     android:fontFamily="@font/elements"
                     android:gravity="center"
                     android:text="@string/cancel"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/black" />
 
                 <com.capstone.merkado.CustomViews.WoodenButton
                     android:id="@+id/confirm_image_change"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:primaryOrSecondary="primary"
+                    app:buttonMode="longSign"
                     app:buttonText="@string/confirm" />
             </LinearLayout>
         </LinearLayout>

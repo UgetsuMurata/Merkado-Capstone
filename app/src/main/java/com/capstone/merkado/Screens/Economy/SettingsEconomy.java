@@ -5,7 +5,9 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -28,10 +30,10 @@ public class SettingsEconomy extends AppCompatActivity {
     CheckBox testCheck;
     LinearLayout serverIdButton, serverKeyButton;
     WoodenButton cancelButton, saveChangesButton;
-
     Integer sensitivityFactor, botRemoval;
     String serverIdStr, serverKeyStr;
     ClipboardManager clipboard;
+    ImageView closeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class SettingsEconomy extends AppCompatActivity {
         serverKeyButton = findViewById(R.id.server_key_button);
         cancelButton = findViewById(R.id.cancel_button);
         saveChangesButton = findViewById(R.id.save_changes_button);
+        closeButton = findViewById(R.id.close_button);
 
         sensitivityFactor = 10;
         sensitivityFactorSeekbar.setProgress(sensitivityFactor);
@@ -76,7 +79,15 @@ public class SettingsEconomy extends AppCompatActivity {
 
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
         setUpViewListeners();
+
     }
 
     private void setUpViewListeners() {

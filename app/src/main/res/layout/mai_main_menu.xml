@@ -7,48 +7,19 @@
     android:background="@drawable/bg_mai_main_menu"
     tools:context=".Screens.MainMenu.MainMenu">
 
-    <LinearLayout
+    <ImageView
         android:id="@+id/game_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/logo_text"
+        app:layout_constraintBottom_toTopOf="@+id/play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/logo"
-            android:text="Mer"
-            android:textColor="@color/merkado_orange"
-            android:textSize="100sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/logo"
-            android:text="kado"
-            android:textColor="@color/merkado_blue"
-            android:textSize="100sp" />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/play"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/image_button"
-        android:src="@drawable/main_menu_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/game_title"
-        app:layout_constraintVertical_bias="0.32999998" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--    <com.google.android.material.card.MaterialCardView-->
+    <!--    <com.google.android.material.card.MaterialCardView-->
 <!--        android:id="@+id/play"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
@@ -69,6 +40,18 @@
 <!--            android:paddingVertical="20dp"-->
 <!--            android:fontFamily="@font/main"/>-->
 <!--    </com.google.android.material.card.MaterialCardView>-->
+
+    <ImageView
+        android:id="@+id/play"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="50dp"
+        android:contentDescription="@string/image_button"
+        android:src="@drawable/main_menu_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_title" />
 
     <ImageView
         android:id="@+id/account_button"

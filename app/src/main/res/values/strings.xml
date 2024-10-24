@@ -1,11 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Merkado</string>
 
     <!--GENERAL USE-->
-    <string name="confirm">Confirm</string>
-    <string name="update">Update</string>
-    <string name="cancel">Cancel</string>
-    <string name="sell">Sell</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="update">UPDATE</string>
+    <string name="cancel" tools:ignore="ButtonCase">CANCEL</string>
+    <string name="sell">SELL</string>
 
     <!--INPUT WARNINGS-->
     <string name="warning_input_email">Input email!</string>

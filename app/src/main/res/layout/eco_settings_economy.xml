@@ -7,6 +7,41 @@
     android:background="@drawable/bg_mai_main_menu"
     tools:context=".Screens.Economy.SettingsEconomy">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.08" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.93" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_board_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/outer_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.82" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -80,7 +115,7 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@id/confirmation"
+            app:layout_constraintBottom_toBottomOf="@id/bottom"
             app:layout_constraintEnd_toEndOf="@id/end"
             app:layout_constraintStart_toStartOf="@id/start"
             app:layout_constraintTop_toTopOf="@id/top">
@@ -519,35 +554,46 @@
             </LinearLayout>
         </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/confirmation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/bottom"
-            app:layout_constraintEnd_toEndOf="@id/end"
-            app:layout_constraintStart_toStartOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/create_server_page1">
-
-            <com.capstone.merkado.CustomViews.WoodenButton
-                android:id="@+id/cancel_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:buttonText="@string/cancel"
-                app:primaryOrSecondary="secondary" />
-
-            <com.capstone.merkado.CustomViews.WoodenButton
-                android:id="@+id/save_changes_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                app:buttonText="Save Changes"
-                app:primaryOrSecondary="primary" />
-        </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/outer_end"
+        app:layout_constraintStart_toStartOf="@id/outer_start"
+        app:layout_constraintTop_toBottomOf="@id/outer_bottom">
+
+        <com.capstone.merkado.CustomViews.WoodenButton
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:buttonText="EXIT"
+            app:primaryOrSecondary="secondary" />
+
+        <com.capstone.merkado.CustomViews.WoodenButton
+            android:id="@+id/save_changes_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            app:buttonText="SAVE CHANGES"
+            app:buttonMode="longSign"
+            app:primaryOrSecondary="primary" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="32dp"
+        android:contentDescription="@string/icon"
+        android:src="@drawable/gui_close_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/outer_top"
+        tools:ignore="ImageContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

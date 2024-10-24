@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,10 +40,10 @@ public class CreateEconomy extends AppCompatActivity {
     LinearLayout createServerPage1, createServerPage2, changeImage;
     MaterialCardView changeImageWindow;
     EditText serverName;
-    TextView playerLimitValue, cancelServer, cancelImageChange, exitSuccess, readTAC, serverId, serverKey;
+    TextView playerLimitValue, cancelImageChange, exitSuccess, readTAC, serverId, serverKey;
     SeekBar playerLimitSeekbar;
-    WoodenButton createServer, nextSettings, confirmImageChange;
-    ImageView serverImage, serverIdCopy, serverKeyCopy;
+    WoodenButton createServer, nextSettings, confirmImageChange, cancelServer;
+    ImageView serverImage, serverIdCopy, serverKeyCopy, closeButton;
     RecyclerView imageSelection;
 
     Integer playerLimitFinal = 20;
@@ -70,7 +71,6 @@ public class CreateEconomy extends AppCompatActivity {
         playerLimitSeekbar = findViewById(R.id.player_limit_seekbar);
         cancelImageChange = findViewById(R.id.cancel_image_change);
         cancelServer = findViewById(R.id.cancel_button);
-        exitSuccess = findViewById(R.id.exit);
         readTAC = findViewById(R.id.read_terms_and_conditions);
         serverId = findViewById(R.id.server_id);
         serverKey = findViewById(R.id.server_key);
@@ -80,14 +80,23 @@ public class CreateEconomy extends AppCompatActivity {
         serverIdCopy = findViewById(R.id.server_id_copy);
         serverKeyCopy = findViewById(R.id.server_key_copy);
         imageSelection = findViewById(R.id.image_selection);
+        closeButton = findViewById(R.id.close_button);
 
         createServerPage1.setVisibility(View.VISIBLE);
         createServerPage2.setVisibility(View.GONE);
         changeImageWindow.setVisibility(View.GONE);
 
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
 
         setUpPage1();
+
     }
 
     private void setUpPage1() {
@@ -119,8 +128,14 @@ public class CreateEconomy extends AppCompatActivity {
         createServer.setOnClickListener(v -> {
             generatedId = Generator.generateID();
             generatedKey = Generator.generateKey();
+
+            // Make the create button disappear and the server_next button appear
+            createServer.setVisibility(View.GONE);
+            cancelServer.setText("EXIT");
+
             createServerPage1.setVisibility(View.GONE);
             createServerPage2.setVisibility(View.VISIBLE);
+            nextSettings.setVisibility(View.VISIBLE);
             saveToDatabase();
         });
     }
@@ -148,11 +163,11 @@ public class CreateEconomy extends AppCompatActivity {
     }
 
     private void setUpPage2() {
+
         serverId.setText(generatedId);
         serverKey.setText(generatedKey);
         serverIdCopy.setOnClickListener(v -> copyText("Merkado Id", generatedId));
         serverKeyCopy.setOnClickListener(v -> copyText("*".repeat(generatedKey.length()), generatedKey));
-        exitSuccess.setOnClickListener(v -> finish());
         nextSettings.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), SettingsEconomy.class)
                     .putExtra("SERVER_ID", generatedId)
@@ -167,6 +182,7 @@ public class CreateEconomy extends AppCompatActivity {
     }
 
     private void saveToDatabase() {
+
         generateServerObject(newServer -> {
             if (newServer == null) return;
             ServerDataFunctions.createNewServer(generatedId, newServer).thenAccept(returnCode -> {
